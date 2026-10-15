@@ -114,21 +114,40 @@ export const CycleCounter: React.FC<CycleCounterProps> = ({
       {/* Main Big Number */}
       <div
         id="cycle-crt-screen"
-        className="my-3 flex flex-col items-center justify-center p-4 sm:p-6 w-full max-w-xs mx-auto text-center select-none crt-screen-inset"
+        className="my-3 flex flex-col items-center justify-center p-4 sm:p-6 w-full max-w-xs mx-auto text-center select-none crt-screen-inset relative overflow-hidden rounded-2xl border"
       >
+        {/* UCL Stadium Glassmorphic Blurry Background Layer - Scoped exclusively to European Nights */}
         <div
-          id="cycle-count-number"
-          className="text-6xl sm:text-7xl font-black font-mono tracking-tight font-mono-numbers"
-          style={{ color: 'var(--text-primary)' }}
+          className="ucl-glass-stadium-layer absolute inset-0 pointer-events-none overflow-hidden rounded-[inherit] z-0"
+          aria-hidden="true"
         >
-          {cycles}
+          <div
+            className="absolute -inset-4 bg-cover bg-center"
+            style={{
+              backgroundImage: `url('/assets/ucl-clock-glass-bg.jpg')`,
+              filter: 'blur(9px) brightness(0.52) saturate(1.4)',
+              transform: 'scale(1.08)',
+            }}
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/75 via-slate-950/65 to-black/85 backdrop-blur-md" />
+          <div className="absolute inset-0 opacity-30 bg-[radial-gradient(ellipse_at_bottom,rgba(69,183,255,0.25)_0%,rgba(168,85,247,0.12)_40%,transparent_75%)]" />
         </div>
-        <p
-          className="text-xs sm:text-sm font-semibold mt-1"
-          style={{ color: 'var(--text-secondary)' }}
-        >
-          Study cycles completed
-        </p>
+
+        <div className="relative z-10">
+          <div
+            id="cycle-count-number"
+            className="text-6xl sm:text-7xl font-black font-mono tracking-tight font-mono-numbers"
+            style={{ color: 'var(--text-primary)' }}
+          >
+            {cycles}
+          </div>
+          <p
+            className="text-xs sm:text-sm font-semibold mt-1"
+            style={{ color: 'var(--text-secondary)' }}
+          >
+            Study cycles completed
+          </p>
+        </div>
       </div>
 
       {/* Motivational message banner */}

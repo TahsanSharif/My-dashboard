@@ -350,7 +350,7 @@ export const MovableResizableWidget: React.FC<MovableResizableWidgetProps> = ({
       id={`desk-card-${config.id}`}
       data-widget-id={config.id}
       data-active={isDragging || activeResizeHandle ? 'true' : undefined}
-      className={`group/card card-panel flex flex-col rounded-3xl border shadow-lg overflow-hidden select-none transition-all duration-200 ${
+      className={`group/card card-panel panel-card flex flex-col rounded-3xl border shadow-lg overflow-hidden select-none transition-all duration-200 ${
         isExiting
           ? 'opacity-0 scale-95 pointer-events-none'
           : isDragging

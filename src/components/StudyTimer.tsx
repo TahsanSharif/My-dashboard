@@ -475,8 +475,27 @@ export const StudyTimer: React.FC<StudyTimerProps> = ({
       {/* Main Digital Timer Display with circular HUD in JARVIS theme */}
       <div
         id="timer-crt-screen"
-        className="my-auto flex flex-col items-center justify-center p-4 sm:p-6 w-full max-w-xl mx-auto text-center select-none crt-screen-inset"
+        className="my-auto flex flex-col items-center justify-center p-4 sm:p-6 w-full max-w-xl mx-auto text-center select-none crt-screen-inset relative overflow-hidden rounded-2xl border"
       >
+        {/* UCL Stadium Glassmorphic Blurry Background Layer - Scoped exclusively to European Nights */}
+        <div
+          className="ucl-glass-stadium-layer absolute inset-0 pointer-events-none overflow-hidden rounded-[inherit] z-0"
+          aria-hidden="true"
+        >
+          <div
+            className="absolute -inset-4 bg-cover bg-center"
+            style={{
+              backgroundImage: `url('/assets/ucl-clock-glass-bg.jpg')`,
+              filter: 'blur(9px) brightness(0.52) saturate(1.4)',
+              transform: 'scale(1.08)',
+            }}
+          />
+          {/* Frosted Dark Glass Overlay */}
+          <div className="absolute inset-0 bg-gradient-to-b from-black/75 via-slate-950/65 to-black/85 backdrop-blur-md" />
+          {/* Subtle Stadium Light Sweep */}
+          <div className="absolute inset-0 opacity-35 bg-[radial-gradient(ellipse_at_bottom,rgba(69,183,255,0.3)_0%,rgba(168,85,247,0.15)_40%,transparent_75%)]" />
+        </div>
+
         {/* Circular HUD element for JARVIS Command Center */}
         <JarvisCircularHud variant="timer" phase={timerState.phase} isRunning={timerState.isRunning} />
 

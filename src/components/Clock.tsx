@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { MapPin, Calendar, Clock as ClockIcon } from 'lucide-react';
+import { MapPin, Calendar, Clock as ClockIcon, Sparkles } from 'lucide-react';
 import { LocationSettings } from '../types';
 import { JarvisCircularHud } from './JarvisCircularHud';
 
@@ -15,6 +15,22 @@ export const Clock: React.FC<ClockProps> = ({
   containerHeight,
 }) => {
   const [timeData, setTimeData] = useState(() => getCurrentTimeData(location.timezone));
+  const [bgView, setBgView] = useState<'aerial' | 'sky'>(() => {
+    try {
+      const saved = localStorage.getItem('admission_ucl_clock_bg');
+      if (saved === 'sky' || saved === 'aerial') return saved;
+    } catch {}
+    return 'aerial';
+  });
+
+  const toggleBgView = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    const next = bgView === 'aerial' ? 'sky' : 'aerial';
+    setBgView(next);
+    try {
+      localStorage.setItem('admission_ucl_clock_bg', next);
+    } catch {}
+  };
 
   useEffect(() => {
     setTimeData(getCurrentTimeData(location.timezone));
@@ -35,13 +51,27 @@ export const Clock: React.FC<ClockProps> = ({
   return (
     <div
       id="central-clock-card"
-      className={`w-full h-full flex flex-col items-center justify-center text-center relative overflow-hidden transition-all duration-300 ${
+      className={`matchday-clock-container w-full h-full flex flex-col items-center justify-center text-center relative overflow-hidden transition-all duration-300 ${
         isShort ? 'p-3' : isCompact ? 'p-4' : 'p-6 sm:p-8'
       }`}
       style={{
         color: 'var(--text-primary)',
       }}
     >
+      {/* Ambient Clock Card Glassmorphic Stadium Glow - Scope to European Nights */}
+      <div
+        className="ucl-clock-ambient-glow absolute inset-0 pointer-events-none overflow-hidden z-0 opacity-20 transition-opacity duration-500"
+        aria-hidden="true"
+      >
+        <div
+          className="absolute -inset-10 bg-cover bg-center transition-all duration-700"
+          style={{
+            backgroundImage: `url('${bgView === 'sky' ? '/assets/ucl-clock-sky-bg.jpg' : '/assets/ucl-clock-glass-bg.jpg'}')`,
+            filter: 'blur(28px) brightness(0.4) saturate(1.3)',
+          }}
+        />
+      </div>
+
       {/* Subtle Ambient Radial Lighting */}
       <div
         className="absolute -top-20 left-1/2 -translate-x-1/2 w-80 h-80 rounded-full blur-3xl pointer-events-none opacity-30 transition-colors"
@@ -50,9 +80,9 @@ export const Clock: React.FC<ClockProps> = ({
         }}
       />
 
-      {/* Top tiny label (hidden if very short) */}
+      {/* Top tiny label & UCL View Toggle (hidden if very short) */}
       {!isShort && (
-        <div className="relative z-10 flex items-center justify-center gap-1.5 mb-1.5">
+        <div className="relative z-10 flex items-center justify-center gap-2 mb-1.5 flex-wrap">
           <span
             id="desk-clock-label"
             className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-bold tracking-wider uppercase border shadow-2xs hardware-engraved-badge"
@@ -65,35 +95,98 @@ export const Clock: React.FC<ClockProps> = ({
             <ClockIcon className="w-3 h-3 animate-pulse" />
             <span>Desk Clock</span>
           </span>
+
+          <button
+            type="button"
+            id="clock-bg-view-toggle-btn"
+            onClick={toggleBgView}
+            className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold tracking-wide uppercase transition-all duration-200 border cursor-pointer hover:scale-105 active:scale-95 shadow-xs"
+            style={{
+              backgroundColor: 'var(--bg-card-subtle)',
+              borderColor: 'var(--border-color)',
+              color: 'var(--text-secondary)',
+            }}
+            title={`Current View: ${bgView === 'aerial' ? 'Aerial Starball Stadium' : 'Starry Night Sky'}. Click to toggle.`}
+            aria-label="Toggle UCL Clock Background View"
+          >
+            <Sparkles className="w-2.5 h-2.5" style={{ color: 'var(--accent)' }} />
+            <span>{bgView === 'aerial' ? 'Aerial Dome' : 'Starry Sky'}</span>
+          </button>
         </div>
       )}
 
-      {/* Big Digital Display: HH:MM:SS AM/PM with circular HUD in JARVIS theme */}
+      {/* Big Digital Display: HH:MM:SS AM/PM with Non-Clipping Height & Overflow Visible */}
       <div
         id="clock-crt-screen"
-        className="relative z-10 my-1 flex flex-col items-center justify-center p-4 sm:p-6 w-full max-w-xl mx-auto select-none crt-screen-inset"
+        className="clock-display-panel subboard-bg relative z-10 my-1 flex flex-col items-center justify-center w-full max-w-xl mx-auto select-none crt-screen-inset rounded-2xl border"
+        style={{
+          minHeight: '90px',
+          height: 'auto',
+          padding: isCompact ? '12px 16px' : '14px 20px',
+          overflow: 'visible',
+        }}
       >
+        {/* UCL Stadium Glassmorphic Blurry Background Layer - Scoped via CSS exclusively to European Nights */}
+        <div
+          className="ucl-glass-stadium-layer absolute inset-0 pointer-events-none overflow-hidden rounded-[inherit] z-0"
+          aria-hidden="true"
+        >
+          {/* Aerial Stadium View Layer */}
+          <div
+            className={`absolute -inset-4 bg-cover bg-center transition-opacity duration-700 ease-in-out ${
+              bgView === 'aerial' ? 'opacity-85' : 'opacity-0'
+            }`}
+            style={{
+              backgroundImage: `url('/assets/ucl-clock-glass-bg.jpg')`,
+              filter: 'blur(9px) brightness(0.55) saturate(1.4)',
+              transform: 'scale(1.08)',
+            }}
+          />
+
+          {/* Starry Night Sky Stadium View Layer */}
+          <div
+            className={`absolute -inset-4 bg-cover bg-center transition-opacity duration-700 ease-in-out ${
+              bgView === 'sky' ? 'opacity-85' : 'opacity-0'
+            }`}
+            style={{
+              backgroundImage: `url('/assets/ucl-clock-sky-bg.jpg')`,
+              filter: 'blur(9px) brightness(0.55) saturate(1.4)',
+              transform: 'scale(1.08)',
+            }}
+          />
+
+          {/* Dark Glassmorphic Frosted Black Overlay for High-Contrast Digital Display */}
+          <div className="absolute inset-0 bg-gradient-to-b from-black/75 via-slate-950/65 to-black/85 backdrop-blur-md" />
+
+          {/* Stadium Cyan & Magenta Starball Lighting Glow */}
+          <div className="absolute inset-0 opacity-40 bg-[radial-gradient(ellipse_at_bottom,rgba(69,183,255,0.32)_0%,rgba(168,85,247,0.18)_40%,transparent_75%)]" />
+        </div>
+
         {/* Circular HUD element for JARVIS Command Center */}
         <JarvisCircularHud variant="clock" />
 
-        <div className="flex items-baseline justify-center tracking-tight font-mono-numbers flex-wrap gap-1 sm:gap-2 relative z-10">
+        <div className="flex items-baseline justify-center tracking-tight font-mono-numbers flex-wrap gap-1 sm:gap-2 relative z-10 overflow-visible">
           <div
             id="clock-time-display"
-            className={`font-black font-mono tracking-tight leading-none ${
+            className={`clock-digits led-numerals font-black font-mono tracking-tight ${
               isCompact
                 ? 'text-3xl xs:text-4xl'
                 : isMedium
                 ? 'text-4xl sm:text-5xl md:text-6xl'
                 : 'text-5xl sm:text-6xl md:text-7xl lg:text-8xl'
             }`}
-            style={{ color: 'var(--text-primary)' }}
+            style={{
+              color: 'var(--text-primary)',
+              lineHeight: 1.1,
+              display: 'inline-block',
+            }}
           >
             {timeData.hours}:{timeData.minutes}
             <span
               className={`font-bold opacity-70 ml-0.5 sm:ml-1 ${
                 isCompact ? 'text-xl xs:text-2xl' : isMedium ? 'text-2xl sm:text-3xl' : 'text-3xl sm:text-4xl'
               }`}
-              style={{ color: 'var(--accent)' }}
+              style={{ color: 'var(--accent)', lineHeight: 1.1 }}
             >
               :{timeData.seconds}
             </span>

@@ -77,7 +77,7 @@ export const Header: React.FC<HeaderProps> = ({
                 <div className="header-main-row">
                   <h1
                     id="brand-title"
-                    className="goat-stacked-title"
+                    className="goat-stacked-title goat-heading dashboard-title"
                     style={{
                       color:
                         goatPreset === 'galactico-gold'
@@ -88,6 +88,8 @@ export const Header: React.FC<HeaderProps> = ({
                           ? '#C70101'
                           : goatPreset === 'el-bicho'
                           ? '#00B8B0'
+                          : goatPreset === 'le-zebre'
+                          ? '#FFFFFF'
                           : 'var(--primary-accent, #45B7FF)',
                     }}
                   >
@@ -95,15 +97,94 @@ export const Header: React.FC<HeaderProps> = ({
                     <span>GOAT</span>
                   </h1>
 
-                  <div className="header-info-box">
-                    <span className="box-line-1">CR7</span>
+                  <div
+                    className="header-info-box"
+                    style={{
+                      backgroundColor:
+                        goatPreset === 'galactico-gold'
+                          ? '#F8FAFC'
+                          : goatPreset === 'selecao-passion'
+                          ? '#08090B'
+                          : goatPreset === 'red-devil' || goatPreset === 'the-red-devil'
+                          ? '#050505'
+                          : goatPreset === 'el-bicho'
+                          ? '#0A0B0E'
+                          : goatPreset === 'le-zebre'
+                          ? '#040405'
+                          : 'var(--panel-elevated, #112A52)',
+                      borderColor:
+                        goatPreset === 'galactico-gold'
+                          ? '#D5B46A66'
+                          : goatPreset === 'selecao-passion'
+                          ? '#C8102E4D'
+                          : goatPreset === 'red-devil' || goatPreset === 'the-red-devil'
+                          ? '#C701014D'
+                          : goatPreset === 'el-bicho'
+                          ? '#00B8B04D'
+                          : goatPreset === 'le-zebre'
+                          ? 'rgba(255, 255, 255, 0.2)'
+                          : 'var(--panel-border, rgba(69, 183, 255, 0.25))',
+                    }}
+                  >
+                    <span
+                      className="box-line-1"
+                      style={{
+                        color:
+                          goatPreset === 'galactico-gold'
+                            ? '#173A67'
+                            : goatPreset === 'selecao-passion'
+                            ? '#D4AF37'
+                            : goatPreset === 'red-devil' || goatPreset === 'the-red-devil'
+                            ? '#FFFFFF'
+                            : goatPreset === 'el-bicho'
+                            ? '#00E5FF'
+                            : goatPreset === 'le-zebre'
+                            ? '#D4AF37'
+                            : '#FDE047',
+                      }}
+                    >
+                      CR7
+                    </span>
                     <div className="box-line-2">
-                      <span>Mr.</span>
-                      <img
-                        src="/assets/ucl-trophy.svg"
-                        className="ucl-trophy-icon-lg select-none"
-                        alt="UCL Trophy"
-                      />
+                      {goatPreset === 'galactico-gold' ? (
+                        <>
+                          <span style={{ color: '#173A67' }}>450</span>
+                          <Trophy className="w-5 h-5 text-amber-500 drop-shadow select-none" />
+                        </>
+                      ) : goatPreset === 'selecao-passion' ? (
+                        <>
+                          <span style={{ color: '#FFFFFF' }}>EURO</span>
+                          <Trophy className="w-5 h-5 text-emerald-500 drop-shadow select-none" />
+                        </>
+                      ) : goatPreset === 'red-devil' || goatPreset === 'the-red-devil' ? (
+                        <>
+                          <span style={{ color: '#FFFFFF' }}>MUFC</span>
+                          <Trophy className="w-5 h-5 text-red-500 drop-shadow select-none" />
+                        </>
+                      ) : goatPreset === 'el-bicho' ? (
+                        <>
+                          <span style={{ color: '#00E5FF', fontSize: '1.05rem', letterSpacing: '0.04em' }}>3-PEAT</span>
+                          <img
+                            src="/assets/ucl-trophy.svg"
+                            className="ucl-trophy-icon-lg select-none"
+                            alt="UCL Trophy"
+                          />
+                        </>
+                      ) : goatPreset === 'le-zebre' ? (
+                        <>
+                          <span style={{ color: '#FFFFFF' }}>101</span>
+                          <Trophy className="w-5 h-5 text-amber-400 drop-shadow select-none" />
+                        </>
+                      ) : (
+                        <>
+                          <span>Mr.</span>
+                          <img
+                            src="/assets/ucl-trophy.svg"
+                            className="ucl-trophy-icon-lg select-none"
+                            alt="UCL Trophy"
+                          />
+                        </>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -141,10 +222,44 @@ export const Header: React.FC<HeaderProps> = ({
               {/* Subtitle Section */}
               <div className="header-subtitle-section flex items-start gap-2.5 mt-3 flex-wrap sm:flex-nowrap">
                 <span
-                  className="number-badge-single header-number-badge w-7 h-7 rounded-lg flex items-center justify-center font-mono font-black text-sm text-amber-400 border shrink-0 shadow-xs"
+                  className="number-badge-single header-number-badge w-7 h-7 rounded-lg flex items-center justify-center font-mono font-black text-sm border shrink-0 shadow-xs"
                   style={{
-                    backgroundColor: 'rgba(7, 87, 200, 0.35)',
-                    borderColor: '#D4AF37',
+                    backgroundColor:
+                      goatPreset === 'galactico-gold'
+                        ? 'rgba(213, 180, 106, 0.2)'
+                        : goatPreset === 'selecao-passion'
+                        ? 'rgba(200, 16, 46, 0.35)'
+                        : goatPreset === 'red-devil' || goatPreset === 'the-red-devil'
+                        ? 'rgba(199, 1, 1, 0.35)'
+                        : goatPreset === 'el-bicho'
+                        ? 'rgba(0, 184, 176, 0.25)'
+                        : goatPreset === 'le-zebre'
+                        ? 'rgba(255, 255, 255, 0.15)'
+                        : 'rgba(7, 87, 200, 0.35)',
+                    borderColor:
+                      goatPreset === 'galactico-gold'
+                        ? '#D5B46A'
+                        : goatPreset === 'selecao-passion'
+                        ? '#006633'
+                        : goatPreset === 'red-devil' || goatPreset === 'the-red-devil'
+                        ? '#DA291C'
+                        : goatPreset === 'el-bicho'
+                        ? '#6B3FA0'
+                        : goatPreset === 'le-zebre'
+                        ? '#D4AF37'
+                        : '#D4AF37',
+                    color:
+                      goatPreset === 'galactico-gold'
+                        ? '#173A67'
+                        : goatPreset === 'selecao-passion'
+                        ? '#D4AF37'
+                        : goatPreset === 'red-devil' || goatPreset === 'the-red-devil'
+                        ? '#FFFFFF'
+                        : goatPreset === 'el-bicho'
+                        ? '#00E5FF'
+                        : goatPreset === 'le-zebre'
+                        ? '#FFFFFF'
+                        : '#FDE047',
                   }}
                 >
                   7
@@ -152,12 +267,61 @@ export const Header: React.FC<HeaderProps> = ({
                 <div className="header-text-block flex flex-col min-w-0">
                   <h3
                     className="theme-subtitle text-xs sm:text-sm font-bold tracking-wide uppercase font-mono"
-                    style={{ color: 'var(--primary-accent, #45B7FF)' }}
+                    style={{
+                      color:
+                        goatPreset === 'galactico-gold'
+                          ? '#D5B46A'
+                          : goatPreset === 'selecao-passion'
+                          ? '#C8102E'
+                          : goatPreset === 'red-devil' || goatPreset === 'the-red-devil'
+                          ? '#C70101'
+                          : goatPreset === 'el-bicho'
+                          ? '#00B8B0'
+                          : goatPreset === 'le-zebre'
+                          ? '#FFFFFF'
+                          : 'var(--primary-accent, #45B7FF)',
+                    }}
                   >
-                    The European Nights
+                    {goatPreset === 'galactico-gold'
+                      ? 'Galáctico Gold · Real Madrid Era'
+                      : goatPreset === 'selecao-passion'
+                      ? 'Seleção Passion · Portugal Euro 2016'
+                      : goatPreset === 'red-devil' || goatPreset === 'the-red-devil'
+                      ? 'The Red Devil · Manchester United'
+                      : goatPreset === 'el-bicho'
+                      ? 'El Bicho · Historic 3-Peat Dynasty'
+                      : goatPreset === 'le-zebre'
+                      ? 'Le Zebre · Juventus Era (2018–2021)'
+                      : 'The European Nights'}
                   </h3>
-                  <p className="cr7-quote text-[10px] sm:text-[11px] text-amber-300 font-semibold italic">
-                    “Perhaps they need to change the name of the Champions League to the CR7 Champions League.” — CR7 2018
+                  <p
+                    className="cr7-quote text-[10px] sm:text-[11px] font-semibold italic"
+                    style={{
+                      color:
+                        goatPreset === 'galactico-gold'
+                          ? '#CA8A04'
+                          : goatPreset === 'selecao-passion'
+                          ? '#E61E38'
+                          : goatPreset === 'red-devil' || goatPreset === 'the-red-devil'
+                          ? '#FF4D4D'
+                          : goatPreset === 'el-bicho'
+                          ? '#00E5FF'
+                          : goatPreset === 'le-zebre'
+                          ? '#F2CC63'
+                          : '#FDE047',
+                    }}
+                  >
+                    {goatPreset === 'galactico-gold'
+                      ? '“Your love makes me strong, your hate makes me unstoppable.” — Real Madrid (450 Goals · 4 UCL · 4 Ballon d’Or)'
+                      : goatPreset === 'selecao-passion'
+                      ? '“In my mind, I’m always the best.” — European Champions 2016 (All-Time International Goalscorer)'
+                      : goatPreset === 'red-devil' || goatPreset === 'the-red-devil'
+                      ? '“I have won everything in Manchester, but the hunger remains.” — Moscow 2008 UCL & Ballon d’Or'
+                      : goatPreset === 'el-bicho'
+                      ? '“Siiiiiiuuu! History made. Three UEFA Champions League titles in a row.” — Real Madrid 2016–2018'
+                      : goatPreset === 'le-zebre'
+                      ? '“Fino Alla Fine. 101 Goals in Bianconero.” — Back-to-Back Serie A Scudetto Supremacy'
+                      : '“Perhaps they need to change the name of the Champions League to the CR7 Champions League.” — CR7 2018'}
                   </p>
                 </div>
               </div>

@@ -135,10 +135,27 @@ export const MiniPrayerTimer: React.FC<MiniPrayerTimerProps> = ({
       {/* Main Prayer & Countdown Section */}
       <div
         id="mini-prayer-crt-screen"
-        className={`flex ${isWide ? 'flex-row items-center justify-between gap-4 p-4' : 'flex-col items-center justify-center p-4 sm:p-5 text-center'} my-auto w-full select-none crt-screen-inset`}
+        className={`flex ${isWide ? 'flex-row items-center justify-between gap-4 p-4' : 'flex-col items-center justify-center p-4 sm:p-5 text-center'} my-auto w-full select-none crt-screen-inset relative overflow-hidden rounded-2xl border`}
       >
+        {/* UCL Stadium Glassmorphic Blurry Background Layer - Scoped exclusively to European Nights */}
+        <div
+          className="ucl-glass-stadium-layer absolute inset-0 pointer-events-none overflow-hidden rounded-[inherit] z-0"
+          aria-hidden="true"
+        >
+          <div
+            className="absolute -inset-4 bg-cover bg-center"
+            style={{
+              backgroundImage: `url('/assets/ucl-clock-glass-bg.jpg')`,
+              filter: 'blur(9px) brightness(0.52) saturate(1.4)',
+              transform: 'scale(1.08)',
+            }}
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/75 via-slate-950/65 to-black/85 backdrop-blur-md" />
+          <div className="absolute inset-0 opacity-30 bg-[radial-gradient(ellipse_at_bottom,rgba(69,183,255,0.25)_0%,rgba(168,85,247,0.12)_40%,transparent_75%)]" />
+        </div>
+
         {nextPrayer ? (
-          <div className="flex flex-col">
+          <div className="flex flex-col relative z-10">
             <div className="flex items-baseline gap-2">
               <span
                 id="mini-prayer-name"
@@ -184,7 +201,7 @@ export const MiniPrayerTimer: React.FC<MiniPrayerTimerProps> = ({
 
         {/* If wide: Show a mini-row of other upcoming prayers */}
         {isWide && prayers.length > 0 && (
-          <div className="flex items-center gap-2 overflow-x-auto py-1">
+          <div className="flex items-center gap-2 overflow-x-auto py-1 relative z-10">
             {prayers.slice(0, 4).map((p) => {
               const isCurrent = nextPrayer?.name === p.name;
               return (

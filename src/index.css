@@ -4017,24 +4017,99 @@
   z-index: 0;
 }
 
-/* 2. Stadium Shadow Cards & Glass Surfaces with Signature #7 Watermark */
-[data-style="goat"] .card-panel,
-[data-style="goat"] .bg-surface,
-[data-style="goat"] [data-widget-id],
+/* 2. Stadium Shadow Cards & Glass Surfaces with Signature #7 Watermark — Exclusively European Nights */
+[data-theme="european-nights"] .card-panel,
 [data-theme="mr-champions-league"] .card-panel,
+[data-goat-preset="mr-champions-league"] .card-panel,
+[data-goat-preset="european-nights"] .card-panel,
+[data-theme="european-nights"] .panel-card,
+[data-theme="mr-champions-league"] .panel-card,
+[data-goat-preset="mr-champions-league"] .panel-card,
+[data-goat-preset="european-nights"] .panel-card,
+[data-theme="european-nights"] .bg-surface,
 [data-theme="mr-champions-league"] .bg-surface,
-[data-theme="mr-champions-league"] [data-widget-id] {
-  background-color: var(--panel-card, #0B2042) !important;
-  border: 1px solid var(--panel-border, rgba(69, 183, 255, 0.22)) !important;
+[data-theme="european-nights"] [data-widget-id],
+[data-theme="mr-champions-league"] [data-widget-id],
+[data-goat-preset="mr-champions-league"] [data-widget-id],
+[data-goat-preset="european-nights"] [data-widget-id] {
+  background-color: var(--panel-card, rgba(15, 23, 42, 0.65)) !important;
+  border: 1px solid rgba(212, 175, 55, 0.25) !important;
   border-radius: 20px !important;
-  backdrop-filter: blur(24px) saturate(160%);
-  -webkit-backdrop-filter: blur(24px) saturate(160%);
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
   box-shadow: 
     0 12px 35px rgba(3, 10, 23, 0.8),
     0 0 20px rgba(7, 87, 200, 0.15),
     inset 0 1px 1px rgba(255, 255, 255, 0.12) !important;
   position: relative;
   transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+/* Solid Clean Cards for Presets 2 to 6 (No Glass, No Background Leaks) */
+[data-theme="galactico-gold"] .panel-card,
+[data-theme="galactico-gold"] .card-panel,
+[data-theme="galactico-gold"] [data-widget-id],
+[data-goat-preset="galactico-gold"] .panel-card,
+[data-goat-preset="galactico-gold"] .card-panel,
+[data-goat-preset="galactico-gold"] [data-widget-id] {
+  background: #FFFFFF !important;
+  background-image: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+[data-theme="selecao-passion"] .panel-card,
+[data-theme="selecao-passion"] .card-panel,
+[data-theme="selecao-passion"] [data-widget-id],
+[data-goat-preset="selecao-passion"] .panel-card,
+[data-goat-preset="selecao-passion"] .card-panel,
+[data-goat-preset="selecao-passion"] [data-widget-id] {
+  background: #14181D !important;
+  background-image: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+[data-theme="the-red-devil"] .panel-card,
+[data-theme="the-red-devil"] .card-panel,
+[data-theme="the-red-devil"] [data-widget-id],
+[data-theme="red-devil"] .panel-card,
+[data-theme="red-devil"] .card-panel,
+[data-theme="red-devil"] [data-widget-id],
+[data-goat-preset="the-red-devil"] .panel-card,
+[data-goat-preset="the-red-devil"] .card-panel,
+[data-goat-preset="the-red-devil"] [data-widget-id],
+[data-goat-preset="red-devil"] .panel-card,
+[data-goat-preset="red-devil"] .card-panel,
+[data-goat-preset="red-devil"] [data-widget-id] {
+  background: #14161B !important;
+  background-image: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+[data-theme="el-bicho"] .panel-card,
+[data-theme="el-bicho"] .card-panel,
+[data-theme="el-bicho"] [data-widget-id],
+[data-goat-preset="el-bicho"] .panel-card,
+[data-goat-preset="el-bicho"] .card-panel,
+[data-goat-preset="el-bicho"] [data-widget-id] {
+  background: #161B26 !important;
+  background-image: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+[data-theme="le-zebre"] .panel-card,
+[data-theme="le-zebre"] .card-panel,
+[data-theme="le-zebre"] [data-widget-id],
+[data-goat-preset="le-zebre"] .panel-card,
+[data-goat-preset="le-zebre"] .card-panel,
+[data-goat-preset="le-zebre"] [data-widget-id] {
+  background: #121216 !important;
+  background-image: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
 }
 
 /* Iconic condensed athletic #7 watermark on card backgrounds */
@@ -4096,21 +4171,127 @@
   border-top-right-radius: 19px;
 }
 
-/* 4. A. MATCHDAY CLOCK — 4th Official's Substitution Board */
-[data-style="goat"] #clock-crt-screen,
-[data-theme="mr-champions-league"] #clock-crt-screen {
-  background-color: var(--subboard-bg, #030A17) !important;
-  border: 2px solid var(--subboard-border, #0757C8) !important;
-  border-radius: 16px !important;
+/* ===================================================
+   1. CLOCK OVERFLOW & DISPLAY HEIGHT REPAIR
+   =================================================== */
+.matchday-clock-container {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  overflow: visible !important;
+}
+
+.clock-display-panel,
+.subboard-bg {
+  min-height: 90px !important;
+  height: auto !important;
+  padding: 14px 20px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  overflow: visible !important; /* Prevents digit clipping */
+}
+
+.clock-digits,
+.led-numerals {
+  line-height: 1.1 !important;
+  font-size: 3.2rem !important; /* Adjust if needed to fit padding */
+  display: inline-block !important;
+}
+
+@media (max-width: 480px) {
+  .clock-digits,
+  .led-numerals {
+    font-size: 2.2rem !important;
+  }
+}
+
+/* ===================================================
+   2. SCOPE BACKGROUND & GLASSMORPHISM EXCLUSIVELY TO EUROPEAN NIGHTS
+   =================================================== */
+
+/* Apply Glassmorphic Stadium Display ONLY on European Nights */
+[data-theme="european-nights"] #clock-crt-screen,
+[data-theme="mr-champions-league"] #clock-crt-screen,
+[data-goat-preset="mr-champions-league"] #clock-crt-screen,
+[data-goat-preset="european-nights"] #clock-crt-screen {
+  background-color: rgba(2, 6, 23, 0.65) !important;
+  border: 1.5px solid rgba(69, 183, 255, 0.45) !important;
+  border-radius: 18px !important;
   box-shadow: 
+    0 12px 35px rgba(0, 0, 0, 0.6),
     0 0 25px rgba(7, 87, 200, 0.45),
-    inset 0 0 30px rgba(3, 10, 23, 0.9),
-    inset 0 1px 0 rgba(69, 183, 255, 0.3) !important;
+    inset 0 0 24px rgba(3, 10, 23, 0.8),
+    inset 0 1px 2px rgba(255, 255, 255, 0.2) !important;
   position: relative;
-  background-image: 
-    radial-gradient(rgba(69, 183, 255, 0.08) 15%, transparent 16%),
-    linear-gradient(rgba(0, 0, 0, 0.4) 50%, rgba(0, 0, 0, 0.7) 50%);
-  background-size: 8px 8px, 100% 4px;
+  overflow: visible !important;
+  backdrop-filter: blur(16px) saturate(140%) !important;
+  -webkit-backdrop-filter: blur(16px) saturate(140%) !important;
+}
+
+[data-theme="european-nights"] #clock-crt-screen::before,
+[data-theme="mr-champions-league"] #clock-crt-screen::before,
+[data-goat-preset="mr-champions-league"] #clock-crt-screen::before,
+[data-goat-preset="european-nights"] #clock-crt-screen::before {
+  content: "";
+  position: absolute;
+  inset: -12px;
+  background-image: var(--ucl-clock-bg-img, url('/assets/ucl-clock-glass-bg.jpg'));
+  background-size: cover;
+  background-position: center bottom;
+  filter: blur(10px) brightness(0.55) saturate(1.4);
+  opacity: 0.8;
+  pointer-events: none;
+  z-index: 0;
+  border-radius: 18px;
+  transition: opacity 0.5s ease;
+}
+
+[data-theme="european-nights"] #clock-crt-screen::after,
+[data-theme="mr-champions-league"] #clock-crt-screen::after,
+[data-goat-preset="mr-champions-league"] #clock-crt-screen::after,
+[data-goat-preset="european-nights"] #clock-crt-screen::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: 
+    radial-gradient(ellipse at 50% 120%, rgba(69, 183, 255, 0.32) 0%, rgba(168, 85, 247, 0.18) 45%, transparent 75%),
+    linear-gradient(rgba(0, 0, 0, 0.25) 50%, rgba(0, 0, 0, 0.45) 50%);
+  background-size: 100% 100%, 100% 4px;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.85;
+  border-radius: 18px;
+}
+
+/* Scoped UCL Stadium layer and ambient glow */
+.ucl-glass-stadium-layer,
+.ucl-clock-ambient-glow {
+  display: none !important;
+}
+
+[data-theme="european-nights"] .ucl-glass-stadium-layer,
+[data-theme="mr-champions-league"] .ucl-glass-stadium-layer,
+[data-goat-preset="mr-champions-league"] .ucl-glass-stadium-layer,
+[data-goat-preset="european-nights"] .ucl-glass-stadium-layer,
+[data-theme="european-nights"] .ucl-clock-ambient-glow,
+[data-theme="mr-champions-league"] .ucl-clock-ambient-glow,
+[data-goat-preset="mr-champions-league"] .ucl-clock-ambient-glow,
+[data-goat-preset="european-nights"] .ucl-clock-ambient-glow {
+  display: block !important;
+}
+
+#clock-bg-view-toggle-btn {
+  display: none !important;
+}
+
+[data-theme="european-nights"] #clock-bg-view-toggle-btn,
+[data-theme="mr-champions-league"] #clock-bg-view-toggle-btn,
+[data-goat-preset="mr-champions-league"] #clock-bg-view-toggle-btn,
+[data-goat-preset="european-nights"] #clock-bg-view-toggle-btn {
+  display: inline-flex !important;
 }
 
 /* Substitution Board Cyan LED Digits (Preset 1: Mr. Champions League) - Stadium electronic board light bleed effect */
@@ -4212,19 +4393,55 @@
   letter-spacing: 0.1em;
 }
 
-/* 5. B. TRAINING SESSIONS (Pomodoro Engine) */
-[data-style="goat"] #timer-crt-screen,
-[data-theme="mr-champions-league"] #timer-crt-screen {
-  background-color: var(--subboard-bg, #030A17) !important;
-  border: 2px solid var(--subboard-border, #0757C8) !important;
-  border-radius: 16px !important;
+/* 5. B. TRAINING SESSIONS (Pomodoro Engine) — Glassmorphic Stadium Blurry Background Scoped Exclusively to European Nights */
+[data-theme="european-nights"] #timer-crt-screen,
+[data-theme="mr-champions-league"] #timer-crt-screen,
+[data-goat-preset="mr-champions-league"] #timer-crt-screen,
+[data-goat-preset="european-nights"] #timer-crt-screen {
+  background-color: rgba(2, 6, 23, 0.65) !important;
+  border: 1.5px solid rgba(69, 183, 255, 0.45) !important;
+  border-radius: 18px !important;
   box-shadow: 
+    0 12px 35px rgba(0, 0, 0, 0.6),
     0 0 25px rgba(7, 87, 200, 0.45),
-    inset 0 0 30px rgba(3, 10, 23, 0.9) !important;
-  background-image: 
-    radial-gradient(rgba(69, 183, 255, 0.08) 15%, transparent 16%),
-    linear-gradient(rgba(0, 0, 0, 0.4) 50%, rgba(0, 0, 0, 0.7) 50%);
-  background-size: 8px 8px, 100% 4px;
+    inset 0 0 24px rgba(3, 10, 23, 0.8) !important;
+  position: relative;
+  overflow: hidden !important;
+  backdrop-filter: blur(16px) saturate(140%) !important;
+  -webkit-backdrop-filter: blur(16px) saturate(140%) !important;
+}
+
+[data-theme="european-nights"] #timer-crt-screen::before,
+[data-theme="mr-champions-league"] #timer-crt-screen::before,
+[data-goat-preset="mr-champions-league"] #timer-crt-screen::before,
+[data-goat-preset="european-nights"] #timer-crt-screen::before {
+  content: "";
+  position: absolute;
+  inset: -12px;
+  background-image: var(--ucl-clock-bg-img, url('/assets/ucl-clock-glass-bg.jpg'));
+  background-size: cover;
+  background-position: center bottom;
+  filter: blur(10px) brightness(0.55) saturate(1.4);
+  opacity: 0.8;
+  pointer-events: none;
+  z-index: 0;
+  transition: opacity 0.5s ease;
+}
+
+[data-theme="european-nights"] #timer-crt-screen::after,
+[data-theme="mr-champions-league"] #timer-crt-screen::after,
+[data-goat-preset="mr-champions-league"] #timer-crt-screen::after,
+[data-goat-preset="european-nights"] #timer-crt-screen::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: 
+    radial-gradient(ellipse at 50% 120%, rgba(69, 183, 255, 0.32) 0%, rgba(168, 85, 247, 0.18) 45%, transparent 75%),
+    linear-gradient(rgba(0, 0, 0, 0.25) 50%, rgba(0, 0, 0, 0.45) 50%);
+  background-size: 100% 100%, 100% 4px;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.85;
 }
 
 /* Countdown Display */
