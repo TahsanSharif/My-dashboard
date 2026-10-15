@@ -570,6 +570,15 @@ export const MovableResizableWidget: React.FC<MovableResizableWidgetProps> = ({
         })}
       </div>
 
+      {/* Number 7 Watermark element */}
+      <span
+        aria-hidden="true"
+        className="number-7-watermark absolute bottom-2 right-4 text-7xl sm:text-8xl font-black font-mono pointer-events-none select-none z-0"
+        style={{ lineHeight: 0.8 }}
+      >
+        7
+      </span>
+
       {/* ── 8-WAY EASY RESIZING HANDLES (Only active in freeform canvas mode) ── */}
       {!isAdaptive && (
         <>

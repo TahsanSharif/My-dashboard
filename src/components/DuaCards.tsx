@@ -145,9 +145,9 @@ export const DuaCards: React.FC = () => {
 
               {/* Arabic Calligraphy */}
               <div
-                className="my-3 text-right font-arabic-calligraphy text-2xl sm:text-3xl font-bold leading-loose select-text"
+                lang="ar"
+                className="arabic-text dua-arabic-script my-3 text-right font-arabic-calligraphy text-2xl sm:text-3xl font-bold leading-loose select-text"
                 style={{
-                  color: 'var(--text-primary)',
                   direction: 'rtl',
                 }}
               >

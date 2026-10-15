@@ -47,40 +47,53 @@ export const GOAT_PRESETS: JerseyPresetConfig[] = [
     id: 'selecao-passion',
     name: 'Seleção Passion',
     sublabel: 'Portugal Euro 2016',
-    clubYear: 'European Champions · Captain of Portugal',
+    clubYear: 'European Champions · All-Time International Goalscorer',
     tag: 'PRESET 3',
-    bgHex: '#14070B',
+    bgHex: '#0B0D0F',
     accentHex: '#C8102E',
-    goldHex: '#FFD700',
-    badgeHex: '#008B45',
-    jerseyPattern: 'linear-gradient(135deg, #C8102E 0%, #8B0018 55%, #008B45 100%)',
-    description: 'High-energy Portuguese crimson, victory emerald & Henri Delaunay gold.',
+    goldHex: '#D4AF37',
+    badgeHex: '#006633',
+    jerseyPattern: 'linear-gradient(135deg, #C8102E 0%, #8A0018 50%, #006633 100%)',
+    description: 'High-energy Portuguese crimson red, pitch emerald green & victory gold.',
   },
   {
     id: 'red-devil',
     name: 'The Red Devil',
-    sublabel: 'Manchester United 2007/08',
-    clubYear: 'Moscow Champions League · 42 Goals Ballon d’Or',
+    sublabel: 'Manchester United (03–09 & 21–22)',
+    clubYear: 'Moscow 2008 UCL · 42 Goals Ballon d’Or · 3 Premier League',
     tag: 'PRESET 4',
-    bgHex: '#0B0708',
-    accentHex: '#DA020E',
-    goldHex: '#FFE500',
+    bgHex: '#0B0C0E',
+    accentHex: '#C70101',
+    goldHex: '#D4AF37',
     badgeHex: '#FFFFFF',
-    jerseyPattern: 'linear-gradient(135deg, #DA020E 0%, #8A0008 60%, #FFE500 100%)',
-    description: 'Aggressive Old Trafford red, pitch black & electric devil gold.',
+    jerseyPattern: 'linear-gradient(135deg, #C70101 0%, #8A0000 60%, #14161B 100%)',
+    description: 'High-contrast Old Trafford pitch, vibrant United Red, pure white & Ballon d’Or gold.',
   },
   {
     id: 'el-bicho',
     name: 'El Bicho',
     sublabel: 'Real Madrid 2.0 (2016–2018)',
-    clubYear: 'Historic 3-Peat UCL Dynasty · Bicycle Kick in Turin',
+    clubYear: 'Historic 3-Peat UCL Dynasty · All-Time Prime',
     tag: 'PRESET 5',
-    bgHex: '#08111C',
-    accentHex: '#00E5FF',
-    goldHex: '#FBBF24',
-    badgeHex: '#8B5CF6',
-    jerseyPattern: 'linear-gradient(135deg, #00E5FF 0%, #0088CC 50%, #7C3AED 100%)',
-    description: 'Peak 3-Peat Aero reef turquoise, Madrid away purple & cosmic dominance.',
+    bgHex: '#101114',
+    accentHex: '#00B8B0',
+    goldHex: '#D4AF37',
+    badgeHex: '#6B3FA0',
+    jerseyPattern: 'linear-gradient(135deg, #00B8B0 0%, #087E83 50%, #6B3FA0 100%)',
+    description: 'Peak 3-Peat UEFA Champions League prime: 17/18 pitch black, electric Aero Reef turquoise, Champions purple & victory gold.',
+  },
+  {
+    id: 'le-zebre',
+    name: 'Le Zebre',
+    sublabel: 'Juventus Era (2018–2021)',
+    clubYear: '101 Goals · Back-to-Back Scudetto Supremacy',
+    tag: 'PRESET 6',
+    bgHex: '#08080A',
+    accentHex: '#FFFFFF',
+    goldHex: '#D4AF37',
+    badgeHex: '#D4AF37',
+    jerseyPattern: 'linear-gradient(135deg, #08080A 0%, #121216 45%, #FFFFFF 50%, #121216 55%, #D4AF37 100%)',
+    description: 'High-fashion monochrome split panels, stark pitch black, crisp stark white & Scudetto gold supremacy.',
   },
 ];
 
@@ -141,7 +154,7 @@ export const JerseyCabinet: React.FC<JerseyCabinetProps> = ({
             <p className="text-[10px] sm:text-[11px] font-medium"
               style={{ color: 'var(--text-muted, var(--text-secondary))' }}
             >
-              5 Curated Performance Eras · Instant Swapping · Zero Data Loss
+              6 Curated Performance Eras · Instant Swapping · Zero Data Loss
             </p>
           </div>
         </div>
@@ -167,7 +180,7 @@ export const JerseyCabinet: React.FC<JerseyCabinetProps> = ({
 
       {/* Swatches Grid */}
       {isExpanded && (
-        <div className="p-3 sm:p-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-2.5 sm:gap-3">
+        <div className="p-3 sm:p-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-2.5 sm:gap-3">
           {GOAT_PRESETS.map((preset) => {
             const isActive = currentPreset === preset.id;
 

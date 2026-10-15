@@ -4,7 +4,9 @@ export type GoatPreset =
   | 'galactico-gold'
   | 'selecao-passion'
   | 'red-devil'
-  | 'el-bicho';
+  | 'the-red-devil'
+  | 'el-bicho'
+  | 'le-zebre';
 
 export type StylePalette =
   | 'girly'
@@ -23,7 +25,9 @@ export type StylePalette =
   | 'galactico-gold'
   | 'selecao-passion'
   | 'red-devil'
-  | 'el-bicho';
+  | 'the-red-devil'
+  | 'el-bicho'
+  | 'le-zebre';
 
 export type ThemeMode =
   | 'light'
@@ -45,7 +49,9 @@ export type ThemeMode =
   | 'galactico-gold'
   | 'selecao-passion'
   | 'red-devil'
-  | 'el-bicho';
+  | 'the-red-devil'
+  | 'el-bicho'
+  | 'le-zebre';
 
 export type TimerPhase = 'study' | 'shortBreak' | 'longBreak';
 

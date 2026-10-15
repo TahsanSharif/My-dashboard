@@ -57,13 +57,52 @@ export const Header: React.FC<HeaderProps> = ({
         <div
           className="w-11 h-11 rounded-2xl flex items-center justify-center shadow-xs border shrink-0 transition-transform hover:scale-105"
           style={{
-            backgroundColor: style === 'goat' ? 'rgba(7, 87, 200, 0.3)' : 'var(--bg-card-subtle)',
-            borderColor: style === 'goat' ? '#D4AF37' : 'var(--border-color)',
-            color: style === 'goat' ? '#D4AF37' : 'var(--accent)',
+            backgroundColor:
+              style === 'goat'
+                ? goatPreset === 'galactico-gold'
+                  ? 'rgba(213, 180, 106, 0.15)'
+                  : goatPreset === 'selecao-passion'
+                  ? 'rgba(200, 16, 46, 0.25)'
+                  : goatPreset === 'red-devil' || goatPreset === 'the-red-devil'
+                  ? 'rgba(199, 1, 1, 0.25)'
+                  : goatPreset === 'el-bicho'
+                  ? 'rgba(0, 184, 176, 0.25)'
+                  : goatPreset === 'le-zebre'
+                  ? 'rgba(255, 255, 255, 0.12)'
+                  : 'rgba(7, 87, 200, 0.3)'
+                : 'var(--bg-card-subtle)',
+            borderColor:
+              style === 'goat'
+                ? goatPreset === 'galactico-gold'
+                  ? '#D5B46A'
+                  : goatPreset === 'selecao-passion'
+                  ? '#C8102E'
+                  : goatPreset === 'red-devil' || goatPreset === 'the-red-devil'
+                  ? '#C70101'
+                  : goatPreset === 'el-bicho'
+                  ? '#00B8B0'
+                  : goatPreset === 'le-zebre'
+                  ? '#D4AF37'
+                  : '#D4AF37'
+                : 'var(--border-color)',
+            color:
+              style === 'goat'
+                ? goatPreset === 'galactico-gold'
+                  ? '#D5B46A'
+                  : goatPreset === 'selecao-passion'
+                  ? '#D4AF37'
+                  : goatPreset === 'red-devil' || goatPreset === 'the-red-devil'
+                  ? '#D4AF37'
+                  : goatPreset === 'el-bicho'
+                  ? '#00E5FF'
+                  : goatPreset === 'le-zebre'
+                  ? '#FFFFFF'
+                  : '#D4AF37'
+                : 'var(--accent)',
           }}
         >
           {style === 'goat' ? (
-            <span className="font-black text-sm font-mono tracking-tight text-amber-400">#7</span>
+            <span className="badge-number-7 font-black text-sm font-mono tracking-tight text-amber-400">#7</span>
           ) : (
             <GraduationCap className="w-6 h-6" />
           )}
@@ -75,17 +114,71 @@ export const Header: React.FC<HeaderProps> = ({
             {style === 'goat' ? (
               <h1
                 id="brand-title"
-                className="text-xl sm:text-2xl font-black tracking-tight flex items-center gap-2"
-                style={{ color: '#FFFFFF' }}
+                className="goat-heading dashboard-title text-xl sm:text-2xl font-black tracking-tight flex items-center gap-2"
+                style={{
+                  color:
+                    goatPreset === 'galactico-gold'
+                      ? '#D5B46A'
+                      : goatPreset === 'selecao-passion'
+                      ? '#C8102E'
+                      : goatPreset === 'red-devil' || goatPreset === 'the-red-devil'
+                      ? '#C70101'
+                      : goatPreset === 'el-bicho'
+                      ? '#00B8B0'
+                      : '#FFFFFF',
+                  textShadow:
+                    goatPreset === 'galactico-gold'
+                      ? '0 2px 4px rgba(15, 23, 42, 0.08)'
+                      : goatPreset === 'selecao-passion'
+                      ? '0 0 12px rgba(200, 16, 46, 0.4)'
+                      : goatPreset === 'red-devil' || goatPreset === 'the-red-devil'
+                      ? '0 0 12px rgba(199, 1, 1, 0.5)'
+                      : goatPreset === 'el-bicho'
+                      ? '0 0 12px rgba(0, 184, 176, 0.5)'
+                      : goatPreset === 'le-zebre'
+                      ? '0 0 12px rgba(255, 255, 255, 0.4)'
+                      : undefined,
+                }}
               >
-                <span className="tracking-wide">THE GOAT</span>
+                <span className="tracking-wide goat-heading">THE GOAT</span>
                 <span
-                  className="px-2 py-0.5 text-xs font-black rounded-md tracking-wider text-slate-950 shadow-2xs font-mono"
+                  className="badge-number-7 px-2 py-0.5 text-xs font-black rounded-md tracking-wider shadow-2xs font-mono"
                   style={{
-                    background: 'linear-gradient(135deg, #D4AF37 0%, #FFDF00 100%)',
+                    background:
+                      goatPreset === 'galactico-gold'
+                        ? '#D5B46A'
+                        : goatPreset === 'selecao-passion'
+                        ? 'linear-gradient(135deg, #C8102E 0%, #8A0018 50%, #006633 100%)'
+                        : goatPreset === 'red-devil' || goatPreset === 'the-red-devil'
+                        ? 'linear-gradient(135deg, #C70101 0%, #8A0000 60%, #14161B 100%)'
+                        : goatPreset === 'el-bicho'
+                        ? 'linear-gradient(135deg, #00B8B0 0%, #087E83 50%, #6B3FA0 100%)'
+                        : goatPreset === 'le-zebre'
+                        ? 'linear-gradient(135deg, #121216 0%, #08080A 35%, #FFFFFF 50%, #D4AF37 100%)'
+                        : 'linear-gradient(135deg, #D4AF37 0%, #FFDF00 100%)',
+                    color:
+                      goatPreset === 'galactico-gold'
+                        ? '#0F172A'
+                        : '#FFFFFF',
+                    border:
+                      goatPreset === 'el-bicho'
+                        ? '1px solid rgba(0, 229, 255, 0.4)'
+                        : goatPreset === 'red-devil' || goatPreset === 'the-red-devil'
+                        ? '1px solid rgba(255, 255, 255, 0.3)'
+                        : goatPreset === 'le-zebre'
+                        ? '1px solid #D4AF37'
+                        : undefined,
                   }}
                 >
-                  CR7 · #7
+                  {goatPreset === 'selecao-passion'
+                    ? 'CR7 · #7 · EURO 2016'
+                    : goatPreset === 'red-devil' || goatPreset === 'the-red-devil'
+                    ? 'CR7 · #7 · RED DEVIL'
+                    : goatPreset === 'el-bicho'
+                    ? 'CR7 · #7 · 3-PEAT'
+                    : goatPreset === 'le-zebre'
+                    ? 'CR7 · #7 · LE ZEBRE'
+                    : 'CR7 · #7'}
                 </span>
               </h1>
             ) : (
@@ -156,12 +249,39 @@ export const Header: React.FC<HeaderProps> = ({
                 <p
                   id="brand-subtitle"
                   className="text-[10px] sm:text-[11px] font-black tracking-wider uppercase"
-                  style={{ color: 'var(--glow-accent, #45B7FF)' }}
+                  style={{
+                    color:
+                      goatPreset === 'selecao-passion'
+                        ? '#008B45'
+                        : goatPreset === 'red-devil' || goatPreset === 'the-red-devil'
+                        ? '#FF1E1E'
+                        : goatPreset === 'el-bicho'
+                        ? '#00E5FF'
+                        : goatPreset === 'le-zebre'
+                        ? '#F2CC63'
+                        : 'var(--glow-accent, #45B7FF)',
+                  }}
                 >
-                  CR7 · THE MINDSET · THE LEGACY · NUMBER 7
+                  {goatPreset === 'selecao-passion'
+                    ? 'CR7 · SELEÇÃO CANTEIROS · PORTUGAL EURO 2016 · NUMBER 7'
+                    : goatPreset === 'red-devil' || goatPreset === 'the-red-devil'
+                    ? 'CR7 · THE RED DEVIL · OLD TRAFFORD · NUMBER 7'
+                    : goatPreset === 'el-bicho'
+                    ? 'CR7 · EL BICHO · REAL MADRID 2.0 (2016-2018) · NUMBER 7'
+                    : goatPreset === 'le-zebre'
+                    ? 'CR7 · LE ZEBRE · JUVENTUS ERA · NUMBER 7'
+                    : 'CR7 · THE MINDSET · THE LEGACY · NUMBER 7'}
                 </p>
                 <span className="text-[10px] hidden sm:inline text-amber-400 font-semibold italic">
-                  — "Greatness is a choice."
+                  {goatPreset === 'selecao-passion'
+                    ? '— "Eu estou aqui!"'
+                    : goatPreset === 'red-devil' || goatPreset === 'the-red-devil'
+                    ? '— "Viva Ronaldo! Theatre of Dreams."'
+                    : goatPreset === 'el-bicho'
+                    ? '— "Calma, calma! 3-Peat Prime."'
+                    : goatPreset === 'le-zebre'
+                    ? '— "Fino Alla Fine · Scudetto Supremacy."'
+                    : '— "Greatness is a choice."'}
                 </span>
               </div>
             ) : (

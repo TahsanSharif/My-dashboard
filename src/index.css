@@ -704,7 +704,7 @@
     --bg-stadium: #F1F5F9;        /* Platinum Bernabéu Surface */
     --panel-card: #FFFFFF;        /* Los Blancos Pure White Card */
     --panel-elevated: #F8FAFC;    /* Elevated Hover State */
-    --panel-border: rgba(213, 180, 106, 0.3);    /* 30% Champagne Gold Glow Border (#D5B46A4D) */
+    --panel-border: #D5B46A66;    /* 40% Champagne Gold Border */
 
     /* Text & Typography */
     --text-main: #0F172A;         /* Deep Madrid Navy */
@@ -719,16 +719,16 @@
     --match-red: #DC2626;         /* Priority Red */
     --pitch-green: #16A34A;       /* Success Green */
 
-    /* Matchday Clock Board */
-    --subboard-bg: #0F172A;       /* Dark Navy Substitution Frame */
-    --subboard-led: #D5B46A;      /* Champagne Gold LED Digits */
-    --subboard-border: #D5B46A;
+    /* LIGHT CLOCK DISPLAY FIX */
+    --subboard-bg: #F8FAFC;       /* Light Clock Face */
+    --subboard-led: #173A67;      /* Deep Navy LED Digits */
+    --subboard-border: #D5B46A;   /* Champagne Gold Border */
 
     /* Standard Dashboard Tokens Mapping */
     --bg-page: #F1F5F9;
     --bg-card: #FFFFFF;
     --bg-card-subtle: #F8FAFC;
-    --border-color: rgba(213, 180, 106, 0.3);
+    --border-color: #D5B46A66;
     --border-highlight: #CA8A04;
     --border-gold: #D5B46A;
     --text-primary: #0F172A;
@@ -751,41 +751,53 @@
     color-scheme: light;
   }
 
-  /* PRESET 3: SELEÇÃO PASSION (Portugal Euro 2016 — Crimson & Emerald) */
+  /* ===================================================
+     THE GOAT — PRESET 3: SELEÇÃO PASSION (Portugal)
+     =================================================== */
   :root[data-goat-preset="selecao-passion"],
   [data-goat-preset="selecao-passion"],
   :root[data-theme="selecao-passion"],
   [data-theme="selecao-passion"] {
-    --bg-stadium: #120608;
-    --panel-card: #1D0A0F;
-    --panel-elevated: #2C0F17;
-    --panel-border: rgba(200, 16, 46, 0.3);
-    --text-main: #FFFFFF;
-    --text-muted: #FFD2D8;
-    --text-subtle: #8F4A57;
-    --primary-accent: #C8102E;
-    --glow-accent: #008B45;
-    --gold-trophy: #FFD700;
-    --match-red: #C8102E;
-    --pitch-green: #008B45;
-    --subboard-bg: #0A0305;
-    --subboard-led: #00FF80;
-    --subboard-border: #C8102E;
-    --bg-page: #120608;
-    --bg-card: rgba(29, 10, 15, 0.92);
-    --bg-card-subtle: rgba(44, 15, 23, 0.85);
-    --border-color: rgba(200, 16, 46, 0.3);
-    --border-highlight: #C8102E;
-    --border-gold: #FFD700;
+    /* Backgrounds & Charcoal Surfaces */
+    --bg-stadium: #0B0D0F;        /* Pitch Dark Base */
+    --panel-card: #14181D;        /* Seleção Charcoal Card */
+    --panel-elevated: #1B2028;    /* Elevated Hover State */
+    --panel-border: #C8102E4D;    /* 30% Portugal Red Glow Border */
+
+    /* Text & Typography */
+    --text-main: #FFFFFF;         /* Pure White */
+    --text-muted: #D1D5DB;        /* Portuguese Starlight Gray */
+    --text-subtle: #6B7280;       /* Secondary Muted Gray */
+
+    /* Accents & Highlights */
+    --primary-accent: #C8102E;    /* Portugal Crimson Red */
+    --glow-accent: #E61E38;       /* Fiery Red Glow */
+    --secondary-accent: #006633;  /* Pitch Emerald Green */
+    --gold-trophy: #D4AF37;       /* Victory Gold */
+    --match-red: #C8102E;         /* Priority Red */
+    --pitch-green: #008B45;       /* Victory Green */
+
+    /* Matchday Clock Board */
+    --subboard-bg: #08090B;       /* Pitch Substitution Frame */
+    --subboard-led: #C8102E;      /* Crimson Red LED Digits */
+    --subboard-border: #006633;   /* Pitch Green Border Trim */
+
+    /* Standard Dashboard Tokens Mapping */
+    --bg-page: #0B0D0F;
+    --bg-card: #14181D;
+    --bg-card-subtle: #1B2028;
+    --border-color: #C8102E4D;
+    --border-highlight: #E61E38;
+    --border-gold: #D4AF37;
     --text-primary: #FFFFFF;
-    --text-secondary: #FFD2D8;
-    --text-muted: #A36975;
+    --text-secondary: #D1D5DB;
+    --text-muted: #6B7280;
     --accent: #C8102E;
-    --accent-secondary: #008B45;
-    --accent-gradient: linear-gradient(135deg, #C8102E 0%, #8A0018 60%, #008B45 100%);
-    --accent-gradient-hover: linear-gradient(135deg, #E01838 0%, #00A854 100%);
-    --accent-hover: #E01838;
-    --accent-soft: rgba(200, 16, 46, 0.2);
+    --accent-secondary: #006633;
+    --accent-gradient: linear-gradient(135deg, #C8102E 0%, #8A0018 50%, #006633 100%);
+    --accent-gradient-hover: linear-gradient(135deg, #E61E38 0%, #008B45 100%);
+    --accent-hover: #E61E38;
+    --accent-soft: rgba(200, 16, 46, 0.18);
     --accent-text: #FF6680;
     --timer-glow: rgba(200, 16, 46, 0.55);
     --badge-bg: rgba(200, 16, 46, 0.18);
@@ -793,99 +805,186 @@
     --glow-color: rgba(200, 16, 46, 0.45);
     --timer-study-color: #C8102E;
     --timer-break-color: #008B45;
-    --timer-longbreak-color: #FFD700;
+    --timer-longbreak-color: #D4AF37;
     color-scheme: dark;
   }
 
-  /* PRESET 4: THE RED DEVIL (Manchester United 2007/08 — Aggressive Red & Black) */
+  /* ===================================================
+     THE GOAT — PRESET 4: THE RED DEVIL (Man Utd)
+     =================================================== */
   :root[data-goat-preset="red-devil"],
   [data-goat-preset="red-devil"],
   :root[data-theme="red-devil"],
-  [data-theme="red-devil"] {
-    --bg-stadium: #0A0707;
-    --panel-card: #150D0E;
-    --panel-elevated: #221415;
-    --panel-border: rgba(218, 2, 14, 0.28);
-    --text-main: #FFFFFF;
-    --text-muted: #FEE2E2;
-    --text-subtle: #8A4E51;
-    --primary-accent: #DA020E;
-    --glow-accent: #FFE500;
-    --gold-trophy: #FFE500;
-    --match-red: #DA020E;
-    --pitch-green: #10B981;
-    --subboard-bg: #050303;
-    --subboard-led: #FFE500;
-    --subboard-border: #DA020E;
-    --bg-page: #0A0707;
-    --bg-card: rgba(21, 13, 14, 0.94);
-    --bg-card-subtle: rgba(34, 20, 21, 0.88);
-    --border-color: rgba(218, 2, 14, 0.3);
-    --border-highlight: #DA020E;
-    --border-gold: #FFE500;
+  [data-theme="red-devil"],
+  :root[data-goat-preset="the-red-devil"],
+  [data-goat-preset="the-red-devil"],
+  :root[data-theme="the-red-devil"],
+  [data-theme="the-red-devil"] {
+    /* Backgrounds & Charcoal Surfaces */
+    --bg-stadium: #0B0C0E;        /* Dark Pitch Base */
+    --panel-card: #14161B;        /* Theatre Charcoal Card */
+    --panel-elevated: #1E2128;    /* Elevated Hover State */
+    --panel-border: #C701014D;    /* 30% United Red Glow Border */
+
+    /* Text & Typography */
+    --text-main: #FFFFFF;         /* Pure White */
+    --text-muted: #E1E4EA;        /* Starlight Silver */
+    --text-subtle: #6B7280;       /* Secondary Muted Gray */
+
+    /* Accents & Highlights */
+    --primary-accent: #C70101;    /* United Red */
+    --glow-accent: #FF1E1E;       /* Fiery Red Glow */
+    --secondary-accent: #DA291C;  /* Jersey Red 07/08 */
+    --gold-trophy: #D4AF37;       /* Victory Gold */
+    --match-red: #C70101;         /* Priority Red */
+    --pitch-green: #00FF88;       /* Success Green */
+
+    /* Matchday Clock Board */
+    --subboard-bg: #050505;       /* Matte Black Board Frame */
+    --subboard-led: #C70101;      /* United Red LED Digits */
+    --subboard-border: #DA291C;   /* Red Trim */
+
+    /* Standard Dashboard Tokens Mapping */
+    --bg-page: #0B0C0E;
+    --bg-card: #14161B;
+    --bg-card-subtle: #1E2128;
+    --border-color: #C701014D;
+    --border-highlight: #FF1E1E;
+    --border-gold: #D4AF37;
     --text-primary: #FFFFFF;
-    --text-secondary: #FEE2E2;
-    --text-muted: #9E6B6E;
-    --accent: #DA020E;
-    --accent-secondary: #FFE500;
-    --accent-gradient: linear-gradient(135deg, #DA020E 0%, #8F0008 55%, #FFE500 100%);
-    --accent-gradient-hover: linear-gradient(135deg, #FF1726 0%, #FFE500 100%);
-    --accent-hover: #FF1726;
-    --accent-soft: rgba(218, 2, 14, 0.2);
-    --accent-text: #FF6670;
-    --timer-glow: rgba(218, 2, 14, 0.55);
-    --badge-bg: rgba(218, 2, 14, 0.18);
-    --badge-text: #FF8088;
-    --glow-color: rgba(218, 2, 14, 0.45);
-    --timer-study-color: #DA020E;
-    --timer-break-color: #FFE500;
-    --timer-longbreak-color: #F59E0B;
+    --text-secondary: #E1E4EA;
+    --text-muted: #4B515D;
+    --accent: #C70101;
+    --accent-secondary: #DA291C;
+    --accent-gradient: linear-gradient(135deg, #C70101 0%, #8A0000 60%, #14161B 100%);
+    --accent-gradient-hover: linear-gradient(135deg, #FF1E1E 0%, #C70101 100%);
+    --accent-hover: #FF1E1E;
+    --accent-soft: rgba(199, 1, 1, 0.18);
+    --accent-text: #FF4D4D;
+    --timer-glow: rgba(199, 1, 1, 0.55);
+    --badge-bg: rgba(199, 1, 1, 0.2);
+    --badge-text: #FFFFFF;
+    --glow-color: rgba(199, 1, 1, 0.5);
+    --timer-study-color: #C70101;
+    --timer-break-color: #00FF88;
+    --timer-longbreak-color: #D4AF37;
     color-scheme: dark;
   }
 
-  /* PRESET 5: EL BICHO (Real Madrid 2.0 · 2016–2018 — Peak 3-Peat Aero Reef Turquoise & Purple) */
+  /* ===================================================
+     THE GOAT — PRESET 5: EL BICHO (Real Madrid 2.0)
+     =================================================== */
   :root[data-goat-preset="el-bicho"],
   [data-goat-preset="el-bicho"],
   :root[data-theme="el-bicho"],
   [data-theme="el-bicho"] {
-    --bg-stadium: #08111C;
-    --panel-card: #0D1C2D;
-    --panel-elevated: #132A42;
-    --panel-border: rgba(0, 229, 255, 0.25);
-    --text-main: #FFFFFF;
-    --text-muted: #CCFBF1;
-    --text-subtle: #4A6B8A;
-    --primary-accent: #00E5FF;
-    --glow-accent: #8B5CF6;
-    --gold-trophy: #FBBF24;
-    --match-red: #EF4444;
-    --pitch-green: #10B981;
-    --subboard-bg: #04090F;
-    --subboard-led: #00E5FF;
-    --subboard-border: #8B5CF6;
-    --bg-page: #08111C;
-    --bg-card: rgba(13, 28, 45, 0.92);
-    --bg-card-subtle: rgba(19, 42, 66, 0.85);
-    --border-color: rgba(0, 229, 255, 0.25);
+    /* Backgrounds & Cards */
+    --bg-stadium: #101114;        /* 17/18 Away Kit Black Base */
+    --panel-card: #161B26;        /* Bernabéu Night Glass Card */
+    --panel-elevated: #1F2636;    /* Elevated Hover State */
+    --panel-border: #00B8B04D;    /* 30% Aero Reef Glow Border */
+
+    /* Text & Typography */
+    --text-main: #FFFFFF;         /* Fly Emirates Pure White */
+    --text-muted: #A3B8CC;        /* Muted Silver-Blue */
+    --text-subtle: #475569;       /* Secondary Slate Gray */
+
+    /* Accents & Highlights */
+    --primary-accent: #00B8B0;   /* Aero Reef Turquoise (17/18 Away) */
+    --glow-accent: #00E5FF;      /* Electric Cyan Glow */
+    --secondary-accent: #6B3FA0; /* Champions Purple (16/17 Away) */
+    --third-accent: #087E83;     /* Distinctive Dark Teal (17/18 Third) */
+    --gold-trophy: #D4AF37;      /* UCL 3-Peat Gold */
+    --match-red: #EF4444;        /* Priority Red */
+    --pitch-green: #10B981;      /* Success Green */
+
+    /* Matchday Clock Board */
+    --subboard-bg: #0A0B0E;       /* Pitch Black Frame */
+    --subboard-led: #00B8B0;      /* Aero Reef Turquoise LED Digits */
+    --subboard-border: #6B3FA0;   /* Champions Purple Border Trim */
+
+    /* Standard Dashboard Tokens Mapping */
+    --bg-page: #101114;
+    --bg-card: #161B26;
+    --bg-card-subtle: #1F2636;
+    --border-color: #00B8B04D;
     --border-highlight: #00E5FF;
-    --border-gold: #FBBF24;
+    --border-gold: #D4AF37;
     --text-primary: #FFFFFF;
-    --text-secondary: #CCFBF1;
-    --text-muted: #749CBF;
-    --accent: #00E5FF;
-    --accent-secondary: #8B5CF6;
-    --accent-gradient: linear-gradient(135deg, #00E5FF 0%, #0284C7 50%, #8B5CF6 100%);
-    --accent-gradient-hover: linear-gradient(135deg, #38BDF8 0%, #A855F7 100%);
-    --accent-hover: #38BDF8;
-    --accent-soft: rgba(0, 229, 255, 0.18);
+    --text-secondary: #A3B8CC;
+    --text-muted: #475569;
+    --accent: #00B8B0;
+    --accent-secondary: #6B3FA0;
+    --accent-gradient: linear-gradient(135deg, #00B8B0 0%, #087E83 50%, #6B3FA0 100%);
+    --accent-gradient-hover: linear-gradient(135deg, #00E5FF 0%, #8B5CF6 100%);
+    --accent-hover: #00E5FF;
+    --accent-soft: rgba(0, 184, 176, 0.18);
     --accent-text: #00E5FF;
-    --timer-glow: rgba(0, 229, 255, 0.5);
-    --badge-bg: rgba(0, 229, 255, 0.16);
+    --timer-glow: rgba(0, 184, 176, 0.55);
+    --badge-bg: rgba(0, 184, 176, 0.18);
     --badge-text: #00E5FF;
-    --glow-color: rgba(0, 229, 255, 0.45);
-    --timer-study-color: #00E5FF;
-    --timer-break-color: #8B5CF6;
-    --timer-longbreak-color: #FBBF24;
+    --glow-color: rgba(0, 184, 176, 0.45);
+    --timer-study-color: #00B8B0;
+    --timer-break-color: #6B3FA0;
+    --timer-longbreak-color: #D4AF37;
+    color-scheme: dark;
+  }
+
+  /* ===================================================
+     THE GOAT — PRESET 6: LE ZEBRE (Juventus Era)
+     =================================================== */
+  :root[data-goat-preset="le-zebre"],
+  [data-goat-preset="le-zebre"],
+  :root[data-theme="le-zebre"],
+  [data-theme="le-zebre"] {
+    /* Backgrounds & Cards */
+    --bg-stadium: #08080A;        /* Turin Night Black Base */
+    --panel-card: #121216;        /* Bianconeri Matte Black Panel */
+    --panel-elevated: #1C1C22;    /* Elevated Hover State */
+    --panel-border: #D4AF374D;    /* 30% Gold & White Split Border Glow */
+
+    /* Text & Typography */
+    --text-main: #FFFFFF;         /* Stark White */
+    --text-muted: #D1D5DB;        /* Monochrome Silver */
+    --text-subtle: #4B5563;       /* Muted Text / Borders */
+
+    /* Accents & Highlights */
+    --primary-accent: #FFFFFF;   /* Stark White / Bianconeri Highlight */
+    --secondary-accent: #1C1C22; /* Monochrome Dark Slate */
+    --glow-accent: #F2CC63;      /* Champagne Gold Glow */
+    --gold-trophy: #D4AF37;      /* Scudetto Gold */
+    --match-red: #DC2626;        /* Warning / Priority Red */
+    --pitch-green: #10B981;      /* Success Green */
+
+    /* Matchday Clock Board */
+    --subboard-bg: #050507;       /* Electronic Substitution Board Frame */
+    --subboard-led: #FFFFFF;      /* Glowing Stark White LED Digits */
+    --subboard-border: #D4AF37;   /* Scudetto Gold Border Trim */
+
+    /* Standard Dashboard Tokens Mapping */
+    --bg-page: #08080A;
+    --bg-card: #121216;
+    --bg-card-subtle: #1C1C22;
+    --border-color: #D4AF374D;
+    --border-highlight: #FFFFFF;
+    --border-gold: #D4AF37;
+    --text-primary: #FFFFFF;
+    --text-secondary: #D1D5DB;
+    --text-muted: #4B5563;
+    --accent: #FFFFFF;
+    --accent-secondary: #D4AF37;
+    --accent-gradient: linear-gradient(135deg, #121216 0%, #FFFFFF 50%, #D4AF37 100%);
+    --accent-gradient-hover: linear-gradient(135deg, #FFFFFF 0%, #F2CC63 100%);
+    --accent-hover: #F2CC63;
+    --accent-soft: rgba(212, 175, 55, 0.18);
+    --accent-text: #FFFFFF;
+    --timer-glow: rgba(255, 255, 255, 0.55);
+    --badge-bg: rgba(212, 175, 55, 0.18);
+    --badge-text: #F2CC63;
+    --glow-color: rgba(212, 175, 55, 0.45);
+    --timer-study-color: #FFFFFF;
+    --timer-break-color: #D4AF37;
+    --timer-longbreak-color: #F2CC63;
     color-scheme: dark;
   }
 
@@ -3846,7 +3945,9 @@
 [data-theme="galactico-gold"] #app-root-container,
 [data-theme="selecao-passion"] #app-root-container,
 [data-theme="red-devil"] #app-root-container,
-[data-theme="el-bicho"] #app-root-container {
+[data-theme="el-bicho"] #app-root-container,
+[data-theme="le-zebre"] #app-root-container,
+[data-goat-preset="le-zebre"] #app-root-container {
   background-color: var(--bg-stadium, #06152E) !important;
   color: var(--text-main, #FFFFFF) !important;
   position: relative;
@@ -3983,49 +4084,64 @@
   text-shadow: 0 0 12px rgba(69, 183, 255, 0.6), 0 0 24px rgba(69, 183, 255, 0.3) !important;
 }
 
-/* Substitution Board Champagne Gold LED Digits (Preset 2: Galáctico Gold) */
+/* Substitution Board LED Digits (Preset 2: Galáctico Gold) - High Contrast Deep Navy Digits */
 [data-goat-preset="galactico-gold"] #clock-time-display,
-[data-theme="galactico-gold"] #clock-time-display {
-  color: #D5B46A !important;
+[data-theme="galactico-gold"] #clock-time-display,
+[data-goat-preset="galactico-gold"] #timer-countdown-display,
+[data-theme="galactico-gold"] #timer-countdown-display,
+[data-goat-preset="galactico-gold"] #cycle-count-number,
+[data-theme="galactico-gold"] #cycle-count-number {
+  color: var(--subboard-led, #173A67) !important;
   font-family: ui-monospace, SFMono-Regular, "Orbitron", Menlo, Monaco, Consolas, monospace !important;
   letter-spacing: 0.06em !important;
-  text-shadow: 0 0 12px rgba(213, 180, 106, 0.6), 0 0 24px rgba(213, 180, 106, 0.3) !important;
+  text-shadow: 0 1px 2px rgba(23, 58, 103, 0.12) !important;
 }
 
 [data-goat-preset="galactico-gold"] #clock-time-display span,
 [data-theme="galactico-gold"] #clock-time-display span {
   color: #D5B46A !important;
-  text-shadow: 0 0 12px rgba(213, 180, 106, 0.6), 0 0 24px rgba(213, 180, 106, 0.3) !important;
+  text-shadow: 0 1px 2px rgba(213, 180, 106, 0.25) !important;
 }
 
-/* Preset 2: Matchday Clock Frame & LED Status - High-contrast dark navy instrument panel inside pure white card */
+/* Preset 2: Matchday Clock & Training Session Frame - Crisp Light Surface with Champagne Gold Border */
 [data-goat-preset="galactico-gold"] #clock-crt-screen,
-[data-theme="galactico-gold"] #clock-crt-screen {
-  background-color: #0F172A !important;
-  border: 2px solid #D5B46A !important;
+[data-theme="galactico-gold"] #clock-crt-screen,
+[data-goat-preset="galactico-gold"] #timer-crt-screen,
+[data-theme="galactico-gold"] #timer-crt-screen,
+[data-goat-preset="galactico-gold"] #cycle-crt-screen,
+[data-theme="galactico-gold"] #cycle-crt-screen,
+[data-goat-preset="galactico-gold"] .crt-screen-inset,
+[data-theme="galactico-gold"] .crt-screen-inset {
+  background-color: var(--subboard-bg, #F8FAFC) !important;
+  border: 2px solid var(--subboard-border, #D5B46A) !important;
   border-radius: 16px !important;
   box-shadow: 
-    0 0 20px rgba(213, 180, 106, 0.35),
-    inset 0 0 30px rgba(15, 23, 42, 0.95),
-    inset 0 1px 0 rgba(213, 180, 106, 0.4) !important;
+    0 2px 12px rgba(213, 180, 106, 0.22),
+    inset 0 1px 2px rgba(255, 255, 255, 0.95),
+    inset 0 -1px 2px rgba(15, 23, 42, 0.05) !important;
+  background-image: 
+    radial-gradient(rgba(213, 180, 106, 0.08) 15%, transparent 16%),
+    linear-gradient(rgba(213, 180, 106, 0.04) 50%, transparent 50%) !important;
+  background-size: 8px 8px, 100% 4px !important;
 }
 
 [data-goat-preset="galactico-gold"] #clock-ampm-badge,
 [data-theme="galactico-gold"] #clock-ampm-badge {
-  background-color: rgba(213, 180, 106, 0.2) !important;
-  border-color: #D5B46A !important;
-  color: #D5B46A !important;
-  box-shadow: 0 0 10px rgba(213, 180, 106, 0.35) !important;
+  background-color: rgba(213, 180, 106, 0.15) !important;
+  border: 1px solid #D5B46A !important;
+  color: #173A67 !important;
+  box-shadow: 0 1px 4px rgba(213, 180, 106, 0.2) !important;
   font-family: monospace !important;
 }
 
 [data-goat-preset="galactico-gold"] #desk-clock-label,
 [data-theme="galactico-gold"] #desk-clock-label {
-  background: linear-gradient(135deg, rgba(23, 58, 103, 0.5) 0%, rgba(33, 43, 66, 0.7) 100%) !important;
+  background: #FFFFFF !important;
   border: 1px solid #D5B46A !important;
-  color: #F2CC63 !important;
+  color: #173A67 !important;
   text-transform: uppercase;
   letter-spacing: 0.1em;
+  box-shadow: 0 1px 3px rgba(213, 180, 106, 0.18) !important;
 }
 
 /* AM/PM Board LED Badge */
@@ -4550,3 +4666,1263 @@
     transform: translateY(22px) scale(1.03);
   }
 }
+
+/* ===================================================
+   THE GOAT — PRESET 2: GALÁCTICO GOLD (REFINEMENT PATCH)
+   =================================================== */
+[data-theme="galactico-gold"],
+[data-goat-preset="galactico-gold"] {
+  /* Backgrounds & Clean Light Surfaces */
+  --bg-stadium: #F1F5F9;        /* Platinum Bernabéu Surface */
+  --panel-card: #FFFFFF;        /* Los Blancos Pure White Card */
+  --panel-elevated: #F8FAFC;    /* Elevated Hover State */
+  --panel-border: #D5B46A66;    /* 40% Champagne Gold Border */
+
+  /* Text & Typography */
+  --text-main: #0F172A;         /* Deep Madrid Navy */
+  --text-muted: #334155;        /* Slate Gray Subtitles */
+  --text-subtle: #64748B;       /* Secondary Muted Gray */
+
+  /* Accents & Highlights */
+  --primary-accent: #D5B46A;    /* Champagne Gold */
+  --glow-accent: #CA8A04;       /* Ballon d'Or Bright Gold */
+  --gold-trophy: #D4AF37;       /* Trophy Gold */
+  --secondary-accent: #173A67;  /* Galáctico Royal Blue */
+  --match-red: #DC2626;         /* Priority Red */
+  --pitch-green: #16A34A;       /* Success Green */
+
+  /* LIGHT CLOCK DISPLAY FIX */
+  --subboard-bg: #F8FAFC;       /* Light Clock Face */
+  --subboard-led: #173A67;      /* Deep Navy LED Digits */
+  --subboard-border: #D5B46A;   /* Champagne Gold Border */
+}
+
+/* 1. Header Title Color Fix */
+[data-theme="galactico-gold"] .goat-heading,
+[data-theme="galactico-gold"] h1.dashboard-title,
+[data-goat-preset="galactico-gold"] .goat-heading,
+[data-goat-preset="galactico-gold"] h1.dashboard-title {
+  color: #D5B46A !important;
+  text-shadow: 0 2px 4px rgba(15, 23, 42, 0.08) !important;
+}
+
+/* 2. Number 7 Watermark Visibility Fix */
+[data-theme="galactico-gold"] .number-7-watermark,
+[data-theme="galactico-gold"] .badge-number-7,
+[data-goat-preset="galactico-gold"] .number-7-watermark,
+[data-goat-preset="galactico-gold"] .badge-number-7 {
+  color: #D5B46A !important;
+  opacity: 0.85 !important;
+  font-weight: 800 !important;
+}
+
+/* 3. Arabic Duas Script — Gold 3D Engraved Vibe */
+[data-theme="galactico-gold"] .arabic-text,
+[data-theme="galactico-gold"] [lang="ar"],
+[data-theme="galactico-gold"] .dua-arabic-script,
+[data-goat-preset="galactico-gold"] .arabic-text,
+[data-goat-preset="galactico-gold"] [lang="ar"],
+[data-goat-preset="galactico-gold"] .dua-arabic-script {
+  color: #B89742 !important;
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.95), 0 -1px 2px rgba(15, 23, 42, 0.3) !important;
+  font-weight: 600 !important;
+}
+
+/* 4. Action Icon Flex Alignment */
+.mission-item-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* ===================================================
+   THE GOAT — PRESET 3: SELEÇÃO PASSION (Portugal)
+   =================================================== */
+[data-theme="selecao-passion"],
+[data-goat-preset="selecao-passion"] {
+  /* Backgrounds & Charcoal Surfaces */
+  --bg-stadium: #0B0D0F;        /* Pitch Dark Base */
+  --panel-card: #14181D;        /* Seleção Charcoal Card */
+  --panel-elevated: #1B2028;    /* Elevated Hover State */
+  --panel-border: #C8102E4D;    /* 30% Portugal Red Glow Border */
+
+  /* Text & Typography */
+  --text-main: #FFFFFF;         /* Pure White */
+  --text-muted: #D1D5DB;        /* Portuguese Starlight Gray */
+  --text-subtle: #6B7280;       /* Secondary Muted Gray */
+
+  /* Accents & Highlights */
+  --primary-accent: #C8102E;    /* Portugal Crimson Red */
+  --glow-accent: #E61E38;       /* Fiery Red Glow */
+  --secondary-accent: #006633;  /* Pitch Emerald Green */
+  --gold-trophy: #D4AF37;       /* Victory Gold */
+  --match-red: #C8102E;         /* Priority Red */
+  --pitch-green: #008B45;       /* Victory Green */
+
+  /* Matchday Clock Board */
+  --subboard-bg: #08090B;       /* Pitch Substitution Frame */
+  --subboard-led: #C8102E;      /* Crimson Red LED Digits */
+  --subboard-border: #006633;   /* Pitch Green Border Trim */
+}
+
+/* 1. Header Title Color Fix */
+[data-theme="selecao-passion"] .goat-heading,
+[data-theme="selecao-passion"] h1.dashboard-title,
+[data-goat-preset="selecao-passion"] .goat-heading,
+[data-goat-preset="selecao-passion"] h1.dashboard-title {
+  color: #C8102E !important;
+  text-shadow: 0 0 12px rgba(200, 16, 46, 0.4) !important;
+}
+
+/* 2. Number 7 Watermark Visibility */
+[data-theme="selecao-passion"] .number-7-watermark,
+[data-theme="selecao-passion"] .badge-number-7,
+[data-goat-preset="selecao-passion"] .number-7-watermark,
+[data-goat-preset="selecao-passion"] .badge-number-7 {
+  color: #D4AF37 !important;
+  opacity: 0.85 !important;
+  font-weight: 800 !important;
+}
+
+[data-goat-preset="selecao-passion"] [data-widget-id]::after,
+[data-theme="selecao-passion"] [data-widget-id]::after {
+  color: #D4AF37 !important;
+  opacity: 0.22 !important;
+}
+
+/* 3. Arabic Script — Gold 3D Engraved Vibe */
+[data-theme="selecao-passion"] .arabic-text,
+[data-theme="selecao-passion"] [lang="ar"],
+[data-theme="selecao-passion"] .dua-arabic-script,
+[data-goat-preset="selecao-passion"] .arabic-text,
+[data-goat-preset="selecao-passion"] [lang="ar"],
+[data-goat-preset="selecao-passion"] .dua-arabic-script {
+  color: #D4AF37 !important;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.9), 0 -1px 2px rgba(200, 16, 46, 0.4) !important;
+  font-weight: 600 !important;
+}
+
+/* 4. Matchday Clock (Substitution Board Clock) */
+[data-goat-preset="selecao-passion"] #clock-crt-screen,
+[data-theme="selecao-passion"] #clock-crt-screen {
+  background-color: #08090B !important;
+  border: 2px solid #C8102E !important;
+  border-radius: 16px !important;
+  box-shadow: 
+    0 0 22px rgba(200, 16, 46, 0.35),
+    inset 0 0 30px rgba(8, 9, 11, 0.95),
+    inset 0 1px 0 rgba(0, 102, 51, 0.4) !important;
+  background-image: 
+    radial-gradient(rgba(200, 16, 46, 0.08) 15%, transparent 16%),
+    linear-gradient(rgba(0, 0, 0, 0.4) 50%, rgba(0, 0, 0, 0.7) 50%) !important;
+  background-size: 8px 8px, 100% 4px !important;
+}
+
+[data-goat-preset="selecao-passion"] #clock-time-display,
+[data-theme="selecao-passion"] #clock-time-display {
+  color: #C8102E !important;
+  font-family: ui-monospace, SFMono-Regular, "Orbitron", Menlo, Monaco, Consolas, monospace !important;
+  letter-spacing: 0.06em !important;
+  text-shadow: 0 0 12px rgba(200, 16, 46, 0.6), 0 0 24px rgba(200, 16, 46, 0.3) !important;
+}
+
+[data-goat-preset="selecao-passion"] #clock-time-display span,
+[data-theme="selecao-passion"] #clock-time-display span {
+  color: #006633 !important;
+  text-shadow: 0 0 12px rgba(0, 102, 51, 0.6), 0 0 20px rgba(0, 102, 51, 0.3) !important;
+}
+
+[data-goat-preset="selecao-passion"] #clock-ampm-badge,
+[data-theme="selecao-passion"] #clock-ampm-badge {
+  background-color: rgba(200, 16, 46, 0.25) !important;
+  border: 1px solid #C8102E !important;
+  color: #FFFFFF !important;
+  box-shadow: 0 0 10px rgba(200, 16, 46, 0.4) !important;
+  font-family: monospace !important;
+}
+
+[data-goat-preset="selecao-passion"] #desk-clock-label,
+[data-theme="selecao-passion"] #desk-clock-label {
+  background: linear-gradient(135deg, rgba(200, 16, 46, 0.4) 0%, rgba(0, 102, 51, 0.4) 100%) !important;
+  border: 1px solid #C8102E !important;
+  color: #FFFFFF !important;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+/* 5. Training Sessions (Pomodoro Engine) */
+[data-goat-preset="selecao-passion"] #timer-crt-screen,
+[data-theme="selecao-passion"] #timer-crt-screen {
+  background-color: #08090B !important;
+  border: 2px solid #C8102E !important;
+  border-radius: 16px !important;
+  box-shadow: 
+    0 0 22px rgba(200, 16, 46, 0.35),
+    inset 0 0 30px rgba(8, 9, 11, 0.95),
+    inset 0 1px 0 rgba(0, 102, 51, 0.4) !important;
+  background-image: 
+    radial-gradient(rgba(200, 16, 46, 0.08) 15%, transparent 16%),
+    linear-gradient(rgba(0, 0, 0, 0.4) 50%, rgba(0, 0, 0, 0.7) 50%) !important;
+  background-size: 8px 8px, 100% 4px !important;
+}
+
+[data-goat-preset="selecao-passion"] #timer-countdown-display,
+[data-theme="selecao-passion"] #timer-countdown-display {
+  color: #C8102E !important;
+  font-family: ui-monospace, SFMono-Regular, "Orbitron", Menlo, Monaco, Consolas, monospace !important;
+  letter-spacing: 0.06em !important;
+  text-shadow: 0 0 12px rgba(200, 16, 46, 0.6), 0 0 24px rgba(200, 16, 46, 0.3) !important;
+}
+
+[data-goat-preset="selecao-passion"] #timer-start-btn,
+[data-theme="selecao-passion"] #timer-start-btn {
+  background: #C8102E !important;
+  color: #FFFFFF !important;
+  font-weight: 900 !important;
+  border: 1px solid rgba(255, 255, 255, 0.25) !important;
+  box-shadow: 0 4px 14px rgba(200, 16, 46, 0.4) !important;
+}
+
+[data-goat-preset="selecao-passion"] #timer-start-btn:hover,
+[data-theme="selecao-passion"] #timer-start-btn:hover {
+  transform: translateY(-2px) scale(1.04) !important;
+  background: #E61E38 !important;
+  box-shadow: 0 6px 20px rgba(230, 30, 56, 0.55) !important;
+}
+
+[data-goat-preset="selecao-passion"] #timer-pause-btn,
+[data-theme="selecao-passion"] #timer-pause-btn {
+  background: #006633 !important;
+  color: #FFFFFF !important;
+  box-shadow: 0 4px 14px rgba(0, 102, 51, 0.4) !important;
+}
+
+[data-goat-preset="selecao-passion"] #timer-phase-badge,
+[data-theme="selecao-passion"] #timer-phase-badge {
+  background: linear-gradient(135deg, #C8102E 0%, #006633 100%) !important;
+  color: #FFFFFF !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+  box-shadow: 0 0 14px rgba(200, 16, 46, 0.45) !important;
+  font-weight: 900 !important;
+  letter-spacing: 0.08em !important;
+}
+
+[data-goat-preset="selecao-passion"] #timer-progress-bar-fill,
+[data-theme="selecao-passion"] #timer-progress-bar-fill,
+[data-goat-preset="selecao-passion"] [role="progressbar"] > div,
+[data-theme="selecao-passion"] [role="progressbar"] > div {
+  background: linear-gradient(90deg, #006633 0%, #C8102E 100%) !important;
+  box-shadow: 0 0 10px rgba(200, 16, 46, 0.45) !important;
+}
+
+/* 6. This Season (Calendar & Schedule) */
+[data-goat-preset="selecao-passion"] #calendar-widget-content,
+[data-theme="selecao-passion"] #calendar-widget-content {
+  color: #FFFFFF !important;
+  background-color: #14181D !important;
+}
+
+[data-goat-preset="selecao-passion"] #calendar-widget-content [key*="day-"].scale-105,
+[data-goat-preset="selecao-passion"] #calendar-widget-content div.scale-105,
+[data-theme="selecao-passion"] #calendar-widget-content [key*="day-"].scale-105,
+[data-theme="selecao-passion"] #calendar-widget-content div.scale-105 {
+  background: #C8102E !important;
+  color: #FFFFFF !important;
+  border: 2px solid #D4AF37 !important;
+  box-shadow: 
+    0 0 16px rgba(200, 16, 46, 0.65),
+    0 0 28px rgba(212, 175, 55, 0.4) !important;
+  border-radius: 12px !important;
+  font-weight: 900 !important;
+}
+
+[data-goat-preset="selecao-passion"] #calendar-widget-content div.scale-105 span,
+[data-theme="selecao-passion"] #calendar-widget-content div.scale-105 span {
+  color: #FFFFFF !important;
+}
+
+/* 7. Mission Board (To-Do List) */
+[data-goat-preset="selecao-passion"] [data-todo-row],
+[data-theme="selecao-passion"] [data-todo-row] {
+  background-color: #14181D !important;
+  border-color: #1F242D !important;
+  border-left: 3px solid rgba(200, 16, 46, 0.45) !important;
+  color: #FFFFFF !important;
+  transition: all 0.2s ease;
+}
+
+[data-goat-preset="selecao-passion"] [data-todo-row]:hover,
+[data-theme="selecao-passion"] [data-todo-row]:hover {
+  border-left-color: #C8102E !important;
+  border-color: rgba(200, 16, 46, 0.4) !important;
+  background-color: #1B2028 !important;
+}
+
+[data-goat-preset="selecao-passion"] [data-todo-priority="high"],
+[data-goat-preset="selecao-passion"] [data-todo-must-win="true"],
+[data-theme="selecao-passion"] [data-todo-priority="high"],
+[data-theme="selecao-passion"] [data-todo-must-win="true"] {
+  border-left-color: #C8102E !important;
+  background: linear-gradient(90deg, rgba(200, 16, 46, 0.18) 0%, #14181D 100%) !important;
+}
+
+[data-goat-preset="selecao-passion"] .mission-win-badge,
+[data-theme="selecao-passion"] .mission-win-badge {
+  background: #D4AF37 !important;
+  border: 1px solid #CA8A04 !important;
+  color: #000000 !important;
+  font-weight: 900 !important;
+  box-shadow: 0 2px 6px rgba(212, 175, 55, 0.35) !important;
+}
+
+/* Card top stadium floodlight Portuguese tricolor hairline */
+[data-goat-preset="selecao-passion"] [data-widget-id]::before,
+[data-theme="selecao-passion"] [data-widget-id]::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 28px;
+  right: 28px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #C8102E, #D4AF37, #006633, transparent) !important;
+  border-radius: 9999px;
+  pointer-events: none;
+  opacity: 0.85 !important;
+}
+
+/* Card hover glow for Seleção Passion */
+[data-goat-preset="selecao-passion"] [data-widget-id]:hover,
+[data-theme="selecao-passion"] [data-widget-id]:hover {
+  border-color: rgba(200, 16, 46, 0.5) !important;
+  box-shadow: 
+    0 16px 45px rgba(11, 13, 15, 0.95),
+    0 0 30px rgba(200, 16, 46, 0.25),
+    inset 0 1px 1px rgba(255, 255, 255, 0.1) !important;
+}
+
+/* ===================================================
+   THE GOAT — PRESET 4: THE RED DEVIL (Man Utd)
+   =================================================== */
+[data-theme="the-red-devil"],
+[data-theme="red-devil"],
+[data-goat-preset="the-red-devil"],
+[data-goat-preset="red-devil"] {
+  /* Backgrounds & Charcoal Surfaces */
+  --bg-stadium: #0B0C0E;        /* Dark Pitch Base */
+  --panel-card: #14161B;        /* Theatre Charcoal Card */
+  --panel-elevated: #1E2128;    /* Elevated Hover State */
+  --panel-border: #C701014D;    /* 30% United Red Glow Border */
+
+  /* Text & Typography */
+  --text-main: #FFFFFF;         /* Pure White */
+  --text-muted: #E1E4EA;        /* Starlight Silver */
+  --text-subtle: #6B7280;       /* Secondary Muted Gray */
+
+  /* Accents & Highlights */
+  --primary-accent: #C70101;    /* United Red */
+  --glow-accent: #FF1E1E;       /* Fiery Red Glow */
+  --secondary-accent: #DA291C;  /* Jersey Red 07/08 */
+  --gold-trophy: #D4AF37;       /* Victory Gold */
+  --match-red: #C70101;         /* Priority Red */
+  --pitch-green: #00FF88;       /* Success Green */
+
+  /* Matchday Clock Board */
+  --subboard-bg: #050505;       /* Matte Black Board Frame */
+  --subboard-led: #C70101;      /* United Red LED Digits */
+  --subboard-border: #DA291C;   /* Red Trim */
+}
+
+/* 1. Header Title Color Fix */
+[data-theme="the-red-devil"] .goat-heading,
+[data-theme="the-red-devil"] h1.dashboard-title,
+[data-theme="red-devil"] .goat-heading,
+[data-theme="red-devil"] h1.dashboard-title,
+[data-goat-preset="the-red-devil"] .goat-heading,
+[data-goat-preset="the-red-devil"] h1.dashboard-title,
+[data-goat-preset="red-devil"] .goat-heading,
+[data-goat-preset="red-devil"] h1.dashboard-title {
+  color: #C70101 !important;
+  text-shadow: 0 0 12px rgba(199, 1, 1, 0.5) !important;
+}
+
+/* 2. Number 7 Watermark Visibility */
+[data-theme="the-red-devil"] .number-7-watermark,
+[data-theme="the-red-devil"] .badge-number-7,
+[data-theme="red-devil"] .number-7-watermark,
+[data-theme="red-devil"] .badge-number-7,
+[data-goat-preset="the-red-devil"] .number-7-watermark,
+[data-goat-preset="the-red-devil"] .badge-number-7,
+[data-goat-preset="red-devil"] .number-7-watermark,
+[data-goat-preset="red-devil"] .badge-number-7 {
+  color: #D4AF37 !important;
+  opacity: 0.85 !important;
+  font-weight: 800 !important;
+}
+
+[data-goat-preset="the-red-devil"] [data-widget-id]::after,
+[data-goat-preset="red-devil"] [data-widget-id]::after,
+[data-theme="the-red-devil"] [data-widget-id]::after,
+[data-theme="red-devil"] [data-widget-id]::after {
+  color: #C70101 !important;
+  opacity: 0.24 !important;
+}
+
+/* 3. Arabic Script — Gold 3D Engraved Vibe */
+[data-theme="the-red-devil"] .arabic-text,
+[data-theme="the-red-devil"] [lang="ar"],
+[data-theme="the-red-devil"] .dua-arabic-script,
+[data-theme="red-devil"] .arabic-text,
+[data-theme="red-devil"] [lang="ar"],
+[data-theme="red-devil"] .dua-arabic-script,
+[data-goat-preset="the-red-devil"] .arabic-text,
+[data-goat-preset="the-red-devil"] [lang="ar"],
+[data-goat-preset="the-red-devil"] .dua-arabic-script,
+[data-goat-preset="red-devil"] .arabic-text,
+[data-goat-preset="red-devil"] [lang="ar"],
+[data-goat-preset="red-devil"] .dua-arabic-script {
+  color: #D4AF37 !important;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.9), 0 -1px 2px rgba(199, 1, 1, 0.4) !important;
+  font-weight: 600 !important;
+}
+
+/* 4. Matchday Clock (Substitution Board Clock) */
+[data-goat-preset="the-red-devil"] #clock-crt-screen,
+[data-goat-preset="red-devil"] #clock-crt-screen,
+[data-theme="the-red-devil"] #clock-crt-screen,
+[data-theme="red-devil"] #clock-crt-screen {
+  background-color: #050505 !important;
+  border: 2px solid #C70101 !important;
+  border-radius: 16px !important;
+  box-shadow: 
+    0 0 24px rgba(199, 1, 1, 0.45),
+    inset 0 0 32px rgba(5, 5, 5, 0.98),
+    inset 0 1px 0 rgba(218, 41, 28, 0.5) !important;
+  background-image: 
+    radial-gradient(rgba(199, 1, 1, 0.09) 15%, transparent 16%),
+    linear-gradient(rgba(0, 0, 0, 0.5) 50%, rgba(0, 0, 0, 0.8) 50%) !important;
+  background-size: 8px 8px, 100% 4px !important;
+}
+
+[data-goat-preset="the-red-devil"] #clock-time-display,
+[data-goat-preset="red-devil"] #clock-time-display,
+[data-theme="the-red-devil"] #clock-time-display,
+[data-theme="red-devil"] #clock-time-display {
+  color: #C70101 !important;
+  font-family: ui-monospace, SFMono-Regular, "Orbitron", Menlo, Monaco, Consolas, monospace !important;
+  letter-spacing: 0.06em !important;
+  text-shadow: 0 0 12px rgba(199, 1, 1, 0.7), 0 0 24px rgba(199, 1, 1, 0.3) !important;
+}
+
+[data-goat-preset="the-red-devil"] #clock-time-display span,
+[data-goat-preset="red-devil"] #clock-time-display span,
+[data-theme="the-red-devil"] #clock-time-display span,
+[data-theme="red-devil"] #clock-time-display span {
+  color: #FFFFFF !important;
+  text-shadow: 0 0 12px rgba(255, 255, 255, 0.7), 0 0 20px rgba(199, 1, 1, 0.5) !important;
+}
+
+[data-goat-preset="the-red-devil"] #clock-ampm-badge,
+[data-goat-preset="red-devil"] #clock-ampm-badge,
+[data-theme="the-red-devil"] #clock-ampm-badge,
+[data-theme="red-devil"] #clock-ampm-badge {
+  background-color: rgba(199, 1, 1, 0.28) !important;
+  border: 1px solid #C70101 !important;
+  color: #FFFFFF !important;
+  box-shadow: 0 0 12px rgba(199, 1, 1, 0.45) !important;
+  font-family: monospace !important;
+}
+
+[data-goat-preset="the-red-devil"] #desk-clock-label,
+[data-goat-preset="red-devil"] #desk-clock-label,
+[data-theme="the-red-devil"] #desk-clock-label,
+[data-theme="red-devil"] #desk-clock-label {
+  background: linear-gradient(135deg, rgba(199, 1, 1, 0.45) 0%, rgba(20, 22, 27, 0.7) 100%) !important;
+  border: 1px solid #C70101 !important;
+  color: #FFFFFF !important;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+/* 5. Training Sessions (Pomodoro Engine) */
+[data-goat-preset="the-red-devil"] #timer-crt-screen,
+[data-goat-preset="red-devil"] #timer-crt-screen,
+[data-theme="the-red-devil"] #timer-crt-screen,
+[data-theme="red-devil"] #timer-crt-screen {
+  background-color: #050505 !important;
+  border: 2px solid #C70101 !important;
+  border-radius: 16px !important;
+  box-shadow: 
+    0 0 24px rgba(199, 1, 1, 0.45),
+    inset 0 0 32px rgba(5, 5, 5, 0.98) !important;
+  background-image: 
+    radial-gradient(rgba(199, 1, 1, 0.09) 15%, transparent 16%),
+    linear-gradient(rgba(0, 0, 0, 0.5) 50%, rgba(0, 0, 0, 0.8) 50%) !important;
+  background-size: 8px 8px, 100% 4px !important;
+}
+
+[data-goat-preset="the-red-devil"] #timer-countdown-display,
+[data-goat-preset="red-devil"] #timer-countdown-display,
+[data-theme="the-red-devil"] #timer-countdown-display,
+[data-theme="red-devil"] #timer-countdown-display,
+[data-goat-preset="the-red-devil"] #cycle-count-number,
+[data-goat-preset="red-devil"] #cycle-count-number,
+[data-theme="the-red-devil"] #cycle-count-number,
+[data-theme="red-devil"] #cycle-count-number {
+  color: #C70101 !important;
+  font-family: ui-monospace, SFMono-Regular, "Orbitron", Menlo, Monaco, Consolas, monospace !important;
+  letter-spacing: 0.06em !important;
+  text-shadow: 0 0 12px rgba(199, 1, 1, 0.7), 0 0 24px rgba(199, 1, 1, 0.3) !important;
+}
+
+[data-goat-preset="the-red-devil"] #timer-start-btn,
+[data-goat-preset="red-devil"] #timer-start-btn,
+[data-theme="the-red-devil"] #timer-start-btn,
+[data-theme="red-devil"] #timer-start-btn {
+  background: #C70101 !important;
+  color: #FFFFFF !important;
+  font-weight: 900 !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+  box-shadow: 0 4px 14px rgba(199, 1, 1, 0.5) !important;
+}
+
+[data-goat-preset="the-red-devil"] #timer-start-btn:hover,
+[data-goat-preset="red-devil"] #timer-start-btn:hover,
+[data-theme="the-red-devil"] #timer-start-btn:hover,
+[data-theme="red-devil"] #timer-start-btn:hover {
+  transform: translateY(-2px) scale(1.04) !important;
+  background: #FF1E1E !important;
+  box-shadow: 0 6px 22px rgba(255, 30, 30, 0.65) !important;
+}
+
+[data-goat-preset="the-red-devil"] #timer-pause-btn,
+[data-goat-preset="red-devil"] #timer-pause-btn,
+[data-theme="the-red-devil"] #timer-pause-btn,
+[data-theme="red-devil"] #timer-pause-btn {
+  background: #DA291C !important;
+  color: #FFFFFF !important;
+  box-shadow: 0 4px 14px rgba(218, 41, 28, 0.5) !important;
+}
+
+[data-goat-preset="the-red-devil"] #timer-phase-badge,
+[data-goat-preset="red-devil"] #timer-phase-badge,
+[data-theme="the-red-devil"] #timer-phase-badge,
+[data-theme="red-devil"] #timer-phase-badge {
+  background: linear-gradient(135deg, #C70101 0%, #14161B 100%) !important;
+  color: #FFFFFF !important;
+  border: 1px solid rgba(255, 255, 255, 0.35) !important;
+  box-shadow: 0 0 16px rgba(199, 1, 1, 0.5) !important;
+  font-weight: 900 !important;
+  letter-spacing: 0.08em !important;
+}
+
+[data-goat-preset="the-red-devil"] #timer-progress-bar-fill,
+[data-goat-preset="red-devil"] #timer-progress-bar-fill,
+[data-theme="the-red-devil"] #timer-progress-bar-fill,
+[data-theme="red-devil"] #timer-progress-bar-fill,
+[data-goat-preset="the-red-devil"] [role="progressbar"] > div,
+[data-goat-preset="red-devil"] [role="progressbar"] > div,
+[data-theme="the-red-devil"] [role="progressbar"] > div,
+[data-theme="red-devil"] [role="progressbar"] > div {
+  background: linear-gradient(90deg, #050505 0%, #C70101 65%, #FFFFFF 100%) !important;
+  box-shadow: 0 0 12px rgba(199, 1, 1, 0.5) !important;
+}
+
+/* 6. This Season (Calendar & Schedule) */
+[data-goat-preset="the-red-devil"] #calendar-widget-content,
+[data-goat-preset="red-devil"] #calendar-widget-content,
+[data-theme="the-red-devil"] #calendar-widget-content,
+[data-theme="red-devil"] #calendar-widget-content {
+  color: #FFFFFF !important;
+  background-color: #14161B !important;
+}
+
+[data-goat-preset="the-red-devil"] #calendar-widget-content [key*="day-"].scale-105,
+[data-goat-preset="the-red-devil"] #calendar-widget-content div.scale-105,
+[data-goat-preset="red-devil"] #calendar-widget-content [key*="day-"].scale-105,
+[data-goat-preset="red-devil"] #calendar-widget-content div.scale-105,
+[data-theme="the-red-devil"] #calendar-widget-content [key*="day-"].scale-105,
+[data-theme="the-red-devil"] #calendar-widget-content div.scale-105,
+[data-theme="red-devil"] #calendar-widget-content [key*="day-"].scale-105,
+[data-theme="red-devil"] #calendar-widget-content div.scale-105 {
+  background: #C70101 !important;
+  color: #FFFFFF !important;
+  border: 2px solid #FFFFFF !important;
+  box-shadow: 
+    0 0 16px rgba(199, 1, 1, 0.7),
+    0 0 26px rgba(212, 175, 55, 0.45) !important;
+  border-radius: 12px !important;
+  font-weight: 900 !important;
+}
+
+[data-goat-preset="the-red-devil"] #calendar-widget-content div.scale-105 span,
+[data-goat-preset="red-devil"] #calendar-widget-content div.scale-105 span,
+[data-theme="the-red-devil"] #calendar-widget-content div.scale-105 span,
+[data-theme="red-devil"] #calendar-widget-content div.scale-105 span {
+  color: #FFFFFF !important;
+}
+
+/* 7. Mission Board (To-Do List) */
+[data-goat-preset="the-red-devil"] [data-todo-row],
+[data-goat-preset="red-devil"] [data-todo-row],
+[data-theme="the-red-devil"] [data-todo-row],
+[data-theme="red-devil"] [data-todo-row] {
+  background-color: #14161B !important;
+  border-color: #222630 !important;
+  border-left: 3px solid rgba(199, 1, 1, 0.5) !important;
+  color: #FFFFFF !important;
+  transition: all 0.2s ease;
+}
+
+[data-goat-preset="the-red-devil"] [data-todo-row]:hover,
+[data-goat-preset="red-devil"] [data-todo-row]:hover,
+[data-theme="the-red-devil"] [data-todo-row]:hover,
+[data-theme="red-devil"] [data-todo-row]:hover {
+  border-left-color: #FF1E1E !important;
+  border-color: rgba(199, 1, 1, 0.5) !important;
+  background-color: #1E2128 !important;
+}
+
+[data-goat-preset="the-red-devil"] [data-todo-priority="high"],
+[data-goat-preset="the-red-devil"] [data-todo-must-win="true"],
+[data-goat-preset="red-devil"] [data-todo-priority="high"],
+[data-goat-preset="red-devil"] [data-todo-must-win="true"],
+[data-theme="the-red-devil"] [data-todo-priority="high"],
+[data-theme="the-red-devil"] [data-todo-must-win="true"],
+[data-theme="red-devil"] [data-todo-priority="high"],
+[data-theme="red-devil"] [data-todo-must-win="true"] {
+  border-left-color: #C70101 !important;
+  border: 1px solid rgba(199, 1, 1, 0.55) !important;
+  background: linear-gradient(90deg, rgba(199, 1, 1, 0.22) 0%, #14161B 100%) !important;
+}
+
+[data-goat-preset="the-red-devil"] .mission-win-badge,
+[data-goat-preset="red-devil"] .mission-win-badge,
+[data-theme="the-red-devil"] .mission-win-badge,
+[data-theme="red-devil"] .mission-win-badge {
+  background: #D4AF37 !important;
+  border: 1px solid #CA8A04 !important;
+  color: #000000 !important;
+  font-weight: 900 !important;
+  box-shadow: 0 2px 6px rgba(212, 175, 55, 0.35) !important;
+}
+
+/* Card top stadium floodlight Old Trafford United Red & Gold hairline */
+[data-goat-preset="the-red-devil"] [data-widget-id]::before,
+[data-goat-preset="red-devil"] [data-widget-id]::before,
+[data-theme="the-red-devil"] [data-widget-id]::before,
+[data-theme="red-devil"] [data-widget-id]::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 28px;
+  right: 28px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #C70101, #FFFFFF, #D4AF37, transparent) !important;
+  border-radius: 9999px;
+  pointer-events: none;
+  opacity: 0.9 !important;
+}
+
+/* Card hover glow for The Red Devil */
+[data-goat-preset="the-red-devil"] [data-widget-id]:hover,
+[data-goat-preset="red-devil"] [data-widget-id]:hover,
+[data-theme="the-red-devil"] [data-widget-id]:hover,
+[data-theme="red-devil"] [data-widget-id]:hover {
+  border-color: rgba(199, 1, 1, 0.55) !important;
+  box-shadow: 
+    0 16px 45px rgba(11, 12, 14, 0.95),
+    0 0 30px rgba(199, 1, 1, 0.3),
+    inset 0 1px 1px rgba(255, 255, 255, 0.12) !important;
+}
+
+/* ===================================================
+   THE GOAT — PRESET 5: EL BICHO (Real Madrid 2.0 3-Peat)
+   =================================================== */
+[data-theme="el-bicho"],
+[data-goat-preset="el-bicho"] {
+  /* Backgrounds & Cards */
+  --bg-stadium: #101114;        /* 17/18 Away Kit Black Base */
+  --panel-card: #161B26;        /* Bernabéu Night Glass Card */
+  --panel-elevated: #1F2636;    /* Elevated Hover State */
+  --panel-border: #00B8B04D;    /* 30% Aero Reef Glow Border */
+
+  /* Text & Typography */
+  --text-main: #FFFFFF;         /* Fly Emirates Pure White */
+  --text-muted: #A3B8CC;        /* Muted Silver-Blue */
+  --text-subtle: #475569;       /* Secondary Slate Gray */
+
+  /* Accents & Highlights */
+  --primary-accent: #00B8B0;   /* Aero Reef Turquoise */
+  --glow-accent: #00E5FF;      /* Electric Cyan Glow */
+  --secondary-accent: #6B3FA0; /* Champions Purple */
+  --third-accent: #087E83;     /* Distinctive Dark Teal */
+  --gold-trophy: #D4AF37;      /* UCL 3-Peat Gold */
+  --match-red: #EF4444;        /* Priority Red */
+  --pitch-green: #10B981;      /* Success Green */
+
+  /* Matchday Clock Board */
+  --subboard-bg: #0A0E14;       /* Pitch Black Frame */
+  --subboard-led: #00B8B0;      /* Aero Reef Turquoise LED Digits */
+  --subboard-border: #6B3FA0;   /* Champions Purple Border Trim */
+}
+
+/* 1. Header Title Color Fix */
+[data-theme="el-bicho"] .goat-heading,
+[data-theme="el-bicho"] h1.dashboard-title,
+[data-goat-preset="el-bicho"] .goat-heading,
+[data-goat-preset="el-bicho"] h1.dashboard-title {
+  color: #00B8B0 !important;
+  text-shadow: 0 0 12px rgba(0, 184, 176, 0.5) !important;
+}
+
+/* 2. Number 7 Watermark Visibility */
+[data-theme="el-bicho"] .number-7-watermark,
+[data-theme="el-bicho"] .badge-number-7,
+[data-goat-preset="el-bicho"] .number-7-watermark,
+[data-goat-preset="el-bicho"] .badge-number-7 {
+  color: #00E5FF !important;
+  opacity: 0.85 !important;
+  font-weight: 800 !important;
+}
+
+[data-goat-preset="el-bicho"] [data-widget-id]::after,
+[data-theme="el-bicho"] [data-widget-id]::after {
+  color: #00B8B0 !important;
+  opacity: 0.22 !important;
+}
+
+/* 3. Arabic Script — Gold 3D Engraved Vibe */
+[data-theme="el-bicho"] .arabic-text,
+[data-theme="el-bicho"] [lang="ar"],
+[data-theme="el-bicho"] .dua-arabic-script,
+[data-goat-preset="el-bicho"] .arabic-text,
+[data-goat-preset="el-bicho"] [lang="ar"],
+[data-goat-preset="el-bicho"] .dua-arabic-script {
+  color: #D4AF37 !important;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.9), 0 -1px 2px rgba(0, 184, 176, 0.4) !important;
+  font-weight: 600 !important;
+}
+
+/* 4. Matchday Clock (Substitution Board Clock) */
+[data-goat-preset="el-bicho"] #clock-crt-screen,
+[data-theme="el-bicho"] #clock-crt-screen {
+  background-color: #0A0E14 !important;
+  border: 2px solid #00B8B0 !important;
+  border-radius: 16px !important;
+  box-shadow: 
+    0 0 24px rgba(0, 184, 176, 0.45),
+    inset 0 0 32px rgba(10, 14, 20, 0.98),
+    inset 0 1px 0 rgba(107, 63, 160, 0.5) !important;
+  background-image: 
+    radial-gradient(rgba(0, 184, 176, 0.09) 15%, transparent 16%),
+    linear-gradient(rgba(0, 0, 0, 0.5) 50%, rgba(0, 0, 0, 0.8) 50%) !important;
+  background-size: 8px 8px, 100% 4px !important;
+}
+
+[data-goat-preset="el-bicho"] #clock-time-display,
+[data-theme="el-bicho"] #clock-time-display {
+  color: #00B8B0 !important;
+  font-family: ui-monospace, SFMono-Regular, "Orbitron", Menlo, Monaco, Consolas, monospace !important;
+  letter-spacing: 0.06em !important;
+  text-shadow: 0 0 12px rgba(0, 184, 176, 0.7), 0 0 24px rgba(0, 229, 255, 0.4) !important;
+}
+
+[data-goat-preset="el-bicho"] #clock-time-display span,
+[data-theme="el-bicho"] #clock-time-display span {
+  color: #A855F7 !important;
+  text-shadow: 0 0 12px rgba(168, 85, 247, 0.7), 0 0 20px rgba(0, 184, 176, 0.4) !important;
+}
+
+[data-goat-preset="el-bicho"] #clock-ampm-badge,
+[data-theme="el-bicho"] #clock-ampm-badge {
+  background-color: rgba(0, 184, 176, 0.25) !important;
+  border: 1px solid #00B8B0 !important;
+  color: #FFFFFF !important;
+  box-shadow: 0 0 12px rgba(0, 184, 176, 0.4) !important;
+  font-family: monospace !important;
+}
+
+[data-goat-preset="el-bicho"] #desk-clock-label,
+[data-theme="el-bicho"] #desk-clock-label {
+  background: linear-gradient(135deg, rgba(0, 184, 176, 0.45) 0%, rgba(107, 63, 160, 0.45) 100%) !important;
+  border: 1px solid #00B8B0 !important;
+  color: #FFFFFF !important;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+/* 5. Training Sessions (Pomodoro Engine) */
+[data-goat-preset="el-bicho"] #timer-crt-screen,
+[data-theme="el-bicho"] #timer-crt-screen {
+  background-color: #0A0E14 !important;
+  border: 2px solid #00B8B0 !important;
+  border-radius: 16px !important;
+  box-shadow: 
+    0 0 24px rgba(0, 184, 176, 0.45),
+    inset 0 0 32px rgba(10, 14, 20, 0.98) !important;
+  background-image: 
+    radial-gradient(rgba(0, 184, 176, 0.09) 15%, transparent 16%),
+    linear-gradient(rgba(0, 0, 0, 0.5) 50%, rgba(0, 0, 0, 0.8) 50%) !important;
+  background-size: 8px 8px, 100% 4px !important;
+}
+
+[data-goat-preset="el-bicho"] #timer-countdown-display,
+[data-theme="el-bicho"] #timer-countdown-display,
+[data-goat-preset="el-bicho"] #cycle-count-number,
+[data-theme="el-bicho"] #cycle-count-number {
+  color: #00B8B0 !important;
+  font-family: ui-monospace, SFMono-Regular, "Orbitron", Menlo, Monaco, Consolas, monospace !important;
+  letter-spacing: 0.06em !important;
+  text-shadow: 0 0 12px rgba(0, 184, 176, 0.7), 0 0 24px rgba(0, 229, 255, 0.35) !important;
+}
+
+[data-goat-preset="el-bicho"] #timer-start-btn,
+[data-theme="el-bicho"] #timer-start-btn {
+  background: linear-gradient(135deg, #00B8B0 0%, #087E83 100%) !important;
+  color: #FFFFFF !important;
+  font-weight: 900 !important;
+  border: 1px solid rgba(0, 229, 255, 0.4) !important;
+  box-shadow: 0 4px 14px rgba(0, 184, 176, 0.5) !important;
+}
+
+[data-goat-preset="el-bicho"] #timer-start-btn:hover,
+[data-theme="el-bicho"] #timer-start-btn:hover {
+  transform: translateY(-2px) scale(1.04) !important;
+  background: #00E5FF !important;
+  color: #0A0E14 !important;
+  box-shadow: 0 6px 22px rgba(0, 229, 255, 0.7) !important;
+}
+
+[data-goat-preset="el-bicho"] #timer-pause-btn,
+[data-theme="el-bicho"] #timer-pause-btn {
+  background: linear-gradient(135deg, #6B3FA0 0%, #4C1D95 100%) !important;
+  color: #FFFFFF !important;
+  box-shadow: 0 4px 14px rgba(107, 63, 160, 0.5) !important;
+}
+
+[data-goat-preset="el-bicho"] #timer-phase-badge,
+[data-theme="el-bicho"] #timer-phase-badge {
+  background: linear-gradient(135deg, #00B8B0 0%, #6B3FA0 100%) !important;
+  color: #FFFFFF !important;
+  border: 1px solid rgba(0, 229, 255, 0.4) !important;
+  box-shadow: 0 0 16px rgba(0, 184, 176, 0.45) !important;
+  font-weight: 900 !important;
+  letter-spacing: 0.08em !important;
+}
+
+[data-goat-preset="el-bicho"] #timer-progress-bar-fill,
+[data-theme="el-bicho"] #timer-progress-bar-fill,
+[data-goat-preset="el-bicho"] [role="progressbar"] > div,
+[data-theme="el-bicho"] [role="progressbar"] > div {
+  background: linear-gradient(90deg, #0A0E14 0%, #00B8B0 50%, #00E5FF 85%, #6B3FA0 100%) !important;
+  box-shadow: 0 0 14px rgba(0, 184, 176, 0.55) !important;
+}
+
+/* 6. This Season (Calendar & Schedule) */
+[data-goat-preset="el-bicho"] #calendar-widget-content,
+[data-theme="el-bicho"] #calendar-widget-content {
+  color: #FFFFFF !important;
+  background-color: #161B26 !important;
+}
+
+[data-goat-preset="el-bicho"] #calendar-widget-content [key*="day-"].scale-105,
+[data-goat-preset="el-bicho"] #calendar-widget-content div.scale-105,
+[data-theme="el-bicho"] #calendar-widget-content [key*="day-"].scale-105,
+[data-theme="el-bicho"] #calendar-widget-content div.scale-105 {
+  background: #00B8B0 !important;
+  color: #FFFFFF !important;
+  border: 2px solid #00E5FF !important;
+  box-shadow: 
+    0 0 16px rgba(0, 184, 176, 0.7),
+    0 0 24px rgba(212, 175, 55, 0.45) !important;
+  border-radius: 12px !important;
+  font-weight: 900 !important;
+}
+
+[data-goat-preset="el-bicho"] #calendar-widget-content div.scale-105 span,
+[data-theme="el-bicho"] #calendar-widget-content div.scale-105 span {
+  color: #FFFFFF !important;
+}
+
+/* 7. Mission Board (To-Do List) */
+[data-goat-preset="el-bicho"] [data-todo-row],
+[data-theme="el-bicho"] [data-todo-row] {
+  background-color: #161B26 !important;
+  border-color: #222B3D !important;
+  border-left: 3px solid rgba(0, 184, 176, 0.6) !important;
+  color: #FFFFFF !important;
+  transition: all 0.2s ease;
+}
+
+[data-goat-preset="el-bicho"] [data-todo-row]:hover,
+[data-theme="el-bicho"] [data-todo-row]:hover {
+  border-left-color: #00E5FF !important;
+  border-color: rgba(0, 184, 176, 0.5) !important;
+  background-color: #1F2636 !important;
+}
+
+[data-goat-preset="el-bicho"] [data-todo-priority="high"],
+[data-goat-preset="el-bicho"] [data-todo-must-win="true"],
+[data-theme="el-bicho"] [data-todo-priority="high"],
+[data-theme="el-bicho"] [data-todo-must-win="true"] {
+  border-left-color: #00B8B0 !important;
+  border: 1px solid rgba(0, 184, 176, 0.6) !important;
+  background: linear-gradient(90deg, rgba(0, 184, 176, 0.22) 0%, #161B26 100%) !important;
+}
+
+[data-goat-preset="el-bicho"] .mission-win-badge,
+[data-theme="el-bicho"] .mission-win-badge {
+  background: #D4AF37 !important;
+  border: 1px solid #CA8A04 !important;
+  color: #000000 !important;
+  font-weight: 900 !important;
+  box-shadow: 0 2px 6px rgba(212, 175, 55, 0.4) !important;
+}
+
+/* 8. Prayer Timings & Focus Duas for El Bicho */
+[data-goat-preset="el-bicho"] [data-prayer-card],
+[data-theme="el-bicho"] [data-prayer-card] {
+  background-color: #161B26 !important;
+  border-color: rgba(0, 184, 176, 0.25) !important;
+}
+
+[data-goat-preset="el-bicho"] [data-prayer-card][data-active="true"],
+[data-theme="el-bicho"] [data-prayer-card][data-active="true"] {
+  border-color: #00B8B0 !important;
+  box-shadow: 0 0 16px rgba(0, 184, 176, 0.35) !important;
+  background: linear-gradient(135deg, rgba(0, 184, 176, 0.15) 0%, #161B26 100%) !important;
+}
+
+/* 9. Card top stadium floodlight El Bicho Aero Reef, White & Champions Purple hairline */
+[data-goat-preset="el-bicho"] [data-widget-id]::before,
+[data-theme="el-bicho"] [data-widget-id]::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 28px;
+  right: 28px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #00B8B0, #FFFFFF, #6B3FA0, #D4AF37, transparent) !important;
+  border-radius: 9999px;
+  pointer-events: none;
+  opacity: 0.9 !important;
+}
+
+/* Card hover glow for El Bicho */
+[data-goat-preset="el-bicho"] [data-widget-id]:hover,
+[data-theme="el-bicho"] [data-widget-id]:hover {
+  border-color: rgba(0, 184, 176, 0.55) !important;
+  box-shadow: 
+    0 16px 45px rgba(16, 17, 20, 0.95),
+    0 0 30px rgba(0, 184, 176, 0.3),
+    inset 0 1px 1px rgba(255, 255, 255, 0.12) !important;
+}
+
+/* ===================================================
+   THE GOAT — PRESET 6: LE ZEBRE (Juventus Era 2018–2021)
+   =================================================== */
+[data-theme="le-zebre"],
+[data-goat-preset="le-zebre"] {
+  /* Backgrounds & Cards */
+  --bg-stadium: #08080A;        /* Turin Night Black Base */
+  --panel-card: #121216;        /* Bianconeri Matte Black Panel */
+  --panel-elevated: #1C1C22;    /* Elevated Hover State */
+  --panel-border: #D4AF374D;    /* 30% Gold & White Split Border Glow */
+
+  /* Text & Typography */
+  --text-main: #FFFFFF;         /* Stark White */
+  --text-muted: #D1D5DB;        /* Monochrome Silver */
+  --text-subtle: #4B5563;       /* Muted Text / Borders */
+
+  /* Accents & Highlights */
+  --primary-accent: #FFFFFF;   /* Stark White / Bianconeri Highlight */
+  --secondary-accent: #1C1C22; /* Monochrome Dark Slate */
+  --glow-accent: #F2CC63;      /* Champagne Gold Glow */
+  --gold-trophy: #D4AF37;      /* Scudetto Gold */
+  --match-red: #DC2626;        /* Warning / Priority Red */
+  --pitch-green: #10B981;      /* Success Green */
+
+  /* Matchday Clock Board */
+  --subboard-bg: #050507;       /* Electronic Substitution Board Frame */
+  --subboard-led: #FFFFFF;      /* Glowing Stark White LED Digits */
+  --subboard-border: #D4AF37;   /* Scudetto Gold Border Trim */
+}
+
+/* 1. Header Title Color & Halo Glow */
+[data-theme="le-zebre"] .goat-heading,
+[data-theme="le-zebre"] h1.dashboard-title,
+[data-goat-preset="le-zebre"] .goat-heading,
+[data-goat-preset="le-zebre"] h1.dashboard-title {
+  color: #FFFFFF !important;
+  text-shadow: 0 0 12px rgba(255, 255, 255, 0.4), 0 0 24px rgba(212, 175, 55, 0.25) !important;
+  border-bottom: 2px solid rgba(212, 175, 55, 0.4) !important;
+  padding-bottom: 2px !important;
+  display: inline-flex !important;
+}
+
+/* 2. Number 7 Watermark Visibility */
+[data-theme="le-zebre"] .number-7-watermark,
+[data-theme="le-zebre"] .badge-number-7,
+[data-goat-preset="le-zebre"] .number-7-watermark,
+[data-goat-preset="le-zebre"] .badge-number-7 {
+  color: #FFFFFF !important;
+  opacity: 0.9 !important;
+  font-weight: 800 !important;
+}
+
+[data-goat-preset="le-zebre"] [data-widget-id]::after,
+[data-theme="le-zebre"] [data-widget-id]::after {
+  color: #FFFFFF !important;
+  opacity: 0.16 !important;
+}
+
+/* 3. Arabic Script — Scudetto Gold 3D Engraved Vibe */
+[data-theme="le-zebre"] .arabic-text,
+[data-theme="le-zebre"] [lang="ar"],
+[data-theme="le-zebre"] .dua-arabic-script,
+[data-goat-preset="le-zebre"] .arabic-text,
+[data-goat-preset="le-zebre"] [lang="ar"],
+[data-goat-preset="le-zebre"] .dua-arabic-script {
+  color: #D4AF37 !important;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.9), 0 -1px 2px rgba(212, 175, 55, 0.5) !important;
+  font-weight: 600 !important;
+}
+
+/* 4. Matchday Clock (Substitution Board Clock) */
+[data-goat-preset="le-zebre"] #clock-crt-screen,
+[data-theme="le-zebre"] #clock-crt-screen {
+  background-color: #050507 !important;
+  border: 2px solid #D4AF37 !important;
+  border-radius: 16px !important;
+  box-shadow: 
+    0 0 24px rgba(212, 175, 55, 0.35),
+    inset 0 0 32px rgba(5, 5, 7, 0.98),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
+  background-image: 
+    radial-gradient(rgba(212, 175, 55, 0.08) 15%, transparent 16%),
+    linear-gradient(rgba(0, 0, 0, 0.6) 50%, rgba(0, 0, 0, 0.85) 50%) !important;
+  background-size: 8px 8px, 100% 4px !important;
+}
+
+[data-goat-preset="le-zebre"] #clock-time-display,
+[data-theme="le-zebre"] #clock-time-display {
+  color: #FFFFFF !important;
+  font-family: ui-monospace, SFMono-Regular, "Orbitron", Menlo, Monaco, Consolas, monospace !important;
+  letter-spacing: 0.06em !important;
+  text-shadow: 0 0 12px rgba(255, 255, 255, 0.7), 0 0 24px rgba(212, 175, 55, 0.35) !important;
+}
+
+[data-goat-preset="le-zebre"] #clock-time-display span,
+[data-theme="le-zebre"] #clock-time-display span {
+  color: #F2CC63 !important;
+  text-shadow: 0 0 12px rgba(242, 204, 99, 0.7), 0 0 20px rgba(255, 255, 255, 0.4) !important;
+}
+
+[data-goat-preset="le-zebre"] #clock-ampm-badge,
+[data-theme="le-zebre"] #clock-ampm-badge {
+  background-color: rgba(212, 175, 55, 0.2) !important;
+  border: 1px solid #D4AF37 !important;
+  color: #F2CC63 !important;
+  box-shadow: 0 0 12px rgba(212, 175, 55, 0.35) !important;
+  font-family: monospace !important;
+}
+
+[data-goat-preset="le-zebre"] #desk-clock-label,
+[data-theme="le-zebre"] #desk-clock-label {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(212, 175, 55, 0.35) 100%) !important;
+  border: 1px solid #D4AF37 !important;
+  color: #FFFFFF !important;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+/* 5. Training Sessions (Pomodoro Engine) */
+[data-goat-preset="le-zebre"] #timer-crt-screen,
+[data-theme="le-zebre"] #timer-crt-screen {
+  background-color: #050507 !important;
+  border: 2px solid #D4AF37 !important;
+  border-radius: 16px !important;
+  box-shadow: 
+    0 0 24px rgba(212, 175, 55, 0.35),
+    inset 0 0 32px rgba(5, 5, 7, 0.98) !important;
+  background-image: 
+    radial-gradient(rgba(255, 255, 255, 0.08) 15%, transparent 16%),
+    linear-gradient(rgba(0, 0, 0, 0.6) 50%, rgba(0, 0, 0, 0.85) 50%) !important;
+  background-size: 8px 8px, 100% 4px !important;
+}
+
+[data-goat-preset="le-zebre"] #timer-countdown-display,
+[data-theme="le-zebre"] #timer-countdown-display {
+  color: #FFFFFF !important;
+  font-family: ui-monospace, SFMono-Regular, "Orbitron", Menlo, Monaco, Consolas, monospace !important;
+  letter-spacing: 0.06em !important;
+  text-shadow: 0 0 12px rgba(255, 255, 255, 0.75), 0 0 24px rgba(212, 175, 55, 0.35) !important;
+}
+
+[data-goat-preset="le-zebre"] #cycle-count-number,
+[data-theme="le-zebre"] #cycle-count-number {
+  color: #F2CC63 !important;
+  font-family: ui-monospace, SFMono-Regular, "Orbitron", Menlo, Monaco, Consolas, monospace !important;
+  text-shadow: 0 0 10px rgba(242, 204, 99, 0.6) !important;
+}
+
+/* Active Sprint Button: Solid Scudetto Gold (#D4AF37) with bold Deep Black (#08080A) text */
+[data-goat-preset="le-zebre"] #timer-start-btn,
+[data-theme="le-zebre"] #timer-start-btn {
+  background: linear-gradient(135deg, #D4AF37 0%, #F2CC63 100%) !important;
+  color: #08080A !important;
+  font-weight: 900 !important;
+  border: 1px solid #FFFFFF !important;
+  box-shadow: 0 4px 14px rgba(212, 175, 55, 0.5) !important;
+}
+
+[data-goat-preset="le-zebre"] #timer-start-btn:hover,
+[data-theme="le-zebre"] #timer-start-btn:hover {
+  transform: translateY(-2px) scale(1.04) !important;
+  background: #FFFFFF !important;
+  color: #08080A !important;
+  box-shadow: 0 6px 22px rgba(255, 255, 255, 0.7) !important;
+}
+
+[data-goat-preset="le-zebre"] #timer-pause-btn,
+[data-theme="le-zebre"] #timer-pause-btn {
+  background: #1C1C22 !important;
+  color: #FFFFFF !important;
+  border: 1px solid #D4AF37 !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.6) !important;
+}
+
+[data-goat-preset="le-zebre"] #timer-phase-badge,
+[data-theme="le-zebre"] #timer-phase-badge {
+  background: linear-gradient(135deg, #121216 0%, #1C1C22 50%, #D4AF37 100%) !important;
+  color: #FFFFFF !important;
+  border: 1px solid #D4AF37 !important;
+  box-shadow: 0 0 16px rgba(212, 175, 55, 0.35) !important;
+  font-weight: 900 !important;
+  letter-spacing: 0.08em !important;
+}
+
+[data-goat-preset="le-zebre"] #timer-progress-bar-fill,
+[data-theme="le-zebre"] #timer-progress-bar-fill,
+[data-goat-preset="le-zebre"] [role="progressbar"] > div,
+[data-theme="le-zebre"] [role="progressbar"] > div {
+  background: linear-gradient(90deg, #121216 0%, #FFFFFF 50%, #F2CC63 85%, #D4AF37 100%) !important;
+  box-shadow: 0 0 14px rgba(212, 175, 55, 0.55) !important;
+}
+
+/* 6. This Season (Calendar & Schedule) */
+[data-goat-preset="le-zebre"] #calendar-widget-content,
+[data-theme="le-zebre"] #calendar-widget-content {
+  color: #FFFFFF !important;
+  background-color: #121216 !important;
+}
+
+[data-goat-preset="le-zebre"] #calendar-widget-content [key*="day-"].scale-105,
+[data-goat-preset="le-zebre"] #calendar-widget-content div.scale-105,
+[data-theme="le-zebre"] #calendar-widget-content [key*="day-"].scale-105,
+[data-theme="le-zebre"] #calendar-widget-content div.scale-105 {
+  background: #FFFFFF !important;
+  color: #08080A !important;
+  border: 2px solid #D4AF37 !important;
+  box-shadow: 
+    0 0 16px rgba(212, 175, 55, 0.6),
+    0 0 24px rgba(255, 255, 255, 0.45) !important;
+  border-radius: 12px !important;
+  font-weight: 900 !important;
+}
+
+[data-goat-preset="le-zebre"] #calendar-widget-content div.scale-105 span,
+[data-theme="le-zebre"] #calendar-widget-content div.scale-105 span {
+  color: #08080A !important;
+  font-weight: 900 !important;
+}
+
+/* 7. Tactical Missions (To-Do List Matrix) */
+[data-goat-preset="le-zebre"] [data-todo-row],
+[data-theme="le-zebre"] [data-todo-row] {
+  background-color: #121216 !important;
+  border-color: #1C1C22 !important;
+  border-left: 3px solid rgba(255, 255, 255, 0.6) !important;
+  color: #FFFFFF !important;
+  transition: all 0.2s ease;
+}
+
+[data-goat-preset="le-zebre"] [data-todo-row]:hover,
+[data-theme="le-zebre"] [data-todo-row]:hover {
+  border-left-color: #D4AF37 !important;
+  border-color: rgba(212, 175, 55, 0.45) !important;
+  background-color: #1C1C22 !important;
+}
+
+[data-goat-preset="le-zebre"] [data-todo-priority="high"],
+[data-goat-preset="le-zebre"] [data-todo-must-win="true"],
+[data-theme="le-zebre"] [data-todo-priority="high"],
+[data-theme="le-zebre"] [data-todo-must-win="true"] {
+  border-left-color: #DC2626 !important;
+  border: 1px solid rgba(220, 38, 38, 0.6) !important;
+  background: linear-gradient(90deg, rgba(220, 38, 38, 0.2) 0%, #121216 100%) !important;
+}
+
+/* Checkbox styling */
+[data-goat-preset="le-zebre"] [data-todo-checkbox],
+[data-theme="le-zebre"] [data-todo-checkbox] {
+  border-color: #FFFFFF !important;
+}
+
+[data-goat-preset="le-zebre"] [data-todo-checkbox][data-checked="true"],
+[data-theme="le-zebre"] [data-todo-checkbox][data-checked="true"] {
+  background-color: #D4AF37 !important;
+  border-color: #F2CC63 !important;
+  color: #08080A !important;
+}
+
+/* Mission Win Celebration Banner */
+[data-goat-preset="le-zebre"] .mission-win-badge,
+[data-theme="le-zebre"] .mission-win-badge {
+  background: linear-gradient(135deg, #D4AF37 0%, #F2CC63 100%) !important;
+  border: 1px solid #FFFFFF !important;
+  color: #08080A !important;
+  font-weight: 900 !important;
+  box-shadow: 0 2px 10px rgba(212, 175, 55, 0.5) !important;
+}
+
+/* 8. Prayer Timings & Focus Duas for Le Zebre */
+[data-goat-preset="le-zebre"] [data-prayer-card],
+[data-theme="le-zebre"] [data-prayer-card] {
+  background-color: #121216 !important;
+  border-color: rgba(212, 175, 55, 0.25) !important;
+}
+
+[data-goat-preset="le-zebre"] [data-prayer-card][data-active="true"],
+[data-theme="le-zebre"] [data-prayer-card][data-active="true"] {
+  border-color: #FFFFFF !important;
+  box-shadow: 0 0 16px rgba(212, 175, 55, 0.4) !important;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, #121216 100%) !important;
+}
+
+/* 9. Card top stadium floodlight Le Zebre Bianconeri monochrome & Scudetto gold hairline */
+[data-goat-preset="le-zebre"] [data-widget-id]::before,
+[data-theme="le-zebre"] [data-widget-id]::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 28px;
+  right: 28px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #FFFFFF, #D4AF37, #F2CC63, #FFFFFF, transparent) !important;
+  border-radius: 9999px;
+  pointer-events: none;
+  opacity: 0.9 !important;
+}
+
+/* Card hover glow for Le Zebre */
+[data-goat-preset="le-zebre"] [data-widget-id]:hover,
+[data-theme="le-zebre"] [data-widget-id]:hover {
+  border-color: rgba(212, 175, 55, 0.55) !important;
+  box-shadow: 
+    0 16px 45px rgba(8, 8, 10, 0.95),
+    0 0 30px rgba(212, 175, 55, 0.25),
+    inset 0 1px 1px rgba(255, 255, 255, 0.15) !important;
+}
+
+

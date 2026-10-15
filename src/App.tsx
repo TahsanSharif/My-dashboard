@@ -157,14 +157,21 @@ export default function App() {
   // Apply two independent theme layers to document element (enforcing dark mode for JARVIS & GOAT)
   useEffect(() => {
     const effectiveAppearance =
-      settings.style === 'jarvis' || settings.style === 'goat'
+      settings.style === 'jarvis' || (settings.style === 'goat' && settings.goatPreset !== 'galactico-gold')
         ? 'dark'
+        : settings.style === 'goat' && settings.goatPreset === 'galactico-gold'
+        ? 'light'
         : settings.appearance;
     document.documentElement.setAttribute('data-appearance', effectiveAppearance);
     document.documentElement.setAttribute('data-style', settings.style);
 
     if (settings.style === 'goat') {
-      document.documentElement.setAttribute('data-goat-preset', settings.goatPreset || 'mr-champions-league');
+      const preset = settings.goatPreset || 'mr-champions-league';
+      document.documentElement.setAttribute('data-goat-preset', preset);
+      // Support both red-devil and the-red-devil
+      if (preset === 'red-devil' || preset === 'the-red-devil') {
+        document.documentElement.setAttribute('data-goat-preset', 'the-red-devil');
+      }
     } else {
       document.documentElement.removeAttribute('data-goat-preset');
     }
@@ -173,7 +180,7 @@ export default function App() {
     document.documentElement.setAttribute(
       'data-theme',
       settings.style === 'goat'
-        ? (settings.goatPreset || 'mr-champions-league')
+        ? (settings.goatPreset === 'red-devil' || settings.goatPreset === 'the-red-devil' ? 'the-red-devil' : (settings.goatPreset || 'mr-champions-league'))
         : settings.style === 'cyberdeck'
         ? 'cyberdeck'
         : settings.style === 'cassette'
@@ -284,10 +291,11 @@ export default function App() {
       newStyle === 'galactico-gold' ||
       newStyle === 'selecao-passion' ||
       newStyle === 'red-devil' ||
+      newStyle === 'the-red-devil' ||
       newStyle === 'el-bicho'
     ) {
       actualStyle = 'goat';
-      actualGoatPreset = newStyle as GoatPreset;
+      actualGoatPreset = newStyle === 'the-red-devil' ? 'red-devil' : (newStyle as GoatPreset);
     }
 
     // When switching to JARVIS, Matrix, Watch Dogs, or GOAT, automatically enforce dark appearance for optimal experience

@@ -923,7 +923,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
                     </span>
                   </div>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-5 gap-2">
+                  <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2">
                     {GOAT_PRESETS.map((preset) => {
                       const isSelected = (formData.goatPreset || 'mr-champions-league') === preset.id;
                       return (
