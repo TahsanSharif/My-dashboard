@@ -1,0 +1,4552 @@
+@import "tailwindcss";
+
+@layer base {
+  /* Default / Light Appearance Base Variables */
+  :root {
+    --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+    --font-arabic: 'Amiri', 'Scheherazade New', serif;
+
+    /* Layer 1: Appearance = Light (Surfaces, Contrast, Shadows) */
+    --bg-page: #f8fafc;
+    --bg-card: #ffffff;
+    --bg-card-subtle: #f1f5f9;
+    --border-color: #e2e8f0;
+    --border-highlight: #cbd5e1;
+    --text-primary: #0f172a;
+    --text-secondary: #475569;
+    --text-muted: #94a3b8;
+
+    /* Layer 2: Default Style = Boi (Bluish gradient identity) */
+    --accent: #2563eb;
+    --accent-gradient: linear-gradient(135deg, #2563eb 0%, #0284c7 50%, #06b6d4 100%);
+    --accent-gradient-hover: linear-gradient(135deg, #1d4ed8 0%, #0369a1 50%, #0891b2 100%);
+    --accent-hover: #1d4ed8;
+    --accent-soft: #eff6ff;
+    --accent-text: #1d4ed8;
+    --timer-glow: rgba(37, 99, 235, 0.12);
+    --badge-bg: #e0e7ff;
+    --badge-text: #1e40af;
+    --glow-color: rgba(37, 99, 235, 0.25);
+  }
+
+  /* Layer 1: Dark Appearance Base */
+  :root[data-appearance="dark"],
+  [data-appearance="dark"],
+  [data-theme="dark"] {
+    --bg-page: #0b0f17;
+    --bg-card: #131b26;
+    --bg-card-subtle: #1c2636;
+    --border-color: #243245;
+    --border-highlight: #33445c;
+    --text-primary: #f1f5f9;
+    --text-secondary: #94a3b8;
+    --text-muted: #64748b;
+  }
+
+  /* Layer 2: Boi Style (Bluish aesthetic - Blue, Cyan, Indigo, Deep blue) */
+  :root[data-style="boi"],
+  [data-style="boi"],
+  :root[data-style="boii"],
+  [data-style="boii"] {
+    --accent: #0284c7;
+    --accent-gradient: linear-gradient(135deg, #2563eb 0%, #0284c7 50%, #06b6d4 100%);
+    --accent-gradient-hover: linear-gradient(135deg, #1d4ed8 0%, #0369a1 50%, #0891b2 100%);
+    --accent-hover: #0369a1;
+    --accent-soft: rgba(2, 132, 199, 0.12);
+    --accent-text: #0284c7;
+    --timer-glow: rgba(2, 132, 199, 0.18);
+    --badge-bg: rgba(2, 132, 199, 0.15);
+    --badge-text: #0369a1;
+    --glow-color: rgba(2, 132, 199, 0.28);
+  }
+
+  /* Combination 1: Light + Boi (Clean high-contrast Light UI + crisp blue/cyan gradient) */
+  :root[data-appearance="light"][data-style="boi"],
+  [data-appearance="light"][data-style="boi"],
+  :root[data-appearance="light"][data-style="boii"],
+  [data-appearance="light"][data-style="boii"] {
+    --bg-page: #f0f6fc;
+    --bg-card: #ffffff;
+    --bg-card-subtle: #e8f1fb;
+    --border-color: #cbdcf2;
+    --border-highlight: #93c5fd;
+    --text-primary: #0a192f;
+    --text-secondary: #334e68;
+    --text-muted: #627d98;
+    --accent: #0284c7;
+    --accent-gradient: linear-gradient(135deg, #2563eb 0%, #0284c7 50%, #06b6d4 100%);
+    --accent-hover: #0369a1;
+    --accent-soft: #e0f2fe;
+    --accent-text: #0369a1;
+    --timer-glow: rgba(2, 132, 199, 0.12);
+    --badge-bg: #e0f2fe;
+    --badge-text: #0369a1;
+  }
+
+  /* Combination 2: Dark + Boi (Deep midnight dark UI + neon blue/cyan glowing accents) */
+  :root[data-appearance="dark"][data-style="boi"],
+  [data-appearance="dark"][data-style="boi"],
+  :root[data-appearance="dark"][data-style="boii"],
+  [data-appearance="dark"][data-style="boii"],
+  [data-theme="boii"] {
+    --bg-page: #060b13;
+    --bg-card: #0d1624;
+    --bg-card-subtle: #142136;
+    --border-color: #1e314f;
+    --border-highlight: #0284c7;
+    --text-primary: #f0f6fc;
+    --text-secondary: #94a3b8;
+    --text-muted: #64748b;
+    --accent: #38bdf8;
+    --accent-gradient: linear-gradient(135deg, #3b82f6 0%, #38bdf8 50%, #22d3ee 100%);
+    --accent-hover: #0ea5e9;
+    --accent-soft: rgba(56, 189, 248, 0.14);
+    --accent-text: #38bdf8;
+    --timer-glow: rgba(56, 189, 248, 0.22);
+    --badge-bg: rgba(14, 165, 233, 0.18);
+    --badge-text: #7dd3fc;
+    --glow-color: rgba(56, 189, 248, 0.35);
+  }
+
+  /* Layer 2: Girly Style (Pinkish gradient aesthetic - Pink, Rose, Magenta, Soft Purple) */
+  :root[data-style="girly"],
+  [data-style="girly"] {
+    --accent: #ec4899;
+    --accent-gradient: linear-gradient(135deg, #f43f5e 0%, #ec4899 50%, #a855f7 100%);
+    --accent-gradient-hover: linear-gradient(135deg, #e11d48 0%, #db2777 50%, #9333ea 100%);
+    --accent-hover: #db2777;
+    --accent-soft: rgba(236, 72, 153, 0.12);
+    --accent-text: #db2777;
+    --timer-glow: rgba(236, 72, 153, 0.18);
+    --badge-bg: rgba(236, 72, 153, 0.15);
+    --badge-text: #be185d;
+    --glow-color: rgba(236, 72, 153, 0.3);
+  }
+
+  /* Combination 3: Light + Girly (Light modern cute UI + pinkish/rose/magenta gradients) */
+  :root[data-appearance="light"][data-style="girly"],
+  [data-appearance="light"][data-style="girly"] {
+    --bg-page: #fdf6f9;
+    --bg-card: #ffffff;
+    --bg-card-subtle: #fceef4;
+    --border-color: #fad2e1;
+    --border-highlight: #f472b6;
+    --text-primary: #3b0724;
+    --text-secondary: #701a45;
+    --text-muted: #a2386c;
+    --accent: #ec4899;
+    --accent-gradient: linear-gradient(135deg, #f43f5e 0%, #ec4899 50%, #a855f7 100%);
+    --accent-hover: #db2777;
+    --accent-soft: #fce7f3;
+    --accent-text: #be185d;
+    --timer-glow: rgba(236, 72, 153, 0.16);
+    --badge-bg: #fce7f3;
+    --badge-text: #9d174d;
+  }
+
+  /* Combination 4: Dark + Girly (Dark velvet slate UI + glowing pink/magenta/purple accents) */
+  :root[data-appearance="dark"][data-style="girly"],
+  [data-appearance="dark"][data-style="girly"] {
+    --bg-page: #100a14;
+    --bg-card: #1a101f;
+    --bg-card-subtle: #27182f;
+    --border-color: #3b2144;
+    --border-highlight: #ec4899;
+    --text-primary: #fdf2f8;
+    --text-secondary: #e2b7ce;
+    --text-muted: #a87994;
+    --accent: #f472b6;
+    --accent-gradient: linear-gradient(135deg, #fb7185 0%, #f472b6 50%, #c084fc 100%);
+    --accent-hover: #f43f5e;
+    --accent-soft: rgba(244, 114, 182, 0.16);
+    --accent-text: #f472b6;
+    --timer-glow: rgba(244, 114, 182, 0.22);
+    --badge-text: #fbcfe8;
+    --glow-color: rgba(244, 114, 182, 0.35);
+  }
+
+  /* Layer 2: Cyberdeck / Choom Style (Dark Industrial Workstation Palette) */
+  :root[data-style="cyberdeck"],
+  [data-style="cyberdeck"],
+  :root[data-appearance="light"][data-style="cyberdeck"],
+  [data-appearance="light"][data-style="cyberdeck"],
+  :root[data-appearance="dark"][data-style="cyberdeck"],
+  [data-appearance="dark"][data-style="cyberdeck"],
+  [data-theme="cyberdeck"] {
+    --bg-page: #101214;
+    --bg-card: #20262A;
+    --bg-card-subtle: #191D20;
+    --cyber-elevated: #282E32;
+    --border-color: #41494D;
+    --border-highlight: #FFB547;
+    --text-primary: #E6E5DC;
+    --text-secondary: #929BA0;
+    --text-muted: #6B777D;
+    --accent: #FFB547;
+    --accent-gradient: linear-gradient(135deg, #FFB547 0%, #F59E0B 100%);
+    --accent-gradient-hover: linear-gradient(135deg, #FFA21A 0%, #D97706 100%);
+    --accent-hover: #FFA21A;
+    --accent-soft: rgba(255, 181, 71, 0.14);
+    --accent-text: #FFB547;
+    --timer-glow: rgba(255, 181, 71, 0.22);
+    --badge-bg: rgba(255, 181, 71, 0.16);
+    --badge-text: #FFB547;
+    --glow-color: rgba(255, 181, 71, 0.35);
+    --cyber-green: #8CFF75;
+    --cyber-cyan: #59D5E8;
+    --cyber-red: #FF594F;
+    --timer-study-color: #FFB547;
+    --timer-break-color: #8CFF75;
+    --timer-longbreak-color: #59D5E8;
+  }
+
+  /* Layer 2: Cassette Futurism Style (Vintage Retro-Futuristic Industrial Computer & Dark CRT Screens) */
+  :root[data-style="cassette"],
+  [data-style="cassette"],
+  :root[data-appearance="dark"][data-style="cassette"],
+  [data-appearance="dark"][data-style="cassette"],
+  :root[data-appearance="light"][data-style="cassette"],
+  [data-appearance="light"][data-style="cassette"],
+  [data-theme="cassette"] {
+    --bg-page: #171816;
+    --bg-card: #262823;
+    --bg-card-subtle: #1E201B;
+    --cassette-recessed: #121311;
+    --border-color: #55564A;
+    --border-highlight: #E05A36;
+    --text-primary: #EDE9DE;
+    --text-secondary: #A8A698;
+    --text-muted: #7A7C70;
+    --accent: #E05A36;
+    --accent-gradient: linear-gradient(180deg, #E65A2C 0%, #D84A1E 100%);
+    --accent-gradient-hover: linear-gradient(180deg, #ED6739 0%, #E65A2C 100%);
+    --accent-hover: #C83E15;
+    --accent-soft: rgba(224, 90, 54, 0.16);
+    --accent-text: #FFB94D;
+    --timer-glow: rgba(255, 185, 77, 0.35);
+    --badge-bg: #1A1C18;
+    --badge-text: #D7D0B8;
+    --glow-color: rgba(255, 185, 77, 0.3);
+    --phosphor-green: #A8D989;
+    --phosphor-amber: #FFB94D;
+    --phosphor-cyan: #7C969C;
+    --dusty-blue: #7C969C;
+    --aged-ivory: #D7D0B8;
+    --tape-stripe-red: #E05A36;
+    --tape-stripe-orange: #FFB94D;
+    --tape-stripe-yellow: #3CA58C;
+    --tape-stripe-cream: #EDE9DE;
+    --timer-study-color: #FFB94D;
+    --timer-break-color: #A8D989;
+    --timer-longbreak-color: #7C969C;
+  }
+
+  /* Layer 2: Theme 03 — JARVIS / F.R.I.D.A.Y. Style (Holographic Stark HUD & Arc Cyan Glow) */
+  :root[data-style="jarvis"],
+  [data-style="jarvis"],
+  :root[data-appearance="dark"][data-style="jarvis"],
+  [data-appearance="dark"][data-style="jarvis"],
+  [data-theme="jarvis"] {
+    --bg-page: #040914;
+    --bg-card: rgba(8, 20, 38, 0.88);
+    --bg-card-subtle: rgba(12, 28, 54, 0.75);
+    --jarvis-recessed: #02060e;
+    --border-color: rgba(0, 229, 255, 0.28);
+    --border-highlight: #00E5FF;
+    --text-primary: #F0F9FF;
+    --text-secondary: #7DD3FC;
+    --text-muted: #38BDF8;
+    --accent: #00E5FF;
+    --accent-gradient: linear-gradient(135deg, #00E5FF 0%, #0284C7 50%, #38BDF8 100%);
+    --accent-gradient-hover: linear-gradient(135deg, #38BDF8 0%, #00E5FF 100%);
+    --accent-hover: #38BDF8;
+    --accent-soft: rgba(0, 229, 255, 0.14);
+    --accent-text: #00F0FF;
+    --timer-glow: rgba(0, 240, 255, 0.35);
+    --badge-bg: rgba(0, 229, 255, 0.12);
+    --badge-text: #00F0FF;
+    --glow-color: rgba(0, 229, 255, 0.4);
+    --arc-cyan: #00F0FF;
+    --stark-gold: #FFB800;
+    --friday-coral: #FF4D6D;
+    --hud-green: #00FF9D;
+    --timer-study-color: #00F0FF;
+    --timer-break-color: #FFB800;
+    --timer-longbreak-color: #38BDF8;
+  }
+
+  /* JARVIS operates exclusively as a dark high-tech holographic HUD command center */
+  :root[data-appearance="light"][data-style="jarvis"],
+  [data-appearance="light"][data-style="jarvis"] {
+    --bg-page: #040914;
+    --bg-card: rgba(8, 20, 38, 0.88);
+    --bg-card-subtle: rgba(12, 28, 54, 0.75);
+    --jarvis-recessed: #02060e;
+    --border-color: rgba(0, 229, 255, 0.28);
+    --border-highlight: #00E5FF;
+    --text-primary: #F0F9FF;
+    --text-secondary: #7DD3FC;
+    --text-muted: #38BDF8;
+    --accent: #00E5FF;
+    --accent-gradient: linear-gradient(135deg, #00E5FF 0%, #0284C7 50%, #38BDF8 100%);
+    --accent-gradient-hover: linear-gradient(135deg, #38BDF8 0%, #00E5FF 100%);
+    --accent-hover: #38BDF8;
+    --accent-soft: rgba(0, 229, 255, 0.14);
+    --accent-text: #00F0FF;
+    --timer-glow: rgba(0, 240, 255, 0.35);
+    --badge-bg: rgba(0, 229, 255, 0.12);
+    --badge-text: #00F0FF;
+    --glow-color: rgba(0, 229, 255, 0.4);
+    --arc-cyan: #00F0FF;
+    --stark-gold: #FFB800;
+    --friday-coral: #FF4D6D;
+    --hud-green: #00FF9D;
+    --timer-study-color: #00F0FF;
+    --timer-break-color: #FFB800;
+    --timer-longbreak-color: #38BDF8;
+  }
+
+  /* Layer 2: Theme 08 — OBLIVION / WESTWORLD (The Quiet Perfection of an Advanced Civilization) */
+  :root[data-style="oblivion"],
+  [data-style="oblivion"],
+  :root[data-appearance="light"][data-style="oblivion"],
+  [data-appearance="light"][data-style="oblivion"],
+  :root[data-appearance="dark"][data-style="oblivion"],
+  [data-appearance="dark"][data-style="oblivion"],
+  [data-theme="oblivion"] {
+    --bg-page: #F8FAFC;
+    --bg-card: #FFFFFF;
+    --bg-card-subtle: #F4F6F8;
+    --bg-secondary: #EFF3F6;
+    --border-color: #DDE4EA;
+    --border-highlight: #3E91C9;
+    --text-primary: #19232D;
+    --text-secondary: #697784;
+    --text-muted: #98A4AF;
+    --accent: #3E91C9;
+    --accent-gradient: linear-gradient(135deg, #3E91C9 0%, #79BDEB 100%);
+    --accent-gradient-hover: linear-gradient(135deg, #2D7BB0 0%, #3E91C9 100%);
+    --accent-hover: #2D7BB0;
+    --accent-soft: rgba(62, 145, 201, 0.08);
+    --accent-text: #3E91C9;
+    --timer-glow: rgba(62, 145, 201, 0.08);
+    --badge-bg: #EFF3F6;
+    --badge-text: #19232D;
+    --glow-color: rgba(62, 145, 201, 0.12);
+    --oblivion-blue: #79BDEB;
+    --oblivion-tech-blue: #3E91C9;
+    --oblivion-pale-cyan: #CDEEFF;
+    --oblivion-warning: #D99B45;
+    --oblivion-error: #D85A63;
+    --timer-study-color: #3E91C9;
+    --timer-break-color: #79BDEB;
+    --timer-longbreak-color: #697784;
+    color-scheme: light;
+  }
+
+  /* Layer 2: Theme 04 — ANIME CYBER-GOTHIC (Neon Violet, Crimson, Deep Obsidian Abyss & Anime HUD) */
+  :root[data-style="cybergothic"],
+  [data-style="cybergothic"],
+  :root[data-appearance="dark"][data-style="cybergothic"],
+  [data-appearance="dark"][data-style="cybergothic"],
+  [data-theme="cybergothic"] {
+    --bg-page: #08060d;
+    --bg-card: rgba(18, 14, 28, 0.92);
+    --bg-card-subtle: rgba(28, 20, 44, 0.78);
+    --cybergothic-recessed: #050308;
+    --border-color: rgba(192, 132, 252, 0.28);
+    --border-highlight: #c084fc;
+    --text-primary: #f5f3ff;
+    --text-secondary: #d8b4fe;
+    --text-muted: #9373ab;
+    --accent: #c084fc;
+    --accent-gradient: linear-gradient(135deg, #a855f7 0%, #ec4899 50%, #ff1a53 100%);
+    --accent-gradient-hover: linear-gradient(135deg, #c084fc 0%, #f43f5e 50%, #fb7185 100%);
+    --accent-hover: #f43f5e;
+    --accent-soft: rgba(192, 132, 252, 0.16);
+    --accent-text: #f472b6;
+    --timer-glow: rgba(192, 132, 252, 0.35);
+    --badge-bg: rgba(192, 132, 252, 0.15);
+    --badge-text: #f3e8ff;
+    --glow-color: rgba(192, 132, 252, 0.4);
+    --gothic-crimson: #ff1a53;
+    --gothic-violet: #c084fc;
+    --gothic-cyan: #00f0ff;
+    --gothic-magenta: #f43f5e;
+    --timer-study-color: #c084fc;
+    --timer-break-color: #00f0ff;
+    --timer-longbreak-color: #ff1a53;
+    color-scheme: dark;
+  }
+
+  /* Anime Cyber-Gothic Light Appearance (High-Contrast Cyber-Gothic / Blood Moon Matrix) */
+  :root[data-appearance="light"][data-style="cybergothic"],
+  [data-appearance="light"][data-style="cybergothic"] {
+    --bg-page: #f6f3f9;
+    --bg-card: #ffffff;
+    --bg-card-subtle: #ede8f5;
+    --cybergothic-recessed: #e5def0;
+    --border-color: #d6cae8;
+    --border-highlight: #9333ea;
+    --text-primary: #1e1329;
+    --text-secondary: #654e7d;
+    --text-muted: #8c76a5;
+    --accent: #9333ea;
+    --accent-gradient: linear-gradient(135deg, #9333ea 0%, #db2777 50%, #e11d48 100%);
+    --accent-gradient-hover: linear-gradient(135deg, #a855f7 0%, #f43f5e 100%);
+    --accent-hover: #7e22ce;
+    --accent-soft: rgba(147, 51, 234, 0.12);
+    --accent-text: #9333ea;
+    --timer-glow: rgba(147, 51, 234, 0.2);
+    --badge-bg: rgba(147, 51, 234, 0.1);
+    --badge-text: #6b21a8;
+    --glow-color: rgba(147, 51, 234, 0.25);
+    --gothic-crimson: #e11d48;
+    --gothic-violet: #9333ea;
+    --gothic-cyan: #0284c7;
+    --gothic-magenta: #db2777;
+    --timer-study-color: #9333ea;
+    --timer-break-color: #0284c7;
+    --timer-longbreak-color: #e11d48;
+    color-scheme: light;
+  }
+
+  /* Layer 2: Theme 05 — MATRIX / DIGITAL RAIN (Phosphor Green, Deep Terminal Abyss, Scanlines & Cyber Console) */
+  :root[data-style="matrix"],
+  [data-style="matrix"],
+  :root[data-appearance="dark"][data-style="matrix"],
+  [data-appearance="dark"][data-style="matrix"],
+  [data-theme="matrix"] {
+    --bg-page: #040805;
+    --bg-card: rgba(5, 14, 7, 0.90);
+    --bg-card-subtle: rgba(8, 22, 11, 0.75);
+    --matrix-recessed: #020603;
+    --border-color: rgba(0, 255, 102, 0.32);
+    --border-highlight: #00ff66;
+    --text-primary: #e6ffe6;
+    --text-secondary: #00ff66;
+    --text-muted: #3a7548;
+    --accent: #00ff66;
+    --accent-gradient: linear-gradient(135deg, #00ff66 0%, #00cc55 50%, #008f11 100%);
+    --accent-gradient-hover: linear-gradient(135deg, #33ff88 0%, #00ff66 100%);
+    --accent-hover: #33ff88;
+    --accent-soft: rgba(0, 255, 102, 0.15);
+    --accent-text: #00ff66;
+    --timer-glow: rgba(0, 255, 102, 0.45);
+    --badge-bg: rgba(0, 255, 102, 0.12);
+    --badge-text: #00ff66;
+    --glow-color: rgba(0, 255, 102, 0.5);
+    --matrix-bright: #00ff66;
+    --matrix-dim: #008f11;
+    --matrix-head: #ffffff;
+    --matrix-dark: #020502;
+    --timer-study-color: #00ff66;
+    --timer-break-color: #39ff14;
+    --timer-longbreak-color: #00e5ff;
+    color-scheme: dark;
+  }
+
+  /* Matrix Light Appearance (High-Contrast Cyber-Terminal / Phosphor Green on Pale Terminal Slate) */
+  :root[data-appearance="light"][data-style="matrix"],
+  [data-appearance="light"][data-style="matrix"] {
+    --bg-page: #0d1a10;
+    --bg-card: #08140a;
+    --bg-card-subtle: #0f2413;
+    --matrix-recessed: #050b06;
+    --border-color: rgba(0, 255, 102, 0.45);
+    --border-highlight: #00ff66;
+    --text-primary: #e6ffe6;
+    --text-secondary: #5cff8d;
+    --text-muted: #3d804f;
+    --accent: #00ff66;
+    --accent-gradient: linear-gradient(135deg, #00ff66 0%, #009933 100%);
+    --accent-gradient-hover: linear-gradient(135deg, #33ff88 0%, #00ff66 100%);
+    --accent-hover: #33ff88;
+    --accent-soft: rgba(0, 255, 102, 0.18);
+    --accent-text: #00ff66;
+    --timer-glow: rgba(0, 255, 102, 0.4);
+    --badge-bg: rgba(0, 255, 102, 0.15);
+    --badge-text: #00ff66;
+    --glow-color: rgba(0, 255, 102, 0.45);
+    --matrix-bright: #00ff66;
+    --matrix-dim: #008f11;
+    --matrix-head: #ffffff;
+    --matrix-dark: #040a05;
+    --timer-study-color: #00ff66;
+    --timer-break-color: #39ff14;
+    --timer-longbreak-color: #00e5ff;
+    color-scheme: dark;
+  }
+
+  /* Layer 2: Theme 06 — WATCH DOGS (ctOS Dark Urban Surveillance, Primary Background #090B0F, Signal Orange #FF6B35 & Electric Cyan #00F0FF) */
+  :root[data-style="watchdogs"],
+  [data-style="watchdogs"],
+  :root[data-appearance="dark"][data-style="watchdogs"],
+  [data-appearance="dark"][data-style="watchdogs"],
+  [data-theme="watchdogs"] {
+    --bg-page: #090B0F;
+    --bg-card: rgba(14, 18, 26, 0.94);
+    --bg-card-subtle: rgba(20, 26, 36, 0.88);
+    --watchdogs-recessed: #06080C;
+    --border-color: rgba(255, 107, 53, 0.32);
+    --border-highlight: #FF6B35;
+    --border-cyan: #00F0FF;
+    --border-alert: #FF003C;
+    --text-primary: #F0F4F8;
+    --text-secondary: #00F0FF;
+    --text-muted: #6B7F94;
+    --accent: #FF6B35;
+    --accent-secondary: #00F0FF;
+    --accent-gradient: linear-gradient(135deg, #FF6B35 0%, #D84A1B 100%);
+    --accent-gradient-hover: linear-gradient(135deg, #FF8254 0%, #FF6B35 100%);
+    --accent-hover: #FF8254;
+    --accent-soft: rgba(255, 107, 53, 0.16);
+    --accent-text: #FF6B35;
+    --timer-glow: rgba(255, 107, 53, 0.45);
+    --badge-bg: rgba(0, 240, 255, 0.12);
+    --badge-text: #00F0FF;
+    --glow-color: rgba(255, 107, 53, 0.5);
+    --watchdogs-orange: #FF6B35;
+    --watchdogs-cyan: #00F0FF;
+    --watchdogs-red: #FF003C;
+    --watchdogs-amber: #FFAA00;
+    --timer-study-color: #FF6B35;
+    --timer-break-color: #00F0FF;
+    --timer-longbreak-color: #FFAA00;
+    color-scheme: dark;
+  }
+
+  /* Watch Dogs High-Contrast Clean Surveillance Mode */
+  :root[data-appearance="light"][data-style="watchdogs"],
+  [data-appearance="light"][data-style="watchdogs"] {
+    --bg-page: #090B0F;
+    --bg-card: #0E121A;
+    --bg-card-subtle: #141A24;
+    --watchdogs-recessed: #06080C;
+    --border-color: rgba(255, 107, 53, 0.35);
+    --border-highlight: #FF6B35;
+    --border-cyan: #00F0FF;
+    --border-alert: #FF003C;
+    --text-primary: #F0F4F8;
+    --text-secondary: #00F0FF;
+    --text-muted: #6B7F94;
+    --accent: #FF6B35;
+    --accent-secondary: #00F0FF;
+    --accent-gradient: linear-gradient(135deg, #FF6B35 0%, #D84A1B 100%);
+    --accent-gradient-hover: linear-gradient(135deg, #FF8254 0%, #FF6B35 100%);
+    --accent-hover: #FF8254;
+    --accent-soft: rgba(255, 107, 53, 0.18);
+    --accent-text: #FF6B35;
+    --timer-glow: rgba(255, 107, 53, 0.45);
+    --badge-bg: rgba(0, 240, 255, 0.15);
+    --badge-text: #00F0FF;
+    --glow-color: rgba(255, 107, 53, 0.5);
+    --watchdogs-orange: #FF6B35;
+    --watchdogs-cyan: #00F0FF;
+    --watchdogs-red: #FF003C;
+    --watchdogs-amber: #FFAA00;
+    --timer-study-color: #FF6B35;
+    --timer-break-color: #00F0FF;
+    --timer-longbreak-color: #FFAA00;
+    color-scheme: dark;
+  }
+
+  /* Layer 2: Theme 07 — AERO-FUTURISM / SOLARPUNK (Light: Sunlit Eco-Canopy & Frosted Aerogel Glass) */
+  :root[data-style="solarpunk"],
+  [data-style="solarpunk"],
+  :root[data-style="aerofuturism"],
+  [data-style="aerofuturism"],
+  :root[data-appearance="light"][data-style="solarpunk"],
+  [data-appearance="light"][data-style="solarpunk"],
+  :root[data-appearance="light"][data-style="aerofuturism"],
+  [data-appearance="light"][data-style="aerofuturism"],
+  [data-theme="solarpunk"],
+  [data-theme="aerofuturism"] {
+    --bg-page: #F3F8F5;
+    --bg-card: rgba(255, 255, 255, 0.88);
+    --bg-card-subtle: rgba(236, 253, 245, 0.8);
+    --solarpunk-recessed: rgba(220, 245, 233, 0.65);
+    --border-color: rgba(16, 185, 129, 0.24);
+    --border-highlight: #10B981;
+    --border-gold: #F59E0B;
+    --text-primary: #0A2619;
+    --text-secondary: #047857;
+    --text-muted: #3D6A53;
+    --accent: #10B981;
+    --accent-secondary: #F59E0B;
+    --accent-gradient: linear-gradient(135deg, #10B981 0%, #059669 50%, #F59E0B 100%);
+    --accent-gradient-hover: linear-gradient(135deg, #34D399 0%, #10B981 50%, #FBBF24 100%);
+    --accent-hover: #059669;
+    --accent-soft: rgba(16, 185, 129, 0.12);
+    --accent-text: #065F46;
+    --timer-glow: rgba(16, 185, 129, 0.35);
+    --badge-bg: rgba(16, 185, 129, 0.14);
+    --badge-text: #065F46;
+    --glow-color: rgba(16, 185, 129, 0.38);
+    --solarpunk-emerald: #10B981;
+    --solarpunk-mint: #34D399;
+    --solarpunk-gold: #F59E0B;
+    --solarpunk-amber: #FBBF24;
+    --solarpunk-cyan: #06B6D4;
+    --timer-study-color: #10B981;
+    --timer-break-color: #06B6D4;
+    --timer-longbreak-color: #F59E0B;
+    color-scheme: light;
+  }
+
+  /* Theme 07 — Solarpunk Dark Appearance (Nocturnal Bio-Sanctuary & Bioluminescent Chlorophyll) */
+  :root[data-appearance="dark"][data-style="solarpunk"],
+  [data-appearance="dark"][data-style="solarpunk"],
+  :root[data-appearance="dark"][data-style="aerofuturism"],
+  [data-appearance="dark"][data-style="aerofuturism"] {
+    --bg-page: #081510;
+    --bg-card: rgba(13, 29, 22, 0.88);
+    --bg-card-subtle: rgba(18, 40, 31, 0.82);
+    --solarpunk-recessed: #050E0B;
+    --border-color: rgba(52, 211, 153, 0.28);
+    --border-highlight: #34D399;
+    --border-gold: #FBBF24;
+    --text-primary: #ECFDF5;
+    --text-secondary: #6EE7B7;
+    --text-muted: #5E8C77;
+    --accent: #10B981;
+    --accent-secondary: #F59E0B;
+    --accent-gradient: linear-gradient(135deg, #10B981 0%, #059669 45%, #F59E0B 100%);
+    --accent-gradient-hover: linear-gradient(135deg, #34D399 0%, #10B981 45%, #FBBF24 100%);
+    --accent-hover: #34D399;
+    --accent-soft: rgba(16, 185, 129, 0.22);
+    --accent-text: #6EE7B7;
+    --timer-glow: rgba(52, 211, 153, 0.45);
+    --badge-bg: rgba(16, 185, 129, 0.22);
+    --badge-text: #6EE7B7;
+    --glow-color: rgba(52, 211, 153, 0.45);
+    --solarpunk-emerald: #10B981;
+    --solarpunk-mint: #34D399;
+    --solarpunk-gold: #F59E0B;
+    --solarpunk-amber: #FBBF24;
+    --solarpunk-cyan: #38BDF8;
+    --timer-study-color: #34D399;
+    --timer-break-color: #38BDF8;
+    --timer-longbreak-color: #FBBF24;
+    color-scheme: dark;
+  }
+
+  /* ==========================================================================
+     THEME 09: THE GOAT — CRISTIANO RONALDO PERFORMANCE OPERATING SYSTEM
+     PRESET 1: MR. CHAMPIONS LEAGUE (UEFA European Nights — Default Dark Mode)
+     ========================================================================== */
+  :root[data-style="goat"],
+  [data-style="goat"],
+  :root[data-goat-preset="mr-champions-league"],
+  [data-goat-preset="mr-champions-league"],
+  :root[data-theme="mr-champions-league"],
+  [data-theme="mr-champions-league"],
+  [data-theme="goat"] {
+    /* Backgrounds & Cards */
+    --bg-stadium: #06152E;
+    --panel-card: #0B2042;
+    --panel-elevated: #112A52;
+    --panel-border: rgba(69, 183, 255, 0.2);
+
+    /* Text & Typography */
+    --text-main: #FFFFFF;
+    --text-muted: #D7E3F4;
+    --text-subtle: #4A6385;
+
+    /* Accents & Highlights */
+    --primary-accent: #0757C8;
+    --glow-accent: #45B7FF;
+    --gold-trophy: #D4AF37;
+    --match-red: #C8102E;
+    --pitch-green: #008B45;
+
+    /* Matchday Clock (Substitution Board) */
+    --subboard-bg: #030A17;
+    --subboard-led: #45B7FF;
+    --subboard-border: #0757C8;
+
+    /* Standard Dashboard Tokens Mapping */
+    --bg-page: #06152E;
+    --bg-card: rgba(11, 32, 66, 0.92);
+    --bg-card-subtle: rgba(17, 42, 82, 0.85);
+    --border-color: rgba(69, 183, 255, 0.22);
+    --border-highlight: #45B7FF;
+    --border-gold: #D4AF37;
+    --text-primary: #FFFFFF;
+    --text-secondary: #D7E3F4;
+    --text-muted: #7E9BBF;
+    --accent: #0757C8;
+    --accent-secondary: #45B7FF;
+    --accent-gradient: linear-gradient(135deg, #0757C8 0%, #1A73E8 50%, #45B7FF 100%);
+    --accent-gradient-hover: linear-gradient(135deg, #0968E8 0%, #45B7FF 60%, #D4AF37 100%);
+    --accent-hover: #1A73E8;
+    --accent-soft: rgba(69, 183, 255, 0.16);
+    --accent-text: #45B7FF;
+    --timer-glow: rgba(69, 183, 255, 0.55);
+    --badge-bg: rgba(69, 183, 255, 0.15);
+    --badge-text: #45B7FF;
+    --glow-color: rgba(69, 183, 255, 0.45);
+    --timer-study-color: #0757C8;
+    --timer-break-color: #D7E3F4;
+    --timer-longbreak-color: #D4AF37;
+    color-scheme: dark;
+  }
+
+  /* ===================================================
+     THE GOAT — PRESET 2: GALÁCTICO GOLD (Real Madrid Era)
+     =================================================== */
+  :root[data-goat-preset="galactico-gold"],
+  [data-goat-preset="galactico-gold"],
+  :root[data-theme="galactico-gold"],
+  [data-theme="galactico-gold"] {
+    /* Backgrounds & Clean Light Surfaces */
+    --bg-stadium: #F1F5F9;        /* Platinum Bernabéu Surface */
+    --panel-card: #FFFFFF;        /* Los Blancos Pure White Card */
+    --panel-elevated: #F8FAFC;    /* Elevated Hover State */
+    --panel-border: rgba(213, 180, 106, 0.3);    /* 30% Champagne Gold Glow Border (#D5B46A4D) */
+
+    /* Text & Typography */
+    --text-main: #0F172A;         /* Deep Madrid Navy */
+    --text-muted: #334155;        /* Slate Gray Subtitles */
+    --text-subtle: #64748B;       /* Secondary Muted Gray */
+
+    /* Accents & Highlights */
+    --primary-accent: #D5B46A;    /* Champagne Gold */
+    --glow-accent: #CA8A04;       /* Ballon d'Or Bright Gold */
+    --gold-trophy: #D4AF37;       /* Trophy Gold */
+    --secondary-accent: #173A67;  /* Galáctico Royal Blue */
+    --match-red: #DC2626;         /* Priority Red */
+    --pitch-green: #16A34A;       /* Success Green */
+
+    /* Matchday Clock Board */
+    --subboard-bg: #0F172A;       /* Dark Navy Substitution Frame */
+    --subboard-led: #D5B46A;      /* Champagne Gold LED Digits */
+    --subboard-border: #D5B46A;
+
+    /* Standard Dashboard Tokens Mapping */
+    --bg-page: #F1F5F9;
+    --bg-card: #FFFFFF;
+    --bg-card-subtle: #F8FAFC;
+    --border-color: rgba(213, 180, 106, 0.3);
+    --border-highlight: #CA8A04;
+    --border-gold: #D5B46A;
+    --text-primary: #0F172A;
+    --text-secondary: #334155;
+    --text-muted: #64748B;
+    --accent: #D5B46A;
+    --accent-secondary: #CA8A04;
+    --accent-gradient: linear-gradient(135deg, #173A67 0%, #D5B46A 100%);
+    --accent-gradient-hover: linear-gradient(135deg, #1E4980 0%, #CA8A04 100%);
+    --accent-hover: #CA8A04;
+    --accent-soft: rgba(213, 180, 106, 0.18);
+    --accent-text: #173A67;
+    --timer-glow: rgba(202, 138, 4, 0.4);
+    --badge-bg: rgba(213, 180, 106, 0.16);
+    --badge-text: #0F172A;
+    --glow-color: rgba(202, 138, 4, 0.35);
+    --timer-study-color: #D5B46A;
+    --timer-break-color: #173A67;
+    --timer-longbreak-color: #CA8A04;
+    color-scheme: light;
+  }
+
+  /* PRESET 3: SELEÇÃO PASSION (Portugal Euro 2016 — Crimson & Emerald) */
+  :root[data-goat-preset="selecao-passion"],
+  [data-goat-preset="selecao-passion"],
+  :root[data-theme="selecao-passion"],
+  [data-theme="selecao-passion"] {
+    --bg-stadium: #120608;
+    --panel-card: #1D0A0F;
+    --panel-elevated: #2C0F17;
+    --panel-border: rgba(200, 16, 46, 0.3);
+    --text-main: #FFFFFF;
+    --text-muted: #FFD2D8;
+    --text-subtle: #8F4A57;
+    --primary-accent: #C8102E;
+    --glow-accent: #008B45;
+    --gold-trophy: #FFD700;
+    --match-red: #C8102E;
+    --pitch-green: #008B45;
+    --subboard-bg: #0A0305;
+    --subboard-led: #00FF80;
+    --subboard-border: #C8102E;
+    --bg-page: #120608;
+    --bg-card: rgba(29, 10, 15, 0.92);
+    --bg-card-subtle: rgba(44, 15, 23, 0.85);
+    --border-color: rgba(200, 16, 46, 0.3);
+    --border-highlight: #C8102E;
+    --border-gold: #FFD700;
+    --text-primary: #FFFFFF;
+    --text-secondary: #FFD2D8;
+    --text-muted: #A36975;
+    --accent: #C8102E;
+    --accent-secondary: #008B45;
+    --accent-gradient: linear-gradient(135deg, #C8102E 0%, #8A0018 60%, #008B45 100%);
+    --accent-gradient-hover: linear-gradient(135deg, #E01838 0%, #00A854 100%);
+    --accent-hover: #E01838;
+    --accent-soft: rgba(200, 16, 46, 0.2);
+    --accent-text: #FF6680;
+    --timer-glow: rgba(200, 16, 46, 0.55);
+    --badge-bg: rgba(200, 16, 46, 0.18);
+    --badge-text: #FF8599;
+    --glow-color: rgba(200, 16, 46, 0.45);
+    --timer-study-color: #C8102E;
+    --timer-break-color: #008B45;
+    --timer-longbreak-color: #FFD700;
+    color-scheme: dark;
+  }
+
+  /* PRESET 4: THE RED DEVIL (Manchester United 2007/08 — Aggressive Red & Black) */
+  :root[data-goat-preset="red-devil"],
+  [data-goat-preset="red-devil"],
+  :root[data-theme="red-devil"],
+  [data-theme="red-devil"] {
+    --bg-stadium: #0A0707;
+    --panel-card: #150D0E;
+    --panel-elevated: #221415;
+    --panel-border: rgba(218, 2, 14, 0.28);
+    --text-main: #FFFFFF;
+    --text-muted: #FEE2E2;
+    --text-subtle: #8A4E51;
+    --primary-accent: #DA020E;
+    --glow-accent: #FFE500;
+    --gold-trophy: #FFE500;
+    --match-red: #DA020E;
+    --pitch-green: #10B981;
+    --subboard-bg: #050303;
+    --subboard-led: #FFE500;
+    --subboard-border: #DA020E;
+    --bg-page: #0A0707;
+    --bg-card: rgba(21, 13, 14, 0.94);
+    --bg-card-subtle: rgba(34, 20, 21, 0.88);
+    --border-color: rgba(218, 2, 14, 0.3);
+    --border-highlight: #DA020E;
+    --border-gold: #FFE500;
+    --text-primary: #FFFFFF;
+    --text-secondary: #FEE2E2;
+    --text-muted: #9E6B6E;
+    --accent: #DA020E;
+    --accent-secondary: #FFE500;
+    --accent-gradient: linear-gradient(135deg, #DA020E 0%, #8F0008 55%, #FFE500 100%);
+    --accent-gradient-hover: linear-gradient(135deg, #FF1726 0%, #FFE500 100%);
+    --accent-hover: #FF1726;
+    --accent-soft: rgba(218, 2, 14, 0.2);
+    --accent-text: #FF6670;
+    --timer-glow: rgba(218, 2, 14, 0.55);
+    --badge-bg: rgba(218, 2, 14, 0.18);
+    --badge-text: #FF8088;
+    --glow-color: rgba(218, 2, 14, 0.45);
+    --timer-study-color: #DA020E;
+    --timer-break-color: #FFE500;
+    --timer-longbreak-color: #F59E0B;
+    color-scheme: dark;
+  }
+
+  /* PRESET 5: EL BICHO (Real Madrid 2.0 · 2016–2018 — Peak 3-Peat Aero Reef Turquoise & Purple) */
+  :root[data-goat-preset="el-bicho"],
+  [data-goat-preset="el-bicho"],
+  :root[data-theme="el-bicho"],
+  [data-theme="el-bicho"] {
+    --bg-stadium: #08111C;
+    --panel-card: #0D1C2D;
+    --panel-elevated: #132A42;
+    --panel-border: rgba(0, 229, 255, 0.25);
+    --text-main: #FFFFFF;
+    --text-muted: #CCFBF1;
+    --text-subtle: #4A6B8A;
+    --primary-accent: #00E5FF;
+    --glow-accent: #8B5CF6;
+    --gold-trophy: #FBBF24;
+    --match-red: #EF4444;
+    --pitch-green: #10B981;
+    --subboard-bg: #04090F;
+    --subboard-led: #00E5FF;
+    --subboard-border: #8B5CF6;
+    --bg-page: #08111C;
+    --bg-card: rgba(13, 28, 45, 0.92);
+    --bg-card-subtle: rgba(19, 42, 66, 0.85);
+    --border-color: rgba(0, 229, 255, 0.25);
+    --border-highlight: #00E5FF;
+    --border-gold: #FBBF24;
+    --text-primary: #FFFFFF;
+    --text-secondary: #CCFBF1;
+    --text-muted: #749CBF;
+    --accent: #00E5FF;
+    --accent-secondary: #8B5CF6;
+    --accent-gradient: linear-gradient(135deg, #00E5FF 0%, #0284C7 50%, #8B5CF6 100%);
+    --accent-gradient-hover: linear-gradient(135deg, #38BDF8 0%, #A855F7 100%);
+    --accent-hover: #38BDF8;
+    --accent-soft: rgba(0, 229, 255, 0.18);
+    --accent-text: #00E5FF;
+    --timer-glow: rgba(0, 229, 255, 0.5);
+    --badge-bg: rgba(0, 229, 255, 0.16);
+    --badge-text: #00E5FF;
+    --glow-color: rgba(0, 229, 255, 0.45);
+    --timer-study-color: #00E5FF;
+    --timer-break-color: #8B5CF6;
+    --timer-longbreak-color: #FBBF24;
+    color-scheme: dark;
+  }
+
+  /* Legacy fallback support for single data-theme values */
+  [data-theme="light"] {
+    --bg-page: #f8fafc;
+    --bg-card: #ffffff;
+    --bg-card-subtle: #f1f5f9;
+    --border-color: #e2e8f0;
+    --text-primary: #0f172a;
+    --text-secondary: #475569;
+    --text-muted: #94a3b8;
+  }
+
+  [data-theme="girly"] {
+    --bg-page: #fdf6f9;
+    --bg-card: #ffffff;
+    --bg-card-subtle: #fceef4;
+    --border-color: #fad2e1;
+    --border-highlight: #f472b6;
+    --text-primary: #3b0724;
+    --text-secondary: #701a45;
+    --text-muted: #a2386c;
+    --accent: #ec4899;
+    --accent-gradient: linear-gradient(135deg, #f43f5e 0%, #ec4899 50%, #a855f7 100%);
+    --accent-soft: #fce7f3;
+    --accent-text: #be185d;
+    --timer-glow: rgba(236, 72, 153, 0.16);
+  }
+
+  body {
+    font-family: var(--font-sans);
+    background-color: var(--bg-page);
+    color: var(--text-primary);
+    transition: background-color 0.25s ease, color 0.25s ease;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+.font-mono-numbers {
+  font-family: var(--font-mono);
+  font-feature-settings: "tnum" 1, "zero" 1;
+}
+
+.font-arabic-calligraphy {
+  font-family: var(--font-arabic);
+  direction: rtl;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 9999px;
+}
+
+/* ==========================================================================
+   THEME 01: CYBERDECK / CHOOM — SCOPED WORKSTATION STYLES
+   ========================================================================== */
+
+/* 1. Hardware Workstation Canvas & Tactical Alignment Grid */
+[data-style="cyberdeck"],
+[data-style="cyberdeck"] body,
+[data-style="cyberdeck"] #app-root-container {
+  background-color: #101214 !important;
+  color: #E6E5DC !important;
+  background-image:
+    linear-gradient(to right, rgba(65, 73, 77, 0.16) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(65, 73, 77, 0.16) 1px, transparent 1px) !important;
+  background-size: 28px 28px !important;
+}
+
+/* 2. Hardware Panel Discipline — Minimal 2–5px Tactical Corner Rounding */
+[data-style="cyberdeck"] .rounded-3xl,
+[data-style="cyberdeck"] .rounded-2xl,
+[data-style="cyberdeck"] .rounded-xl {
+  border-radius: 4px !important;
+}
+[data-style="cyberdeck"] .rounded-lg {
+  border-radius: 3px !important;
+}
+[data-style="cyberdeck"] .rounded-md {
+  border-radius: 2px !important;
+}
+[data-style="cyberdeck"] button.rounded-full,
+[data-style="cyberdeck"] a.rounded-full,
+[data-style="cyberdeck"] span.rounded-full,
+[data-style="cyberdeck"] .rounded-full {
+  border-radius: 3px !important;
+}
+
+/* 3. Solid Gunmetal Chassis & Thin Hairline Borders (#41494D) */
+[data-style="cyberdeck"] .shadow-2xl,
+[data-style="cyberdeck"] .shadow-xl,
+[data-style="cyberdeck"] .shadow-lg,
+[data-style="cyberdeck"] .shadow-md,
+[data-style="cyberdeck"] .shadow-sm,
+[data-style="cyberdeck"] .shadow-xs,
+[data-style="cyberdeck"] .shadow-2xs {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.7), 0 0 0 1px #41494D !important;
+}
+
+/* Widget Panels (#20262A) */
+[data-style="cyberdeck"] [id^="desk-card-"] {
+  border: 1px solid #41494D !important;
+  background-color: #20262A !important;
+  border-radius: 4px !important;
+}
+
+/* Widget Headers (#191D20) */
+[data-style="cyberdeck"] [id^="header-drag-zone-"] {
+  border-bottom: 1px solid #41494D !important;
+  background-color: #191D20 !important;
+  color: #E6E5DC !important;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* 4. Top Status Bar Header (Dark Gunmetal #101214) */
+[data-style="cyberdeck"] #main-header {
+  border-bottom: 1px solid #41494D !important;
+  background-color: rgba(16, 18, 20, 0.96) !important;
+  backdrop-filter: blur(8px);
+}
+
+/* 5. Desk Toolbar & Canvas Inset Surface (#191D20) */
+[data-style="cyberdeck"] #desk-canvas-area {
+  background-color: #191D20 !important;
+  border: 1px dashed #41494D !important;
+  border-radius: 4px !important;
+}
+
+/* 6. Precision Numerical Instrument Typography */
+[data-style="cyberdeck"] #clock-time-display,
+[data-style="cyberdeck"] #timer-countdown-display,
+[data-style="cyberdeck"] #mini-prayer-countdown,
+[data-style="cyberdeck"] #next-prayer-countdown,
+[data-style="cyberdeck"] #cycle-count-number,
+[data-style="cyberdeck"] .font-mono-numbers {
+  font-family: var(--font-mono);
+  font-feature-settings: "tnum" 1, "zero" 1;
+  letter-spacing: 0.02em;
+}
+
+/* Clock precision instrument styling */
+[data-style="cyberdeck"] #clock-time-display {
+  color: #E6E5DC !important;
+}
+[data-style="cyberdeck"] #clock-ampm-badge {
+  background-color: #191D20 !important;
+  border: 1px solid #41494D !important;
+  color: #FFB547 !important;
+  font-weight: 800 !important;
+  border-radius: 2px !important;
+}
+
+/* 7. Tactical High-Contrast Action Buttons (Primary Amber #FFB547 with #101214 text) */
+[data-style="cyberdeck"] #timer-start-btn,
+[data-style="cyberdeck"] #timer-pause-btn,
+[data-style="cyberdeck"] #open-widget-manager-btn,
+[data-style="cyberdeck"] #add-todo-btn {
+  background: #FFB547 !important;
+  color: #101214 !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.04em;
+  border-radius: 3px !important;
+  border: 1px solid #FFA21A !important;
+}
+
+[data-style="cyberdeck"] #timer-reset-btn,
+[data-style="cyberdeck"] #timer-skip-btn {
+  background-color: #191D20 !important;
+  border: 1px solid #41494D !important;
+  color: #E6E5DC !important;
+  border-radius: 3px !important;
+}
+
+/* Study Timer Digital Instrument States */
+[data-style="cyberdeck"] #timer-phase-badge {
+  color: #101214 !important;
+  font-weight: 800 !important;
+  border-radius: 2px !important;
+  letter-spacing: 0.05em;
+}
+[data-style="cyberdeck"] [data-phase="study"] #timer-countdown-display {
+  color: #FFB547 !important;
+}
+[data-style="cyberdeck"] [data-phase="shortBreak"] #timer-countdown-display,
+[data-style="cyberdeck"] [data-phase="longBreak"] #timer-countdown-display {
+  color: #8CFF75 !important;
+}
+
+/* 8. Restrained Inset Surfaces for Inputs, Controls & Panels (#191D20) */
+[data-style="cyberdeck"] input,
+[data-style="cyberdeck"] textarea,
+[data-style="cyberdeck"] select {
+  background-color: #191D20 !important;
+  border: 1px solid #41494D !important;
+  color: #E6E5DC !important;
+  border-radius: 3px !important;
+}
+[data-style="cyberdeck"] input:focus,
+[data-style="cyberdeck"] textarea:focus,
+[data-style="cyberdeck"] select:focus {
+  border-color: #FFB547 !important;
+  box-shadow: 0 0 0 1px #FFB547 !important;
+  outline: none !important;
+}
+
+/* 9. Hardware Dialogs & Modals (#20262A with #41494D borders) */
+[data-style="cyberdeck"] #settings-modal-card,
+[data-style="cyberdeck"] #widget-manager-modal,
+[data-style="cyberdeck"] #tab-pinning-card {
+  border-radius: 4px !important;
+  border: 1px solid #41494D !important;
+  background-color: #20262A !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.85) !important;
+}
+
+/* 10. Supporting Sections (Whole Prayer, Dua Cards, Study History) */
+[data-style="cyberdeck"] #whole-prayer-schedule > div,
+[data-style="cyberdeck"] [id^="dua-card-"],
+[data-style="cyberdeck"] #study-history-section > div {
+  background-color: #20262A !important;
+  border: 1px solid #41494D !important;
+  border-radius: 4px !important;
+}
+
+[data-style="cyberdeck"] #next-prayer-banner {
+  background-color: #191D20 !important;
+  border: 1px solid #41494D !important;
+  border-radius: 4px !important;
+}
+
+/* 11. Restrained Mechanical Microinteractions (120–180ms) */
+[data-style="cyberdeck"] button,
+[data-style="cyberdeck"] a,
+[data-style="cyberdeck"] input,
+[data-style="cyberdeck"] select,
+[data-style="cyberdeck"] textarea,
+[data-style="cyberdeck"] [id^="desk-card-"] {
+  transition-duration: 160ms !important;
+}
+
+[data-style="cyberdeck"] ::-webkit-scrollbar-thumb {
+  background: #41494D !important;
+  border-radius: 2px !important;
+}
+[data-style="cyberdeck"] ::-webkit-scrollbar-thumb:hover {
+  background: #FFB547 !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-style="cyberdeck"] * {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ==========================================================================
+   THEME 02: CASSETTE FUTURISM — REFINED RETRO-FUTURISTIC INDUSTRIAL STYLES
+   ========================================================================== */
+
+/* 1. Base Application Canvas & Dark Technical Grid Pattern */
+:root[data-style="cassette"],
+[data-style="cassette"],
+:root[data-style="cassette"] body,
+[data-style="cassette"] body,
+[data-style="cassette"] #app-root-container,
+:root[data-appearance="dark"][data-style="cassette"] #app-root-container,
+:root[data-appearance="light"][data-style="cassette"] #app-root-container,
+[data-appearance="dark"][data-style="cassette"] #app-root-container,
+[data-appearance="light"][data-style="cassette"] #app-root-container {
+  background-color: #171816 !important;
+  background-image:
+    linear-gradient(to right, rgba(85, 86, 74, 0.16) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(85, 86, 74, 0.16) 1px, transparent 1px) !important;
+  background-size: 24px 24px !important;
+  color: #EDE9DE !important;
+}
+
+/* 2. Physical Equipment Housing Discipline — 2px Hardware Corners */
+[data-style="cassette"] .rounded-3xl,
+[data-style="cassette"] .rounded-2xl,
+[data-style="cassette"] .rounded-xl,
+[data-style="cassette"] .rounded-lg,
+[data-style="cassette"] .rounded-md,
+[data-style="cassette"] .rounded-sm,
+[data-style="cassette"] button.rounded-full,
+[data-style="cassette"] a.rounded-full,
+[data-style="cassette"] span.rounded-full,
+[data-style="cassette"] div.rounded-full,
+[data-style="cassette"] .rounded-full {
+  border-radius: 2px !important;
+}
+
+/* 3. Solid Physical Equipment Housings & Tactile #55564A Borders */
+[data-style="cassette"] [id^="desk-card-"],
+[data-style="cassette"] #prayer-widget-card,
+[data-style="cassette"] #cycle-counter-card,
+[data-style="cassette"] #settings-modal-card,
+[data-style="cassette"] #widget-manager-modal,
+[data-style="cassette"] #tab-pinning-card {
+  background-color: #262823 !important;
+  border: 1px solid #55564A !important;
+  border-radius: 2px !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 3px 10px rgba(0, 0, 0, 0.5) !important;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Tactile Milled Equipment Border Accents */
+[data-style="cassette"] .shadow-2xl,
+[data-style="cassette"] .shadow-xl,
+[data-style="cassette"] .shadow-lg,
+[data-style="cassette"] .shadow-md,
+[data-style="cassette"] .shadow-sm,
+[data-style="cassette"] .shadow-xs,
+[data-style="cassette"] .shadow-2xs {
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 2px 6px rgba(0, 0, 0, 0.4) !important;
+}
+
+/* Decorative Analog Tape Stripe Accent on Top of Each Widget Panel */
+[data-style="cassette"] [id^="desk-card-"]::before,
+[data-style="cassette"] #prayer-widget-card::before,
+[data-style="cassette"] #cycle-counter-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #E05A36 0%, #E05A36 33%, #FFB94D 33%, #FFB94D 66%, #3CA58C 66%, #3CA58C 100%);
+  opacity: 0.9;
+  z-index: 10;
+  pointer-events: none;
+}
+
+/* Widget Header Drag Zone (Recessed Silkscreen Equipment Rail) */
+[data-style="cassette"] [id^="header-drag-zone-"] {
+  border-bottom: 1px solid #55564A !important;
+  background-color: #1F211C !important;
+  color: #D7D0B8 !important;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  border-radius: 2px 2px 0 0 !important;
+}
+
+/* 4. Equipment Header & Canvas Inset Surface */
+[data-style="cassette"] #main-header {
+  border-bottom: 1px solid #55564A !important;
+  background-color: #20221D !important;
+  backdrop-filter: blur(8px);
+  position: relative;
+}
+[data-style="cassette"] #main-header::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #E05A36 0%, #FFB94D 50%, #3CA58C 100%);
+  opacity: 0.9;
+  pointer-events: none;
+}
+
+[data-style="cassette"] #desk-canvas-area {
+  background-color: #1C1E1A !important;
+  border: 1px dashed #55564A !important;
+  border-radius: 2px !important;
+}
+
+/* 5. CRT DISPLAY INSET SURFACES (DARK RECESSED CRT SCREENS — FLEX-CENTRIC P-6) */
+[data-style="cassette"] .crt-screen-inset,
+[data-style="cassette"] #clock-crt-screen,
+[data-style="cassette"] #timer-crt-screen,
+[data-style="cassette"] #mini-prayer-crt-screen,
+[data-style="cassette"] #next-prayer-banner,
+[data-style="cassette"] #cycle-crt-screen {
+  background-color: #121311 !important;
+  border: 1px solid #30312A !important;
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.75) !important;
+  border-radius: 2px !important;
+  position: relative !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  box-sizing: border-box !important;
+  height: auto !important;
+  max-height: none !important;
+  overflow: visible !important;
+}
+
+/* Faint Static Horizontal Scanline Pattern Overlay (5%–8% Opacity) */
+[data-style="cassette"] .crt-screen-inset::after,
+[data-style="cassette"] #clock-crt-screen::after,
+[data-style="cassette"] #timer-crt-screen::after,
+[data-style="cassette"] #mini-prayer-crt-screen::after,
+[data-style="cassette"] #next-prayer-banner::after,
+[data-style="cassette"] #cycle-crt-screen::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.4) 0px,
+    rgba(0, 0, 0, 0.4) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  opacity: 0.07;
+  pointer-events: none;
+  z-index: 5;
+  border-radius: 2px;
+}
+
+/* CRT Screen Inset Module Box Ergonomics — Flex-centric layouts with p-6 spacing */
+[data-style="cassette"] #clock-crt-screen {
+  padding: 1.5rem !important; /* p-6 */
+  width: 100% !important;
+  max-width: 540px !important;
+  height: auto !important;
+  max-height: none !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+[data-style="cassette"] #timer-crt-screen {
+  padding: 1.5rem !important; /* p-6 */
+  width: 100% !important;
+  max-width: 580px !important;
+  height: auto !important;
+  max-height: none !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+[data-style="cassette"] #mini-prayer-crt-screen {
+  padding: 1.25rem 1.5rem !important;
+  width: 100% !important;
+  height: auto !important;
+  max-height: none !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+[data-style="cassette"] #next-prayer-banner {
+  padding: 1.5rem !important; /* p-6 */
+  width: 100% !important;
+  height: auto !important;
+  max-height: none !important;
+}
+[data-style="cassette"] #cycle-crt-screen {
+  padding: 1.5rem !important; /* p-6 */
+  width: 100% !important;
+  max-width: 360px !important;
+  height: auto !important;
+  max-height: none !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+/* 6. Digits, Counters & Primary Readout Contrast (CRT Amber & Phosphor Green) */
+[data-style="cassette"] #clock-time-display,
+[data-style="cassette"] #timer-countdown-display,
+[data-style="cassette"] #mini-prayer-countdown,
+[data-style="cassette"] #next-prayer-countdown,
+[data-style="cassette"] #next-prayer-countdown > div,
+[data-style="cassette"] #cycle-count-number,
+[data-style="cassette"] .font-mono-numbers {
+  font-family: var(--font-mono);
+  font-feature-settings: "tnum" 1, "zero" 1;
+  letter-spacing: 0.04em;
+  line-height: 1.15 !important;
+  overflow: visible !important;
+  max-height: none !important;
+}
+
+/* Central Clock: Warm CRT Amber #FFB94D Digits */
+[data-style="cassette"] #clock-time-display {
+  color: #FFB94D !important;
+  text-shadow: 0 0 8px rgba(255, 185, 77, 0.6), 0 0 2px rgba(255, 185, 77, 0.9) !important;
+}
+[data-style="cassette"] #clock-time-display span {
+  color: #FFB94D !important;
+  opacity: 0.85 !important;
+  text-shadow: 0 0 6px rgba(255, 185, 77, 0.5) !important;
+}
+[data-style="cassette"] #clock-ampm-badge {
+  background-color: #1A1C18 !important;
+  border: 1px solid #30312A !important;
+  color: #A8D989 !important;
+  font-weight: 800 !important;
+  border-radius: 2px !important;
+  letter-spacing: 0.06em !important;
+  text-shadow: 0 0 6px rgba(168, 217, 137, 0.6) !important;
+}
+
+/* Pomodoro Focus Timer: Warm CRT Amber (Study) & Phosphor Green (Break) */
+[data-style="cassette"] [data-phase="study"] #timer-countdown-display {
+  color: #FFB94D !important;
+  text-shadow: 0 0 8px rgba(255, 185, 77, 0.65), 0 0 2px rgba(255, 185, 77, 0.9) !important;
+}
+[data-style="cassette"] [data-phase="shortBreak"] #timer-countdown-display,
+[data-style="cassette"] [data-phase="longBreak"] #timer-countdown-display {
+  color: #A8D989 !important;
+  text-shadow: 0 0 8px rgba(168, 217, 137, 0.65), 0 0 2px rgba(168, 217, 137, 0.9) !important;
+}
+[data-style="cassette"] #timer-phase-header {
+  color: #7C969C !important;
+  letter-spacing: 0.12em !important;
+  font-family: var(--font-mono);
+}
+[data-style="cassette"] #study-timer-container [role="progressbar"] {
+  background-color: #181A16 !important;
+  border: 1px solid #30312A !important;
+  border-radius: 2px !important;
+}
+[data-style="cassette"] #study-timer-container [role="progressbar"] > div {
+  border-radius: 1px !important;
+}
+[data-style="cassette"] [data-phase="study"] #study-timer-container [role="progressbar"] > div {
+  background-color: #FFB94D !important;
+  box-shadow: 0 0 6px rgba(255, 185, 77, 0.5) !important;
+}
+[data-style="cassette"] [data-phase="shortBreak"] #study-timer-container [role="progressbar"] > div,
+[data-style="cassette"] [data-phase="longBreak"] #study-timer-container [role="progressbar"] > div {
+  background-color: #A8D989 !important;
+  box-shadow: 0 0 6px rgba(168, 217, 137, 0.5) !important;
+}
+
+/* Upcoming Prayer Countdown: Warm CRT Amber #FFB94D */
+[data-style="cassette"] #mini-prayer-countdown,
+[data-style="cassette"] #next-prayer-countdown,
+[data-style="cassette"] #next-prayer-countdown > div {
+  color: #FFB94D !important;
+  text-shadow: 0 0 8px rgba(255, 185, 77, 0.6), 0 0 2px rgba(255, 185, 77, 0.85) !important;
+}
+[data-style="cassette"] #mini-prayer-name,
+[data-style="cassette"] #next-prayer-name {
+  color: #D7D0B8 !important;
+  letter-spacing: 0.05em !important;
+}
+
+/* Daily Cycle Counter: Phosphor Green #A8D989 Readout */
+[data-style="cassette"] #cycle-count-number {
+  color: #A8D989 !important;
+  text-shadow: 0 0 8px rgba(168, 217, 137, 0.65), 0 0 2px rgba(168, 217, 137, 0.9) !important;
+}
+
+/* 7. Engraved-Style Hardware Labels & Badges */
+[data-style="cassette"] .hardware-engraved-badge,
+[data-style="cassette"] #desk-clock-label,
+[data-style="cassette"] #clock-hardware-badge,
+[data-style="cassette"] #mini-prayer-hardware-badge,
+[data-style="cassette"] #cycle-hardware-badge,
+[data-style="cassette"] #prayer-schedule-upcoming-badge,
+[data-style="cassette"] #timer-phase-badge,
+[data-style="cassette"] span.uppercase.tracking-widest,
+[data-style="cassette"] span.uppercase.tracking-wider {
+  background-color: #1A1C18 !important;
+  border: 1px solid #4B4C40 !important;
+  color: #D7D0B8 !important;
+  border-radius: 2px !important;
+  font-family: var(--font-mono) !important;
+  font-size: 0.6875rem !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.08em !important;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.6) !important;
+}
+[data-style="cassette"] #timer-phase-badge {
+  color: #FFFFFF !important;
+  background-color: #E05A36 !important;
+  border: 1px solid #8F2B10 !important;
+}
+
+/* 8. Chunky Mechanical Buttons & Tactile Rocker Switches */
+[data-style="cassette"] button,
+[data-style="cassette"] .btn {
+  font-family: var(--font-mono), var(--font-sans);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  border-radius: 2px !important;
+  transition: transform 80ms ease, box-shadow 80ms ease, background 120ms ease !important;
+}
+
+/* Action Buttons (Tape Deck Vermillion/Orange #E05A36 / #E65A2C) */
+[data-style="cassette"] #timer-start-btn,
+[data-style="cassette"] #add-todo-btn,
+[data-style="cassette"] #open-widget-manager-btn,
+[data-style="cassette"] .btn-action-vermillion {
+  background: linear-gradient(180deg, #E65A2C 0%, #CE471C 100%) !important;
+  color: #FFFFFF !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.06em !important;
+  border: 1px solid #942C0E !important;
+  border-radius: 2px !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35), 0 2px 0 #5C1A07, 0 3px 6px rgba(0, 0, 0, 0.5) !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6) !important;
+}
+[data-style="cassette"] #timer-start-btn:hover,
+[data-style="cassette"] #add-todo-btn:hover,
+[data-style="cassette"] #open-widget-manager-btn:hover {
+  background: linear-gradient(180deg, #ED6739 0%, #D85023 100%) !important;
+}
+[data-style="cassette"] #timer-start-btn:active,
+[data-style="cassette"] #add-todo-btn:active,
+[data-style="cassette"] #open-widget-manager-btn:active {
+  transform: translateY(2px) !important;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.6), 0 0 0 transparent !important;
+}
+
+/* Warm Signal Amber Button (Pause State) */
+[data-style="cassette"] #timer-pause-btn {
+  background: linear-gradient(180deg, #FFB94D 0%, #E69D2C 100%) !important;
+  color: #121311 !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.06em !important;
+  border: 1px solid #A86D12 !important;
+  border-radius: 2px !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 2px 0 #694105, 0 3px 6px rgba(0, 0, 0, 0.5) !important;
+  text-shadow: none !important;
+}
+[data-style="cassette"] #timer-pause-btn:hover {
+  background: linear-gradient(180deg, #FFC56E 0%, #F0A735 100%) !important;
+}
+[data-style="cassette"] #timer-pause-btn:active {
+  transform: translateY(2px) !important;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.6), 0 0 0 transparent !important;
+}
+
+/* Secondary Transport & Control Buttons (Dark Textured Keys + Aged Ivory Text) */
+[data-style="cassette"] #timer-reset-btn,
+[data-style="cassette"] #timer-skip-btn,
+[data-style="cassette"] #cycle-counter-card button,
+[data-style="cassette"] #calendar-widget-content button,
+[data-style="cassette"] [data-no-drag="true"] button,
+[data-style="cassette"] .btn-secondary-tactile {
+  background: linear-gradient(180deg, #32352E 0%, #252722 100%) !important;
+  border: 1px solid #44473C !important;
+  color: #D7D0B8 !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.05em !important;
+  border-radius: 2px !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12), 0 2px 0 #141512, 0 3px 4px rgba(0, 0, 0, 0.45) !important;
+}
+[data-style="cassette"] #timer-reset-btn:hover,
+[data-style="cassette"] #timer-skip-btn:hover,
+[data-style="cassette"] #cycle-counter-card button:hover,
+[data-style="cassette"] #calendar-widget-content button:hover,
+[data-style="cassette"] [data-no-drag="true"] button:hover {
+  background: linear-gradient(180deg, #3B3E34 0%, #2C2F27 100%) !important;
+  color: #FFFFFF !important;
+}
+[data-style="cassette"] #timer-reset-btn:active,
+[data-style="cassette"] #timer-skip-btn:active,
+[data-style="cassette"] #cycle-counter-card button:active,
+[data-style="cassette"] #calendar-widget-content button:active,
+[data-style="cassette"] [data-no-drag="true"] button:active {
+  transform: translateY(2px) !important;
+  box-shadow: inset 0 2px 3px rgba(0, 0, 0, 0.7), 0 0 0 transparent !important;
+}
+
+/* 9. Recessed Slots for Form Inputs, Selects & Textareas */
+[data-style="cassette"] input,
+[data-style="cassette"] textarea,
+[data-style="cassette"] select {
+  background-color: #141613 !important;
+  border: 1px solid #44473C !important;
+  color: #EDE9DE !important;
+  border-radius: 2px !important;
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.6) !important;
+}
+[data-style="cassette"] input:focus,
+[data-style="cassette"] textarea:focus,
+[data-style="cassette"] select:focus {
+  border-color: #FFB94D !important;
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.6), 0 0 0 1px #FFB94D !important;
+  outline: none !important;
+}
+
+/* 10. Hardware Dialogs & Modals */
+[data-style="cassette"] #settings-modal-card,
+[data-style="cassette"] #widget-manager-modal,
+[data-style="cassette"] #tab-pinning-card {
+  border-radius: 2px !important;
+  border: 1px solid #55564A !important;
+  background-color: #262823 !important;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.85) !important;
+}
+
+/* 11. Supporting Sections (Whole Prayer, Dua Cards, Study History) */
+[data-style="cassette"] #whole-prayer-schedule > div,
+[data-style="cassette"] [id^="dua-card-"],
+[data-style="cassette"] #study-history-section > div {
+  background-color: #262823 !important;
+  border: 1px solid #55564A !important;
+  border-radius: 2px !important;
+  position: relative;
+}
+
+/* 12. Restrained Mechanical Microinteractions (140–180ms) */
+[data-style="cassette"] button,
+[data-style="cassette"] a,
+[data-style="cassette"] input,
+[data-style="cassette"] select,
+[data-style="cassette"] textarea,
+[data-style="cassette"] [id^="desk-card-"] {
+  transition-duration: 160ms !important;
+}
+
+[data-style="cassette"] ::-webkit-scrollbar-thumb {
+  background: var(--border-color) !important;
+  border-radius: 2px !important;
+}
+[data-style="cassette"] ::-webkit-scrollbar-thumb:hover {
+  background: var(--accent) !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-style="cassette"] * {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ==========================================================================
+   THEME 03: JARVIS / F.R.I.D.A.Y. — HOLOGRAPHIC STARK HUD SPECIFICATIONS
+   ========================================================================== */
+
+/* 1. Base Canvas, Background Grid & Typography */
+[data-style="jarvis"],
+[data-style="jarvis"] body,
+[data-style="jarvis"] #app-root-container {
+  background-color: var(--bg-page) !important;
+  color: var(--text-primary) !important;
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  letter-spacing: -0.01em;
+}
+
+[data-style="jarvis"] #desk-canvas-area {
+  background-color: var(--bg-page) !important;
+  background-image: 
+    radial-gradient(circle at 50% 15%, rgba(0, 229, 255, 0.09) 0%, transparent 65%),
+    linear-gradient(rgba(0, 229, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 229, 255, 0.05) 1px, transparent 1px) !important;
+  background-size: 100% 100%, 36px 36px, 36px 36px !important;
+  background-position: center top, -1px -1px, -1px -1px !important;
+}
+
+/* 2. Holographic Card Panels & Stark HUD Enclosures */
+[data-style="jarvis"] [id^="desk-card-"],
+[data-style="jarvis"] #prayer-widget-card,
+[data-style="jarvis"] #cycle-counter-card {
+  background-color: var(--bg-card) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: 14px !important;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.65), 0 0 20px rgba(0, 229, 255, 0.08) !important;
+  position: relative !important;
+  transition: all 180ms ease !important;
+}
+
+[data-style="jarvis"] [id^="desk-card-"]:hover,
+[data-style="jarvis"] #prayer-widget-card:hover,
+[data-style="jarvis"] #cycle-counter-card:hover {
+  border-color: rgba(0, 229, 255, 0.45) !important;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.75), 0 0 25px rgba(0, 229, 255, 0.15) !important;
+}
+
+/* Subtle HUD Corner Reticles */
+[data-style="jarvis"] [id^="desk-card-"]::before,
+[data-style="jarvis"] #prayer-widget-card::before,
+[data-style="jarvis"] #cycle-counter-card::before {
+  content: "";
+  position: absolute;
+  top: -1px;
+  left: -1px;
+  width: 12px;
+  height: 12px;
+  border-top: 2px solid #00E5FF;
+  border-left: 2px solid #00E5FF;
+  border-top-left-radius: 14px;
+  pointer-events: none;
+  z-index: 20;
+}
+
+[data-style="jarvis"] [id^="desk-card-"]::after,
+[data-style="jarvis"] #prayer-widget-card::after,
+[data-style="jarvis"] #cycle-counter-card::after {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  right: -1px;
+  width: 12px;
+  height: 12px;
+  border-bottom: 2px solid #00E5FF;
+  border-right: 2px solid #00E5FF;
+  border-bottom-right-radius: 14px;
+  pointer-events: none;
+  z-index: 20;
+}
+
+/* 3. Drag Headers & Main Navigation Header */
+[data-style="jarvis"] [id^="header-drag-zone-"] {
+  border-bottom: 1px solid rgba(0, 229, 255, 0.22) !important;
+  background: linear-gradient(180deg, rgba(0, 229, 255, 0.07) 0%, transparent 100%) !important;
+}
+
+[data-style="jarvis"] #main-header {
+  background-color: var(--bg-card) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  border-bottom: 1px solid var(--border-color) !important;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.5), 0 0 20px rgba(0, 229, 255, 0.08) !important;
+  position: relative;
+}
+
+[data-style="jarvis"] #main-header::after {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, rgba(0, 229, 255, 0.6) 50%, transparent 100%);
+  pointer-events: none;
+}
+
+/* 4. Holographic HUD Visor / Recessed Screen Displays */
+[data-style="jarvis"] .crt-screen-inset,
+[data-style="jarvis"] #clock-crt-screen,
+[data-style="jarvis"] #timer-crt-screen,
+[data-style="jarvis"] #mini-prayer-crt-screen,
+[data-style="jarvis"] #next-prayer-banner,
+[data-style="jarvis"] #cycle-crt-screen {
+  background: radial-gradient(ellipse at center, rgba(0, 229, 255, 0.09) 0%, rgba(3, 8, 20, 0.96) 80%) !important;
+  border: 1px solid rgba(0, 229, 255, 0.4) !important;
+  border-radius: 12px !important;
+  box-shadow: inset 0 0 20px rgba(0, 229, 255, 0.12), 0 0 15px rgba(0, 229, 255, 0.15) !important;
+  position: relative !important;
+  overflow: visible !important;
+  max-height: none !important;
+  min-height: auto !important;
+  box-sizing: border-box !important;
+}
+
+/* Circular HUD elements: hidden by default, visible in JARVIS theme */
+.jarvis-circular-hud-container {
+  display: none !important;
+}
+
+[data-style="jarvis"] .jarvis-circular-hud-container {
+  display: flex !important;
+}
+
+/* Holographic Grid/Scanline Overlay */
+[data-style="jarvis"] .crt-screen-inset::after,
+[data-style="jarvis"] #clock-crt-screen::after,
+[data-style="jarvis"] #timer-crt-screen::after,
+[data-style="jarvis"] #mini-prayer-crt-screen::after,
+[data-style="jarvis"] #next-prayer-banner::after,
+[data-style="jarvis"] #cycle-crt-screen::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 229, 255, 0.03) 0px,
+    rgba(0, 229, 255, 0.03) 1px,
+    transparent 1px,
+    transparent 4px
+  );
+  opacity: 0.5;
+  pointer-events: none;
+  border-radius: 12px;
+  z-index: 1;
+}
+
+/* 5. Flex-Centric Layouts For Zero-Cropping */
+[data-style="jarvis"] #clock-crt-screen {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 1.25rem 1.5rem !important;
+  width: 100% !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+[data-style="jarvis"] #timer-crt-screen {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 1.25rem 1.5rem !important;
+  width: 100% !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+[data-style="jarvis"] #mini-prayer-crt-screen {
+  display: flex !important;
+  padding: 1rem 1.25rem !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+[data-style="jarvis"] #next-prayer-banner {
+  padding: 0.875rem 1.25rem !important;
+  margin-bottom: 0.75rem !important;
+  width: 100% !important;
+}
+
+[data-style="jarvis"] #cycle-crt-screen {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 1rem 1.5rem !important;
+  width: 100% !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+/* 6. Arc Reactor Glowing Digits & Primary Readouts */
+[data-style="jarvis"] #clock-time-display,
+[data-style="jarvis"] #timer-countdown-display,
+[data-style="jarvis"] #mini-prayer-countdown,
+[data-style="jarvis"] #next-prayer-countdown,
+[data-style="jarvis"] #next-prayer-countdown > div,
+[data-style="jarvis"] #cycle-count-number,
+[data-style="jarvis"] .font-mono-numbers {
+  color: #00F0FF !important;
+  text-shadow: 0 0 10px rgba(0, 240, 255, 0.75), 0 0 20px rgba(0, 240, 255, 0.35) !important;
+  font-family: 'JetBrains Mono', monospace !important;
+  font-feature-settings: "tnum" 1, "zero" 1 !important;
+  line-height: 1.15 !important;
+  overflow: visible !important;
+  max-height: none !important;
+  position: relative !important;
+  z-index: 2 !important;
+}
+
+[data-appearance="light"][data-style="jarvis"] #clock-time-display,
+[data-appearance="light"][data-style="jarvis"] #timer-countdown-display,
+[data-appearance="light"][data-style="jarvis"] #mini-prayer-countdown,
+[data-appearance="light"][data-style="jarvis"] #next-prayer-countdown,
+[data-appearance="light"][data-style="jarvis"] #next-prayer-countdown > div,
+[data-appearance="light"][data-style="jarvis"] #cycle-count-number,
+[data-appearance="light"][data-style="jarvis"] .font-mono-numbers {
+  color: #0284C7 !important;
+  text-shadow: 0 0 8px rgba(2, 132, 199, 0.4) !important;
+}
+
+/* Clock AM/PM Badge */
+[data-style="jarvis"] #clock-ampm-badge {
+  background: rgba(0, 229, 255, 0.15) !important;
+  border: 1px solid rgba(0, 229, 255, 0.4) !important;
+  color: #00F0FF !important;
+  border-radius: 6px !important;
+  font-family: 'JetBrains Mono', monospace !important;
+  font-weight: 800 !important;
+  text-shadow: 0 0 8px rgba(0, 240, 255, 0.6) !important;
+}
+
+/* Study Timer Phase Colors */
+[data-style="jarvis"] [data-phase="study"] #timer-countdown-display {
+  color: #00F0FF !important;
+  text-shadow: 0 0 12px rgba(0, 240, 255, 0.8), 0 0 24px rgba(0, 240, 255, 0.4) !important;
+}
+
+[data-style="jarvis"] [data-phase="shortBreak"] #timer-countdown-display {
+  color: #FFB800 !important;
+  text-shadow: 0 0 12px rgba(255, 184, 0, 0.8), 0 0 24px rgba(255, 184, 0, 0.4) !important;
+}
+
+[data-style="jarvis"] [data-phase="longBreak"] #timer-countdown-display {
+  color: #38BDF8 !important;
+  text-shadow: 0 0 12px rgba(56, 189, 248, 0.8), 0 0 24px rgba(56, 189, 248, 0.4) !important;
+}
+
+/* Phase Header */
+[data-style="jarvis"] #timer-phase-header {
+  font-family: 'JetBrains Mono', monospace !important;
+  letter-spacing: 0.15em !important;
+}
+
+/* HUD Progress Bar */
+[data-style="jarvis"] #study-timer-container [role="progressbar"] {
+  background: rgba(0, 229, 255, 0.12) !important;
+  border: 1px solid rgba(0, 229, 255, 0.3) !important;
+  border-radius: 9999px !important;
+  overflow: hidden !important;
+}
+
+[data-style="jarvis"] #study-timer-container [role="progressbar"] > div {
+  background: linear-gradient(90deg, #00E5FF 0%, #38BDF8 100%) !important;
+  box-shadow: 0 0 12px rgba(0, 229, 255, 0.6) !important;
+  transition: width 300ms ease !important;
+}
+
+[data-style="jarvis"] [data-phase="shortBreak"] #study-timer-container [role="progressbar"] > div {
+  background: linear-gradient(90deg, #FFB800 0%, #F59E0B 100%) !important;
+  box-shadow: 0 0 12px rgba(255, 184, 0, 0.6) !important;
+}
+
+[data-style="jarvis"] [data-phase="longBreak"] #study-timer-container [role="progressbar"] > div {
+  background: linear-gradient(90deg, #38BDF8 0%, #818CF8 100%) !important;
+  box-shadow: 0 0 12px rgba(56, 189, 248, 0.6) !important;
+}
+
+/* 7. Holographic Buttons & Interactive Controls */
+[data-style="jarvis"] button,
+[data-style="jarvis"] .btn {
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif !important;
+  transition: all 180ms ease !important;
+}
+
+/* Primary Action Buttons */
+[data-style="jarvis"] #timer-start-btn,
+[data-style="jarvis"] #add-todo-btn,
+[data-style="jarvis"] #open-widget-manager-btn,
+[data-style="jarvis"] .btn-action-cyan {
+  background: linear-gradient(135deg, rgba(0, 229, 255, 0.25) 0%, rgba(2, 132, 199, 0.35) 100%) !important;
+  border: 1px solid #00E5FF !important;
+  color: #00F0FF !important;
+  box-shadow: 0 0 15px rgba(0, 229, 255, 0.25) !important;
+  border-radius: 10px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.05em !important;
+}
+
+[data-style="jarvis"] #timer-start-btn:hover,
+[data-style="jarvis"] #add-todo-btn:hover,
+[data-style="jarvis"] #open-widget-manager-btn:hover {
+  background: linear-gradient(135deg, rgba(0, 229, 255, 0.4) 0%, rgba(2, 132, 199, 0.5) 100%) !important;
+  box-shadow: 0 0 25px rgba(0, 229, 255, 0.5) !important;
+  transform: translateY(-1px) !important;
+}
+
+[data-style="jarvis"] #timer-start-btn:active,
+[data-style="jarvis"] #add-todo-btn:active,
+[data-style="jarvis"] #open-widget-manager-btn:active {
+  transform: translateY(0px) !important;
+  box-shadow: 0 0 10px rgba(0, 229, 255, 0.3) !important;
+}
+
+/* Pause Button (Stark Gold) */
+[data-style="jarvis"] #timer-pause-btn {
+  background: linear-gradient(135deg, rgba(255, 184, 0, 0.2) 0%, rgba(217, 119, 6, 0.3) 100%) !important;
+  border: 1px solid #FFB800 !important;
+  color: #FFB800 !important;
+  box-shadow: 0 0 15px rgba(255, 184, 0, 0.25) !important;
+  border-radius: 10px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.05em !important;
+}
+
+[data-style="jarvis"] #timer-pause-btn:hover {
+  background: linear-gradient(135deg, rgba(255, 184, 0, 0.35) 0%, rgba(217, 119, 6, 0.45) 100%) !important;
+  box-shadow: 0 0 25px rgba(255, 184, 0, 0.5) !important;
+  transform: translateY(-1px) !important;
+}
+
+[data-style="jarvis"] #timer-pause-btn:active {
+  transform: translateY(0px) !important;
+}
+
+/* Secondary Tactical Buttons */
+[data-style="jarvis"] #timer-reset-btn,
+[data-style="jarvis"] #timer-skip-btn,
+[data-style="jarvis"] #cycle-counter-card button,
+[data-style="jarvis"] #calendar-widget-content button,
+[data-style="jarvis"] [data-no-drag="true"] button {
+  background-color: rgba(6, 18, 36, 0.7) !important;
+  border: 1px solid rgba(0, 229, 255, 0.3) !important;
+  color: #F0F9FF !important;
+  border-radius: 10px !important;
+  transition: all 180ms ease !important;
+}
+
+[data-style="jarvis"] #timer-reset-btn:hover,
+[data-style="jarvis"] #timer-skip-btn:hover,
+[data-style="jarvis"] #cycle-counter-card button:hover,
+[data-style="jarvis"] #calendar-widget-content button:hover,
+[data-style="jarvis"] [data-no-drag="true"] button:hover {
+  background-color: rgba(0, 229, 255, 0.15) !important;
+  border-color: #00E5FF !important;
+  color: #00F0FF !important;
+  box-shadow: 0 0 12px rgba(0, 229, 255, 0.3) !important;
+}
+
+/* 8. Engraved HUD Telemetry Badges */
+[data-style="jarvis"] .hardware-engraved-badge,
+[data-style="jarvis"] #desk-clock-label,
+[data-style="jarvis"] #clock-hardware-badge,
+[data-style="jarvis"] #mini-prayer-hardware-badge,
+[data-style="jarvis"] #cycle-hardware-badge,
+[data-style="jarvis"] #prayer-schedule-upcoming-badge,
+[data-style="jarvis"] #timer-phase-badge,
+[data-style="jarvis"] span.uppercase.tracking-widest,
+[data-style="jarvis"] span.uppercase.tracking-wider {
+  background: rgba(0, 229, 255, 0.1) !important;
+  border: 1px solid rgba(0, 229, 255, 0.35) !important;
+  color: #00F0FF !important;
+  font-family: 'JetBrains Mono', monospace !important;
+  letter-spacing: 0.1em !important;
+  border-radius: 6px !important;
+}
+
+/* 9. Holographic Form Inputs, Selects & Textareas */
+[data-style="jarvis"] input,
+[data-style="jarvis"] textarea,
+[data-style="jarvis"] select {
+  background-color: rgba(4, 14, 30, 0.9) !important;
+  border: 1px solid rgba(0, 229, 255, 0.28) !important;
+  color: #F0F9FF !important;
+  border-radius: 8px !important;
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.5) !important;
+}
+
+[data-style="jarvis"] input:focus,
+[data-style="jarvis"] textarea:focus,
+[data-style="jarvis"] select:focus {
+  border-color: #00E5FF !important;
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.5), 0 0 12px rgba(0, 229, 255, 0.4) !important;
+  outline: none !important;
+}
+
+/* 10. Modals & Dialogs */
+[data-style="jarvis"] #settings-modal-card,
+[data-style="jarvis"] #widget-manager-modal,
+[data-style="jarvis"] #tab-pinning-card {
+  border-radius: 16px !important;
+  border: 1px solid rgba(0, 229, 255, 0.4) !important;
+  background-color: rgba(4, 14, 30, 0.95) !important;
+  backdrop-filter: blur(24px) !important;
+  -webkit-backdrop-filter: blur(24px) !important;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.85), 0 0 30px rgba(0, 229, 255, 0.15) !important;
+}
+
+/* 11. Supporting Content Cards */
+[data-style="jarvis"] #whole-prayer-schedule > div,
+[data-style="jarvis"] [id^="dua-card-"],
+[data-style="jarvis"] #study-history-section > div {
+  background-color: rgba(8, 20, 38, 0.8) !important;
+  border: 1px solid rgba(0, 229, 255, 0.22) !important;
+  border-radius: 10px !important;
+}
+
+/* 12. Microinteractions & Scrollbars */
+[data-style="jarvis"] button,
+[data-style="jarvis"] a,
+[data-style="jarvis"] input,
+[data-style="jarvis"] select,
+[data-style="jarvis"] textarea,
+[data-style="jarvis"] [id^="desk-card-"] {
+  transition-duration: 180ms !important;
+}
+
+[data-style="jarvis"] ::-webkit-scrollbar-thumb {
+  background: rgba(0, 229, 255, 0.35) !important;
+  border-radius: 6px !important;
+}
+
+[data-style="jarvis"] ::-webkit-scrollbar-thumb:hover {
+  background: #00E5FF !important;
+  box-shadow: 0 0 8px #00E5FF !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-style="jarvis"] * {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ==========================================================================
+   THEME 08: OBLIVION / WESTWORLD — THE QUIET PERFECTION OF AN ADVANCED CIVILIZATION
+   ========================================================================== */
+
+/* 1. Base Canvas, Space & Architectural Typography */
+[data-style="oblivion"],
+[data-style="oblivion"] body,
+[data-style="oblivion"] #app-root-container {
+  background-color: #F8FAFC !important;
+  background-image: radial-gradient(circle at 50% 0%, #EFF3F6 0%, #F8FAFC 75%) !important;
+  color: #19232D !important;
+  font-family: 'Inter', 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+  letter-spacing: -0.01em;
+}
+
+/* 2. Background & Grid Refinement: Opacity <= 0.03 (nearly imperceptible) for airy, silent space */
+[data-style="oblivion"] #desk-canvas-area,
+[data-appearance="dark"][data-style="oblivion"] #desk-canvas-area {
+  background-color: #F8FAFC !important;
+  background-image: 
+    linear-gradient(rgba(25, 35, 45, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(25, 35, 45, 0.02) 1px, transparent 1px) !important;
+  background-size: 32px 32px !important;
+  background-position: -1px -1px !important;
+  border: 1px solid #DDE4EA !important;
+  border-radius: 4px !important;
+  box-shadow: none !important;
+}
+
+/* 3. Container De-Boxing & Surfaces (Open architectural layouts with hairline 1px #DDE4EA separators) */
+[data-style="oblivion"] [id^="desk-card-"],
+[data-style="oblivion"] #prayer-widget-card,
+[data-style="oblivion"] #cycle-counter-card {
+  background-color: #FFFFFF !important;
+  border: 1px solid #DDE4EA !important;
+  border-radius: 4px !important;
+  box-shadow: none !important;
+  transition: border-color 150ms ease !important;
+}
+
+[data-style="oblivion"] [id^="desk-card-"]:hover,
+[data-style="oblivion"] #prayer-widget-card:hover,
+[data-style="oblivion"] #cycle-counter-card:hover {
+  border-color: #3E91C9 !important;
+  box-shadow: none !important;
+}
+
+/* Window Drag Headers */
+[data-style="oblivion"] [id^="header-drag-zone-"] {
+  background-color: #FFFFFF !important;
+  border-bottom: 1px solid #DDE4EA !important;
+  border-radius: 3px 3px 0 0 !important;
+  padding: 0.5rem 0.875rem !important;
+}
+
+/* Window Control Headers: rendered as ultra-minimal borderless text actions that only reveal on hover */
+[data-style="oblivion"] .widget-window-controls {
+  opacity: 0;
+  transition: opacity 150ms ease;
+}
+
+[data-style="oblivion"] [id^="desk-card-"]:hover .widget-window-controls {
+  opacity: 1;
+}
+
+[data-style="oblivion"] .widget-window-controls > div,
+[data-style="oblivion"] .widget-window-controls button {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  color: #98A4AF !important;
+  font-family: 'JetBrains Mono', monospace !important;
+  font-size: 11px !important;
+  font-weight: 500 !important;
+  padding: 2px 5px !important;
+  border-radius: 2px !important;
+  letter-spacing: 0.05em !important;
+}
+
+[data-style="oblivion"] .widget-window-controls button:hover {
+  color: #3E91C9 !important;
+  background: rgba(62, 145, 201, 0.06) !important;
+}
+
+/* Header & Architectural Navigation Strip */
+[data-style="oblivion"] #main-header {
+  background-color: #FFFFFF !important;
+  border-bottom: 1px solid #DDE4EA !important;
+  box-shadow: none !important;
+}
+
+/* Typography Hierarchy: Page Titles (28-40px), Section Headers (14-18px) */
+[data-style="oblivion"] #brand-title {
+  font-family: 'Inter', 'Manrope', -apple-system, sans-serif !important;
+  font-size: 28px !important;
+  font-weight: 400 !important;
+  letter-spacing: 0.06em !important;
+  color: #19232D !important;
+}
+
+[data-style="oblivion"] #brand-title span:last-child {
+  background: #EFF3F6 !important;
+  border: 1px solid #DDE4EA !important;
+  color: #3E91C9 !important;
+  font-family: 'JetBrains Mono', monospace !important;
+  font-weight: 500 !important;
+  font-size: 11px !important;
+  border-radius: 2px !important;
+  box-shadow: none !important;
+  letter-spacing: 0.06em !important;
+}
+
+[data-style="oblivion"] #brand-subtitle {
+  color: #697784 !important;
+  font-family: 'JetBrains Mono', monospace !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.12em !important;
+  font-size: 11px !important;
+}
+
+[data-style="oblivion"] #header-instagram-link,
+[data-style="oblivion"] #header-youtube-link {
+  background-color: #FFFFFF !important;
+  border: 1px solid #DDE4EA !important;
+  border-radius: 2px !important;
+  color: #697784 !important;
+  box-shadow: none !important;
+  font-family: 'JetBrains Mono', monospace !important;
+}
+
+[data-style="oblivion"] #header-instagram-link:hover,
+[data-style="oblivion"] #header-youtube-link:hover {
+  background-color: #F4F6F8 !important;
+  border-color: #3E91C9 !important;
+  color: #19232D !important;
+}
+
+/* 4. Complete Removal of CRT boxes & Inner Shadow Enclosures */
+[data-style="oblivion"] .crt-screen-inset,
+[data-style="oblivion"] #clock-crt-screen,
+[data-style="oblivion"] #timer-crt-screen,
+[data-style="oblivion"] #mini-prayer-crt-screen,
+[data-style="oblivion"] #next-prayer-banner,
+[data-style="oblivion"] #cycle-crt-screen {
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  margin: 0.25rem 0 !important;
+}
+
+/* Completely suppress CRT scanline overlays and circular HUDs in Oblivion */
+[data-style="oblivion"] .crt-screen-inset::after,
+[data-style="oblivion"] #clock-crt-screen::after,
+[data-style="oblivion"] #timer-crt-screen::after,
+[data-style="oblivion"] #mini-prayer-crt-screen::after,
+[data-style="oblivion"] #next-prayer-banner::after,
+[data-style="oblivion"] #cycle-crt-screen::after,
+[data-style="oblivion"] .jarvis-circular-hud-container {
+  display: none !important;
+}
+
+/* 5. Typography & Numerical Readouts: Metrics sit directly on open canvas */
+[data-style="oblivion"] #clock-time-display {
+  color: #19232D !important;
+  font-weight: 300 !important;
+  letter-spacing: -0.03em !important;
+  font-family: 'Inter', 'Manrope', -apple-system, sans-serif !important;
+}
+
+[data-style="oblivion"] #clock-time-display span {
+  color: #3E91C9 !important;
+  font-weight: 300 !important;
+  opacity: 1 !important;
+}
+
+[data-style="oblivion"] #timer-countdown-display {
+  color: #19232D !important;
+  font-weight: 300 !important;
+  letter-spacing: -0.03em !important;
+  font-family: 'Inter', 'Manrope', -apple-system, sans-serif !important;
+}
+
+[data-style="oblivion"] #mini-prayer-countdown {
+  color: #19232D !important;
+  font-weight: 300 !important;
+  letter-spacing: -0.02em !important;
+  font-family: 'JetBrains Mono', monospace !important;
+}
+
+[data-style="oblivion"] #timer-phase-header {
+  color: #697784 !important;
+  font-family: 'JetBrains Mono', monospace !important;
+  font-size: 11px !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.12em !important;
+}
+
+[data-style="oblivion"] #mini-prayer-name {
+  color: #19232D !important;
+  font-family: 'Inter', 'Manrope', sans-serif !important;
+  font-size: 16px !important;
+  font-weight: 500 !important;
+}
+
+[data-style="oblivion"] #mini-prayer-time-remaining {
+  color: #3E91C9 !important;
+  font-weight: 500 !important;
+  font-family: 'JetBrains Mono', monospace !important;
+}
+
+/* 6. Sharp Clean Rectangular Micro-Labels (11-12px monospaced typography, thin 1px #DDE4EA border) */
+[data-style="oblivion"] .hardware-engraved-badge,
+[data-style="oblivion"] #desk-clock-label,
+[data-style="oblivion"] #timer-phase-badge,
+[data-style="oblivion"] #mini-prayer-hardware-badge,
+[data-style="oblivion"] #music-live-badge,
+[data-style="oblivion"] #clock-ampm-badge,
+[data-style="oblivion"] #location-indicator-badge {
+  background-color: #F4F6F8 !important;
+  border: 1px solid #DDE4EA !important;
+  color: #697784 !important;
+  border-radius: 2px !important;
+  font-family: 'JetBrains Mono', monospace !important;
+  font-size: 11px !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.06em !important;
+  box-shadow: none !important;
+  padding: 2px 6px !important;
+}
+
+[data-style="oblivion"] #clock-ampm-badge {
+  color: #3E91C9 !important;
+  font-weight: 600 !important;
+}
+
+[data-style="oblivion"] #clock-date-display {
+  color: #697784 !important;
+  font-family: 'JetBrains Mono', monospace !important;
+  font-weight: 400 !important;
+  font-size: 12px !important;
+}
+
+[data-style="oblivion"] #clock-location-display {
+  color: #98A4AF !important;
+  font-family: 'JetBrains Mono', monospace !important;
+  font-weight: 400 !important;
+  font-size: 11px !important;
+}
+
+/* Music Mode Switcher Rectangular Micro-Labels */
+[data-style="oblivion"] #music-mode-toggle {
+  background-color: #FFFFFF !important;
+  border: 1px solid #DDE4EA !important;
+  border-radius: 2px !important;
+  box-shadow: none !important;
+  padding: 2px !important;
+}
+
+[data-style="oblivion"] #music-mode-toggle button {
+  border-radius: 2px !important;
+  font-family: 'JetBrains Mono', monospace !important;
+  font-size: 11px !important;
+  font-weight: 500 !important;
+  border: 1px solid transparent !important;
+  box-shadow: none !important;
+  padding: 4px 8px !important;
+}
+
+[data-style="oblivion"] #music-mode-toggle button[style*="gradient"] {
+  background: #F4F6F8 !important;
+  border-color: #3E91C9 !important;
+  color: #3E91C9 !important;
+}
+
+[data-style="oblivion"] #music-mode-toggle button:not([style*="gradient"]) {
+  color: #697784 !important;
+  background: transparent !important;
+}
+
+[data-style="oblivion"] #music-mode-toggle button:hover {
+  color: #19232D !important;
+}
+
+/* 7. Flat Architectural Action Buttons: START, RESET, PAUSE, SKIP, ADD (clean #DDE4EA borders, #3E91C9 accent) */
+[data-style="oblivion"] #timer-start-btn {
+  background: #3E91C9 !important;
+  color: #FFFFFF !important;
+  border: 1px solid #3E91C9 !important;
+  border-radius: 2px !important;
+  font-family: 'JetBrains Mono', monospace !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.08em !important;
+  padding: 8px 20px !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+[data-style="oblivion"] #timer-start-btn:hover {
+  background: #2D7BB0 !important;
+  border-color: #2D7BB0 !important;
+  transform: none !important;
+}
+
+[data-style="oblivion"] #timer-pause-btn {
+  background: #D99B45 !important;
+  color: #FFFFFF !important;
+  border: 1px solid #D99B45 !important;
+  border-radius: 2px !important;
+  font-family: 'JetBrains Mono', monospace !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.08em !important;
+  padding: 8px 20px !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+[data-style="oblivion"] #timer-reset-btn,
+[data-style="oblivion"] #timer-skip-btn {
+  background-color: #FFFFFF !important;
+  border: 1px solid #DDE4EA !important;
+  color: #19232D !important;
+  border-radius: 2px !important;
+  font-family: 'JetBrains Mono', monospace !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.08em !important;
+  padding: 8px 16px !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+[data-style="oblivion"] #timer-reset-btn:hover,
+[data-style="oblivion"] #timer-skip-btn:hover {
+  background-color: #F4F6F8 !important;
+  border-color: #3E91C9 !important;
+  color: #3E91C9 !important;
+  transform: none !important;
+}
+
+[data-style="oblivion"] #open-widget-manager-btn,
+[data-style="oblivion"] #add-todo-btn {
+  background: #3E91C9 !important;
+  color: #FFFFFF !important;
+  border: 1px solid #3E91C9 !important;
+  border-radius: 2px !important;
+  font-family: 'JetBrains Mono', monospace !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.06em !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+[data-style="oblivion"] #open-widget-manager-btn:hover,
+[data-style="oblivion"] #add-todo-btn:hover {
+  background: #2D7BB0 !important;
+  border-color: #2D7BB0 !important;
+  transform: none !important;
+}
+
+/* Music Play/Pause Button in Oblivion: architectural rectangle */
+[data-style="oblivion"] #music-widget-container button[aria-label*="music"] {
+  border-radius: 2px !important;
+  background: #3E91C9 !important;
+  border: 1px solid #3E91C9 !important;
+  box-shadow: none !important;
+  width: 34px !important;
+  height: 34px !important;
+  transform: none !important;
+}
+
+[data-style="oblivion"] #music-widget-container button[aria-label*="music"]:hover {
+  background: #2D7BB0 !important;
+  border-color: #2D7BB0 !important;
+  transform: none !important;
+}
+
+/* Layout Switcher & Theme Control Groups */
+[data-style="oblivion"] #layout-mode-toggle-group,
+[data-style="oblivion"] #theme-switcher-container,
+[data-style="oblivion"] #appearance-mode-group,
+[data-style="oblivion"] #style-palette-group {
+  background-color: #FFFFFF !important;
+  border: 1px solid #DDE4EA !important;
+  border-radius: 2px !important;
+  box-shadow: none !important;
+}
+
+[data-style="oblivion"] #layout-mode-toggle-group button,
+[data-style="oblivion"] #appearance-mode-group button,
+[data-style="oblivion"] #style-palette-group button {
+  border-radius: 2px !important;
+  font-family: 'JetBrains Mono', monospace !important;
+  font-size: 11px !important;
+  font-weight: 500 !important;
+  transition: all 150ms ease !important;
+}
+
+[data-style="oblivion"] #layout-mode-toggle-group button:not([class*="opacity-"]):hover,
+[data-style="oblivion"] #appearance-mode-group button:hover,
+[data-style="oblivion"] #style-palette-group button:hover {
+  background-color: #F4F6F8 !important;
+  color: #19232D !important;
+}
+
+/* 8. Linear Progress Bars (#3E91C9 on #F4F6F8) */
+[data-style="oblivion"] [role="progressbar"] {
+  background-color: #F4F6F8 !important;
+  border: 1px solid #DDE4EA !important;
+  border-radius: 2px !important;
+  height: 4px !important;
+  box-shadow: none !important;
+}
+
+[data-style="oblivion"] [role="progressbar"] > div {
+  background: #3E91C9 !important;
+  border-radius: 1px !important;
+  box-shadow: none !important;
+}
+
+/* 9. Forms, Inputs & Textareas (Thin #DDE4EA borders, #3E91C9 focus ring) */
+[data-style="oblivion"] input,
+[data-style="oblivion"] textarea,
+[data-style="oblivion"] select {
+  background-color: #FFFFFF !important;
+  border: 1px solid #DDE4EA !important;
+  border-radius: 2px !important;
+  color: #19232D !important;
+  font-size: 13px !important;
+  transition: border-color 150ms ease, box-shadow 150ms ease !important;
+}
+
+[data-style="oblivion"] input:focus,
+[data-style="oblivion"] textarea:focus,
+[data-style="oblivion"] select:focus {
+  border-color: #3E91C9 !important;
+  box-shadow: 0 0 0 1px #3E91C9 !important;
+  outline: none !important;
+}
+
+/* 10. Modals & Dialogs (Minimal clean elevation, hairline borders) */
+[data-style="oblivion"] #settings-modal-card,
+[data-style="oblivion"] #widget-manager-modal,
+[data-style="oblivion"] #tab-pinning-card {
+  border-radius: 4px !important;
+  border: 1px solid #DDE4EA !important;
+  background-color: #FFFFFF !important;
+  box-shadow: 0 8px 24px rgba(25, 35, 45, 0.05) !important;
+}
+
+/* 11. Supporting Content Panels & Widget Sub-sections */
+[data-style="oblivion"] #whole-prayer-schedule > div,
+[data-style="oblivion"] [id^="dua-card-"],
+[data-style="oblivion"] #study-history-section > div,
+[data-style="oblivion"] #study-analytics-dashboard,
+[data-style="oblivion"] #calendar-widget-content {
+  background-color: #FFFFFF !important;
+  border: 1px solid #DDE4EA !important;
+  border-radius: 4px !important;
+  box-shadow: none !important;
+}
+
+/* Todo items in Oblivion */
+[data-style="oblivion"] [id^="todo-item-"] {
+  border-color: #DDE4EA !important;
+  background-color: #FFFFFF !important;
+  border-radius: 2px !important;
+  box-shadow: none !important;
+}
+
+/* Music track cards in Oblivion */
+[data-style="oblivion"] #music-widget-container [class*="rounded-2xl"][class*="border"] {
+  border-color: #DDE4EA !important;
+  background-color: #F4F6F8 !important;
+  border-radius: 2px !important;
+  box-shadow: none !important;
+}
+
+/* 12. Architectural Hairline Scrollbars & Reduced Motion */
+[data-style="oblivion"] ::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+[data-style="oblivion"] ::-webkit-scrollbar-track {
+  background: #F4F6F8;
+}
+
+[data-style="oblivion"] ::-webkit-scrollbar-thumb {
+  background: #DDE4EA !important;
+  border-radius: 2px !important;
+}
+
+[data-style="oblivion"] ::-webkit-scrollbar-thumb:hover {
+  background: #3E91C9 !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-style="oblivion"] * {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ==========================================================================
+   THEME 04: ANIME CYBER-GOTHIC — HIGH-VOLTAGE NEON VIOLET, CRIMSON & CYBER HUD
+   ========================================================================== */
+
+/* 1. Canvas Background & Environmental Grid */
+[data-style="cybergothic"] #desk-canvas-container {
+  background-color: var(--bg-page) !important;
+  background-image: 
+    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(168, 85, 247, 0.15), transparent 70%),
+    linear-gradient(rgba(192, 132, 252, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(192, 132, 252, 0.05) 1px, transparent 1px) !important;
+  background-size: 100% 100%, 32px 32px, 32px 32px !important;
+  position: relative;
+}
+
+[data-appearance="light"][data-style="cybergothic"] #desk-canvas-container {
+  background-image: 
+    radial-gradient(ellipse 80% 40% at 50% -10%, rgba(147, 51, 234, 0.08), transparent 70%),
+    linear-gradient(rgba(147, 51, 234, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(147, 51, 234, 0.05) 1px, transparent 1px) !important;
+}
+
+/* 2. Top Header & Nav Strip */
+[data-style="cybergothic"] #main-app-header {
+  background-color: rgba(14, 10, 22, 0.88) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  border-bottom: 1px solid rgba(192, 132, 252, 0.3) !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4), 0 1px 0 rgba(192, 132, 252, 0.2) !important;
+}
+
+[data-appearance="light"][data-style="cybergothic"] #main-app-header {
+  background-color: rgba(255, 255, 255, 0.92) !important;
+  border-bottom: 1px solid #d6cae8 !important;
+  box-shadow: 0 2px 12px rgba(107, 33, 168, 0.06) !important;
+}
+
+/* 3. Core Widget Containers & Glass Panels */
+[data-style="cybergothic"] [id^="desk-card-"],
+[data-style="cybergothic"] [id^="widget-card-"] {
+  border-radius: 12px !important;
+  border: 1px solid rgba(192, 132, 252, 0.28) !important;
+  background-color: var(--bg-card) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  box-shadow: 0 8px 32px -4px rgba(4, 2, 8, 0.7), 0 0 15px rgba(168, 85, 247, 0.08) !important;
+  transition: border-color 200ms ease, box-shadow 200ms ease, transform 200ms ease !important;
+  position: relative;
+}
+
+[data-style="cybergothic"] [id^="desk-card-"]:hover,
+[data-style="cybergothic"] [id^="widget-card-"]:hover {
+  border-color: rgba(192, 132, 252, 0.5) !important;
+  box-shadow: 0 12px 36px -4px rgba(4, 2, 8, 0.85), 0 0 22px rgba(192, 132, 252, 0.16) !important;
+}
+
+[data-appearance="light"][data-style="cybergothic"] [id^="desk-card-"],
+[data-appearance="light"][data-style="cybergothic"] [id^="widget-card-"] {
+  border: 1px solid #d6cae8 !important;
+  background-color: #ffffff !important;
+  box-shadow: 0 4px 20px -2px rgba(107, 33, 168, 0.06) !important;
+}
+
+[data-appearance="light"][data-style="cybergothic"] [id^="desk-card-"]:hover,
+[data-appearance="light"][data-style="cybergothic"] [id^="widget-card-"]:hover {
+  border-color: #9333ea !important;
+  box-shadow: 0 8px 24px -2px rgba(147, 51, 234, 0.12) !important;
+}
+
+/* 4. Drag Zone Headers & Tactical Micro-Badges */
+[data-style="cybergothic"] [id^="desk-card-header-"] {
+  border-bottom: 1px solid rgba(192, 132, 252, 0.16) !important;
+  background-color: transparent !important;
+}
+
+[data-style="cybergothic"] [id^="desk-card-title-"] {
+  font-family: var(--font-mono) !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.1em !important;
+  text-transform: uppercase !important;
+  color: #d8b4fe !important;
+}
+
+[data-appearance="light"][data-style="cybergothic"] [id^="desk-card-title-"] {
+  color: #7e22ce !important;
+}
+
+/* 5. Central Clock & Digital Readouts */
+[data-style="cybergothic"] #desk-clock-label {
+  background: rgba(192, 132, 252, 0.14) !important;
+  border: 1px solid rgba(192, 132, 252, 0.35) !important;
+  color: #e9d5ff !important;
+  font-family: var(--font-mono) !important;
+  font-size: 10px !important;
+  letter-spacing: 0.14em !important;
+  border-radius: 4px !important;
+  text-transform: uppercase !important;
+}
+
+[data-style="cybergothic"] #clock-time-display {
+  color: #f5f3ff !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.02em !important;
+  text-shadow: 0 0 14px rgba(192, 132, 252, 0.55), 0 0 28px rgba(244, 63, 94, 0.3) !important;
+}
+
+[data-appearance="light"][data-style="cybergothic"] #clock-time-display {
+  color: #1e1329 !important;
+  text-shadow: none !important;
+}
+
+[data-style="cybergothic"] #clock-ampm-badge {
+  color: #ff1a53 !important;
+  font-family: var(--font-mono) !important;
+  font-weight: 800 !important;
+  text-shadow: 0 0 8px rgba(255, 26, 83, 0.6) !important;
+}
+
+[data-style="cybergothic"] #clock-date-display,
+[data-style="cybergothic"] #clock-location-display {
+  color: #d8b4fe !important;
+  font-family: var(--font-mono) !important;
+}
+
+[data-appearance="light"][data-style="cybergothic"] #clock-date-display,
+[data-appearance="light"][data-style="cybergothic"] #clock-location-display {
+  color: #654e7d !important;
+}
+
+/* 6. Pomodoro Focus Timer & Cycle Tracking */
+[data-style="cybergothic"] #timer-countdown-display {
+  color: #f5f3ff !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.01em !important;
+  text-shadow: 0 0 16px rgba(192, 132, 252, 0.5) !important;
+}
+
+[data-appearance="light"][data-style="cybergothic"] #timer-countdown-display {
+  color: #1e1329 !important;
+  text-shadow: none !important;
+}
+
+[data-style="cybergothic"] #timer-progress-fill {
+  background: linear-gradient(90deg, #a855f7 0%, #ec4899 50%, #ff1a53 100%) !important;
+  box-shadow: 0 0 12px rgba(236, 72, 153, 0.6) !important;
+}
+
+/* 7. Action Buttons & Tactical Controls */
+[data-style="cybergothic"] #timer-start-pause-btn {
+  background: linear-gradient(135deg, #a855f7 0%, #ec4899 50%, #ff1a53 100%) !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  border-radius: 8px !important;
+  box-shadow: 0 4px 16px rgba(236, 72, 153, 0.35) !important;
+  transition: all 180ms ease !important;
+}
+
+[data-style="cybergothic"] #timer-start-pause-btn:hover {
+  box-shadow: 0 6px 22px rgba(236, 72, 153, 0.55), 0 0 12px rgba(168, 85, 247, 0.4) !important;
+  transform: translateY(-1px) scale(1.01) !important;
+}
+
+[data-style="cybergothic"] #timer-reset-btn {
+  border-radius: 8px !important;
+  border: 1px solid rgba(192, 132, 252, 0.35) !important;
+  background-color: rgba(28, 20, 44, 0.6) !important;
+  color: #d8b4fe !important;
+}
+
+[data-style="cybergothic"] #timer-reset-btn:hover {
+  background-color: rgba(192, 132, 252, 0.2) !important;
+  border-color: #c084fc !important;
+  color: #f5f3ff !important;
+}
+
+/* 8. Input Fields & Selects */
+[data-style="cybergothic"] input[type="text"],
+[data-style="cybergothic"] input[type="search"],
+[data-style="cybergothic"] textarea,
+[data-style="cybergothic"] select {
+  background-color: rgba(28, 20, 44, 0.6) !important;
+  border: 1px solid rgba(192, 132, 252, 0.3) !important;
+  border-radius: 8px !important;
+  color: #f5f3ff !important;
+  transition: border-color 150ms ease, box-shadow 150ms ease !important;
+}
+
+[data-style="cybergothic"] input:focus,
+[data-style="cybergothic"] textarea:focus,
+[data-style="cybergothic"] select:focus {
+  border-color: #c084fc !important;
+  box-shadow: 0 0 0 2px rgba(192, 132, 252, 0.25), 0 0 10px rgba(168, 85, 247, 0.2) !important;
+  outline: none !important;
+}
+
+[data-appearance="light"][data-style="cybergothic"] input[type="text"],
+[data-appearance="light"][data-style="cybergothic"] input[type="search"],
+[data-appearance="light"][data-style="cybergothic"] textarea,
+[data-appearance="light"][data-style="cybergothic"] select {
+  background-color: #ffffff !important;
+  border: 1px solid #d6cae8 !important;
+  color: #1e1329 !important;
+}
+
+[data-appearance="light"][data-style="cybergothic"] input:focus,
+[data-appearance="light"][data-style="cybergothic"] textarea:focus,
+[data-appearance="light"][data-style="cybergothic"] select:focus {
+  border-color: #9333ea !important;
+  box-shadow: 0 0 0 2px rgba(147, 51, 234, 0.15) !important;
+}
+
+/* 9. Supporting Widgets (Prayer, Calendar, Music, History) */
+[data-style="cybergothic"] #whole-prayer-schedule > div,
+[data-style="cybergothic"] [id^="dua-card-"],
+[data-style="cybergothic"] #study-history-section > div,
+[data-style="cybergothic"] #study-analytics-dashboard,
+[data-style="cybergothic"] #calendar-widget-content {
+  background-color: var(--bg-card) !important;
+  border: 1px solid rgba(192, 132, 252, 0.25) !important;
+  border-radius: 8px !important;
+}
+
+/* Prayer upcoming highlight */
+[data-style="cybergothic"] .prayer-current-active {
+  background: rgba(192, 132, 252, 0.16) !important;
+  border: 1px solid #c084fc !important;
+  box-shadow: 0 0 12px rgba(192, 132, 252, 0.25) !important;
+}
+
+/* Todo items in Anime Cyber-Gothic */
+[data-style="cybergothic"] [id^="todo-item-"] {
+  border-color: rgba(192, 132, 252, 0.2) !important;
+  background-color: rgba(28, 20, 44, 0.45) !important;
+  border-radius: 6px !important;
+}
+
+[data-style="cybergothic"] [id^="todo-item-"]:hover {
+  border-color: rgba(192, 132, 252, 0.45) !important;
+  background-color: rgba(28, 20, 44, 0.7) !important;
+}
+
+/* Music track cards in Anime Cyber-Gothic */
+[data-style="cybergothic"] #music-widget-container [class*="rounded-2xl"][class*="border"] {
+  border-color: rgba(192, 132, 252, 0.22) !important;
+  background-color: rgba(24, 18, 38, 0.6) !important;
+  border-radius: 8px !important;
+}
+
+/* Modals & Dialogs */
+[data-style="cybergothic"] #settings-modal-card,
+[data-style="cybergothic"] #widget-manager-modal,
+[data-style="cybergothic"] #tab-pinning-card {
+  border-radius: 14px !important;
+  border: 1px solid rgba(192, 132, 252, 0.35) !important;
+  background-color: rgba(14, 10, 22, 0.95) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.8), 0 0 30px rgba(168, 85, 247, 0.15) !important;
+}
+
+[data-appearance="light"][data-style="cybergothic"] #settings-modal-card,
+[data-appearance="light"][data-style="cybergothic"] #widget-manager-modal,
+[data-appearance="light"][data-style="cybergothic"] #tab-pinning-card {
+  background-color: #ffffff !important;
+  border: 1px solid #d6cae8 !important;
+  box-shadow: 0 16px 40px rgba(107, 33, 168, 0.12) !important;
+}
+
+/* 10. Cyber-Gothic Scrollbars */
+[data-style="cybergothic"] ::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+[data-style="cybergothic"] ::-webkit-scrollbar-track {
+  background: #08060d;
+}
+
+[data-style="cybergothic"] ::-webkit-scrollbar-thumb {
+  background: rgba(192, 132, 252, 0.35) !important;
+  border-radius: 3px !important;
+}
+
+[data-style="cybergothic"] ::-webkit-scrollbar-thumb:hover {
+  background: #c084fc !important;
+  box-shadow: 0 0 8px #c084fc !important;
+}
+
+[data-appearance="light"][data-style="cybergothic"] ::-webkit-scrollbar-track {
+  background: #f6f3f9;
+}
+
+[data-appearance="light"][data-style="cybergothic"] ::-webkit-scrollbar-thumb {
+  background: #d6cae8 !important;
+}
+
+[data-appearance="light"][data-style="cybergothic"] ::-webkit-scrollbar-thumb:hover {
+  background: #9333ea !important;
+}
+
+/* ==========================================================================
+   THEME 05: MATRIX / DIGITAL RAIN (Phosphor Green, Terminal Console & Cyberspace)
+   ========================================================================== */
+
+/* 1. Global Scanline & CRT Terminal Canvas Overlay */
+[data-style="matrix"] #app-root-container {
+  background-color: #040805 !important;
+  position: relative;
+}
+
+[data-style="matrix"] #app-root-container::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.18),
+    rgba(0, 0, 0, 0.18) 1px,
+    transparent 1px,
+    transparent 2px
+  );
+  z-index: 1;
+  opacity: 0.65;
+}
+
+/* 2. Open Architectural & Sharp Terminal Containers */
+[data-style="matrix"] .freeform-canvas-widget,
+[data-style="matrix"] #central-clock-widget,
+[data-style="matrix"] #mini-prayer-timer-widget,
+[data-style="matrix"] #prayer-times-widget,
+[data-style="matrix"] #pomodoro-study-timer,
+[data-style="matrix"] #cycle-counter-widget,
+[data-style="matrix"] #music-player-widget,
+[data-style="matrix"] #todo-list-widget,
+[data-style="matrix"] #dua-cards-widget,
+[data-style="matrix"] #study-history-widget,
+[data-style="matrix"] #calendar-widget,
+[data-style="matrix"] #trello-widget,
+[data-style="matrix"] #notes-widget {
+  background-color: rgba(5, 14, 7, 0.90) !important;
+  backdrop-filter: blur(14px) !important;
+  -webkit-backdrop-filter: blur(14px) !important;
+  border: 1px solid rgba(0, 255, 102, 0.32) !important;
+  border-radius: 6px !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.75), 0 0 15px rgba(0, 255, 102, 0.08) !important;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  position: relative;
+  z-index: 2;
+}
+
+[data-style="matrix"] .freeform-canvas-widget:hover,
+[data-style="matrix"] #central-clock-widget:hover,
+[data-style="matrix"] #prayer-times-widget:hover,
+[data-style="matrix"] #pomodoro-study-timer:hover,
+[data-style="matrix"] #music-player-widget:hover,
+[data-style="matrix"] #todo-list-widget:hover {
+  border-color: #00ff66 !important;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.85), 0 0 20px rgba(0, 255, 102, 0.25) !important;
+}
+
+/* 3. Terminal Typography & Phosphor Glow */
+[data-style="matrix"] h1,
+[data-style="matrix"] h2,
+[data-style="matrix"] h3,
+[data-style="matrix"] .font-mono {
+  font-family: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
+  letter-spacing: 0.02em;
+}
+
+[data-style="matrix"] #clock-time-display,
+[data-style="matrix"] #timer-time-display {
+  color: #00ff66 !important;
+  font-family: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace !important;
+  text-shadow: 0 0 10px rgba(0, 255, 102, 0.75), 0 0 22px rgba(0, 255, 102, 0.35) !important;
+  letter-spacing: -0.02em;
+}
+
+[data-style="matrix"] #clock-ampm-badge,
+[data-style="matrix"] #clock-date-display {
+  color: #80ff95 !important;
+  font-family: 'JetBrains Mono', 'Courier New', monospace !important;
+  text-shadow: 0 0 6px rgba(0, 255, 102, 0.4);
+}
+
+/* 4. Terminal Micro-Badges & Tags */
+[data-style="matrix"] span[class*="rounded-full"],
+[data-style="matrix"] div[class*="rounded-full"] {
+  border-radius: 4px !important;
+  border-color: rgba(0, 255, 102, 0.4) !important;
+  font-family: 'JetBrains Mono', monospace !important;
+  letter-spacing: 0.05em;
+}
+
+/* 5. Terminal Buttons & Interactive Controls */
+[data-style="matrix"] #timer-start-btn,
+[data-style="matrix"] #timer-reset-btn,
+[data-style="matrix"] #timer-skip-btn,
+[data-style="matrix"] #clock-sync-btn {
+  border-radius: 4px !important;
+  font-family: 'JetBrains Mono', monospace !important;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  font-weight: 700;
+  transition: all 0.2s ease;
+}
+
+[data-style="matrix"] #timer-start-btn {
+  background: linear-gradient(135deg, #00ff66 0%, #00cc55 100%) !important;
+  color: #020603 !important;
+  border: 1px solid #00ff66 !important;
+  box-shadow: 0 0 15px rgba(0, 255, 102, 0.45) !important;
+}
+
+[data-style="matrix"] #timer-start-btn:hover {
+  background: #33ff88 !important;
+  box-shadow: 0 0 22px rgba(0, 255, 102, 0.75) !important;
+  transform: translateY(-1px);
+}
+
+[data-style="matrix"] #timer-reset-btn,
+[data-style="matrix"] #timer-skip-btn {
+  background-color: rgba(5, 18, 9, 0.7) !important;
+  border: 1px solid rgba(0, 255, 102, 0.4) !important;
+  color: #00ff66 !important;
+}
+
+[data-style="matrix"] #timer-reset-btn:hover,
+[data-style="matrix"] #timer-skip-btn:hover {
+  background-color: rgba(0, 255, 102, 0.2) !important;
+  border-color: #00ff66 !important;
+  box-shadow: 0 0 10px rgba(0, 255, 102, 0.3) !important;
+}
+
+/* 6. Prayer Times High-Contrast Terminal Rows */
+[data-style="matrix"] [data-prayer-active="true"],
+[data-style="matrix"] .prayer-current-active {
+  background-color: rgba(0, 255, 102, 0.15) !important;
+  border-left: 3px solid #00ff66 !important;
+  border-radius: 2px !important;
+}
+
+[data-style="matrix"] #upcoming-prayer-banner {
+  border-radius: 4px !important;
+  border: 1px solid rgba(0, 255, 102, 0.45) !important;
+  background-color: rgba(2, 10, 4, 0.85) !important;
+  box-shadow: inset 0 0 12px rgba(0, 255, 102, 0.15) !important;
+}
+
+/* 7. Music Player Terminal Equalizer & Controls */
+[data-style="matrix"] .equalizer-bar {
+  background: #00ff66 !important;
+  box-shadow: 0 0 6px #00ff66 !important;
+}
+
+[data-style="matrix"] .music-track-card-active {
+  background-color: rgba(0, 255, 102, 0.15) !important;
+  border: 1px solid #00ff66 !important;
+  box-shadow: 0 0 12px rgba(0, 255, 102, 0.25) !important;
+}
+
+/* 8. To-Do Items, Checkboxes & Terminal Inputs */
+[data-style="matrix"] input[type="text"],
+[data-style="matrix"] input[type="number"],
+[data-style="matrix"] textarea {
+  background-color: #020703 !important;
+  border: 1px solid rgba(0, 255, 102, 0.35) !important;
+  color: #e6ffe6 !important;
+  border-radius: 4px !important;
+  font-family: 'JetBrains Mono', monospace !important;
+}
+
+[data-style="matrix"] input[type="text"]:focus,
+[data-style="matrix"] textarea:focus {
+  border-color: #00ff66 !important;
+  outline: none !important;
+  box-shadow: 0 0 10px rgba(0, 255, 102, 0.45) !important;
+}
+
+[data-style="matrix"] input[type="checkbox"] {
+  accent-color: #00ff66 !important;
+}
+
+/* 9. Header & Nav Controls in Matrix */
+[data-style="matrix"] header {
+  border-bottom: 1px solid rgba(0, 255, 102, 0.25) !important;
+  backdrop-filter: blur(12px) !important;
+}
+
+/* 10. Modals & Dialogs */
+[data-style="matrix"] #settings-modal-card,
+[data-style="matrix"] #widget-manager-modal,
+[data-style="matrix"] #tab-pinning-card {
+  border-radius: 8px !important;
+  border: 1px solid #00ff66 !important;
+  background-color: rgba(3, 10, 5, 0.96) !important;
+  backdrop-filter: blur(24px) !important;
+  -webkit-backdrop-filter: blur(24px) !important;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.9), 0 0 30px rgba(0, 255, 102, 0.25) !important;
+}
+
+/* 11. Matrix Terminal Scrollbars */
+[data-style="matrix"] ::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+[data-style="matrix"] ::-webkit-scrollbar-track {
+  background: #020502;
+}
+
+[data-style="matrix"] ::-webkit-scrollbar-thumb {
+  background: rgba(0, 255, 102, 0.4) !important;
+  border-radius: 2px !important;
+}
+
+[data-style="matrix"] ::-webkit-scrollbar-thumb:hover {
+  background: #00ff66 !important;
+  box-shadow: 0 0 10px #00ff66 !important;
+}
+
+/* 12. Reduced Motion Fallback */
+@media (prefers-reduced-motion: reduce) {
+  [data-style="matrix"] #app-root-container::before {
+    display: none !important;
+  }
+}
+
+/* ==========================================================================
+   THEME 06: WATCH DOGS (ctOS Dark Urban Surveillance, Primary Background #090B0F, Signal Orange #FF6B35 & Electric Cyan #00F0FF)
+   ========================================================================== */
+
+/* 1. Root and Canvas Background with Custom Surveillance Grid */
+[data-style="watchdogs"] #app-root-container,
+[data-theme="watchdogs"] #app-root-container,
+:root[data-style="watchdogs"] body,
+[data-style="watchdogs"] {
+  background-color: #090B0F !important;
+  background-image: 
+    linear-gradient(to right, rgba(0, 240, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 240, 255, 0.04) 1px, transparent 1px) !important;
+  background-size: 32px 32px !important;
+  color: #F0F4F8 !important;
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+}
+
+/* ctOS Subtle scanline overlay on root */
+[data-style="watchdogs"] #app-root-container::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    rgba(0, 240, 255, 0) 50%,
+    rgba(9, 11, 15, 0.35) 50%
+  );
+  background-size: 100% 4px;
+  z-index: 1;
+  opacity: 0.2;
+}
+
+/* 2. ctOS Widgets & Container Surfaces with Sharp 6px Border Radius */
+[data-style="watchdogs"] .card-panel,
+[data-style="watchdogs"] .bg-surface,
+[data-style="watchdogs"] [data-widget-id] {
+  background-color: rgba(14, 18, 26, 0.92) !important;
+  border: 1px solid rgba(255, 107, 53, 0.28) !important;
+  border-radius: 6px !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.75), inset 0 0 12px rgba(0, 240, 255, 0.02) !important;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  position: relative;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+[data-style="watchdogs"] [data-widget-id]:hover {
+  border-color: rgba(255, 107, 53, 0.6) !important;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.85), 0 0 16px rgba(255, 107, 53, 0.15) !important;
+}
+
+/* Tactical Corner Brackets: Signal Orange (Top-Right) & Electric Cyan (Bottom-Left) */
+[data-style="watchdogs"] [data-widget-id]::before {
+  content: "";
+  position: absolute;
+  top: -1px;
+  right: -1px;
+  width: 10px;
+  height: 10px;
+  border-top: 2px solid #FF6B35;
+  border-right: 2px solid #FF6B35;
+  border-top-right-radius: 6px;
+  pointer-events: none;
+  opacity: 0.9;
+  z-index: 2;
+}
+
+[data-style="watchdogs"] [data-widget-id]::after {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  left: -1px;
+  width: 10px;
+  height: 10px;
+  border-bottom: 2px solid #00F0FF;
+  border-left: 2px solid #00F0FF;
+  border-bottom-left-radius: 6px;
+  pointer-events: none;
+  opacity: 0.9;
+  z-index: 2;
+}
+
+/* 3. Typography & Numerical Readouts */
+[data-style="watchdogs"] #central-clock-time {
+  font-family: ui-monospace, 'JetBrains Mono', 'Share Tech Mono', monospace !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.02em;
+  color: #F0F4F8 !important;
+  text-shadow: 0 0 16px rgba(0, 240, 255, 0.4);
+}
+
+[data-style="watchdogs"] #timer-countdown-display {
+  font-family: ui-monospace, 'JetBrains Mono', monospace !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.02em;
+  color: #FF6B35 !important;
+  text-shadow: 0 0 18px rgba(255, 107, 53, 0.5);
+}
+
+[data-style="watchdogs"] #daily-progress-percentage {
+  font-family: ui-monospace, 'JetBrains Mono', monospace !important;
+  font-weight: 700 !important;
+  color: #00F0FF !important;
+  text-shadow: 0 0 10px rgba(0, 240, 255, 0.4);
+}
+
+[data-style="watchdogs"] #central-clock-date,
+[data-style="watchdogs"] #central-clock-hijri {
+  font-family: ui-monospace, 'JetBrains Mono', monospace !important;
+  letter-spacing: 0.05em;
+  color: #8CA0B5 !important;
+}
+
+/* 4. Electric-Cyan Metadata Badges for Widgets with Sharp 6px Border Radius */
+[data-style="watchdogs"] .badge,
+[data-style="watchdogs"] span.badge-outline,
+[data-style="watchdogs"] [class*="rounded-full"][class*="text-xs"],
+[data-style="watchdogs"] #upcoming-prayer-badge,
+[data-style="watchdogs"] [data-badge] {
+  border-radius: 6px !important;
+  border: 1px solid rgba(0, 240, 255, 0.4) !important;
+  background: rgba(0, 240, 255, 0.12) !important;
+  color: #00F0FF !important;
+  font-family: ui-monospace, 'JetBrains Mono', monospace !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.05em !important;
+  text-transform: uppercase !important;
+  text-shadow: 0 0 6px rgba(0, 240, 255, 0.45);
+}
+
+/* 5. Buttons & Interactive Controls with Signal-Orange (#FF6B35) & Sharp 6px Radius */
+[data-style="watchdogs"] button.btn-primary,
+[data-style="watchdogs"] #timer-start-pause-btn {
+  background: #FF6B35 !important;
+  color: #090B0F !important;
+  font-weight: 800 !important;
+  font-family: ui-monospace, 'JetBrains Mono', monospace !important;
+  border: 1px solid #FF6B35 !important;
+  border-radius: 6px !important;
+  letter-spacing: 0.06em !important;
+  box-shadow: 0 0 16px rgba(255, 107, 53, 0.45) !important;
+  transition: all 0.2s ease !important;
+}
+
+[data-style="watchdogs"] button.btn-primary:hover,
+[data-style="watchdogs"] #timer-start-pause-btn:hover {
+  background: #FF8254 !important;
+  box-shadow: 0 0 24px rgba(255, 107, 53, 0.75) !important;
+  transform: translateY(-1px);
+}
+
+[data-style="watchdogs"] #timer-reset-btn,
+[data-style="watchdogs"] button.btn-secondary {
+  background: rgba(18, 24, 34, 0.85) !important;
+  color: #00F0FF !important;
+  border: 1px solid rgba(0, 240, 255, 0.35) !important;
+  border-radius: 6px !important;
+  font-family: ui-monospace, 'JetBrains Mono', monospace !important;
+  font-weight: 600 !important;
+  transition: all 0.2s ease !important;
+}
+
+[data-style="watchdogs"] #timer-reset-btn:hover,
+[data-style="watchdogs"] button.btn-secondary:hover {
+  border-color: #FF6B35 !important;
+  color: #FF6B35 !important;
+  box-shadow: 0 0 12px rgba(255, 107, 53, 0.35) !important;
+}
+
+/* General button, input & select sharp 6px radius enforcement */
+[data-style="watchdogs"] input,
+[data-style="watchdogs"] select,
+[data-style="watchdogs"] textarea {
+  border-radius: 6px !important;
+  background-color: rgba(14, 18, 26, 0.9) !important;
+  border-color: rgba(0, 240, 255, 0.28) !important;
+  color: #F0F4F8 !important;
+}
+
+[data-style="watchdogs"] input:focus,
+[data-style="watchdogs"] select:focus,
+[data-style="watchdogs"] textarea:focus {
+  border-color: #FF6B35 !important;
+  outline: none !important;
+  box-shadow: 0 0 0 2px rgba(255, 107, 53, 0.25) !important;
+}
+
+/* 6. Prayer Times ctOS Surveillance Styling */
+[data-style="watchdogs"] [data-prayer-row] {
+  border-bottom: 1px solid rgba(0, 240, 255, 0.12) !important;
+  font-family: ui-monospace, 'JetBrains Mono', monospace !important;
+  border-radius: 4px;
+}
+
+[data-style="watchdogs"] [data-prayer-row="active"],
+[data-style="watchdogs"] [data-prayer-current="true"] {
+  background: rgba(255, 107, 53, 0.15) !important;
+  border-left: 3px solid #FF6B35 !important;
+  color: #FF6B35 !important;
+  text-shadow: 0 0 8px rgba(255, 107, 53, 0.4);
+}
+
+/* 7. Music Player / Ambient Audio HUD */
+[data-style="watchdogs"] #music-player-widget,
+[data-style="watchdogs"] #ambient-sound-board {
+  border-color: rgba(255, 107, 53, 0.3) !important;
+}
+
+[data-style="watchdogs"] #music-player-visualizer-canvas {
+  filter: drop-shadow(0 0 6px #00F0FF);
+}
+
+/* 8. To-Do & Task Management */
+[data-style="watchdogs"] input[type="checkbox"] {
+  accent-color: #FF6B35 !important;
+  border-radius: 3px !important;
+}
+
+[data-style="watchdogs"] .todo-completed {
+  color: #6B7F94 !important;
+  text-decoration-color: #FF6B35 !important;
+}
+
+/* 9. Header & Nav Architecture */
+[data-style="watchdogs"] header {
+  background: rgba(9, 11, 15, 0.9) !important;
+  border-bottom: 1px solid rgba(255, 107, 53, 0.25) !important;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+/* 10. Modals & Dialogs with Sharp 6px Radius */
+[data-style="watchdogs"] #settings-modal-card,
+[data-style="watchdogs"] #widget-manager-modal,
+[data-style="watchdogs"] #tab-pinning-card {
+  border-radius: 6px !important;
+  border: 1px solid #FF6B35 !important;
+  background-color: rgba(9, 11, 15, 0.97) !important;
+  backdrop-filter: blur(24px) !important;
+  -webkit-backdrop-filter: blur(24px) !important;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.95), 0 0 30px rgba(255, 107, 53, 0.25) !important;
+}
+
+/* 11. Scrollbars */
+[data-style="watchdogs"] ::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+[data-style="watchdogs"] ::-webkit-scrollbar-track {
+  background: #06080C;
+}
+
+[data-style="watchdogs"] ::-webkit-scrollbar-thumb {
+  background: rgba(255, 107, 53, 0.4) !important;
+  border-radius: 3px !important;
+}
+
+[data-style="watchdogs"] ::-webkit-scrollbar-thumb:hover {
+  background: #FF6B35 !important;
+  box-shadow: 0 0 10px #FF6B35 !important;
+}
+
+/* 12. Reduced Motion Fallback */
+/* ==========================================================================
+   Watch Dogs: Data-Glitch Animation Effect on Widget Title Updates
+   Simulates temporary low-opacity RGB-shift overlay during signal distortion
+   ========================================================================== */
+@keyframes ctOS-data-glitch {
+  0% {
+    transform: translate(0);
+    text-shadow: none;
+  }
+  15% {
+    transform: translate(-1.5px, 0.5px);
+    text-shadow: -1.5px 0 rgba(255, 107, 53, 0.75), 1.5px 0 rgba(0, 240, 255, 0.75);
+  }
+  30% {
+    transform: translate(1.5px, -0.5px);
+    text-shadow: 1.5px 0 rgba(255, 0, 60, 0.65), -1.5px 0 rgba(0, 240, 255, 0.65);
+  }
+  45% {
+    transform: translate(-1px, 0);
+    text-shadow: -1px 0.5px rgba(255, 107, 53, 0.5), 1px -0.5px rgba(0, 240, 255, 0.5);
+  }
+  60% {
+    transform: translate(1px, 0);
+    text-shadow: 1px 0 rgba(0, 240, 255, 0.6), -1px 0 rgba(255, 107, 53, 0.6);
+  }
+  75% {
+    transform: translate(-0.5px, 0);
+    text-shadow: -0.5px 0 rgba(255, 107, 53, 0.35), 0.5px 0 rgba(0, 240, 255, 0.35);
+  }
+  100% {
+    transform: translate(0);
+    text-shadow: none;
+  }
+}
+
+@keyframes ctOS-rgb-overlay {
+  0% {
+    clip-path: inset(0 0 0 0);
+    transform: translate(0);
+    opacity: 0;
+  }
+  20% {
+    clip-path: inset(15% 0 55% 0);
+    transform: translate(-2px, 0.5px);
+    opacity: 0.35;
+  }
+  40% {
+    clip-path: inset(45% 0 25% 0);
+    transform: translate(2px, -0.5px);
+    opacity: 0.3;
+  }
+  60% {
+    clip-path: inset(10% 0 70% 0);
+    transform: translate(-1px, 0);
+    opacity: 0.35;
+  }
+  80% {
+    clip-path: inset(65% 0 10% 0);
+    transform: translate(1px, 0.5px);
+    opacity: 0.2;
+  }
+  100% {
+    clip-path: inset(0 0 0 0);
+    transform: translate(0);
+    opacity: 0;
+  }
+}
+
+[data-style="watchdogs"] [data-glitch="true"],
+[data-style="watchdogs"] .data-glitch-active {
+  animation: ctOS-data-glitch 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94) both !important;
+  position: relative;
+  display: inline-block;
+}
+
+[data-style="watchdogs"] [data-glitch="true"]::before,
+[data-style="watchdogs"] .data-glitch-active::before {
+  content: attr(data-glitch-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  color: #00F0FF;
+  opacity: 0.35;
+  mix-blend-mode: screen;
+  pointer-events: none;
+  animation: ctOS-rgb-overlay 0.45s ease both;
+  z-index: 2;
+}
+
+[data-style="watchdogs"] [data-glitch="true"]::after,
+[data-style="watchdogs"] .data-glitch-active::after {
+  content: attr(data-glitch-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  color: #FF6B35;
+  opacity: 0.35;
+  mix-blend-mode: screen;
+  pointer-events: none;
+  animation: ctOS-rgb-overlay 0.45s ease reverse both;
+  z-index: 1;
+}
+
+/* ==========================================================================
+   THEME 07: AERO-FUTURISM / SOLARPUNK
+   Optimistic high-tech ecology, aerogel glassmorphism, solar gold & botanical emerald
+   ========================================================================== */
+
+/* 1. Canvas & Atmospheric Environment */
+[data-style="solarpunk"] #app-root-container,
+[data-style="aerofuturism"] #app-root-container,
+[data-theme="solarpunk"] #app-root-container,
+[data-theme="aerofuturism"] #app-root-container {
+  background-color: var(--bg-page) !important;
+  color: var(--text-primary) !important;
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  position: relative;
+}
+
+/* Subtle aero-canopy ambient gradient on root container */
+[data-style="solarpunk"] #app-root-container::before,
+[data-style="aerofuturism"] #app-root-container::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: 
+    radial-gradient(ellipse at 85% 10%, rgba(245, 158, 11, 0.08) 0%, transparent 60%),
+    radial-gradient(ellipse at 15% 90%, rgba(16, 185, 129, 0.06) 0%, transparent 50%);
+  z-index: 0;
+}
+
+/* 2. Glassmorphic Aerogel Cards & Widget Surfaces with Frosted Glass Hover Effect */
+@keyframes solarpunk-sunlight-pulse {
+  0%, 100% {
+    opacity: 0.4;
+    filter: drop-shadow(0 0 2px rgba(245, 158, 11, 0.35));
+    transform: scaleX(0.95);
+  }
+  50% {
+    opacity: 1;
+    filter: drop-shadow(0 0 7px rgba(245, 158, 11, 0.9));
+    transform: scaleX(1);
+  }
+}
+
+[data-style="solarpunk"] .card-panel,
+[data-style="solarpunk"] .bg-surface,
+[data-style="solarpunk"] [data-widget-id],
+[data-style="aerofuturism"] .card-panel,
+[data-style="aerofuturism"] .bg-surface,
+[data-style="aerofuturism"] [data-widget-id] {
+  background-color: var(--bg-card) !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: 16px !important;
+  backdrop-filter: blur(16px) saturate(140%);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  box-shadow: 
+    0 10px 30px rgba(16, 185, 129, 0.06),
+    0 2px 8px rgba(0, 0, 0, 0.03),
+    inset 0 1px 1px rgba(255, 255, 255, 0.6) !important;
+  position: relative;
+  transition: backdrop-filter 200ms ease, -webkit-backdrop-filter 200ms ease, background-color 200ms ease, border-color 200ms ease, box-shadow 200ms ease, transform 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+[data-appearance="dark"][data-style="solarpunk"] [data-widget-id],
+[data-appearance="dark"][data-style="aerofuturism"] [data-widget-id] {
+  box-shadow: 
+    0 12px 36px rgba(0, 0, 0, 0.55),
+    0 0 20px rgba(16, 185, 129, 0.08),
+    inset 0 1px 1px rgba(52, 211, 153, 0.2) !important;
+}
+
+/* Frosted-glass-hover effect: increases blur radius and subtly shifts background color intensity using a 200ms transition */
+[data-style="solarpunk"] .card-panel:hover,
+[data-style="solarpunk"] [data-widget-id]:hover,
+[data-style="aerofuturism"] .card-panel:hover,
+[data-style="aerofuturism"] [data-widget-id]:hover {
+  backdrop-filter: blur(28px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(28px) saturate(180%) !important;
+  background-color: rgba(255, 255, 255, 0.88) !important;
+  border-color: rgba(16, 185, 129, 0.45) !important;
+  box-shadow: 
+    0 16px 40px rgba(16, 185, 129, 0.12),
+    0 4px 12px rgba(0, 0, 0, 0.05),
+    inset 0 1px 1px rgba(255, 255, 255, 0.85) !important;
+  transition: backdrop-filter 200ms ease, -webkit-backdrop-filter 200ms ease, background-color 200ms ease, border-color 200ms ease, box-shadow 200ms ease !important;
+}
+
+[data-appearance="dark"][data-style="solarpunk"] [data-widget-id]:hover,
+[data-appearance="dark"][data-style="aerofuturism"] [data-widget-id]:hover,
+[data-appearance="dark"][data-style="solarpunk"] .card-panel:hover,
+[data-appearance="dark"][data-style="aerofuturism"] .card-panel:hover {
+  background-color: rgba(16, 30, 24, 0.85) !important;
+  border-color: rgba(52, 211, 153, 0.5) !important;
+  box-shadow: 
+    0 18px 48px rgba(0, 0, 0, 0.6),
+    0 0 25px rgba(16, 185, 129, 0.15),
+    inset 0 1px 1px rgba(52, 211, 153, 0.3) !important;
+}
+
+/* Subtle solar gold hairline at top of widget cards with 'sunlight' pulsing animation on active panels */
+[data-style="solarpunk"] [data-widget-id]::before,
+[data-style="aerofuturism"] [data-widget-id]::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 20px;
+  right: 20px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(245, 158, 11, 0.75), rgba(16, 185, 129, 0.75), transparent);
+  border-radius: 9999px;
+  pointer-events: none;
+  opacity: 0.6;
+  transform-origin: center;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* Active panel sunlight pulsing animation gently cycling the opacity of the solar gold hairline accent */
+[data-style="solarpunk"] [data-widget-id]:focus-within::before,
+[data-style="solarpunk"] [data-widget-id]:hover::before,
+[data-style="solarpunk"] [data-widget-id].active-panel::before,
+[data-style="solarpunk"] [data-widget-id][data-active="true"]::before,
+[data-style="aerofuturism"] [data-widget-id]:focus-within::before,
+[data-style="aerofuturism"] [data-widget-id]:hover::before,
+[data-style="aerofuturism"] [data-widget-id].active-panel::before,
+[data-style="aerofuturism"] [data-widget-id][data-active="true"]::before {
+  animation: solarpunk-sunlight-pulse 3s ease-in-out infinite;
+}
+
+/* Widget Header Zone */
+[data-style="solarpunk"] [id^="header-drag-zone-"],
+[data-style="aerofuturism"] [id^="header-drag-zone-"] {
+  background: var(--bg-card-subtle) !important;
+  border-bottom: 1px solid var(--border-color) !important;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+}
+
+/* 3. Typography & Numerical Readouts */
+[data-style="solarpunk"] [data-widget-id] h1,
+[data-style="solarpunk"] [data-widget-id] h2,
+[data-style="solarpunk"] [data-widget-id] h3,
+[data-style="aerofuturism"] [data-widget-id] h1,
+[data-style="aerofuturism"] [data-widget-id] h2,
+[data-style="aerofuturism"] [data-widget-id] h3 {
+  color: var(--text-primary) !important;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+/* Numerical clock and timer font styling */
+[data-style="solarpunk"] #central-clock-time,
+[data-style="aerofuturism"] #central-clock-time {
+  color: var(--text-primary) !important;
+  text-shadow: 0 2px 12px rgba(16, 185, 129, 0.2);
+}
+
+[data-style="solarpunk"] #pomodoro-countdown-display,
+[data-style="aerofuturism"] #pomodoro-countdown-display {
+  color: var(--accent) !important;
+  text-shadow: 0 2px 14px var(--timer-glow);
+}
+
+/* 4. Solarpunk Badges & Status Chips */
+[data-style="solarpunk"] .badge,
+[data-style="solarpunk"] .badge-outline,
+[data-style="solarpunk"] #upcoming-prayer-badge,
+[data-style="aerofuturism"] .badge,
+[data-style="aerofuturism"] .badge-outline,
+[data-style="aerofuturism"] #upcoming-prayer-badge {
+  background-color: var(--badge-bg) !important;
+  color: var(--badge-text) !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: 9999px !important;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+/* 5. Buttons & Interactive Controls */
+[data-style="solarpunk"] #timer-start-pause-btn,
+[data-style="solarpunk"] button.btn-primary,
+[data-style="aerofuturism"] #timer-start-pause-btn,
+[data-style="aerofuturism"] button.btn-primary {
+  background: var(--accent-gradient) !important;
+  color: #FFFFFF !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+  border-radius: 12px !important;
+  font-weight: 800 !important;
+  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35) !important;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+[data-style="solarpunk"] #timer-start-pause-btn:hover,
+[data-style="solarpunk"] button.btn-primary:hover,
+[data-style="aerofuturism"] #timer-start-pause-btn:hover,
+[data-style="aerofuturism"] button.btn-primary:hover {
+  background: var(--accent-gradient-hover) !important;
+  transform: translateY(-1px) scale(1.02);
+  box-shadow: 0 6px 20px rgba(16, 185, 129, 0.45) !important;
+}
+
+[data-style="solarpunk"] #timer-reset-btn,
+[data-style="solarpunk"] button.btn-secondary,
+[data-style="aerofuturism"] #timer-reset-btn,
+[data-style="aerofuturism"] button.btn-secondary {
+  background-color: var(--bg-card-subtle) !important;
+  color: var(--text-primary) !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: 12px !important;
+  font-weight: 700 !important;
+  transition: all 0.2s ease !important;
+}
+
+[data-style="solarpunk"] #timer-reset-btn:hover,
+[data-style="solarpunk"] button.btn-secondary:hover,
+[data-style="aerofuturism"] #timer-reset-btn:hover,
+[data-style="aerofuturism"] button.btn-secondary:hover {
+  border-color: var(--accent) !important;
+  color: var(--accent) !important;
+  box-shadow: 0 2px 10px rgba(16, 185, 129, 0.2) !important;
+}
+
+/* Inputs, selects, and textareas */
+[data-style="solarpunk"] input,
+[data-style="solarpunk"] select,
+[data-style="solarpunk"] textarea,
+[data-style="aerofuturism"] input,
+[data-style="aerofuturism"] select,
+[data-style="aerofuturism"] textarea {
+  border-radius: 12px !important;
+  background-color: var(--bg-card) !important;
+  border-color: var(--border-color) !important;
+  color: var(--text-primary) !important;
+  transition: all 0.2s ease;
+}
+
+[data-style="solarpunk"] input:focus,
+[data-style="solarpunk"] select:focus,
+[data-style="solarpunk"] textarea:focus,
+[data-style="aerofuturism"] input:focus,
+[data-style="aerofuturism"] select:focus,
+[data-style="aerofuturism"] textarea:focus {
+  border-color: var(--accent) !important;
+  outline: none !important;
+  box-shadow: 0 0 0 3px var(--accent-soft) !important;
+}
+
+/* 6. Prayer Times Aero-Futurist Styling */
+[data-style="solarpunk"] [data-prayer-row],
+[data-style="aerofuturism"] [data-prayer-row] {
+  border-bottom: 1px solid var(--border-color) !important;
+  border-radius: 8px;
+  transition: background-color 0.2s ease;
+}
+
+[data-style="solarpunk"] [data-prayer-row="active"],
+[data-style="solarpunk"] [data-prayer-current="true"],
+[data-style="aerofuturism"] [data-prayer-row="active"],
+[data-style="aerofuturism"] [data-prayer-current="true"] {
+  background: var(--accent-soft) !important;
+  border-left: 3px solid var(--accent) !important;
+  color: var(--accent-text) !important;
+  font-weight: 700;
+}
+
+/* 7. To-Do & Task Management */
+[data-style="solarpunk"] input[type="checkbox"],
+[data-style="aerofuturism"] input[type="checkbox"] {
+  accent-color: var(--accent) !important;
+  border-radius: 6px !important;
+}
+
+[data-style="solarpunk"] .todo-completed,
+[data-style="aerofuturism"] .todo-completed {
+  color: var(--text-muted) !important;
+  text-decoration-color: var(--accent) !important;
+}
+
+/* 8. Header Navigation Bar */
+[data-style="solarpunk"] header,
+[data-style="aerofuturism"] header {
+  background: var(--bg-card) !important;
+  border-bottom: 1px solid var(--border-color) !important;
+  backdrop-filter: blur(20px) saturate(150%);
+  -webkit-backdrop-filter: blur(20px) saturate(150%);
+  box-shadow: 0 4px 20px rgba(16, 185, 129, 0.05);
+}
+
+/* 9. Modals & Dialogs with Aerogel Curvature */
+[data-style="solarpunk"] #settings-modal-card,
+[data-style="solarpunk"] #widget-manager-modal,
+[data-style="solarpunk"] #tab-pinning-card,
+[data-style="aerofuturism"] #settings-modal-card,
+[data-style="aerofuturism"] #widget-manager-modal,
+[data-style="aerofuturism"] #tab-pinning-card {
+  border-radius: 20px !important;
+  border: 1px solid var(--border-color) !important;
+  background-color: var(--bg-card) !important;
+  backdrop-filter: blur(28px) saturate(160%) !important;
+  -webkit-backdrop-filter: blur(28px) saturate(160%) !important;
+  box-shadow: 
+    0 24px 60px rgba(0, 0, 0, 0.25),
+    0 0 35px rgba(16, 185, 129, 0.15) !important;
+}
+
+/* 10. Scrollbars */
+[data-style="solarpunk"] ::-webkit-scrollbar,
+[data-style="aerofuturism"] ::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+[data-style="solarpunk"] ::-webkit-scrollbar-track,
+[data-style="aerofuturism"] ::-webkit-scrollbar-track {
+  background: var(--solarpunk-recessed);
+}
+
+[data-style="solarpunk"] ::-webkit-scrollbar-thumb,
+[data-style="aerofuturism"] ::-webkit-scrollbar-thumb {
+  background: rgba(16, 185, 129, 0.35) !important;
+  border-radius: 9999px !important;
+}
+
+[data-style="solarpunk"] ::-webkit-scrollbar-thumb:hover,
+[data-style="aerofuturism"] ::-webkit-scrollbar-thumb:hover {
+  background: var(--accent) !important;
+}
+
+/* 11. Reduced Motion Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  [data-style="solarpunk"] #solarpunk-ambient-canvas,
+  [data-style="aerofuturism"] #solarpunk-ambient-canvas {
+    opacity: 0.5 !important;
+  }
+}
+
+/* ==========================================================================
+   THEME 09: THE GOAT — CRISTIANO RONALDO PERFORMANCE OPERATING SYSTEM
+   UEFA Champions League Knockout Atmosphere & Elite Stadium Engineering
+   ========================================================================== */
+
+/* 1. Global Container & Stadium Canvas */
+[data-style="goat"] #app-root-container,
+[data-theme="mr-champions-league"] #app-root-container,
+[data-theme="galactico-gold"] #app-root-container,
+[data-theme="selecao-passion"] #app-root-container,
+[data-theme="red-devil"] #app-root-container,
+[data-theme="el-bicho"] #app-root-container {
+  background-color: var(--bg-stadium, #06152E) !important;
+  color: var(--text-main, #FFFFFF) !important;
+  position: relative;
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+}
+
+/* Subtle UEFA Stadium pitch grid texture */
+[data-style="goat"] #app-root-container::before,
+[data-theme="mr-champions-league"] #app-root-container::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image: 
+    radial-gradient(circle at 50% 0%, rgba(69, 183, 255, 0.12) 0%, transparent 60%),
+    linear-gradient(rgba(69, 183, 255, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(69, 183, 255, 0.025) 1px, transparent 1px);
+  background-size: 100% 100%, 48px 48px, 48px 48px;
+  z-index: 0;
+}
+
+/* 2. Stadium Shadow Cards & Glass Surfaces with Signature #7 Watermark */
+[data-style="goat"] .card-panel,
+[data-style="goat"] .bg-surface,
+[data-style="goat"] [data-widget-id],
+[data-theme="mr-champions-league"] .card-panel,
+[data-theme="mr-champions-league"] .bg-surface,
+[data-theme="mr-champions-league"] [data-widget-id] {
+  background-color: var(--panel-card, #0B2042) !important;
+  border: 1px solid var(--panel-border, rgba(69, 183, 255, 0.22)) !important;
+  border-radius: 20px !important;
+  backdrop-filter: blur(24px) saturate(160%);
+  -webkit-backdrop-filter: blur(24px) saturate(160%);
+  box-shadow: 
+    0 12px 35px rgba(3, 10, 23, 0.8),
+    0 0 20px rgba(7, 87, 200, 0.15),
+    inset 0 1px 1px rgba(255, 255, 255, 0.12) !important;
+  position: relative;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+/* Iconic condensed athletic #7 watermark on card backgrounds */
+[data-style="goat"] [data-widget-id]::after,
+[data-theme="mr-champions-league"] [data-widget-id]::after {
+  content: "7";
+  position: absolute;
+  right: 14px;
+  bottom: 8px;
+  font-size: 88px;
+  font-weight: 900;
+  font-family: Impact, "Arial Black", sans-serif;
+  color: var(--glow-accent, #45B7FF);
+  opacity: 0.045;
+  pointer-events: none;
+  line-height: 0.8;
+  z-index: 0;
+  user-select: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+[data-style="goat"] [data-widget-id]:hover::after,
+[data-theme="mr-champions-league"] [data-widget-id]:hover::after {
+  opacity: 0.09;
+  transform: scale(1.04);
+}
+
+/* Card hover glow */
+[data-style="goat"] [data-widget-id]:hover,
+[data-theme="mr-champions-league"] [data-widget-id]:hover {
+  border-color: rgba(69, 183, 255, 0.5) !important;
+  box-shadow: 
+    0 16px 45px rgba(3, 10, 23, 0.95),
+    0 0 30px rgba(69, 183, 255, 0.25),
+    inset 0 1px 1px rgba(255, 255, 255, 0.2) !important;
+}
+
+/* Top stadium floodlight hairline highlight on widgets */
+[data-style="goat"] [data-widget-id]::before,
+[data-theme="mr-champions-league"] [data-widget-id]::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 28px;
+  right: 28px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--glow-accent, #45B7FF), var(--gold-trophy, #D4AF37), transparent);
+  border-radius: 9999px;
+  pointer-events: none;
+  opacity: 0.75;
+}
+
+/* 3. Header Drag Zone */
+[data-style="goat"] [id^="header-drag-zone-"],
+[data-theme="mr-champions-league"] [id^="header-drag-zone-"] {
+  background: var(--panel-elevated, #112A52) !important;
+  border-bottom: 1px solid var(--panel-border, rgba(69, 183, 255, 0.2)) !important;
+  border-top-left-radius: 19px;
+  border-top-right-radius: 19px;
+}
+
+/* 4. A. MATCHDAY CLOCK — 4th Official's Substitution Board */
+[data-style="goat"] #clock-crt-screen,
+[data-theme="mr-champions-league"] #clock-crt-screen {
+  background-color: var(--subboard-bg, #030A17) !important;
+  border: 2px solid var(--subboard-border, #0757C8) !important;
+  border-radius: 16px !important;
+  box-shadow: 
+    0 0 25px rgba(7, 87, 200, 0.45),
+    inset 0 0 30px rgba(3, 10, 23, 0.9),
+    inset 0 1px 0 rgba(69, 183, 255, 0.3) !important;
+  position: relative;
+  background-image: 
+    radial-gradient(rgba(69, 183, 255, 0.08) 15%, transparent 16%),
+    linear-gradient(rgba(0, 0, 0, 0.4) 50%, rgba(0, 0, 0, 0.7) 50%);
+  background-size: 8px 8px, 100% 4px;
+}
+
+/* Substitution Board Cyan LED Digits (Preset 1: Mr. Champions League) - Stadium electronic board light bleed effect */
+[data-goat-preset="mr-champions-league"] #clock-time-display,
+[data-theme="mr-champions-league"] #clock-time-display,
+:root[data-style="goat"]:not([data-goat-preset]) #clock-time-display,
+[data-style="goat"]:not([data-goat-preset]) #clock-time-display {
+  color: #45B7FF !important;
+  font-family: ui-monospace, SFMono-Regular, "Orbitron", Menlo, Monaco, Consolas, monospace !important;
+  letter-spacing: 0.06em !important;
+  text-shadow: 0 0 12px rgba(69, 183, 255, 0.6), 0 0 24px rgba(69, 183, 255, 0.3) !important;
+}
+
+[data-goat-preset="mr-champions-league"] #clock-time-display span,
+[data-theme="mr-champions-league"] #clock-time-display span,
+:root[data-style="goat"]:not([data-goat-preset]) #clock-time-display span,
+[data-style="goat"]:not([data-goat-preset]) #clock-time-display span {
+  color: #45B7FF !important;
+  text-shadow: 0 0 12px rgba(69, 183, 255, 0.6), 0 0 24px rgba(69, 183, 255, 0.3) !important;
+}
+
+/* Substitution Board Champagne Gold LED Digits (Preset 2: Galáctico Gold) */
+[data-goat-preset="galactico-gold"] #clock-time-display,
+[data-theme="galactico-gold"] #clock-time-display {
+  color: #D5B46A !important;
+  font-family: ui-monospace, SFMono-Regular, "Orbitron", Menlo, Monaco, Consolas, monospace !important;
+  letter-spacing: 0.06em !important;
+  text-shadow: 0 0 12px rgba(213, 180, 106, 0.6), 0 0 24px rgba(213, 180, 106, 0.3) !important;
+}
+
+[data-goat-preset="galactico-gold"] #clock-time-display span,
+[data-theme="galactico-gold"] #clock-time-display span {
+  color: #D5B46A !important;
+  text-shadow: 0 0 12px rgba(213, 180, 106, 0.6), 0 0 24px rgba(213, 180, 106, 0.3) !important;
+}
+
+/* Preset 2: Matchday Clock Frame & LED Status - High-contrast dark navy instrument panel inside pure white card */
+[data-goat-preset="galactico-gold"] #clock-crt-screen,
+[data-theme="galactico-gold"] #clock-crt-screen {
+  background-color: #0F172A !important;
+  border: 2px solid #D5B46A !important;
+  border-radius: 16px !important;
+  box-shadow: 
+    0 0 20px rgba(213, 180, 106, 0.35),
+    inset 0 0 30px rgba(15, 23, 42, 0.95),
+    inset 0 1px 0 rgba(213, 180, 106, 0.4) !important;
+}
+
+[data-goat-preset="galactico-gold"] #clock-ampm-badge,
+[data-theme="galactico-gold"] #clock-ampm-badge {
+  background-color: rgba(213, 180, 106, 0.2) !important;
+  border-color: #D5B46A !important;
+  color: #D5B46A !important;
+  box-shadow: 0 0 10px rgba(213, 180, 106, 0.35) !important;
+  font-family: monospace !important;
+}
+
+[data-goat-preset="galactico-gold"] #desk-clock-label,
+[data-theme="galactico-gold"] #desk-clock-label {
+  background: linear-gradient(135deg, rgba(23, 58, 103, 0.5) 0%, rgba(33, 43, 66, 0.7) 100%) !important;
+  border: 1px solid #D5B46A !important;
+  color: #F2CC63 !important;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+/* AM/PM Board LED Badge */
+[data-style="goat"] #clock-ampm-badge,
+[data-theme="mr-champions-league"] #clock-ampm-badge {
+  background-color: rgba(7, 87, 200, 0.35) !important;
+  border-color: #45B7FF !important;
+  color: #45B7FF !important;
+  box-shadow: 0 0 10px rgba(69, 183, 255, 0.4) !important;
+  font-family: monospace !important;
+}
+
+/* Substitution Board Tiny Header Badge */
+[data-style="goat"] #desk-clock-label,
+[data-theme="mr-champions-league"] #desk-clock-label {
+  background: linear-gradient(135deg, rgba(7, 87, 200, 0.3) 0%, rgba(17, 42, 82, 0.5) 100%) !important;
+  border: 1px solid #45B7FF !important;
+  color: #FFFFFF !important;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+/* 5. B. TRAINING SESSIONS (Pomodoro Engine) */
+[data-style="goat"] #timer-crt-screen,
+[data-theme="mr-champions-league"] #timer-crt-screen {
+  background-color: var(--subboard-bg, #030A17) !important;
+  border: 2px solid var(--subboard-border, #0757C8) !important;
+  border-radius: 16px !important;
+  box-shadow: 
+    0 0 25px rgba(7, 87, 200, 0.45),
+    inset 0 0 30px rgba(3, 10, 23, 0.9) !important;
+  background-image: 
+    radial-gradient(rgba(69, 183, 255, 0.08) 15%, transparent 16%),
+    linear-gradient(rgba(0, 0, 0, 0.4) 50%, rgba(0, 0, 0, 0.7) 50%);
+  background-size: 8px 8px, 100% 4px;
+}
+
+/* Countdown Display */
+[data-style="goat"] #timer-countdown-display,
+[data-theme="mr-champions-league"] #timer-countdown-display {
+  color: var(--subboard-led, #45B7FF) !important;
+  font-family: ui-monospace, SFMono-Regular, "Orbitron", Menlo, Monaco, Consolas, monospace !important;
+  text-shadow: 
+    0 0 12px rgba(69, 183, 255, 0.9),
+    0 0 28px rgba(69, 183, 255, 0.5) !important;
+}
+
+/* Work Rate & Sprint Phase Badges (Mr. Champions League) */
+[data-goat-preset="mr-champions-league"] #timer-phase-badge,
+[data-theme="mr-champions-league"] #timer-phase-badge,
+:root[data-style="goat"]:not([data-goat-preset]) #timer-phase-badge,
+[data-style="goat"]:not([data-goat-preset]) #timer-phase-badge {
+  background: linear-gradient(135deg, #0757C8 0%, #45B7FF 100%) !important;
+  color: #FFFFFF !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+  box-shadow: 0 0 14px rgba(69, 183, 255, 0.5) !important;
+  font-weight: 900 !important;
+  letter-spacing: 0.08em !important;
+}
+
+/* Preset 2: Work Interval (25 min) - Galáctico Royal Blue to Champagne Gold */
+[data-goat-preset="galactico-gold"] #timer-phase-badge,
+[data-theme="galactico-gold"] #timer-phase-badge {
+  background: linear-gradient(135deg, #173A67 0%, #D5B46A 100%) !important;
+  color: #FFFFFF !important;
+  border: 1px solid rgba(242, 204, 99, 0.4) !important;
+  box-shadow: 0 0 14px rgba(213, 180, 106, 0.4) !important;
+  font-weight: 900 !important;
+  letter-spacing: 0.08em !important;
+}
+
+/* Half-Time Break Outline styling (Mr. Champions League) */
+[data-style="goat"] [data-phase="shortBreak"] #timer-phase-badge,
+[data-style="goat"] [data-phase="longBreak"] #timer-phase-badge,
+[data-theme="mr-champions-league"] [data-phase="shortBreak"] #timer-phase-badge,
+[data-theme="mr-champions-league"] [data-phase="longBreak"] #timer-phase-badge {
+  background: rgba(215, 227, 244, 0.15) !important;
+  border: 1.5px solid #D7E3F4 !important;
+  color: #D7E3F4 !important;
+  box-shadow: 0 0 10px rgba(215, 227, 244, 0.3) !important;
+}
+
+/* Preset 2: Break Interval (5 min) - Outlined in clean, crisp Royal White (#FFFFFF) with muted text */
+[data-goat-preset="galactico-gold"] [data-phase="shortBreak"] #timer-phase-badge,
+[data-goat-preset="galactico-gold"] [data-phase="longBreak"] #timer-phase-badge,
+[data-theme="galactico-gold"] [data-phase="shortBreak"] #timer-phase-badge,
+[data-theme="galactico-gold"] [data-phase="longBreak"] #timer-phase-badge {
+  background: rgba(255, 255, 255, 0.08) !important;
+  border: 1.5px solid #FFFFFF !important;
+  color: #CBD5E1 !important;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.25) !important;
+}
+
+/* Match Equipment Buttons: Start, Pause, Reset (Preset 1) */
+[data-style="goat"] #timer-start-btn,
+[data-theme="mr-champions-league"] #timer-start-btn {
+  background: linear-gradient(135deg, #0757C8 0%, #1A73E8 60%, #45B7FF 100%) !important;
+  color: #FFFFFF !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+  box-shadow: 0 4px 18px rgba(7, 87, 200, 0.55) !important;
+}
+
+[data-style="goat"] #timer-start-btn:hover,
+[data-theme="mr-champions-league"] #timer-start-btn:hover {
+  transform: translateY(-2px) scale(1.04) !important;
+  box-shadow: 0 6px 25px rgba(69, 183, 255, 0.65) !important;
+}
+
+[data-style="goat"] #timer-pause-btn,
+[data-theme="mr-champions-league"] #timer-pause-btn {
+  background: linear-gradient(135deg, #C8102E 0%, #E01838 100%) !important;
+  color: #FFFFFF !important;
+  box-shadow: 0 4px 18px rgba(200, 16, 46, 0.55) !important;
+}
+
+/* Match Equipment Buttons (Preset 2: Galáctico Gold) */
+[data-goat-preset="galactico-gold"] #timer-start-btn,
+[data-theme="galactico-gold"] #timer-start-btn {
+  background: #D5B46A !important;
+  color: #0F172A !important;
+  font-weight: 900 !important;
+  border: 1px solid rgba(202, 138, 4, 0.45) !important;
+  box-shadow: 0 4px 14px rgba(213, 180, 106, 0.4) !important;
+}
+
+[data-goat-preset="galactico-gold"] #timer-start-btn:hover,
+[data-theme="galactico-gold"] #timer-start-btn:hover {
+  transform: translateY(-2px) scale(1.04) !important;
+  background: #CA8A04 !important;
+  color: #FFFFFF !important;
+  box-shadow: 0 6px 20px rgba(202, 138, 4, 0.55) !important;
+}
+
+[data-goat-preset="galactico-gold"] #timer-pause-btn,
+[data-theme="galactico-gold"] #timer-pause-btn {
+  background: #DC2626 !important;
+  color: #FFFFFF !important;
+  box-shadow: 0 4px 14px rgba(220, 38, 38, 0.4) !important;
+}
+
+/* Preset 2: Progress Bar / Ring transitions from Galáctico Royal Blue (#173A67) to Ballon d'Or Gold (#CA8A04) */
+[data-goat-preset="galactico-gold"] #timer-progress-bar-fill,
+[data-theme="galactico-gold"] #timer-progress-bar-fill,
+[data-goat-preset="galactico-gold"] [role="progressbar"] > div,
+[data-theme="galactico-gold"] [role="progressbar"] > div {
+  background: linear-gradient(90deg, #173A67 0%, #CA8A04 100%) !important;
+  box-shadow: 0 0 10px rgba(202, 138, 4, 0.4) !important;
+}
+
+/* 6. C. THIS SEASON (Calendar & Schedule) */
+[data-style="goat"] #calendar-widget-content,
+[data-theme="mr-champions-league"] #calendar-widget-content {
+  color: var(--text-main, #FFFFFF) !important;
+}
+
+[data-goat-preset="galactico-gold"] #calendar-widget-content,
+[data-theme="galactico-gold"] #calendar-widget-content {
+  color: #0F172A !important;
+  background-color: #FFFFFF !important;
+}
+
+/* Preset 1: Current Day Illuminated with Legacy Gold Border and Starball Cyan Badge */
+[data-goat-preset="mr-champions-league"] #calendar-widget-content [key*="day-"].scale-105,
+[data-goat-preset="mr-champions-league"] #calendar-widget-content div.text-white.scale-105,
+[data-theme="mr-champions-league"] #calendar-widget-content [key*="day-"].scale-105,
+[data-theme="mr-champions-league"] #calendar-widget-content div.text-white.scale-105,
+:root[data-style="goat"]:not([data-goat-preset]) #calendar-widget-content [key*="day-"].scale-105,
+[data-style="goat"]:not([data-goat-preset]) #calendar-widget-content div.text-white.scale-105 {
+  background: linear-gradient(135deg, #0757C8 0%, #45B7FF 100%) !important;
+  border: 2px solid #D4AF37 !important;
+  box-shadow: 
+    0 0 15px rgba(212, 175, 55, 0.6),
+    0 0 25px rgba(69, 183, 255, 0.4) !important;
+  border-radius: 12px !important;
+}
+
+/* Preset 2: Current Day Highlight - Illuminated with solid Ballon d'Or Gold (#CA8A04) background badge, white text & distinct outer gold glow halo */
+[data-goat-preset="galactico-gold"] #calendar-widget-content [key*="day-"].scale-105,
+[data-goat-preset="galactico-gold"] #calendar-widget-content div.scale-105,
+[data-theme="galactico-gold"] #calendar-widget-content [key*="day-"].scale-105,
+[data-theme="galactico-gold"] #calendar-widget-content div.scale-105 {
+  background: #CA8A04 !important;
+  color: #FFFFFF !important;
+  border: 2px solid #FFFFFF !important;
+  box-shadow: 
+    0 0 18px rgba(202, 138, 4, 0.65),
+    0 0 30px rgba(213, 180, 106, 0.4) !important;
+  border-radius: 12px !important;
+  font-weight: 900 !important;
+}
+
+[data-goat-preset="galactico-gold"] #calendar-widget-content div.scale-105 span,
+[data-theme="galactico-gold"] #calendar-widget-content div.scale-105 span {
+  color: #FFFFFF !important;
+}
+
+/* 7. D. MISSION BOARD (To-Do List) */
+[data-style="goat"] #todo-list-card,
+[data-theme="mr-champions-league"] #todo-list-card,
+[data-theme="galactico-gold"] #todo-list-card {
+  color: var(--text-main, #FFFFFF) !important;
+}
+
+/* Micro-polish alignment fix for completed task row */
+.mission-item-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Prevents badge and icon collision */
+  margin-left: 8px;
+}
+
+/* Preset 1: Priority tasks display Starball Cyan highlight tag */
+[data-goat-preset="mr-champions-league"] [data-todo-row],
+[data-theme="mr-champions-league"] [data-todo-row] {
+  border-left: 3px solid rgba(69, 183, 255, 0.3);
+  transition: all 0.2s ease;
+}
+
+[data-goat-preset="mr-champions-league"] [data-todo-row]:hover,
+[data-theme="mr-champions-league"] [data-todo-row]:hover {
+  border-left-color: #45B7FF;
+  background-color: rgba(69, 183, 255, 0.08);
+}
+
+/* Preset 2: Mission Board Task Row Surface (Pure White #FFFFFF with subtle slate borders #E2E8F0) */
+[data-goat-preset="galactico-gold"] [data-todo-row],
+[data-theme="galactico-gold"] [data-todo-row] {
+  background-color: #FFFFFF !important;
+  border-color: #E2E8F0 !important;
+  border-left: 3px solid rgba(213, 180, 106, 0.45) !important;
+  color: #0F172A !important;
+  transition: all 0.2s ease;
+}
+
+[data-goat-preset="galactico-gold"] [data-todo-row]:hover,
+[data-theme="galactico-gold"] [data-todo-row]:hover {
+  border-left-color: #CA8A04 !important;
+  border-color: #D5B46A !important;
+  background-color: #F8FAFC !important;
+}
+
+[data-goat-preset="galactico-gold"] [data-todo-priority="high"],
+[data-goat-preset="galactico-gold"] [data-todo-must-win="true"],
+[data-theme="galactico-gold"] [data-todo-priority="high"],
+[data-theme="galactico-gold"] [data-todo-must-win="true"] {
+  border-left-color: #D5B46A !important;
+  background: linear-gradient(90deg, rgba(213, 180, 106, 0.12) 0%, #FFFFFF 100%) !important;
+}
+
+/* High-priority "Must-Win Matches" feature a subtle red accent in Champions League */
+[data-goat-preset="mr-champions-league"] [data-todo-priority="high"],
+[data-goat-preset="mr-champions-league"] [data-todo-must-win="true"],
+[data-theme="mr-champions-league"] [data-todo-priority="high"],
+[data-theme="mr-champions-league"] [data-todo-must-win="true"] {
+  border-left-color: #C8102E !important;
+  background: linear-gradient(90deg, rgba(200, 16, 46, 0.12) 0%, transparent 100%) !important;
+}
+
+/* Completed State: subtle strikethrough, dimming the text while displaying gold #7 WIN badge */
+[data-style="goat"] [data-todo-completed="true"] span.line-through,
+[data-theme="mr-champions-league"] [data-todo-completed="true"] span.line-through {
+  opacity: 0.55 !important;
+}
+
+/* Preset 2: Completed task text switches to muted slate (#64748B) with subtle strikethrough */
+[data-goat-preset="galactico-gold"] [data-todo-completed="true"] span.line-through,
+[data-theme="galactico-gold"] [data-todo-completed="true"] span.line-through {
+  color: #64748B !important;
+  opacity: 0.8 !important;
+}
+
+.mission-win-badge {
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  padding: 1px 7px;
+  border-radius: 9999px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+/* Preset 2: Completed Badge (#7 WIN) rendered in solid Champagne Gold (#D5B46A) with dark navy text (#0F172A) */
+[data-goat-preset="galactico-gold"] .mission-win-badge,
+[data-theme="galactico-gold"] .mission-win-badge {
+  background: #D5B46A !important;
+  border: 1px solid #CA8A04 !important;
+  color: #0F172A !important;
+  font-weight: 900 !important;
+  box-shadow: 0 2px 6px rgba(213, 180, 106, 0.35) !important;
+}
+
+[data-goat-preset="mr-champions-league"] .mission-win-badge,
+[data-theme="mr-champions-league"] .mission-win-badge,
+:root[data-style="goat"]:not([data-goat-preset]) .mission-win-badge {
+  background: rgba(212, 175, 55, 0.18) !important;
+  border: 1px solid rgba(212, 175, 55, 0.45) !important;
+  color: #D4AF37 !important;
+}
+
+/* E. PRE-MATCH TUNNEL AUDIO & PRAYER MODULES (Preset 2 Galáctico Gold) */
+[data-goat-preset="galactico-gold"] [data-widget-id="music"],
+[data-goat-preset="galactico-gold"] [data-widget-id="prayer"],
+[data-goat-preset="galactico-gold"] [data-widget-id="prayer_full"],
+[data-theme="galactico-gold"] [data-widget-id="music"],
+[data-theme="galactico-gold"] [data-widget-id="prayer"],
+[data-theme="galactico-gold"] [data-widget-id="prayer_full"] {
+  background-color: #FFFFFF !important;
+  border: 1px solid rgba(213, 180, 106, 0.3) !important;
+  color: #0F172A !important;
+}
+
+[data-goat-preset="galactico-gold"] [data-widget-id="music"] [id^="header-drag-zone"],
+[data-goat-preset="galactico-gold"] [data-widget-id="prayer"] [id^="header-drag-zone"],
+[data-goat-preset="galactico-gold"] [data-widget-id="prayer_full"] [id^="header-drag-zone"],
+[data-theme="galactico-gold"] [data-widget-id="music"] [id^="header-drag-zone"],
+[data-theme="galactico-gold"] [data-widget-id="prayer"] [id^="header-drag-zone"],
+[data-theme="galactico-gold"] [data-widget-id="prayer_full"] [id^="header-drag-zone"] {
+  background-color: #F8FAFC !important;
+  border-bottom: 1px solid rgba(213, 180, 106, 0.25) !important;
+  color: #0F172A !important;
+}
+
+[data-goat-preset="galactico-gold"] [data-widget-id="music"] button[class*="bg-"][class*="accent"],
+[data-theme="galactico-gold"] [data-widget-id="music"] button[class*="bg-"][class*="accent"] {
+  background: linear-gradient(135deg, #173A67 0%, #D5B46A 100%) !important;
+  color: #FFFFFF !important;
+}
+
+/* Prayer Timer Display: High-contrast dark navy timer block (#0F172A) with Champagne Gold LED countdown digits */
+[data-goat-preset="galactico-gold"] #mini-prayer-timer-container,
+[data-goat-preset="galactico-gold"] .prayer-block-countdown,
+[data-theme="galactico-gold"] #mini-prayer-timer-container,
+[data-theme="galactico-gold"] .prayer-block-countdown {
+  background-color: #0F172A !important;
+  border: 1.5px solid #D5B46A !important;
+  border-radius: 14px;
+}
+
+[data-goat-preset="galactico-gold"] #mini-prayer-countdown,
+[data-theme="galactico-gold"] #mini-prayer-countdown {
+  color: #D5B46A !important;
+  text-shadow: 0 0 10px rgba(213, 180, 106, 0.6) !important;
+}
+
+/* 8. Modals & Settings in THE GOAT */
+[data-style="goat"] #settings-modal-card,
+[data-style="goat"] #widget-manager-modal,
+[data-theme="mr-champions-league"] #settings-modal-card,
+[data-theme="mr-champions-league"] #widget-manager-modal {
+  background-color: var(--panel-card, #0B2042) !important;
+  border: 1.5px solid var(--gold-trophy, #D4AF37) !important;
+  box-shadow: 
+    0 25px 70px rgba(0, 0, 0, 0.8),
+    0 0 40px rgba(69, 183, 255, 0.35) !important;
+  border-radius: 24px !important;
+}
+
+/* 9. Scrollbars in THE GOAT */
+[data-style="goat"] ::-webkit-scrollbar-track,
+[data-theme="mr-champions-league"] ::-webkit-scrollbar-track {
+  background: #030A17;
+}
+
+[data-style="goat"] ::-webkit-scrollbar-thumb,
+[data-theme="mr-champions-league"] ::-webkit-scrollbar-thumb {
+  background: #0757C8 !important;
+  border-radius: 9999px;
+}
+
+[data-style="goat"] ::-webkit-scrollbar-thumb:hover,
+[data-theme="mr-champions-league"] ::-webkit-scrollbar-thumb:hover {
+  background: #45B7FF !important;
+}
+
+/* 10. Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  [data-style="goat"] #goat-stadium-canvas,
+  [data-theme="mr-champions-league"] #goat-stadium-canvas,
+  #preset1-floodlight-overlay {
+    opacity: 0.35 !important;
+  }
+  .floodlight-beam-left,
+  .floodlight-beam-right,
+  .floodlight-atmosphere-wash {
+    animation: none !important;
+  }
+}
+
+/* ==========================================================================
+   CSS selector: #app-root-container
+   PRESET 1: SUBTLE STADIUM FLOODLIGHTS SWEEPING BACKGROUND OVERLAY
+   ========================================================================== */
+
+#app-root-container #preset1-floodlight-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Activate on Preset 1 (Mr. Champions League / Default GOAT) */
+[data-style="goat"][data-goat-preset="mr-champions-league"] #app-root-container #preset1-floodlight-overlay,
+#app-root-container[data-goat-preset="mr-champions-league"] #preset1-floodlight-overlay,
+:root[data-goat-preset="mr-champions-league"] #app-root-container #preset1-floodlight-overlay,
+:root[data-theme="mr-champions-league"] #app-root-container #preset1-floodlight-overlay,
+[data-theme="mr-champions-league"] #preset1-floodlight-overlay,
+[data-goat-preset="mr-champions-league"] #preset1-floodlight-overlay,
+:root[data-style="goat"]:not([data-goat-preset]) #app-root-container #preset1-floodlight-overlay,
+[data-style="goat"]:not([data-goat-preset]) #app-root-container #preset1-floodlight-overlay {
+  opacity: 1;
+}
+
+/* Floodlight Beam Left: Sweeping from top-left corner across pitch */
+.floodlight-beam-left {
+  position: absolute;
+  top: -12%;
+  left: -8%;
+  width: 140vw;
+  height: 125vh;
+  transform-origin: 3% 3%;
+  background: conic-gradient(
+    from 118deg at 0% 0%,
+    transparent 0deg,
+    rgba(69, 183, 255, 0.04) 16deg,
+    rgba(215, 227, 244, 0.08) 26deg,
+    rgba(69, 183, 255, 0.06) 36deg,
+    transparent 52deg
+  );
+  filter: blur(24px);
+  animation: floodlight-sweep-left 14s ease-in-out infinite alternate;
+}
+
+/* Floodlight Beam Right: Sweeping from top-right corner across pitch */
+.floodlight-beam-right {
+  position: absolute;
+  top: -12%;
+  right: -8%;
+  width: 140vw;
+  height: 125vh;
+  transform-origin: 97% 3%;
+  background: conic-gradient(
+    from 184deg at 100% 0%,
+    transparent 0deg,
+    rgba(7, 87, 200, 0.04) 16deg,
+    rgba(69, 183, 255, 0.08) 26deg,
+    rgba(215, 227, 244, 0.07) 34deg,
+    transparent 50deg
+  );
+  filter: blur(28px);
+  animation: floodlight-sweep-right 17s ease-in-out infinite alternate;
+}
+
+/* Stadium Floodlight Ambient Atmospheric Wash: sweeping horizontally across field */
+.floodlight-atmosphere-wash {
+  position: absolute;
+  inset: -15%;
+  background: radial-gradient(
+    ellipse 70% 45% at 50% 12%,
+    rgba(69, 183, 255, 0.08) 0%,
+    rgba(7, 87, 200, 0.035) 45%,
+    transparent 78%
+  );
+  filter: blur(45px);
+  animation: floodlight-atmosphere-pulse 9s ease-in-out infinite alternate;
+}
+
+/* Stadium Gantry Light Bar: high-intensity roof lighting glow */
+.floodlight-gantry-glow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 220px;
+  background: linear-gradient(
+    180deg,
+    rgba(69, 183, 255, 0.09) 0%,
+    rgba(7, 87, 200, 0.04) 50%,
+    transparent 100%
+  );
+  pointer-events: none;
+}
+
+@keyframes floodlight-sweep-left {
+  0% {
+    transform: rotate(-10deg) scale(1);
+    opacity: 0.65;
+  }
+  50% {
+    transform: rotate(20deg) scale(1.08);
+    opacity: 0.95;
+  }
+  100% {
+    transform: rotate(4deg) scale(1.02);
+    opacity: 0.75;
+  }
+}
+
+@keyframes floodlight-sweep-right {
+  0% {
+    transform: rotate(10deg) scale(1.05);
+    opacity: 0.85;
+  }
+  50% {
+    transform: rotate(-20deg) scale(0.98);
+    opacity: 0.6;
+  }
+  100% {
+    transform: rotate(-4deg) scale(1.03);
+    opacity: 0.8;
+  }
+}
+
+@keyframes floodlight-atmosphere-pulse {
+  0% {
+    opacity: 0.55;
+    transform: translateY(0px) scale(1);
+  }
+  100% {
+    opacity: 0.95;
+    transform: translateY(22px) scale(1.03);
+  }
+}
