@@ -1,6 +1,7 @@
 export type AppearanceMode = 'light' | 'dark';
 export type GoatPreset =
   | 'mr-champions-league'
+  | 'european-nights'
   | 'galactico-gold'
   | 'selecao-passion'
   | 'red-devil'
@@ -22,6 +23,7 @@ export type StylePalette =
   | 'aerofuturism'
   | 'goat'
   | 'mr-champions-league'
+  | 'european-nights'
   | 'galactico-gold'
   | 'selecao-passion'
   | 'red-devil'
@@ -46,6 +48,7 @@ export type ThemeMode =
   | 'aerofuturism'
   | 'goat'
   | 'mr-champions-league'
+  | 'european-nights'
   | 'galactico-gold'
   | 'selecao-passion'
   | 'red-devil'

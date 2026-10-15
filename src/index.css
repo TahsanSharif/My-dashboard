@@ -6376,4 +6376,463 @@
     inset 0 1px 1px rgba(255, 255, 255, 0.15) !important;
 }
 
+/* ===================================================
+   CR7 MUSEUM & HALL OF FAME — EXHIBIT CARDS STYLING
+   =================================================== */
+.museum-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  border-radius: 16px;
+  overflow: hidden;
+  background: var(--panel-card, #14161b);
+  border: 1px solid var(--panel-border, rgba(199, 1, 1, 0.3));
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.museum-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--primary-accent, #c70101);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.65), 0 0 25px rgba(199, 1, 1, 0.25);
+}
+
+.museum-card[data-preset="the-red-devil"],
+.museum-card[data-preset="red-devil"] {
+  border-color: rgba(199, 1, 1, 0.35);
+  background: linear-gradient(180deg, #181a20 0%, #0d0e12 100%);
+}
+
+.museum-card[data-preset="the-red-devil"]:hover,
+.museum-card[data-preset="red-devil"]:hover {
+  border-color: #c70101;
+  box-shadow: 0 16px 40px rgba(11, 12, 14, 0.85), 0 0 30px rgba(199, 1, 1, 0.35);
+}
+
+.card-image-wrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  background: #050608;
+}
+
+.exhibit-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 25%;
+  transition: transform 0.4s ease;
+}
+
+.museum-card:hover .exhibit-img {
+  transform: scale(1.04);
+}
+
+.exhibit-tag {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-family: var(--font-mono, monospace);
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: rgba(11, 12, 14, 0.88);
+  color: #d4af37;
+  border: 1px solid rgba(212, 175, 55, 0.4);
+  backdrop-filter: blur(8px);
+}
+
+.badge-number-7 {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  font-family: var(--font-mono, monospace);
+  font-size: 12px;
+  font-weight: 900;
+  background: #c70101;
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 0 2px 8px rgba(199, 1, 1, 0.5);
+}
+
+.card-content {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex: 1;
+}
+
+.exhibit-title {
+  font-size: 1.15rem;
+  font-weight: 900;
+  letter-spacing: -0.01em;
+  color: #ffffff;
+  line-height: 1.25;
+  margin: 0;
+}
+
+.match-meta {
+  font-family: var(--font-mono, monospace);
+  font-size: 11px;
+  font-weight: 700;
+  color: #ff4d4d;
+  letter-spacing: 0.02em;
+}
+
+.exhibit-description {
+  font-size: 12px;
+  line-height: 1.5;
+  color: #d1d5db;
+  margin: 0;
+}
+
+.exhibit-trophy-badge-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.trophy-pill,
+.goals-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  font-family: var(--font-mono, monospace);
+  font-size: 11px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.trophy-pill {
+  background: rgba(212, 175, 55, 0.15);
+  color: #d4af37;
+  border: 1px solid rgba(212, 175, 55, 0.35);
+}
+
+.trophy-pill:hover {
+  background: rgba(212, 175, 55, 0.25);
+  border-color: #d4af37;
+}
+
+.goals-pill {
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+.goals-pill:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.activate-theme-btn {
+  margin-top: auto;
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #c70101 0%, #8a0000 100%);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+  font-family: var(--font-mono, monospace);
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(199, 1, 1, 0.4);
+}
+
+.activate-theme-btn:hover {
+  background: linear-gradient(135deg, #ff1e1e 0%, #c70101 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(199, 1, 1, 0.6);
+}
+
+.activate-theme-btn:active {
+  transform: translateY(0);
+}
+
+/* Galáctico Gold Exhibit Styles */
+.museum-card[data-preset="galactico-gold"] {
+  border-color: rgba(213, 180, 106, 0.35);
+  background: linear-gradient(180deg, #161a26 0%, #0c0f17 100%);
+}
+
+.museum-card[data-preset="galactico-gold"]:hover {
+  border-color: #f2cc63;
+  box-shadow: 0 16px 40px rgba(14, 19, 31, 0.95), 0 0 32px rgba(242, 204, 99, 0.45);
+}
+
+.museum-card[data-preset="galactico-gold"] .match-meta {
+  color: #f2cc63;
+}
+
+.museum-card[data-preset="galactico-gold"] .activate-theme-btn {
+  background: linear-gradient(135deg, #173a67 0%, #0e131f 50%, #d5b46a 100%);
+  border: 1px solid rgba(242, 204, 99, 0.45);
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(213, 180, 106, 0.45);
+}
+
+.museum-card[data-preset="galactico-gold"] .activate-theme-btn:hover {
+  background: linear-gradient(135deg, #d5b46a 0%, #f2cc63 100%);
+  color: #0b0d13;
+  border-color: #ffffff;
+  box-shadow: 0 6px 20px rgba(242, 204, 99, 0.65);
+}
+
+/* Seleção Passion Exhibit Styles */
+.museum-card[data-preset="selecao-passion"] {
+  border-color: rgba(200, 16, 46, 0.35);
+  background: linear-gradient(180deg, #180d12 0%, #0c080a 100%);
+}
+
+.museum-card[data-preset="selecao-passion"]:hover {
+  border-color: #c8102e;
+  box-shadow: 0 16px 40px rgba(11, 13, 15, 0.85), 0 0 30px rgba(200, 16, 46, 0.4);
+}
+
+.museum-card[data-preset="selecao-passion"] .match-meta {
+  color: #ff6680;
+}
+
+.museum-card[data-preset="selecao-passion"] .activate-theme-btn {
+  background: linear-gradient(135deg, #c8102e 0%, #8a0018 60%, #006633 100%);
+  border: 1px solid rgba(212, 175, 55, 0.35);
+  box-shadow: 0 4px 12px rgba(200, 16, 46, 0.45);
+}
+
+.museum-card[data-preset="selecao-passion"] .activate-theme-btn:hover {
+  background: linear-gradient(135deg, #e61e38 0%, #c8102e 60%, #008b45 100%);
+  box-shadow: 0 6px 18px rgba(200, 16, 46, 0.65);
+}
+
+.records-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  font-family: var(--font-mono, monospace);
+  font-size: 11px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background: rgba(0, 102, 51, 0.22);
+  color: #34d399;
+  border: 1px solid rgba(0, 102, 51, 0.45);
+}
+
+.records-pill:hover {
+  background: rgba(0, 102, 51, 0.35);
+  border-color: #34d399;
+}
+
+.appearances-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  font-family: var(--font-mono, monospace);
+  font-size: 11px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background: rgba(212, 175, 55, 0.18);
+  color: #fde047;
+  border: 1px solid rgba(212, 175, 55, 0.4);
+}
+
+.appearances-pill:hover {
+  background: rgba(212, 175, 55, 0.3);
+  border-color: #fde047;
+}
+
+/* Le Zebre Exhibit Styles */
+.museum-card[data-preset="le-zebre"] {
+  border-color: rgba(212, 175, 55, 0.35);
+  background: linear-gradient(180deg, #16161b 0%, #09090c 100%);
+}
+
+.museum-card[data-preset="le-zebre"]:hover {
+  border-color: #ffffff;
+  box-shadow: 0 16px 40px rgba(8, 8, 10, 0.95), 0 0 30px rgba(212, 175, 55, 0.35);
+}
+
+.museum-card[data-preset="le-zebre"] .match-meta {
+  color: #f2cc63;
+}
+
+.museum-card[data-preset="le-zebre"] .activate-theme-btn {
+  background: linear-gradient(135deg, #1a1a22 0%, #000000 60%, #d4af37 100%);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+}
+
+.museum-card[data-preset="le-zebre"] .activate-theme-btn:hover {
+  background: linear-gradient(135deg, #ffffff 0%, #f2cc63 100%);
+  color: #000000;
+  border-color: #d4af37;
+  box-shadow: 0 6px 20px rgba(212, 175, 55, 0.5);
+}
+
+/* ===================================================
+   EL BICHO — 3-PEAT DYNASTY SECTION STYLING
+   =================================================== */
+.museum-card[data-preset="el-bicho"],
+.museum-card.exhibit-el-bicho {
+  border-color: rgba(0, 184, 176, 0.35);
+  background: linear-gradient(180deg, #10151c 0%, #0a0c10 100%);
+}
+
+.museum-card[data-preset="el-bicho"]:hover,
+.museum-card.exhibit-el-bicho:hover {
+  border-color: #00e5ff;
+  box-shadow: 0 16px 40px rgba(10, 12, 16, 0.9), 0 0 35px rgba(0, 229, 255, 0.35);
+}
+
+.museum-card[data-preset="el-bicho"] .match-meta,
+.museum-card.exhibit-el-bicho .match-meta {
+  color: #00e5ff;
+}
+
+.vertical-three-peat-badge {
+  position: absolute;
+  top: 10px;
+  right: 44px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-family: var(--font-mono, monospace);
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  background: rgba(0, 184, 176, 0.25);
+  color: #00e5ff;
+  border: 1px solid rgba(0, 229, 255, 0.5);
+  box-shadow: 0 0 10px rgba(0, 229, 255, 0.35);
+  backdrop-filter: blur(8px);
+}
+
+.finals-timeline-preview {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 11.5px;
+  line-height: 1.45;
+  color: #cbd5e1;
+}
+
+.finals-timeline-preview p {
+  margin: 0;
+}
+
+.finals-timeline-preview strong {
+  color: #00e5ff;
+}
+
+/* Isolated 3-Peat Dynasty Section Styling */
+.three-peat-stats-block {
+  background: var(--panel-card, #14161b);
+  border: 1px solid var(--primary-accent, #00b8b0);
+  border-radius: 10px;
+  padding: 14px;
+  margin: 14px 0;
+}
+
+.stats-block-header h4 {
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: var(--primary-accent, #00b8b0);
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  letter-spacing: 0.5px;
+}
+
+.three-peat-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.three-peat-grid .stat-box {
+  background: var(--panel-elevated, #1a202c);
+  padding: 8px;
+  border-radius: 6px;
+  text-align: center;
+  border: 1px solid var(--panel-border, rgba(0, 184, 176, 0.25));
+}
+
+.three-peat-grid .stat-val {
+  display: block;
+  font-size: 1.1rem;
+  font-weight: 900;
+  color: var(--text-main, #ffffff);
+}
+
+.three-peat-grid .stat-lbl {
+  font-size: 0.65rem;
+  color: var(--text-muted, #94a3b8);
+  text-transform: uppercase;
+}
+
+.three-peat-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-size: 0.78rem;
+  color: var(--text-muted, #94a3b8);
+}
+
+.three-peat-list li {
+  padding: 3px 0;
+  border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
+}
+
+.three-peat-list li:last-child {
+  border-bottom: none;
+}
+
+.three-peat-list li strong {
+  color: #ffffff;
+}
+
+.museum-card[data-preset="el-bicho"] .activate-theme-btn,
+.museum-card.exhibit-el-bicho .activate-theme-btn {
+  background: linear-gradient(135deg, #00b8b0 0%, #087e83 50%, #6b3fa0 100%);
+  border: 1px solid rgba(0, 229, 255, 0.4);
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(0, 184, 176, 0.45);
+}
+
+.museum-card[data-preset="el-bicho"] .activate-theme-btn:hover,
+.museum-card.exhibit-el-bicho .activate-theme-btn:hover {
+  background: linear-gradient(135deg, #00e5ff 0%, #00b8b0 50%, #8b5cf6 100%);
+  box-shadow: 0 6px 20px rgba(0, 229, 255, 0.65);
+}
+
+
+
+
+
 
