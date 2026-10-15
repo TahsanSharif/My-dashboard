@@ -640,11 +640,21 @@
   [data-style="goat"],
   :root[data-goat-preset="mr-champions-league"],
   [data-goat-preset="mr-champions-league"],
+  :root[data-goat-preset="the-european-nights"],
+  [data-goat-preset="the-european-nights"],
+  :root[data-goat-preset="european-nights"],
+  [data-goat-preset="european-nights"],
   :root[data-theme="mr-champions-league"],
   [data-theme="mr-champions-league"],
+  :root[data-theme="the-european-nights"],
+  [data-theme="the-european-nights"],
+  :root[data-theme="european-nights"],
+  [data-theme="european-nights"],
   [data-theme="goat"] {
     /* Backgrounds & Cards */
     --bg-stadium: #06152E;
+    --bg-stadium-img: url('/assets/ucl-stadium-bg.jpg');
+    --ucl-custom-bg-image: url('/assets/ucl-stadium-bg.jpg');
     --panel-card: #0B2042;
     --panel-elevated: #112A52;
     --panel-border: rgba(69, 183, 255, 0.2);
@@ -3939,9 +3949,47 @@
    UEFA Champions League Knockout Atmosphere & Elite Stadium Engineering
    ========================================================================== */
 
+/* European Nights Custom Background Support */
+[data-theme="mr-champions-league"],
+[data-theme="european-nights"],
+[data-theme="the-european-nights"],
+:root[data-goat-preset="mr-champions-league"],
+[data-goat-preset="mr-champions-league"],
+:root[data-goat-preset="european-nights"],
+[data-goat-preset="european-nights"],
+:root[data-goat-preset="the-european-nights"],
+[data-goat-preset="the-european-nights"] {
+  background-image: linear-gradient(
+      rgba(6, 21, 46, 0.85),
+      rgba(6, 21, 46, 0.95)
+    ),
+    var(--bg-stadium-img, var(--ucl-custom-bg-image, url('/assets/ucl-stadium-bg.jpg')));
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+
+[data-theme="mr-champions-league"] #app-root-container,
+[data-theme="european-nights"] #app-root-container,
+[data-theme="the-european-nights"] #app-root-container,
+[data-goat-preset="mr-champions-league"] #app-root-container,
+[data-goat-preset="european-nights"] #app-root-container,
+[data-goat-preset="the-european-nights"] #app-root-container,
+[data-style="goat"]:not([data-goat-preset]) #app-root-container {
+  background-image: linear-gradient(
+      rgba(6, 21, 46, 0.85),
+      rgba(6, 21, 46, 0.95)
+    ),
+    var(--bg-stadium-img, var(--ucl-custom-bg-image, url('/assets/ucl-stadium-bg.jpg'))) !important;
+  background-size: cover !important;
+  background-position: center !important;
+  background-attachment: fixed !important;
+}
+
 /* 1. Global Container & Stadium Canvas */
 [data-style="goat"] #app-root-container,
 [data-theme="mr-champions-league"] #app-root-container,
+[data-theme="european-nights"] #app-root-container,
 [data-theme="galactico-gold"] #app-root-container,
 [data-theme="selecao-passion"] #app-root-container,
 [data-theme="red-devil"] #app-root-container,
@@ -4420,6 +4468,192 @@
   padding: 1px 7px;
   border-radius: 9999px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+/* Update Completion Badge Text Output */
+.completed-task-badge::after {
+  content: "SIUUU"; /* Replaces #7 WIN */
+  font-weight: 800;
+  letter-spacing: 0.5px;
+}
+
+/* Header Badge Text */
+.header-number-badge {
+  content: "7"; /* Displays '7' only instead of '#7' */
+}
+
+/* Trophy & Box Styling Enhancements */
+.cr7-ucl-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 14px;
+  border-radius: 8px;
+  background: var(--panel-elevated);
+  border: 1px solid var(--panel-border);
+}
+
+.ucl-trophy-large {
+  width: 28px; /* Enlarged trophy vector */
+  height: auto;
+  filter: drop-shadow(0 0 6px var(--primary-accent));
+  animation: ucl-trophy-float 3.5s ease-in-out infinite;
+}
+
+.mr-trophy-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 1.4rem;
+  font-weight: 800;
+}
+
+.theme-subtitle {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--primary-accent);
+  margin-bottom: 4px;
+}
+
+.number-badge-single {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono, monospace);
+  font-weight: 900;
+}
+
+/* Header Structural Layout Override Rules */
+.header-brand-block {
+  display: flex;
+  flex-direction: column;
+}
+
+.header-main-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+
+.goat-stacked-title {
+  display: flex;
+  flex-direction: column;
+  line-height: 0.95;
+  font-size: 2.2rem;
+  font-weight: 900;
+  color: var(--primary-accent, #45B7FF);
+  text-shadow: 0 0 16px rgba(69, 183, 255, 0.4);
+}
+
+.header-info-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 10px 14px;
+  border-radius: 12px;
+  background: var(--panel-elevated, #112A52);
+  border: 1px solid var(--panel-border, rgba(69, 183, 255, 0.25));
+  min-width: 90px;
+}
+
+.box-line-1 {
+  font-family: var(--font-mono, monospace);
+  font-weight: 900;
+  font-size: 0.85rem;
+  letter-spacing: 0.05em;
+  color: #FDE047; /* gold/amber */
+}
+
+.box-line-2 {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono, monospace);
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: #FFFFFF;
+}
+
+.ucl-trophy-icon-lg {
+  width: 26px;
+  height: auto;
+  vertical-align: middle;
+  filter: drop-shadow(0 0 6px var(--primary-accent, #45B7FF));
+  animation: ucl-trophy-float 3.5s ease-in-out infinite;
+}
+
+.header-social-pills {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.header-social-pills .social-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  width: fit-content;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  font-size: 11px;
+  font-weight: 700;
+  font-family: var(--font-mono, monospace);
+  background: var(--bg-card-subtle, rgba(255, 255, 255, 0.06));
+  border: 1px solid var(--border-color, rgba(255, 255, 255, 0.12));
+  color: var(--text-secondary, #94A3B8);
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.header-social-pills .social-pill:hover {
+  transform: translateX(3px);
+}
+
+.header-social-pills .social-pill.instagram:hover {
+  color: #EC4899;
+  border-color: rgba(236, 72, 153, 0.4);
+}
+
+.header-social-pills .social-pill.youtube:hover {
+  color: #EF4444;
+  border-color: rgba(239, 68, 68, 0.4);
+}
+
+/* UEFA Champions League Trophy Shimmer & Sparkle Keyframes */
+@keyframes ucl-sparkle-pulse {
+  0%, 100% {
+    transform: scale(0.6) rotate(0deg);
+    opacity: 0.4;
+  }
+  50% {
+    transform: scale(1.3) rotate(45deg);
+    opacity: 1;
+  }
+}
+
+@keyframes ucl-trophy-float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-2px);
+  }
+}
+
+.ucl-trophy-animated {
+  animation: ucl-trophy-float 3.5s ease-in-out infinite;
+}
+
+.ucl-sparkle-left {
+  animation: ucl-sparkle-pulse 2.2s ease-in-out infinite;
+  transform-origin: 18px 35px;
+}
+
+.ucl-sparkle-right {
+  animation: ucl-sparkle-pulse 2.8s ease-in-out 0.8s infinite;
+  transform-origin: 68px 26px;
 }
 
 /* Preset 2: Completed Badge (#7 WIN) rendered in solid Champagne Gold (#D5B46A) with dark navy text (#0F172A) */

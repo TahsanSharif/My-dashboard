@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 120" fill="none">
+  <defs>
+    <linearGradient id="ucl-svg-silver" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#8A9AA8" />
+      <stop offset="20%" stop-color="#D6E2ED" />
+      <stop offset="40%" stop-color="#FFFFFF" />
+      <stop offset="60%" stop-color="#A5B8CC" />
+      <stop offset="85%" stop-color="#E8F0F7" />
+      <stop offset="100%" stop-color="#6C7F93" />
+    </linearGradient>
+    <linearGradient id="ucl-svg-handle-l" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#C0D0DE" />
+      <stop offset="35%" stop-color="#FFFFFF" />
+      <stop offset="70%" stop-color="#7E93A8" />
+      <stop offset="100%" stop-color="#4A5C6E" />
+    </linearGradient>
+    <linearGradient id="ucl-svg-handle-r" x1="100%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#C0D0DE" />
+      <stop offset="35%" stop-color="#FFFFFF" />
+      <stop offset="70%" stop-color="#7E93A8" />
+      <stop offset="100%" stop-color="#4A5C6E" />
+    </linearGradient>
+    <linearGradient id="ucl-svg-base" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#C9D6E2" />
+      <stop offset="45%" stop-color="#8A9CAE" />
+      <stop offset="80%" stop-color="#3D5063" />
+      <stop offset="100%" stop-color="#1E2B38" />
+    </linearGradient>
+    <filter id="ucl-svg-glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="1.5" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Left Large Ear Handle -->
+  <path d="M 36 29 C 24 24, 11 32, 11 50 C 11 74, 27 82, 38 82 C 34 80, 24 74, 24 55 C 24 40, 31 34, 38 34 Z" fill="url(#ucl-svg-handle-l)" stroke="#3E5266" stroke-width="0.8" />
+
+  <!-- Right Large Ear Handle -->
+  <path d="M 64 29 C 76 24, 89 32, 89 50 C 89 74, 73 82, 62 82 C 66 80, 76 74, 76 55 C 76 40, 69 34, 62 34 Z" fill="url(#ucl-svg-handle-r)" stroke="#3E5266" stroke-width="0.8" />
+
+  <!-- Main Cup Body -->
+  <path d="M 32 26 L 68 26 C 72 26, 73 35, 71 52 C 69 68, 64 88, 56 94 L 44 94 C 36 88, 31 68, 29 52 C 27 35, 28 26, 32 26 Z" fill="url(#ucl-svg-silver)" stroke="#2B3C4D" stroke-width="0.8" />
+
+  <!-- Lip & Opening -->
+  <ellipse cx="50" cy="26" rx="19" ry="3.2" fill="#DCE7F2" stroke="#485D72" stroke-width="0.8" />
+  <ellipse cx="50" cy="26" rx="16.5" ry="1.8" fill="#182533" />
+
+  <!-- Rib Lines -->
+  <path d="M 31 36 Q 50 40 69 36" stroke="#475C71" stroke-width="0.8" fill="none" opacity="0.6" />
+  <path d="M 30 38 Q 50 42 70 38" stroke="#FFFFFF" stroke-width="0.6" fill="none" opacity="0.7" />
+
+  <!-- Center UEFA Starball Roundel -->
+  <g transform="translate(50, 48) scale(0.68)">
+    <circle cx="0" cy="0" r="10.5" fill="#0A182B" stroke="#D6E2ED" stroke-width="0.9" />
+    <polygon points="0,-6.5 1.9,-2 6.5,-2 2.8,0.9 4.1,5.5 0,2.8 -4.1,5.5 -2.8,0.9 -6.5,-2 -1.9,-2" fill="#FFFFFF" />
+    <polygon points="4.8,-2.7 5.6,0 7.5,0.5 5.8,1.6 6.1,3.4 4.8,2.4" fill="#45B7FF" />
+    <polygon points="-4.8,-2.7 -5.6,0 -7.5,0.5 -5.8,1.6 -6.1,3.4 -4.8,2.4" fill="#45B7FF" />
+  </g>
+
+  <!-- Inscription Lines: COUPE DES CLUBS CHAMPIONS EUROPÉENS -->
+  <path d="M 38 61 Q 50 63 62 61" stroke="#374B5F" stroke-width="0.7" stroke-dasharray="1.2 0.8" />
+  <path d="M 40 64 Q 50 66 60 64" stroke="#374B5F" stroke-width="0.7" stroke-dasharray="1.2 0.8" />
+
+  <!-- Stem & Base -->
+  <path d="M 44 94 L 56 94 L 54 102 L 46 102 Z" fill="url(#ucl-svg-base)" stroke="#334657" stroke-width="0.6" />
+  <ellipse cx="50" cy="103" rx="12" ry="2" fill="#8FA4B8" stroke="#334657" stroke-width="0.6" />
+  <path d="M 38 103 L 62 103 L 67 111 C 67 113, 33 113, 33 111 Z" fill="url(#ucl-svg-base)" stroke="#263544" stroke-width="0.8" />
+  <ellipse cx="50" cy="111" rx="17" ry="3.2" fill="#0C1724" stroke="#D6E2ED" stroke-width="0.7" />
+
+  <!-- Center Specular Highlight -->
+  <path d="M 48 29 L 52 29 L 50.5 93 L 49.5 93 Z" fill="#FFFFFF" opacity="0.6" filter="url(#ucl-svg-glow)" />
+
+  <!-- Sparkles -->
+  <path d="M 18 31 Q 18 35 22 35 Q 18 35 18 39 Q 18 35 14 35 Q 18 35 18 31 Z" fill="#45B7FF" />
+  <circle cx="18" cy="35" r="1" fill="#FFFFFF" />
+  <path d="M 68 23 Q 68 26 71 26 Q 68 26 68 29 Q 68 26 65 26 Q 68 26 68 23 Z" fill="#FFDF00" />
+  <circle cx="68" cy="26" r="1" fill="#FFFFFF" />
+</svg>

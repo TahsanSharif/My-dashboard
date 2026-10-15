@@ -319,14 +319,15 @@ export const TodoList: React.FC<TodoListProps> = ({
                 <div className="flex items-center gap-2.5 shrink-0">
                   {todo.completed && (
                     <span
-                      className="mission-win-badge badge-number-7 inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-black tracking-wider border shadow-2xs select-none"
+                      className="mission-win-badge completed-task-badge badge-number-7 inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-black tracking-wider border shadow-2xs select-none"
                       style={{
                         backgroundColor: 'rgba(213, 180, 106, 0.15)',
                         borderColor: 'rgba(213, 180, 106, 0.4)',
                         color: 'var(--gold-trophy, #D5B46A)',
                       }}
+                      title="SIUUU - Mission Completed"
                     >
-                      #7 WIN
+                      <span className="sr-only">SIUUU</span>
                     </span>
                   )}
 

@@ -915,11 +915,11 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
                         THE JERSEY CABINET · ACTIVE PERFORMANCE ERA
                       </span>
                       <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-400/15 text-amber-300 border border-amber-400/30">
-                        5 Presets
+                        {GOAT_PRESETS.length} Presets
                       </span>
                     </div>
-                    <span className="text-[11px] font-mono text-amber-300 font-bold">
-                      "Greatness is a choice."
+                    <span className="text-[11px] font-mono text-amber-300 font-bold hidden sm:inline">
+                      “Perhaps they need to change the name of the Champions League to the CR7 Champions League.” — CR7 2018
                     </span>
                   </div>
 
@@ -1013,7 +1013,17 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
                     : formData.style === 'solarpunk' || formData.style === 'aerofuturism'
                     ? '🌱 Aero-Futurism / Solarpunk'
                     : formData.style === 'goat'
-                    ? `🏆 THE GOAT (${formData.goatPreset || 'mr-champions-league'})`
+                    ? (formData.goatPreset === 'galactico-gold'
+                        ? '🏆 THE GOAT (Galáctico Gold)'
+                        : formData.goatPreset === 'selecao-passion'
+                        ? '🏆 THE GOAT (Seleção Passion)'
+                        : formData.goatPreset === 'red-devil' || formData.goatPreset === 'the-red-devil'
+                        ? '🏆 THE GOAT (The Red Devil)'
+                        : formData.goatPreset === 'el-bicho'
+                        ? '🏆 THE GOAT (El Bicho)'
+                        : formData.goatPreset === 'le-zebre'
+                        ? '🏆 THE GOAT (Le Zebre)'
+                        : '🏆 THE GOAT (The European Nights)')
                     : '⚪ Oblivion / Westworld'}
                 </span>
               </span>

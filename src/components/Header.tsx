@@ -13,6 +13,7 @@ import { AppearanceMode, LocationSettings, StylePalette, GoatPreset } from '../t
 import { ThemeSwitcher } from './ThemeSwitcher';
 import { LocationIndicator } from './LocationIndicator';
 import { GOAT_PRESETS } from './JerseyCabinet';
+import { UclTrophyVector } from './UclTrophyVector';
 
 interface HeaderProps {
   appearance: AppearanceMode;
@@ -52,256 +53,198 @@ export const Header: React.FC<HeaderProps> = ({
       }}
     >
       {/* ── 1. TOP-LEFT BRANDING + INSTAGRAM + YOUTUBE + LOCATION ── */}
+      {/* ── 1. TOP-LEFT BRANDING + INSTAGRAM + YOUTUBE + LOCATION ── */}
       <div className="flex items-start sm:items-center gap-3.5 text-left w-full md:w-auto">
-        {/* Brand Icon */}
-        <div
-          className="w-11 h-11 rounded-2xl flex items-center justify-center shadow-xs border shrink-0 transition-transform hover:scale-105"
-          style={{
-            backgroundColor:
-              style === 'goat'
-                ? goatPreset === 'galactico-gold'
-                  ? 'rgba(213, 180, 106, 0.15)'
-                  : goatPreset === 'selecao-passion'
-                  ? 'rgba(200, 16, 46, 0.25)'
-                  : goatPreset === 'red-devil' || goatPreset === 'the-red-devil'
-                  ? 'rgba(199, 1, 1, 0.25)'
-                  : goatPreset === 'el-bicho'
-                  ? 'rgba(0, 184, 176, 0.25)'
-                  : goatPreset === 'le-zebre'
-                  ? 'rgba(255, 255, 255, 0.12)'
-                  : 'rgba(7, 87, 200, 0.3)'
-                : 'var(--bg-card-subtle)',
-            borderColor:
-              style === 'goat'
-                ? goatPreset === 'galactico-gold'
-                  ? '#D5B46A'
-                  : goatPreset === 'selecao-passion'
-                  ? '#C8102E'
-                  : goatPreset === 'red-devil' || goatPreset === 'the-red-devil'
-                  ? '#C70101'
-                  : goatPreset === 'el-bicho'
-                  ? '#00B8B0'
-                  : goatPreset === 'le-zebre'
-                  ? '#D4AF37'
-                  : '#D4AF37'
-                : 'var(--border-color)',
-            color:
-              style === 'goat'
-                ? goatPreset === 'galactico-gold'
-                  ? '#D5B46A'
-                  : goatPreset === 'selecao-passion'
-                  ? '#D4AF37'
-                  : goatPreset === 'red-devil' || goatPreset === 'the-red-devil'
-                  ? '#D4AF37'
-                  : goatPreset === 'el-bicho'
-                  ? '#00E5FF'
-                  : goatPreset === 'le-zebre'
-                  ? '#FFFFFF'
-                  : '#D4AF37'
-                : 'var(--accent)',
-          }}
-        >
-          {style === 'goat' ? (
-            <span className="badge-number-7 font-black text-sm font-mono tracking-tight text-amber-400">#7</span>
-          ) : (
+        {style !== 'goat' && (
+          <div
+            className="w-11 h-11 rounded-2xl flex items-center justify-center shadow-xs border shrink-0 transition-transform hover:scale-105"
+            style={{
+              backgroundColor: 'var(--bg-card-subtle)',
+              borderColor: 'var(--border-color)',
+              color: 'var(--accent)',
+            }}
+          >
             <GraduationCap className="w-6 h-6" />
-          )}
-        </div>
-
-        <div className="flex flex-col min-w-0">
-          {/* Brand Heading + Social Pills */}
-          <div className="flex items-center gap-2 flex-wrap">
-            {style === 'goat' ? (
-              <h1
-                id="brand-title"
-                className="goat-heading dashboard-title text-xl sm:text-2xl font-black tracking-tight flex items-center gap-2"
-                style={{
-                  color:
-                    goatPreset === 'galactico-gold'
-                      ? '#D5B46A'
-                      : goatPreset === 'selecao-passion'
-                      ? '#C8102E'
-                      : goatPreset === 'red-devil' || goatPreset === 'the-red-devil'
-                      ? '#C70101'
-                      : goatPreset === 'el-bicho'
-                      ? '#00B8B0'
-                      : '#FFFFFF',
-                  textShadow:
-                    goatPreset === 'galactico-gold'
-                      ? '0 2px 4px rgba(15, 23, 42, 0.08)'
-                      : goatPreset === 'selecao-passion'
-                      ? '0 0 12px rgba(200, 16, 46, 0.4)'
-                      : goatPreset === 'red-devil' || goatPreset === 'the-red-devil'
-                      ? '0 0 12px rgba(199, 1, 1, 0.5)'
-                      : goatPreset === 'el-bicho'
-                      ? '0 0 12px rgba(0, 184, 176, 0.5)'
-                      : goatPreset === 'le-zebre'
-                      ? '0 0 12px rgba(255, 255, 255, 0.4)'
-                      : undefined,
-                }}
-              >
-                <span className="tracking-wide goat-heading">THE GOAT</span>
-                <span
-                  className="badge-number-7 px-2 py-0.5 text-xs font-black rounded-md tracking-wider shadow-2xs font-mono"
-                  style={{
-                    background:
-                      goatPreset === 'galactico-gold'
-                        ? '#D5B46A'
-                        : goatPreset === 'selecao-passion'
-                        ? 'linear-gradient(135deg, #C8102E 0%, #8A0018 50%, #006633 100%)'
-                        : goatPreset === 'red-devil' || goatPreset === 'the-red-devil'
-                        ? 'linear-gradient(135deg, #C70101 0%, #8A0000 60%, #14161B 100%)'
-                        : goatPreset === 'el-bicho'
-                        ? 'linear-gradient(135deg, #00B8B0 0%, #087E83 50%, #6B3FA0 100%)'
-                        : goatPreset === 'le-zebre'
-                        ? 'linear-gradient(135deg, #121216 0%, #08080A 35%, #FFFFFF 50%, #D4AF37 100%)'
-                        : 'linear-gradient(135deg, #D4AF37 0%, #FFDF00 100%)',
-                    color:
-                      goatPreset === 'galactico-gold'
-                        ? '#0F172A'
-                        : '#FFFFFF',
-                    border:
-                      goatPreset === 'el-bicho'
-                        ? '1px solid rgba(0, 229, 255, 0.4)'
-                        : goatPreset === 'red-devil' || goatPreset === 'the-red-devil'
-                        ? '1px solid rgba(255, 255, 255, 0.3)'
-                        : goatPreset === 'le-zebre'
-                        ? '1px solid #D4AF37'
-                        : undefined,
-                  }}
-                >
-                  {goatPreset === 'selecao-passion'
-                    ? 'CR7 · #7 · EURO 2016'
-                    : goatPreset === 'red-devil' || goatPreset === 'the-red-devil'
-                    ? 'CR7 · #7 · RED DEVIL'
-                    : goatPreset === 'el-bicho'
-                    ? 'CR7 · #7 · 3-PEAT'
-                    : goatPreset === 'le-zebre'
-                    ? 'CR7 · #7 · LE ZEBRE'
-                    : 'CR7 · #7'}
-                </span>
-              </h1>
-            ) : (
-              <h1
-                id="brand-title"
-                className="text-xl sm:text-2xl font-black tracking-tight flex items-center gap-2"
-                style={{ color: 'var(--text-primary)' }}
-              >
-                <span>ADMISSION</span>
-                <span
-                  className="px-2 py-0.5 text-xs font-black rounded-md tracking-wider text-white shadow-2xs"
-                  style={{
-                    background: 'var(--accent-gradient)',
-                  }}
-                >
-                  2026
-                </span>
-              </h1>
-            )}
-
-            {/* Instagram Profile Link */}
-            <a
-              href="https://www.instagram.com/___t_a_h_s_a_n__/"
-              target="_blank"
-              rel="noopener noreferrer"
-              id="header-instagram-link"
-              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold border backdrop-blur-md shadow-2xs transition-all duration-200 hover:scale-105 hover:shadow-xs active:scale-95 group/insta cursor-pointer"
-              style={{
-                backgroundColor: 'var(--bg-card-subtle)',
-                borderColor: 'var(--border-color)',
-                color: 'var(--text-secondary)',
-              }}
-              title="Visit @___t_a_h_s_a_n__ on Instagram (opens in new tab)"
-              aria-label="Instagram profile @___t_a_h_s_a_n__"
-            >
-              <Instagram className="w-3.5 h-3.5 text-pink-500 group-hover/insta:scale-115 group-hover/insta:rotate-6 transition-transform" />
-              <span className="font-mono text-[11px] font-bold tracking-tight group-hover/insta:text-pink-500 transition-colors">
-                @___t_a_h_s_a_n__
-              </span>
-            </a>
-
-            {/* YouTube Profile Link */}
-            <a
-              href="https://www.youtube.com/@tahsansharif17"
-              target="_blank"
-              rel="noopener noreferrer"
-              id="header-youtube-link"
-              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold border backdrop-blur-md shadow-2xs transition-all duration-200 hover:scale-105 hover:shadow-xs active:scale-95 group/yt cursor-pointer"
-              style={{
-                backgroundColor: 'var(--bg-card-subtle)',
-                borderColor: 'var(--border-color)',
-                color: 'var(--text-secondary)',
-              }}
-              title="Visit @tahsansharif17 on YouTube (opens in new tab)"
-              aria-label="YouTube channel @tahsansharif17"
-            >
-              <Youtube className="w-3.5 h-3.5 text-red-500 group-hover/yt:scale-115 group-hover/yt:rotate-6 transition-transform" />
-              <span className="font-mono text-[11px] font-bold tracking-tight group-hover/yt:text-red-500 transition-colors">
-                @tahsansharif17
-              </span>
-            </a>
           </div>
+        )}
 
-          {/* Slogan + Location Indicator */}
-          <div className="flex items-center gap-2 sm:gap-2.5 flex-wrap mt-0.5">
-            {style === 'goat' ? (
-              <div className="flex items-center gap-1.5 flex-wrap">
+        <div className="flex flex-col min-w-0 w-full md:w-auto">
+          {style === 'goat' ? (
+            <>
+              {/* Top-Left Header Structure */}
+              <div className="header-brand-block">
+                {/* Top Row: Title + Adjacent Badge Box */}
+                <div className="header-main-row">
+                  <h1
+                    id="brand-title"
+                    className="goat-stacked-title"
+                    style={{
+                      color:
+                        goatPreset === 'galactico-gold'
+                          ? '#D5B46A'
+                          : goatPreset === 'selecao-passion'
+                          ? '#C8102E'
+                          : goatPreset === 'red-devil' || goatPreset === 'the-red-devil'
+                          ? '#C70101'
+                          : goatPreset === 'el-bicho'
+                          ? '#00B8B0'
+                          : 'var(--primary-accent, #45B7FF)',
+                    }}
+                  >
+                    <span>THE</span>
+                    <span>GOAT</span>
+                  </h1>
+
+                  <div className="header-info-box">
+                    <span className="box-line-1">CR7</span>
+                    <div className="box-line-2">
+                      <span>Mr.</span>
+                      <img
+                        src="/assets/ucl-trophy.svg"
+                        className="ucl-trophy-icon-lg select-none"
+                        alt="UCL Trophy"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Second Row: Social Pills */}
+                <div className="header-social-pills">
+                  <a
+                    href="https://www.instagram.com/___t_a_h_s_a_n__/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    id="header-instagram-link"
+                    className="social-pill instagram"
+                    title="Visit @___t_a_h_s_a_n__ on Instagram (opens in new tab)"
+                    aria-label="Instagram profile @___t_a_h_s_a_n__"
+                  >
+                    <Instagram className="w-3.5 h-3.5 text-pink-500" />
+                    <span>@__t_a_h_s_a_n__</span>
+                  </a>
+
+                  <a
+                    href="https://www.youtube.com/@tahsansharif17"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    id="header-youtube-link"
+                    className="social-pill youtube"
+                    title="Visit @tahsansharif17 on YouTube (opens in new tab)"
+                    aria-label="YouTube channel @tahsansharif17"
+                  >
+                    <Youtube className="w-3.5 h-3.5 text-red-500" />
+                    <span>@tahsansharif17</span>
+                  </a>
+                </div>
+              </div>
+
+              {/* Subtitle Section */}
+              <div className="header-subtitle-section flex items-start gap-2.5 mt-3 flex-wrap sm:flex-nowrap">
+                <span
+                  className="number-badge-single header-number-badge w-7 h-7 rounded-lg flex items-center justify-center font-mono font-black text-sm text-amber-400 border shrink-0 shadow-xs"
+                  style={{
+                    backgroundColor: 'rgba(7, 87, 200, 0.35)',
+                    borderColor: '#D4AF37',
+                  }}
+                >
+                  7
+                </span>
+                <div className="header-text-block flex flex-col min-w-0">
+                  <h3
+                    className="theme-subtitle text-xs sm:text-sm font-bold tracking-wide uppercase font-mono"
+                    style={{ color: 'var(--primary-accent, #45B7FF)' }}
+                  >
+                    The European Nights
+                  </h3>
+                  <p className="cr7-quote text-[10px] sm:text-[11px] text-amber-300 font-semibold italic">
+                    “Perhaps they need to change the name of the Champions League to the CR7 Champions League.” — CR7 2018
+                  </p>
+                </div>
+              </div>
+            </>
+          ) : (
+            <>
+              {/* Default Brand Heading + Social Pills */}
+              <div className="flex items-center gap-2 flex-wrap">
+                <h1
+                  id="brand-title"
+                  className="text-xl sm:text-2xl font-black tracking-tight flex items-center gap-2"
+                  style={{ color: 'var(--text-primary)' }}
+                >
+                  <span>ADMISSION</span>
+                  <span
+                    className="px-2 py-0.5 text-xs font-black rounded-md tracking-wider text-white shadow-2xs"
+                    style={{
+                      background: 'var(--accent-gradient)',
+                    }}
+                  >
+                    2026
+                  </span>
+                </h1>
+
+                {/* Instagram Profile Link */}
+                <a
+                  href="https://www.instagram.com/___t_a_h_s_a_n__/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  id="header-instagram-link"
+                  className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold border backdrop-blur-md shadow-2xs transition-all duration-200 hover:scale-105 hover:shadow-xs active:scale-95 group/insta cursor-pointer"
+                  style={{
+                    backgroundColor: 'var(--bg-card-subtle)',
+                    borderColor: 'var(--border-color)',
+                    color: 'var(--text-secondary)',
+                  }}
+                  title="Visit @___t_a_h_s_a_n__ on Instagram (opens in new tab)"
+                  aria-label="Instagram profile @___t_a_h_s_a_n__"
+                >
+                  <Instagram className="w-3.5 h-3.5 text-pink-500 group-hover/insta:scale-115 group-hover/insta:rotate-6 transition-transform" />
+                  <span className="font-mono text-[11px] font-bold tracking-tight group-hover/insta:text-pink-500 transition-colors">
+                    @___t_a_h_s_a_n__
+                  </span>
+                </a>
+
+                {/* YouTube Profile Link */}
+                <a
+                  href="https://www.youtube.com/@tahsansharif17"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  id="header-youtube-link"
+                  className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold border backdrop-blur-md shadow-2xs transition-all duration-200 hover:scale-105 hover:shadow-xs active:scale-95 group/yt cursor-pointer"
+                  style={{
+                    backgroundColor: 'var(--bg-card-subtle)',
+                    borderColor: 'var(--border-color)',
+                    color: 'var(--text-secondary)',
+                  }}
+                  title="Visit @tahsansharif17 on YouTube (opens in new tab)"
+                  aria-label="YouTube channel @tahsansharif17"
+                >
+                  <Youtube className="w-3.5 h-3.5 text-red-500 group-hover/yt:scale-115 group-hover/yt:rotate-6 transition-transform" />
+                  <span className="font-mono text-[11px] font-bold tracking-tight group-hover/yt:text-red-500 transition-colors">
+                    @tahsansharif17
+                  </span>
+                </a>
+              </div>
+
+              {/* Slogan + Location Indicator */}
+              <div className="flex items-center gap-2 sm:gap-2.5 flex-wrap mt-0.5">
                 <p
                   id="brand-subtitle"
-                  className="text-[10px] sm:text-[11px] font-black tracking-wider uppercase"
-                  style={{
-                    color:
-                      goatPreset === 'selecao-passion'
-                        ? '#008B45'
-                        : goatPreset === 'red-devil' || goatPreset === 'the-red-devil'
-                        ? '#FF1E1E'
-                        : goatPreset === 'el-bicho'
-                        ? '#00E5FF'
-                        : goatPreset === 'le-zebre'
-                        ? '#F2CC63'
-                        : 'var(--glow-accent, #45B7FF)',
-                  }}
+                  className="text-[11px] sm:text-xs font-black tracking-wider uppercase"
+                  style={{ color: 'var(--text-muted)' }}
                 >
-                  {goatPreset === 'selecao-passion'
-                    ? 'CR7 · SELEÇÃO CANTEIROS · PORTUGAL EURO 2016 · NUMBER 7'
-                    : goatPreset === 'red-devil' || goatPreset === 'the-red-devil'
-                    ? 'CR7 · THE RED DEVIL · OLD TRAFFORD · NUMBER 7'
-                    : goatPreset === 'el-bicho'
-                    ? 'CR7 · EL BICHO · REAL MADRID 2.0 (2016-2018) · NUMBER 7'
-                    : goatPreset === 'le-zebre'
-                    ? 'CR7 · LE ZEBRE · JUVENTUS ERA · NUMBER 7'
-                    : 'CR7 · THE MINDSET · THE LEGACY · NUMBER 7'}
+                  FOCUS • STUDY • PRAY • REPEAT
                 </p>
-                <span className="text-[10px] hidden sm:inline text-amber-400 font-semibold italic">
-                  {goatPreset === 'selecao-passion'
-                    ? '— "Eu estou aqui!"'
-                    : goatPreset === 'red-devil' || goatPreset === 'the-red-devil'
-                    ? '— "Viva Ronaldo! Theatre of Dreams."'
-                    : goatPreset === 'el-bicho'
-                    ? '— "Calma, calma! 3-Peat Prime."'
-                    : goatPreset === 'le-zebre'
-                    ? '— "Fino Alla Fine · Scudetto Supremacy."'
-                    : '— "Greatness is a choice."'}
-                </span>
+
+                <span className="text-[10px] opacity-35 hidden sm:inline">•</span>
+
+                {/* 2. CURRENT LOCATION INDICATOR */}
+                <LocationIndicator
+                  location={location}
+                  onLocationUpdate={onLocationUpdate}
+                />
               </div>
-            ) : (
-              <p
-                id="brand-subtitle"
-                className="text-[11px] sm:text-xs font-black tracking-wider uppercase"
-                style={{ color: 'var(--text-muted)' }}
-              >
-                FOCUS • STUDY • PRAY • REPEAT
-              </p>
-            )}
-
-            <span className="text-[10px] opacity-35 hidden sm:inline">•</span>
-
-            {/* 2. CURRENT LOCATION INDICATOR */}
-            <LocationIndicator
-              location={location}
-              onLocationUpdate={onLocationUpdate}
-            />
-          </div>
+            </>
+          )}
         </div>
       </div>
 
@@ -340,7 +283,7 @@ export const Header: React.FC<HeaderProps> = ({
                     className="w-1.5 h-1.5 rounded-full shrink-0"
                     style={{ backgroundColor: p.goldHex }}
                   />
-                  <span className="hidden xl:inline">{p.name.split(' ')[0]}</span>
+                  <span className="hidden xl:inline">{p.id === 'mr-champions-league' ? 'European' : p.name.split(' ')[0]}</span>
                   <span className="xl:hidden">{p.tag.replace('PRESET ', 'P')}</span>
                 </button>
               );

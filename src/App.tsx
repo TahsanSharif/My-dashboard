@@ -55,6 +55,7 @@ import { GoatStarParticles } from './components/GoatStarParticles';
 import { Preset1FloodlightOverlay } from './components/Preset1FloodlightOverlay';
 import { JerseyCabinet } from './components/JerseyCabinet';
 import { SiuuuCelebrationModal } from './components/SiuuuCelebrationModal';
+import { playUclAnthem, stopUclAnthem } from './utils/uclAnthem';
 import {
   LayoutGrid,
   RotateCcw,
@@ -202,6 +203,23 @@ export default function App() {
         : settings.style
     );
   }, [settings.appearance, settings.style, settings.goatPreset]);
+
+  // Trigger the UEFA Champions League Anthem audio playback whenever the user enters or activates
+  // the "European Nights" theme (including on initial page load if "European Nights" is the active saved theme).
+  useEffect(() => {
+    const isEuropeanNights =
+      settings.style === 'goat' &&
+      (!settings.goatPreset ||
+        settings.goatPreset === 'mr-champions-league' ||
+        (settings.goatPreset as string) === 'the-european-nights' ||
+        (settings.goatPreset as string) === 'european-nights');
+
+    if (isEuropeanNights) {
+      playUclAnthem();
+    } else {
+      stopUclAnthem();
+    }
+  }, [settings.style, settings.goatPreset]);
 
   // Check for day rollover every minute
   useEffect(() => {
@@ -704,6 +722,8 @@ export default function App() {
           <MusicWidget
             containerWidth={dimensions.width}
             containerHeight={dimensions.height}
+            isGoat={settings.style === 'goat'}
+            goatPreset={settings.goatPreset}
           />
         );
 

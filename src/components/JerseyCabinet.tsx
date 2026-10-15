@@ -19,8 +19,8 @@ export interface JerseyPresetConfig {
 export const GOAT_PRESETS: JerseyPresetConfig[] = [
   {
     id: 'mr-champions-league',
-    name: 'Mr. Champions League',
-    sublabel: 'UEFA European Nights',
+    name: 'The European Nights',
+    sublabel: 'UEFA Champions League · CR7',
     clubYear: 'Knockout Stage · All-Time UCL Top Scorer',
     tag: 'PRESET 1',
     bgHex: '#06152E',

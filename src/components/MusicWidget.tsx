@@ -9,11 +9,23 @@ import {
   ExternalLink,
   Music,
   Headphones,
+  Trophy,
 } from 'lucide-react';
+import { GoatPreset } from '../types';
+import {
+  toggleUclAnthem,
+  toggleUclAnthemMute,
+  setUclAnthemVolume,
+  subscribeUclAnthemState,
+  getUclAnthemState,
+} from '../utils/uclAnthem';
+import { UclTrophyVector } from './UclTrophyVector';
 
 interface MusicWidgetProps {
   containerWidth?: number;
   containerHeight?: number;
+  isGoat?: boolean;
+  goatPreset?: GoatPreset;
 }
 
 interface AudioTrack {
@@ -60,17 +72,29 @@ const TRACKS: AudioTrack[] = [
   },
 ];
 
-export const MusicWidget: React.FC<MusicWidgetProps> = ({ containerWidth = 400 }) => {
+export const MusicWidget: React.FC<MusicWidgetProps> = ({
+  containerWidth = 400,
+  isGoat = false,
+  goatPreset = 'mr-champions-league',
+}) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [activeTrackIndex, setActiveTrackIndex] = useState(0);
   const [volume, setVolume] = useState(0.65);
   const [isMuted, setIsMuted] = useState(false);
   const [embedMode, setEmbedMode] = useState<'ambient' | 'spotify'>('ambient');
+  const [anthemState, setAnthemState] = useState(getUclAnthemState);
   const [spotifyEmbedUrl, setSpotifyEmbedUrl] = useState(
     'https://open.spotify.com/embed/playlist/37i9dQZF1DX8Uebhn9wzrS?utm_source=generator'
   );
 
   const audioCtxRef = useRef<AudioContext | null>(null);
+
+  // Subscribe to real-time UCL Anthem state
+  useEffect(() => {
+    return subscribeUclAnthemState((state) => {
+      setAnthemState(state);
+    });
+  }, []);
   const gainNodeRef = useRef<GainNode | null>(null);
   const timerIntervalRef = useRef<number | null>(null);
 
@@ -260,6 +284,130 @@ export const MusicWidget: React.FC<MusicWidgetProps> = ({ containerWidth = 400 }
 
   return (
     <div id="music-widget-container" className="flex-1 flex flex-col p-3 sm:p-4 justify-between h-full select-none">
+      {/* Pre-Match Tunnel Audio: UEFA Champions League Anthem Controls */}
+      {isGoat && (
+        <div
+          id="ucl-anthem-player"
+          className="p-3 rounded-2xl border mb-3 flex flex-col gap-2.5 shadow-md relative overflow-hidden transition-all"
+          style={{
+            background: 'linear-gradient(135deg, rgba(7, 87, 200, 0.3) 0%, rgba(6, 21, 46, 0.9) 60%, rgba(212, 175, 55, 0.2) 100%)',
+            borderColor: anthemState.isPlaying && !anthemState.isMuted ? '#45B7FF' : 'rgba(69, 183, 255, 0.35)',
+          }}
+        >
+          <div className="flex items-center justify-between gap-2">
+            <div className="flex items-center gap-2.5 min-w-0">
+              <div className="relative shrink-0">
+                <UclTrophyVector className="w-7 h-8 filter drop-shadow-[0_0_8px_rgba(69,183,255,0.7)]" />
+                {anthemState.isPlaying && !anthemState.isMuted && (
+                  <span className="absolute -top-1 -right-1 flex h-2 w-2">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-sky-500"></span>
+                  </span>
+                )}
+              </div>
+              <div className="min-w-0">
+                <div className="flex items-center gap-1.5 flex-wrap">
+                  <h4 className="text-xs sm:text-sm font-black text-white font-mono tracking-tight flex items-center gap-1">
+                    <span>UCL ANTHEM</span>
+                    <span className="text-[10px] text-amber-300 font-bold">· TUNNEL AUDIO</span>
+                  </h4>
+                  <span className="text-[9px] font-mono font-bold px-1.5 py-0.2 rounded-full border border-sky-400/40 text-sky-200 bg-sky-950/60">
+                    EUROPEAN NIGHTS
+                  </span>
+                </div>
+                <p className="text-[10px] text-sky-200/80 truncate font-mono">
+                  {anthemState.isPlaying
+                    ? anthemState.isMuted
+                      ? 'Muted in Pre-Match Tunnel'
+                      : 'Playing Live · Die Meister! Die Besten!'
+                    : 'Pre-Match Anthem Paused'}
+                </p>
+              </div>
+            </div>
+
+            {/* Audio Toggle & Mute Control inside Pre-Match Tunnel Audio Widget */}
+            <div className="flex items-center gap-1.5 shrink-0">
+              <button
+                type="button"
+                id="ucl-anthem-mute-btn"
+                onClick={toggleUclAnthemMute}
+                className="p-2 rounded-xl border text-white transition-all hover:scale-105 active:scale-95 cursor-pointer shadow-xs"
+                style={{
+                  backgroundColor: anthemState.isMuted ? 'rgba(239, 68, 68, 0.3)' : 'rgba(255, 255, 255, 0.12)',
+                  borderColor: anthemState.isMuted ? 'rgba(239, 68, 68, 0.6)' : 'rgba(255, 255, 255, 0.25)',
+                  color: anthemState.isMuted ? '#FCA5A5' : '#FFFFFF',
+                }}
+                title={anthemState.isMuted ? 'Unmute UCL Anthem' : 'Mute UCL Anthem'}
+                aria-label={anthemState.isMuted ? 'Unmute UCL Anthem' : 'Mute UCL Anthem'}
+              >
+                {anthemState.isMuted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
+              </button>
+
+              <button
+                type="button"
+                id="ucl-anthem-toggle-btn"
+                onClick={toggleUclAnthem}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl font-black text-xs text-white shadow-md transition-all hover:scale-105 active:scale-95 cursor-pointer"
+                style={{
+                  background: anthemState.isPlaying
+                    ? 'linear-gradient(135deg, #0757C8 0%, #0369A1 100%)'
+                    : 'linear-gradient(135deg, #D4AF37 0%, #B8860B 100%)',
+                  color: anthemState.isPlaying ? '#FFFFFF' : '#0B1528',
+                }}
+                title={anthemState.isPlaying ? 'Pause UCL Anthem' : 'Play UCL Anthem'}
+              >
+                {anthemState.isPlaying ? (
+                  <>
+                    <Pause className="w-3.5 h-3.5 fill-current" />
+                    <span>PAUSE</span>
+                  </>
+                ) : (
+                  <>
+                    <Play className="w-3.5 h-3.5 fill-current" />
+                    <span>PLAY</span>
+                  </>
+                )}
+              </button>
+            </div>
+          </div>
+
+          {/* Equalizer animation bars & Volume bar */}
+          <div className="flex items-center justify-between gap-3 pt-1 border-t border-sky-400/20">
+            <div className="flex items-center gap-1 h-3">
+              {[0, 1, 2, 3, 4, 5, 6].map((i) => (
+                <span
+                  key={i}
+                  className={`w-1 rounded-full bg-sky-400 transition-all ${
+                    anthemState.isPlaying && !anthemState.isMuted ? 'animate-bounce' : 'h-1 opacity-40'
+                  }`}
+                  style={{
+                    height: anthemState.isPlaying && !anthemState.isMuted ? `${8 + (i % 3) * 6}px` : '4px',
+                    animationDuration: `${0.4 + (i % 4) * 0.15}s`,
+                    animationDelay: `${i * 0.08}s`,
+                  }}
+                />
+              ))}
+              <span className="text-[10px] font-mono text-sky-300 ml-1.5 font-bold">
+                {anthemState.isPlaying ? (anthemState.isMuted ? 'MUTED' : 'LIVE') : 'OFF'}
+              </span>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <span className="text-[10px] font-mono text-white/70">VOL</span>
+              <input
+                type="range"
+                min="0"
+                max="1"
+                step="0.05"
+                value={anthemState.volume}
+                onChange={(e) => setUclAnthemVolume(parseFloat(e.target.value))}
+                className="w-16 sm:w-20 h-1 accent-sky-400 bg-white/20 rounded-lg cursor-pointer"
+                title="Anthem volume"
+              />
+            </div>
+          </div>
+        </div>
+      )}
       {/* Mode Selector: Built-in Focus Waves vs. Spotify */}
       <div className="flex items-center justify-between gap-2 mb-3">
         <div
