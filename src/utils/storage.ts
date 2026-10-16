@@ -33,10 +33,10 @@ export const DEFAULT_LOCATION: LocationSettings = {
 export const DEFAULT_DAILY_STUDY_GOAL_HOURS = 8;
 
 export const DEFAULT_SETTINGS: UserSettings = {
-  appearance: 'light',
-  style: 'oblivion',
+  appearance: 'dark',
+  style: 'goat',
   goatPreset: 'mr-champions-league',
-  theme: 'light',
+  theme: 'european-nights',
   timer: DEFAULT_TIMER_SETTINGS,
   location: DEFAULT_LOCATION,
   dailyGoalHours: DEFAULT_DAILY_STUDY_GOAL_HOURS,
@@ -66,93 +66,83 @@ export function formatDisplayDate(dateKey: string): string {
 // Settings
 export function loadSettings(): UserSettings {
   try {
+    const userActiveTheme = localStorage.getItem('user_active_theme');
     const raw = localStorage.getItem('admission_settings');
-    if (raw) {
-      const parsed = JSON.parse(raw);
-      
-      // Determine appearance ('light' | 'dark')
-      let appearance: AppearanceMode = 'light';
-      if (parsed.appearance === 'dark' || parsed.appearance === 'light') {
-        appearance = parsed.appearance;
-      } else if (parsed.theme === 'dark' || parsed.theme === 'boii') {
-        appearance = 'dark';
-      }
 
-      // Determine style ('oblivion' as primary default)
-      let style: StylePalette = 'oblivion';
-      let goatPreset: GoatPreset =
-        parsed.goatPreset === 'galactico-gold' ||
-        parsed.goatPreset === 'selecao-passion' ||
-        parsed.goatPreset === 'red-devil' ||
-        parsed.goatPreset === 'el-bicho'
-          ? parsed.goatPreset
-          : 'mr-champions-league';
+    if (raw || userActiveTheme) {
+      const parsed = raw ? JSON.parse(raw) : {};
+
+      // Determine active theme with 'european-nights' as default fallback
+      const activeThemeKey = userActiveTheme || parsed.theme || parsed.style || 'european-nights';
+      
+      let appearance: AppearanceMode = 'dark';
+      let style: StylePalette = 'goat';
+      let goatPreset: GoatPreset = 'mr-champions-league';
 
       if (
-        parsed.style === 'girly' ||
-        parsed.style === 'boi' ||
-        parsed.style === 'cyberdeck' ||
-        parsed.style === 'cassette' ||
-        parsed.style === 'jarvis' ||
-        parsed.style === 'oblivion' ||
-        parsed.style === 'cybergothic' ||
-        parsed.style === 'matrix' ||
-        parsed.style === 'watchdogs' ||
-        parsed.style === 'solarpunk' ||
-        parsed.style === 'aerofuturism' ||
-        parsed.style === 'goat' ||
-        parsed.style === 'mr-champions-league' ||
-        parsed.style === 'galactico-gold' ||
-        parsed.style === 'selecao-passion' ||
-        parsed.style === 'red-devil' ||
-        parsed.style === 'el-bicho'
-      ) {
-        if (parsed.style === 'aerofuturism') {
-          style = 'solarpunk';
-        } else if (
-          parsed.style === 'mr-champions-league' ||
-          parsed.style === 'galactico-gold' ||
-          parsed.style === 'selecao-passion' ||
-          parsed.style === 'red-devil' ||
-          parsed.style === 'el-bicho'
-        ) {
-          style = 'goat';
-          goatPreset = parsed.style as GoatPreset;
-        } else {
-          style = parsed.style;
-        }
-      } else if (parsed.theme === 'girly') {
-        style = 'girly';
-      } else if (parsed.theme === 'boii') {
-        style = 'boi';
-      } else if (parsed.theme === 'cyberdeck') {
-        style = 'cyberdeck';
-      } else if (parsed.theme === 'cassette') {
-        style = 'cassette';
-      } else if (parsed.theme === 'jarvis') {
-        style = 'jarvis';
-      } else if (parsed.theme === 'oblivion') {
-        style = 'oblivion';
-      } else if (parsed.theme === 'cybergothic') {
-        style = 'cybergothic';
-      } else if (parsed.theme === 'matrix') {
-        style = 'matrix';
-      } else if (parsed.theme === 'watchdogs') {
-        style = 'watchdogs';
-      } else if (parsed.theme === 'solarpunk' || parsed.theme === 'aerofuturism') {
-        style = 'solarpunk';
-      } else if (
-        parsed.theme === 'goat' ||
-        parsed.theme === 'mr-champions-league' ||
-        parsed.theme === 'galactico-gold' ||
-        parsed.theme === 'selecao-passion' ||
-        parsed.theme === 'red-devil' ||
-        parsed.theme === 'el-bicho'
+        activeThemeKey === 'european-nights' ||
+        activeThemeKey === 'mr-champions-league' ||
+        activeThemeKey === 'the-european-nights'
       ) {
         style = 'goat';
-        if (parsed.theme !== 'goat') {
-          goatPreset = parsed.theme as GoatPreset;
-        }
+        goatPreset = 'mr-champions-league';
+        appearance = 'dark';
+      } else if (activeThemeKey === 'galactico-gold') {
+        style = 'goat';
+        goatPreset = 'galactico-gold';
+        appearance = 'light';
+      } else if (activeThemeKey === 'selecao-passion') {
+        style = 'goat';
+        goatPreset = 'selecao-passion';
+        appearance = 'dark';
+      } else if (activeThemeKey === 'the-red-devil' || activeThemeKey === 'red-devil') {
+        style = 'goat';
+        goatPreset = 'the-red-devil';
+        appearance = 'dark';
+      } else if (activeThemeKey === 'el-bicho') {
+        style = 'goat';
+        goatPreset = 'el-bicho';
+        appearance = 'dark';
+      } else if (activeThemeKey === 'le-zebre') {
+        style = 'goat';
+        goatPreset = 'le-zebre';
+        appearance = 'dark';
+      } else if (activeThemeKey === 'goat') {
+        style = 'goat';
+        goatPreset = (parsed.goatPreset as GoatPreset) || 'mr-champions-league';
+        appearance = goatPreset === 'galactico-gold' ? 'light' : 'dark';
+      } else if (activeThemeKey === 'jarvis') {
+        style = 'jarvis';
+        appearance = 'dark';
+      } else if (activeThemeKey === 'matrix') {
+        style = 'matrix';
+        appearance = 'dark';
+      } else if (activeThemeKey === 'watchdogs') {
+        style = 'watchdogs';
+        appearance = 'dark';
+      } else if (activeThemeKey === 'girly') {
+        style = 'girly';
+        appearance = parsed.appearance === 'dark' ? 'dark' : 'light';
+      } else if (activeThemeKey === 'boi') {
+        style = 'boi';
+        appearance = parsed.appearance === 'dark' ? 'dark' : 'light';
+      } else if (activeThemeKey === 'cyberdeck') {
+        style = 'cyberdeck';
+        appearance = parsed.appearance === 'dark' ? 'dark' : 'light';
+      } else if (activeThemeKey === 'cassette') {
+        style = 'cassette';
+        appearance = parsed.appearance === 'dark' ? 'dark' : 'light';
+      } else if (activeThemeKey === 'oblivion') {
+        style = 'oblivion';
+        appearance = parsed.appearance === 'dark' ? 'dark' : 'light';
+      } else if (activeThemeKey === 'cybergothic') {
+        style = 'cybergothic';
+        appearance = 'dark';
+      } else if (activeThemeKey === 'solarpunk' || activeThemeKey === 'aerofuturism') {
+        style = 'solarpunk';
+        appearance = parsed.appearance === 'dark' ? 'dark' : 'light';
+      } else if (parsed.appearance === 'dark' || parsed.appearance === 'light') {
+        appearance = parsed.appearance;
       }
 
       const dailyGoalHours =
@@ -166,6 +156,7 @@ export function loadSettings(): UserSettings {
         appearance,
         style,
         goatPreset,
+        theme: activeThemeKey,
         dailyGoalHours,
         timer: { ...DEFAULT_TIMER_SETTINGS, ...(parsed.timer || {}) },
         location: { ...DEFAULT_LOCATION, ...(parsed.location || {}) },
@@ -183,6 +174,15 @@ export function saveSettings(settings: UserSettings): void {
     if (settings.dailyGoalHours) {
       localStorage.setItem('admission_daily_study_goal_hours', settings.dailyGoalHours.toString());
     }
+    const activeTheme =
+      settings.style === 'goat'
+        ? (!settings.goatPreset || settings.goatPreset === 'mr-champions-league' || settings.goatPreset === 'european-nights'
+            ? 'european-nights'
+            : settings.goatPreset === 'red-devil' || settings.goatPreset === 'the-red-devil'
+            ? 'the-red-devil'
+            : settings.goatPreset)
+        : settings.style;
+    localStorage.setItem('user_active_theme', activeTheme);
   } catch (e) {
     console.warn('Failed to save settings to localStorage:', e);
   }

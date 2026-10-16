@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Trophy, Sparkles, Check, ChevronDown, ChevronUp, Landmark, Shirt, X, Award, Medal, Flame } from 'lucide-react';
 import { GoatPreset } from '../types';
+import { EuropeanNightsPavilion } from './EuropeanNightsPavilion';
 
 export interface JerseyPresetConfig {
   id: GoatPreset;
@@ -392,23 +393,25 @@ export const ALL_MUSEUM_EXHIBITS: MuseumExhibit[] = [
     id: 'mr-champions-league',
     exhibitNumber: 'EXHIBIT 01',
     title: 'Mr. Champions League — The European Nights',
-    clubEra: 'All-Time UEFA Champions League Top Scorer',
-    matchDate: '140 UCL Goals · 5 European Titles · Most Knockout Goals in History',
-    photoAsset: 'assets/ucl-stadium-bg.jpg',
-    narrative: `Cristiano Ronaldo defined European football's pinnacle competition. From clutch knockout free-kicks to unforgettable hat-tricks against Bayern Munich, Atlético Madrid, and Wolfsburg, CR7 transformed the UEFA Champions League into his personal arena.`,
-    statsSummary: '140 UCL Goals · 5 Titles · 183 Appearances',
+    clubEra: 'Official UEFA Champions League Archive',
+    matchDate: '183 Apps · 140 Goals · 5 Modern Era Titles · 7 Golden Boots',
+    photoAsset: 'assets/museum/cr7-5-ucl-kyiv.jpg',
+    narrative: `Cristiano Ronaldo defined European football's pinnacle competition. With 140 goals in 183 appearances and 5 modern era titles, CR7 transformed the UEFA Champions League into his personal arena.`,
+    statsSummary: '183 Apps · 140 Goals · 5 Titles · 7 Top-Scorer Seasons',
     individualAwards: [
-      '7x UEFA Champions League Top Scorer',
-      'UEFA Club Footballer of the Year',
-      'Most Goals in a Single UCL Season (17 Goals — 2013/14)',
-      'Only player to score in 3 UCL Finals',
+      '2007–08: UEFA Club Footballer of the Year & Club Forward of the Year',
+      '2013–14 & 2015–16: UEFA Best Player in Europe',
+      '2016–17: UEFA Men\'s Player of the Year & Champions League Forward of the Season',
+      '2017–18: UEFA Champions League Forward of the Season',
+      '2024: UEFA Champions League All-Time Top Scorer Special Award',
+      'Team of the Year: 15 appearances in UEFA.com\'s Team of the Year (record)',
     ],
     teamTrophies: [
-      'UEFA Champions League 2008 (Man Utd)',
-      'UEFA Champions League 2014 (Real Madrid)',
-      'UEFA Champions League 2016 (Real Madrid)',
-      'UEFA Champions League 2017 (Real Madrid)',
-      'UEFA Champions League 2018 (Real Madrid)',
+      '2007–08: Manchester United (Defeated Chelsea 6–5 on pens after 1–1)',
+      '2013–14: Real Madrid (Defeated Atlético Madrid 4–1 AET — La Décima)',
+      '2015–16: Real Madrid (Defeated Atlético Madrid on pens after 1–1)',
+      '2016–17: Real Madrid (Defeated Juventus 4–1)',
+      '2017–18: Real Madrid (Defeated Liverpool 3–1 — Three-Peat)',
     ],
   },
   exhibitGalacticoGold,
@@ -431,9 +434,98 @@ export const JerseyCabinet: React.FC<JerseyCabinetProps> = ({
 }) => {
   const [isExpanded, setIsExpanded] = useState(true);
   const [cabinetTab, setCabinetTab] = useState<'museum' | 'kits'>('museum');
-  const [activeExhibitModal, setActiveExhibitModal] = useState<MuseumExhibit | null>(null);
 
-  const normalizePreset = (p: GoatPreset) => (p === 'red-devil' ? 'the-red-devil' : p);
+  // Standard Exhibit Selection Handler & Unified State Management
+  const [activePavilionExhibit, setActivePavilionExhibit] = useState<MuseumExhibit | string | null>(null);
+
+  // Trigger for Exhibit card click
+  const handleCardClick = (exhibitId: MuseumExhibit | string) => {
+    setActivePavilionExhibit(exhibitId); // Set to 'european-nights' or exhibit
+  };
+
+  const handleCloseModal = () => {
+    setActivePavilionExhibit(null);
+    document.body.style.overflow = 'auto';
+    const modal = document.getElementById('uclPavilionModal') || document.getElementById('pavilionModal');
+    if (modal) {
+      modal.style.display = 'none';
+    }
+  };
+
+  const normalizePreset = (p: GoatPreset) =>
+    p === 'red-devil' ? 'the-red-devil' : p === 'european-nights' ? 'mr-champions-league' : p;
+  const isEuropeanNightsActive = normalizePreset(currentPreset) === 'mr-champions-league';
+
+  const isEuropeanNightsModal = useMemo(() => {
+    if (!activePavilionExhibit) return false;
+    if (typeof activePavilionExhibit === 'string') {
+      return (
+        activePavilionExhibit === 'european-nights' ||
+        activePavilionExhibit === 'exhibit-01' ||
+        activePavilionExhibit === 'mr-champions-league'
+      );
+    }
+    return activePavilionExhibit.id === 'mr-champions-league' || activePavilionExhibit.id === 'european-nights';
+  }, [activePavilionExhibit]);
+
+  const activeExhibitModal: MuseumExhibit | null = useMemo(() => {
+    if (!activePavilionExhibit) return null;
+    if (typeof activePavilionExhibit === 'string') {
+      return (
+        ALL_MUSEUM_EXHIBITS.find(
+          (e) =>
+            e.id === activePavilionExhibit ||
+            (activePavilionExhibit === 'european-nights' && (e.id === 'mr-champions-league' || e.id === 'european-nights')) ||
+            (activePavilionExhibit === 'exhibit-01' && (e.id === 'mr-champions-league' || e.id === 'european-nights'))
+        ) || ALL_MUSEUM_EXHIBITS[0]
+      );
+    }
+    return activePavilionExhibit;
+  }, [activePavilionExhibit]);
+
+  const openUclPavilion = () => {
+    setActivePavilionExhibit('european-nights');
+  };
+
+  const closeUclPavilion = () => {
+    handleCloseModal();
+  };
+
+  // Synchronize body scroll locking
+  useEffect(() => {
+    if (activePavilionExhibit) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+  }, [activePavilionExhibit]);
+
+  // Allow closing via Escape key press & bind global modal controls
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        handleCloseModal();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+
+    // Global helper methods for external/vanilla interaction
+    (window as unknown as { openUclPavilion: () => void }).openUclPavilion = openUclPavilion;
+    (window as unknown as { closeUclPavilion: () => void }).closeUclPavilion = closeUclPavilion;
+    (window as unknown as { openPavilionModal: () => void }).openPavilionModal = openUclPavilion;
+    (window as unknown as { closePavilionModal: () => void }).closePavilionModal = closeUclPavilion;
+    (window as unknown as { handleCardClick: (id: string) => void }).handleCardClick = (id: string) => handleCardClick(id);
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = 'auto';
+      delete (window as unknown as { openUclPavilion?: () => void }).openUclPavilion;
+      delete (window as unknown as { closeUclPavilion?: () => void }).closeUclPavilion;
+      delete (window as unknown as { openPavilionModal?: () => void }).openPavilionModal;
+      delete (window as unknown as { closePavilionModal?: () => void }).closePavilionModal;
+      delete (window as unknown as { handleCardClick?: (id: string) => void }).handleCardClick;
+    };
+  }, []);
 
   return (
     <section
@@ -458,7 +550,7 @@ export const JerseyCabinet: React.FC<JerseyCabinetProps> = ({
               borderColor: 'rgba(212, 175, 55, 0.4)',
             }}
           >
-            #7
+            7
           </div>
           <div>
             <div className="flex items-center gap-2 flex-wrap">
@@ -483,13 +575,13 @@ export const JerseyCabinet: React.FC<JerseyCabinetProps> = ({
               className="text-[10px] sm:text-[11px] font-medium"
               style={{ color: 'var(--text-muted, var(--text-secondary))' }}
             >
-              Curated Career Eras · 3-Peat Dynasty · Turin Comeback · Paris 2016 · Moscow 2008
+              Madeira, Manchester, Madrid, Turin and Manchester again.
             </p>
           </div>
         </div>
 
-        {/* View Switcher Tabs (Museum Exhibits vs Quick Kits) */}
-        <div className="flex items-center gap-2 self-stretch sm:self-auto justify-between sm:justify-end">
+        {/* Header Toolbar Controls (Quick Kits Removed) */}
+        <div className="flex items-center gap-2 self-stretch sm:self-auto justify-end">
           <div
             className="inline-flex items-center p-0.5 rounded-xl border text-xs font-bold"
             style={{
@@ -497,43 +589,17 @@ export const JerseyCabinet: React.FC<JerseyCabinetProps> = ({
               borderColor: 'var(--panel-border, var(--border-color))',
             }}
           >
-            <button
-              type="button"
-              onClick={() => {
-                setCabinetTab('museum');
-                setIsExpanded(true);
-              }}
-              className={`px-2.5 py-1 rounded-lg text-[11px] font-black transition-all cursor-pointer flex items-center gap-1.5 ${
-                cabinetTab === 'museum' ? 'shadow-xs font-black' : 'opacity-65 hover:opacity-100'
-              }`}
+            <div
+              className="px-2.5 py-1 rounded-lg text-[11px] font-black shadow-xs flex items-center gap-1.5"
               style={{
-                backgroundColor: cabinetTab === 'museum' ? '#D4AF37' : 'transparent',
-                color: cabinetTab === 'museum' ? '#090B0F' : 'var(--text-secondary)',
+                backgroundColor: '#D4AF37',
+                color: '#090B0F',
               }}
-              title="View CR7 Museum & Hall of Fame Exhibits"
+              title="CR7 Museum & Hall of Fame Exhibits"
             >
               <Landmark className="w-3.5 h-3.5" />
               <span>Museum Exhibits</span>
-            </button>
-
-            <button
-              type="button"
-              onClick={() => {
-                setCabinetTab('kits');
-                setIsExpanded(true);
-              }}
-              className={`px-2.5 py-1 rounded-lg text-[11px] font-bold transition-all cursor-pointer flex items-center gap-1.5 ${
-                cabinetTab === 'kits' ? 'shadow-xs font-black' : 'opacity-65 hover:opacity-100'
-              }`}
-              style={{
-                backgroundColor: cabinetTab === 'kits' ? 'var(--glow-accent, #45B7FF)' : 'transparent',
-                color: cabinetTab === 'kits' ? '#090B0F' : 'var(--text-secondary)',
-              }}
-              title="View Jersey Kit Swatches"
-            >
-              <Shirt className="w-3.5 h-3.5" />
-              <span>Quick Kits</span>
-            </button>
+            </div>
           </div>
 
           <button
@@ -558,19 +624,105 @@ export const JerseyCabinet: React.FC<JerseyCabinetProps> = ({
         <div className="p-3 sm:p-4">
           {cabinetTab === 'museum' ? (
             /* ── CR7 MUSEUM & HALL OF FAME EXHIBITS GRID ── */
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="museum-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {ALL_MUSEUM_EXHIBITS.map((exhibit) => {
                 const isExhibitActive = normalizePreset(currentPreset) === normalizePreset(exhibit.id);
 
-                // Exhibit 05: El Bicho renders the exact dedicated structure requested
-                if (exhibit.id === 'el-bicho') {
+                // Exhibit 01: Mr. Champions League (The European Nights)
+                if (exhibit.id === 'mr-champions-league' || exhibit.id === 'european-nights') {
                   return (
                     <div
                       key={exhibit.exhibitNumber}
-                      className="museum-card exhibit-el-bicho group cursor-pointer"
-                      data-preset="el-bicho"
-                      onClick={() => setActiveExhibitModal(exhibit)}
+                      className="museum-card exhibit-european-nights group cursor-pointer"
+                      data-preset="european-nights"
+                      data-theme="european-nights"
+                      onClick={() => handleCardClick('european-nights')}
                     >
+                      <div className="card-image-wrapper">
+                        <img
+                          src={exhibit.photoAsset.startsWith('/') ? exhibit.photoAsset : `/${exhibit.photoAsset}`}
+                          alt="Mr. Champions League 5 UCL Trophies Kyiv Celebration"
+                          className="exhibit-img"
+                          loading="lazy"
+                          onError={(e) => {
+                            (e.currentTarget as HTMLImageElement).src = '/assets/ucl-stadium-bg.jpg';
+                          }}
+                        />
+                        <span className="exhibit-tag">OFFICIAL UEFA ARCHIVE</span>
+                        <span className="badge-number-7">#7</span>
+                        <span
+                          className="vertical-three-peat-badge"
+                          style={{
+                            borderColor: '#D4AF37',
+                            color: '#F2CC63',
+                            background: 'rgba(212, 175, 55, 0.25)',
+                          }}
+                        >
+                          5 UCL
+                        </span>
+                      </div>
+
+                      <div className="card-content">
+                        <h3 className="exhibit-title">Mr. Champions League</h3>
+                        <span className="match-meta">Official UEFA Archive · 140 Goals · 5 Titles</span>
+
+                        <p className="exhibit-description">{exhibit.narrative}</p>
+
+                        <div className="exhibit-trophy-badge-row">
+                          <span className="trophy-pill">⚽ 140 UCL Goals (#1)</span>
+                          <span className="appearances-pill">👑 5 Champions Titles</span>
+                          <span className="records-pill">🥇 7 Golden Boots</span>
+                          <span className="trophy-pill">🏟️ 183 Appearances</span>
+                        </div>
+
+                        <div className="flex items-center gap-2 mt-auto pt-2">
+                          <button
+                            type="button"
+                            className="activate-theme-btn flex-1"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleCardClick('european-nights');
+                            }}
+                            style={{
+                              background: 'linear-gradient(135deg, #0757C8 0%, #1A73E8 60%, #45B7FF 100%)',
+                              color: '#FFFFFF',
+                              borderColor: 'rgba(255, 255, 255, 0.3)',
+                            }}
+                          >
+                            <span className="btn-text">INSPECT PAVILION</span>
+                          </button>
+
+                          <button
+                            type="button"
+                            className="px-3 py-2.5 rounded-xl border text-[11px] font-black font-mono transition-all cursor-pointer shrink-0"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              onSelectPreset('mr-champions-league');
+                            }}
+                            style={{
+                              backgroundColor: isExhibitActive ? '#D4AF37' : 'rgba(255, 255, 255, 0.08)',
+                              color: isExhibitActive ? '#000000' : '#CBD5E1',
+                              borderColor: isExhibitActive ? '#D4AF37' : 'rgba(255, 255, 255, 0.2)',
+                            }}
+                            title="Activate European Nights Theme"
+                          >
+                            {isExhibitActive ? 'ACTIVE' : 'APPLY'}
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                }
+
+                  // Exhibit 05: El Bicho renders the exact dedicated structure requested
+                  if (exhibit.id === 'el-bicho') {
+                    return (
+                      <div
+                        key={exhibit.exhibitNumber}
+                        className="museum-card exhibit-el-bicho group cursor-pointer"
+                        data-preset="el-bicho"
+                        onClick={() => handleCardClick(exhibit)}
+                      >
                       <div className="card-image-wrapper">
                         <img
                           src={exhibit.photoAsset.startsWith('/') ? exhibit.photoAsset : `/${exhibit.photoAsset}`}
@@ -667,7 +819,7 @@ export const JerseyCabinet: React.FC<JerseyCabinetProps> = ({
                     key={exhibit.exhibitNumber}
                     className="museum-card group cursor-pointer"
                     data-preset={exhibit.id}
-                    onClick={() => setActiveExhibitModal(exhibit)}
+                    onClick={() => handleCardClick(exhibit)}
                   >
                     <div className="card-image-wrapper">
                       <img
@@ -704,7 +856,7 @@ export const JerseyCabinet: React.FC<JerseyCabinetProps> = ({
                         className="exhibit-trophy-badge-row"
                         onClick={(e) => {
                           e.stopPropagation();
-                          setActiveExhibitModal(exhibit);
+                          handleCardClick(exhibit);
                         }}
                       >
                         {exhibit.id === 'galactico-gold' ? (
@@ -912,378 +1064,399 @@ export const JerseyCabinet: React.FC<JerseyCabinetProps> = ({
         </div>
       )}
 
-      {/* ── EXPANDED TROPHY ACCORDION / EXHIBIT MODAL ── */}
-      {activeExhibitModal && (
+      {/* ── STANDARD MUSEUM PAVILION MODAL ── */}
+      <div
+        id="uclPavilionModal"
+        className={`museum-pavilion-modal-backdrop museum-modal-backdrop pavilion-modal-overlay animate-fade-in ${
+          activePavilionExhibit ? 'active' : ''
+        }`}
+        style={{ display: activePavilionExhibit ? 'flex' : 'none' }}
+        data-active={activePavilionExhibit ? 'true' : 'false'}
+        onClick={handleCloseModal}
+        role="dialog"
+        aria-modal="true"
+      >
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/85 backdrop-blur-md animate-fade-in"
-          onClick={() => setActiveExhibitModal(null)}
-          role="dialog"
-          aria-modal="true"
+          className="museum-pavilion-modal-container museum-modal-card pavilion-modal-content animate-scale-in"
+          onClick={(e) => e.stopPropagation()}
+          style={{
+            borderColor: isEuropeanNightsModal
+              ? 'rgba(69, 183, 255, 0.45)'
+              : activeExhibitModal?.id === 'galactico-gold'
+              ? '#D5B46A'
+              : activeExhibitModal?.id === 'el-bicho'
+              ? '#00B8B0'
+              : activeExhibitModal?.id === 'the-red-devil'
+              ? '#C70101'
+              : activeExhibitModal?.id === 'selecao-passion'
+              ? '#C8102E'
+              : activeExhibitModal?.id === 'le-zebre'
+              ? '#D4AF37'
+              : 'rgba(212, 175, 55, 0.4)',
+            boxShadow: isEuropeanNightsModal
+              ? '0 0 45px rgba(7, 87, 200, 0.5), 0 25px 60px rgba(0, 0, 0, 0.9)'
+              : undefined,
+          }}
         >
-          <div
-            className="w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-2xl border shadow-2xl p-4 sm:p-6 flex flex-col gap-4 relative animate-scale-in"
-            style={{
-              backgroundColor: '#0E1015',
-              borderColor:
-                activeExhibitModal.id === 'galactico-gold'
-                  ? '#D5B46A'
-                  : activeExhibitModal.id === 'el-bicho'
-                  ? '#00B8B0'
-                  : activeExhibitModal.id === 'the-red-devil'
-                  ? '#C70101'
-                  : activeExhibitModal.id === 'selecao-passion'
-                  ? '#C8102E'
-                  : activeExhibitModal.id === 'le-zebre'
-                  ? '#D4AF37'
-                  : 'var(--panel-border, #D4AF37)',
-              boxShadow:
-                activeExhibitModal.id === 'galactico-gold'
-                  ? '0 0 40px rgba(213, 180, 106, 0.45)'
-                  : activeExhibitModal.id === 'el-bicho'
-                  ? '0 0 40px rgba(0, 184, 176, 0.45)'
-                  : activeExhibitModal.id === 'the-red-devil'
-                  ? '0 0 40px rgba(199, 1, 1, 0.45)'
-                  : activeExhibitModal.id === 'selecao-passion'
-                  ? '0 0 40px rgba(200, 16, 46, 0.45)'
-                  : activeExhibitModal.id === 'le-zebre'
-                  ? '0 0 40px rgba(212, 175, 55, 0.45)'
-                  : '0 0 40px rgba(212, 175, 55, 0.3)',
-            }}
-            onClick={(e) => e.stopPropagation()}
+          <button
+            type="button"
+            className="pavilion-close-btn close-modal-x close-pavilion-btn"
+            onClick={handleCloseModal}
+            aria-label="Close modal"
           >
-            {/* Modal Close Button */}
-            <button
-              type="button"
-              onClick={() => setActiveExhibitModal(null)}
-              className="absolute top-4 right-4 p-2 rounded-full border bg-white/10 hover:bg-white/20 text-white transition-all cursor-pointer z-10"
-              aria-label="Close modal"
-            >
-              <X className="w-4 h-4" />
-            </button>
+            &times;
+          </button>
 
-            {/* Modal Header & Hero Image */}
-            <div className="relative rounded-xl overflow-hidden aspect-video bg-black border border-white/15">
-              <img
-                src={
-                  activeExhibitModal.photoAsset.startsWith('/')
-                    ? activeExhibitModal.photoAsset
-                    : `/${activeExhibitModal.photoAsset}`
-                }
-                alt={activeExhibitModal.title}
-                className="w-full h-full object-cover object-top"
-                onError={(e) => {
-                  (e.currentTarget as HTMLImageElement).src = '/assets/ucl-stadium-bg.jpg';
-                }}
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent flex flex-col justify-end p-4">
-                <div className="flex items-center gap-2">
-                  <span className="text-[10px] font-black uppercase tracking-widest text-amber-400 font-mono">
-                    {activeExhibitModal.exhibitNumber} · {activeExhibitModal.clubEra}
-                  </span>
-                  {activeExhibitModal.id === 'el-bicho' && (
-                    <span className="px-1.5 py-0.5 rounded text-[9px] font-black tracking-widest bg-teal-500/30 text-teal-300 border border-teal-400/50 uppercase font-mono">
-                      3 PEAT
-                    </span>
-                  )}
+          {isEuropeanNightsModal ? (
+            <>
+              {/* Standard Pavilion Header */}
+              <div className="pavilion-header">
+                <div className="flex items-center justify-between gap-3 flex-wrap">
+                  <span className="exhibit-tag">OFFICIAL UEFA ARCHIVE</span>
+                  <button
+                    type="button"
+                    onClick={() => onSelectPreset('mr-champions-league')}
+                    className="pavilion-activate-chip"
+                    title="Activate European Nights Theme"
+                  >
+                    <span>{isEuropeanNightsActive ? '✓ ACTIVE: MR. CHAMPIONS LEAGUE' : 'ACTIVATE THEME'}</span>
+                  </button>
                 </div>
-                <h2 className="text-lg sm:text-2xl font-black text-white leading-tight mt-0.5">
-                  {activeExhibitModal.title}
-                </h2>
-                <span
-                  className="text-xs font-bold font-mono mt-1"
+                <h2>Mr. Champions League</h2>
+                <p>The definitive statistical legacy of Cristiano Ronaldo</p>
+              </div>
+
+              {/* Standard Pavilion Body (Same scroll & padding structure as Exhibits 2-6) */}
+              <div className="pavilion-modal-body">
+                <EuropeanNightsPavilion
+                  hideHeader={true}
+                  onActivatePreset={() => onSelectPreset('mr-champions-league')}
+                  isActive={isEuropeanNightsActive}
+                />
+              </div>
+            </>
+          ) : activeExhibitModal ? (
+            <div className="pavilion-modal-body flex flex-col gap-4">
+              {/* Modal Header & Hero Image */}
+              <div className="relative rounded-xl overflow-hidden aspect-video bg-black border border-white/15">
+                <img
+                  src={
+                    activeExhibitModal.photoAsset.startsWith('/')
+                      ? activeExhibitModal.photoAsset
+                      : `/${activeExhibitModal.photoAsset}`
+                  }
+                  alt={activeExhibitModal.title}
+                  className="w-full h-full object-cover object-top"
+                  onError={(e) => {
+                    (e.currentTarget as HTMLImageElement).src = '/assets/ucl-stadium-bg.jpg';
+                  }}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent flex flex-col justify-end p-4">
+                  <div className="flex items-center gap-2">
+                    <span className="text-[10px] font-black uppercase tracking-widest text-amber-400 font-mono">
+                      {activeExhibitModal.exhibitNumber} · {activeExhibitModal.clubEra}
+                    </span>
+                    {activeExhibitModal.id === 'el-bicho' && (
+                      <span className="px-1.5 py-0.5 rounded text-[9px] font-black tracking-widest bg-teal-500/30 text-teal-300 border border-teal-400/50 uppercase font-mono">
+                        3 PEAT
+                      </span>
+                    )}
+                  </div>
+                  <h2 className="text-lg sm:text-2xl font-black text-white leading-tight mt-0.5">
+                    {activeExhibitModal.title}
+                  </h2>
+                  <span
+                    className="text-xs font-bold font-mono mt-1"
+                    style={{
+                      color:
+                        activeExhibitModal.id === 'galactico-gold'
+                          ? '#F2CC63'
+                          : activeExhibitModal.id === 'el-bicho'
+                          ? '#00E5FF'
+                          : activeExhibitModal.id === 'selecao-passion'
+                          ? '#FF6680'
+                          : activeExhibitModal.id === 'le-zebre'
+                          ? '#F2CC63'
+                          : '#FF4D4D',
+                    }}
+                  >
+                    {activeExhibitModal.matchDate}
+                  </span>
+                </div>
+              </div>
+
+              {/* Three Finals Narrative Cards (Specific to El Bicho) */}
+              {activeExhibitModal.finals && activeExhibitModal.finals.length > 0 && (
+                <div className="flex flex-col gap-2.5">
+                  <h4 className="text-xs font-black tracking-wider uppercase text-teal-400 font-mono flex items-center gap-1.5">
+                    <Trophy className="w-4 h-4 text-teal-400" />
+                    <span>The Three Consecutive Champions League Finals</span>
+                  </h4>
+                  <div className="flex flex-col gap-2">
+                    {activeExhibitModal.finals.map((final, idx) => (
+                      <div
+                        key={idx}
+                        className="p-3 rounded-xl border bg-slate-900/60 border-teal-500/25 flex flex-col gap-1 text-xs"
+                      >
+                        <div className="flex items-center justify-between flex-wrap gap-1">
+                          <strong className="text-white text-xs sm:text-sm font-black">{final.year}</strong>
+                          <span className="text-[10px] font-mono text-teal-300 font-bold">{final.dateLocation}</span>
+                        </div>
+                        <span className="text-amber-400 font-mono text-[11px] font-bold">{final.match}</span>
+                        <p className="text-slate-300 text-xs leading-relaxed mt-0.5">{final.narrative}</p>
+                        <span className="text-[10px] font-mono text-emerald-400 font-semibold mt-1">
+                          📊 {final.stats}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Dedicated 3-Peat Dynasty Summary Section Data */}
+              {activeExhibitModal.threePeatEraStats && (
+                <div className="three-peat-stats-block">
+                  <div className="stats-block-header">
+                    <h4>🏆 {activeExhibitModal.threePeatEraStats.title}</h4>
+                  </div>
+
+                  <div className="three-peat-grid">
+                    <div className="stat-box">
+                      <span className="stat-val">{activeExhibitModal.threePeatEraStats.totalGoals}</span>
+                      <span className="stat-lbl">Goals</span>
+                    </div>
+                    <div className="stat-box">
+                      <span className="stat-val">{activeExhibitModal.threePeatEraStats.totalAppearances}</span>
+                      <span className="stat-lbl">Appearances</span>
+                    </div>
+                    <div className="stat-box">
+                      <span className="stat-val">{activeExhibitModal.threePeatEraStats.totalAssists}</span>
+                      <span className="stat-lbl">Assists</span>
+                    </div>
+                    <div className="stat-box">
+                      <span className="stat-val">{activeExhibitModal.threePeatEraStats.goalsPerApp}</span>
+                      <span className="stat-lbl">Goals/App</span>
+                    </div>
+                  </div>
+
+                  <ul className="three-peat-list">
+                    <li>
+                      <strong>UCL Titles:</strong> {activeExhibitModal.threePeatEraStats.uclTitles}
+                    </li>
+                    <li>
+                      <strong>Top Scorer Streak:</strong> {activeExhibitModal.threePeatEraStats.topScorerStreak}
+                    </li>
+                    <li>
+                      <strong>Finals Record:</strong> {activeExhibitModal.threePeatEraStats.finalsWon} ({activeExhibitModal.threePeatEraStats.uclFinalsGoals})
+                    </li>
+                    <li>
+                      <strong>Season Goal Breakdown:</strong> {activeExhibitModal.threePeatEraStats.seasonGoalBreakdown}
+                    </li>
+                  </ul>
+                </div>
+              )}
+
+              {/* Narrative Description (if no finals list or general) */}
+              {!activeExhibitModal.finals && (
+                <div className="p-3.5 rounded-xl border bg-black/40 border-white/10 text-xs sm:text-sm text-slate-300 leading-relaxed whitespace-pre-line font-normal">
+                  {activeExhibitModal.narrative}
+                </div>
+              )}
+
+              {/* Stats Summary Pill */}
+              <div className="flex items-center gap-2 p-2.5 rounded-xl bg-amber-400/10 border border-amber-400/30 text-amber-300 text-xs font-mono font-bold">
+                <Trophy className="w-4 h-4 shrink-0 text-amber-400" />
+                <span>{activeExhibitModal.statsSummary}</span>
+              </div>
+
+              {/* Real Madrid 2013/14 Season Statistics Breakdown (Specific to Galáctico Gold) */}
+              {activeExhibitModal.seasonStats201314 && (
+                <div>
+                  <h4 className="text-xs font-black tracking-wider uppercase text-amber-400 font-mono mb-2 flex items-center gap-1.5">
+                    <Medal className="w-4 h-4 text-amber-400" />
+                    <span>Real Madrid 2013/14 Season Statistics & Records</span>
+                  </h4>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 font-mono">
+                    <div className="p-3 rounded-xl border bg-slate-900/70 border-white/15 flex flex-col gap-2">
+                      <span className="text-xs font-black text-white uppercase tracking-wider border-b border-white/10 pb-1 flex items-center justify-between">
+                        <span>All Competitions</span>
+                        <span className="text-amber-400">68 G/A</span>
+                      </span>
+                      <div className="grid grid-cols-2 gap-1.5 text-xs text-slate-300">
+                        <div>Appearances: <strong className="text-white font-black">{activeExhibitModal.seasonStats201314.allCompetitions.appearances}</strong></div>
+                        <div>Goals: <strong className="text-amber-400 font-black">{activeExhibitModal.seasonStats201314.allCompetitions.goals}</strong></div>
+                        <div>Assists: <strong className="text-sky-400 font-black">{activeExhibitModal.seasonStats201314.allCompetitions.assists}</strong></div>
+                        <div>Contributions: <strong className="text-emerald-400 font-black">{activeExhibitModal.seasonStats201314.allCompetitions.goalContributions}</strong></div>
+                      </div>
+                      <div className="text-[11px] text-amber-300 pt-1 border-t border-white/10">
+                        🏆 Trophies: {activeExhibitModal.seasonStats201314.allCompetitions.trophies.join(' · ')}
+                      </div>
+                    </div>
+
+                    <div className="p-3 rounded-xl border bg-slate-900/70 border-white/15 flex flex-col gap-2">
+                      <span className="text-xs font-black text-white uppercase tracking-wider border-b border-white/10 pb-1 flex items-center justify-between">
+                        <span>UEFA Champions League</span>
+                        <span className="text-amber-400">22 G/A</span>
+                      </span>
+                      <div className="grid grid-cols-2 gap-1.5 text-xs text-slate-300">
+                        <div>Appearances: <strong className="text-white font-black">{activeExhibitModal.seasonStats201314.championsLeague.appearances}</strong></div>
+                        <div>Goals: <strong className="text-amber-400 font-black">{activeExhibitModal.seasonStats201314.championsLeague.goals} (All-Time Record)</strong></div>
+                        <div>Assists: <strong className="text-sky-400 font-black">{activeExhibitModal.seasonStats201314.championsLeague.assists}</strong></div>
+                        <div>Contributions: <strong className="text-emerald-400 font-black">{activeExhibitModal.seasonStats201314.championsLeague.goalContributions}</strong></div>
+                      </div>
+                      <div className="text-[11px] text-teal-300 pt-1 border-t border-white/10 font-bold">
+                        ⭐ {activeExhibitModal.seasonStats201314.championsLeague.achievement}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Juventus 2018/19 Season Statistics Breakdown (Specific to Le Zebre) */}
+              {activeExhibitModal.juventusSeasonStats && (
+                <div>
+                  <h4 className="text-xs font-black tracking-wider uppercase text-amber-400 font-mono mb-2 flex items-center gap-1.5">
+                    <Medal className="w-4 h-4 text-amber-400" />
+                    <span>Juventus 2018/19 Season Statistics</span>
+                  </h4>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 font-mono">
+                    <div className="p-3 rounded-xl border bg-slate-900/70 border-white/15 flex flex-col gap-2">
+                      <span className="text-xs font-black text-white uppercase tracking-wider border-b border-white/10 pb-1 flex items-center justify-between">
+                        <span>All Competitions</span>
+                        <span className="text-amber-400">38 G/A</span>
+                      </span>
+                      <div className="grid grid-cols-2 gap-1.5 text-xs text-slate-300">
+                        <div>Appearances: <strong className="text-white font-black">{activeExhibitModal.juventusSeasonStats.allCompetitions.appearances}</strong></div>
+                        <div>Goals: <strong className="text-amber-400 font-black">{activeExhibitModal.juventusSeasonStats.allCompetitions.goals}</strong></div>
+                        <div>Assists: <strong className="text-sky-400 font-black">{activeExhibitModal.juventusSeasonStats.allCompetitions.assists}</strong></div>
+                        <div>Contributions: <strong className="text-emerald-400 font-black">{activeExhibitModal.juventusSeasonStats.allCompetitions.goalContributions}</strong></div>
+                      </div>
+                    </div>
+
+                    <div className="p-3 rounded-xl border bg-slate-900/70 border-white/15 flex flex-col gap-2">
+                      <span className="text-xs font-black text-white uppercase tracking-wider border-b border-white/10 pb-1 flex items-center justify-between">
+                        <span>UEFA Champions League</span>
+                        <span className="text-amber-400">8 G/A</span>
+                      </span>
+                      <div className="grid grid-cols-2 gap-1.5 text-xs text-slate-300">
+                        <div>Appearances: <strong className="text-white font-black">{activeExhibitModal.juventusSeasonStats.championsLeague.appearances}</strong></div>
+                        <div>Goals: <strong className="text-amber-400 font-black">{activeExhibitModal.juventusSeasonStats.championsLeague.goals}</strong></div>
+                        <div>Assists: <strong className="text-sky-400 font-black">{activeExhibitModal.juventusSeasonStats.championsLeague.assists}</strong></div>
+                        <div>Contributions: <strong className="text-emerald-400 font-black">{activeExhibitModal.juventusSeasonStats.championsLeague.goalContributions}</strong></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* EURO Records Breakdown (Specific to Seleção Passion) */}
+              {activeExhibitModal.euroRecords && (
+                <div>
+                  <h4 className="text-xs font-black tracking-wider uppercase text-emerald-400 font-mono mb-2 flex items-center gap-1.5">
+                    <Medal className="w-4 h-4 text-emerald-400" />
+                    <span>UEFA EURO All-Time Tournament Records ({activeExhibitModal.euroRecords.length})</span>
+                  </h4>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
+                    {activeExhibitModal.euroRecords.map((record, i) => (
+                      <div
+                        key={i}
+                        className="p-2 rounded-lg border text-xs font-medium flex items-center gap-2 bg-emerald-950/30 border-emerald-500/20 text-slate-200"
+                      >
+                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shrink-0" />
+                        <span>{record}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Individual Awards Breakdown */}
+              {activeExhibitModal.individualAwards && activeExhibitModal.individualAwards.length > 0 && (
+                <div>
+                  <h4 className="text-xs font-black tracking-wider uppercase text-amber-400 font-mono mb-2 flex items-center gap-1.5">
+                    <Medal className="w-4 h-4 text-amber-400" />
+                    <span>Individual Honours & Accolades ({activeExhibitModal.individualAwards.length})</span>
+                  </h4>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
+                    {activeExhibitModal.individualAwards.map((award, i) => (
+                      <div
+                        key={i}
+                        className="p-2 rounded-lg border text-xs font-medium flex items-center gap-2 bg-slate-900/60 border-white/10 text-slate-200"
+                      >
+                        <span className="w-1.5 h-1.5 rounded-full bg-amber-400 shrink-0" />
+                        <span>{award}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Team Trophies */}
+              {activeExhibitModal.teamTrophies && activeExhibitModal.teamTrophies.length > 0 && (
+                <div>
+                  <h4 className="text-xs font-black tracking-wider uppercase text-sky-400 font-mono mb-2 flex items-center gap-1.5">
+                    <Trophy className="w-4 h-4 text-sky-400" />
+                    <span>Team Trophies & Season Titles ({activeExhibitModal.teamTrophies.length})</span>
+                  </h4>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
+                    {activeExhibitModal.teamTrophies.map((trophy, i) => (
+                      <div
+                        key={i}
+                        className="p-2 rounded-lg border text-xs font-medium flex items-center gap-2 bg-slate-900/60 border-white/10 text-slate-200"
+                      >
+                        <span className="w-1.5 h-1.5 rounded-full bg-sky-400 shrink-0" />
+                        <span>{trophy}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Activate Preset Button in Modal */}
+              <div className="pt-2 border-t border-white/10 flex justify-end">
+                <button
+                  type="button"
+                  className="activate-theme-btn w-full sm:w-auto"
+                  onClick={() => {
+                    onSelectPreset(activeExhibitModal.id);
+                    handleCloseModal();
+                  }}
                   style={{
-                    color:
+                    backgroundColor:
                       activeExhibitModal.id === 'galactico-gold'
-                        ? '#F2CC63'
+                        ? undefined
                         : activeExhibitModal.id === 'el-bicho'
-                        ? '#00E5FF'
+                        ? undefined
                         : activeExhibitModal.id === 'selecao-passion'
-                        ? '#FF6680'
+                        ? undefined
+                        : activeExhibitModal.id === 'the-red-devil'
+                        ? undefined
                         : activeExhibitModal.id === 'le-zebre'
-                        ? '#F2CC63'
-                        : '#FF4D4D',
+                        ? undefined
+                        : '#D4AF37',
+                    color: '#FFFFFF',
                   }}
                 >
-                  {activeExhibitModal.matchDate}
-                </span>
-              </div>
-            </div>
-
-            {/* Three Finals Narrative Cards (Specific to El Bicho) */}
-            {activeExhibitModal.finals && activeExhibitModal.finals.length > 0 && (
-              <div className="flex flex-col gap-2.5">
-                <h4 className="text-xs font-black tracking-wider uppercase text-teal-400 font-mono flex items-center gap-1.5">
-                  <Trophy className="w-4 h-4 text-teal-400" />
-                  <span>The Three Consecutive Champions League Finals</span>
-                </h4>
-                <div className="flex flex-col gap-2">
-                  {activeExhibitModal.finals.map((final, idx) => (
-                    <div
-                      key={idx}
-                      className="p-3 rounded-xl border bg-slate-900/60 border-teal-500/25 flex flex-col gap-1 text-xs"
-                    >
-                      <div className="flex items-center justify-between flex-wrap gap-1">
-                        <strong className="text-white text-xs sm:text-sm font-black">{final.year}</strong>
-                        <span className="text-[10px] font-mono text-teal-300 font-bold">{final.dateLocation}</span>
-                      </div>
-                      <span className="text-amber-400 font-mono text-[11px] font-bold">{final.match}</span>
-                      <p className="text-slate-300 text-xs leading-relaxed mt-0.5">{final.narrative}</p>
-                      <span className="text-[10px] font-mono text-emerald-400 font-semibold mt-1">
-                        📊 {final.stats}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* Dedicated 3-Peat Dynasty Summary Section Data */}
-            {activeExhibitModal.threePeatEraStats && (
-              <div className="three-peat-stats-block">
-                <div className="stats-block-header">
-                  <h4>🏆 {activeExhibitModal.threePeatEraStats.title}</h4>
-                </div>
-
-                <div className="three-peat-grid">
-                  <div className="stat-box">
-                    <span className="stat-val">{activeExhibitModal.threePeatEraStats.totalGoals}</span>
-                    <span className="stat-lbl">Goals</span>
-                  </div>
-                  <div className="stat-box">
-                    <span className="stat-val">{activeExhibitModal.threePeatEraStats.totalAppearances}</span>
-                    <span className="stat-lbl">Appearances</span>
-                  </div>
-                  <div className="stat-box">
-                    <span className="stat-val">{activeExhibitModal.threePeatEraStats.totalAssists}</span>
-                    <span className="stat-lbl">Assists</span>
-                  </div>
-                  <div className="stat-box">
-                    <span className="stat-val">{activeExhibitModal.threePeatEraStats.goalsPerApp}</span>
-                    <span className="stat-lbl">Goals/App</span>
-                  </div>
-                </div>
-
-                <ul className="three-peat-list">
-                  <li>
-                    <strong>UCL Titles:</strong> {activeExhibitModal.threePeatEraStats.uclTitles}
-                  </li>
-                  <li>
-                    <strong>Top Scorer Streak:</strong> {activeExhibitModal.threePeatEraStats.topScorerStreak}
-                  </li>
-                  <li>
-                    <strong>Finals Record:</strong> {activeExhibitModal.threePeatEraStats.finalsWon} ({activeExhibitModal.threePeatEraStats.uclFinalsGoals})
-                  </li>
-                  <li>
-                    <strong>Season Goal Breakdown:</strong> {activeExhibitModal.threePeatEraStats.seasonGoalBreakdown}
-                  </li>
-                </ul>
-              </div>
-            )}
-
-            {/* Narrative Description (if no finals list or general) */}
-            {!activeExhibitModal.finals && (
-              <div className="p-3.5 rounded-xl border bg-black/40 border-white/10 text-xs sm:text-sm text-slate-300 leading-relaxed whitespace-pre-line font-normal">
-                {activeExhibitModal.narrative}
-              </div>
-            )}
-
-            {/* Stats Summary Pill */}
-            <div className="flex items-center gap-2 p-2.5 rounded-xl bg-amber-400/10 border border-amber-400/30 text-amber-300 text-xs font-mono font-bold">
-              <Trophy className="w-4 h-4 shrink-0 text-amber-400" />
-              <span>{activeExhibitModal.statsSummary}</span>
-            </div>
-
-            {/* Real Madrid 2013/14 Season Statistics Breakdown (Specific to Galáctico Gold) */}
-            {activeExhibitModal.seasonStats201314 && (
-              <div>
-                <h4 className="text-xs font-black tracking-wider uppercase text-amber-400 font-mono mb-2 flex items-center gap-1.5">
-                  <Medal className="w-4 h-4 text-amber-400" />
-                  <span>Real Madrid 2013/14 Season Statistics & Records</span>
-                </h4>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 font-mono">
-                  {/* All Competitions */}
-                  <div className="p-3 rounded-xl border bg-slate-900/70 border-white/15 flex flex-col gap-2">
-                    <span className="text-xs font-black text-white uppercase tracking-wider border-b border-white/10 pb-1 flex items-center justify-between">
-                      <span>All Competitions</span>
-                      <span className="text-amber-400">68 G/A</span>
-                    </span>
-                    <div className="grid grid-cols-2 gap-1.5 text-xs text-slate-300">
-                      <div>Appearances: <strong className="text-white font-black">{activeExhibitModal.seasonStats201314.allCompetitions.appearances}</strong></div>
-                      <div>Goals: <strong className="text-amber-400 font-black">{activeExhibitModal.seasonStats201314.allCompetitions.goals}</strong></div>
-                      <div>Assists: <strong className="text-sky-400 font-black">{activeExhibitModal.seasonStats201314.allCompetitions.assists}</strong></div>
-                      <div>Contributions: <strong className="text-emerald-400 font-black">{activeExhibitModal.seasonStats201314.allCompetitions.goalContributions}</strong></div>
-                    </div>
-                    <div className="text-[11px] text-amber-300 pt-1 border-t border-white/10">
-                      🏆 Trophies: {activeExhibitModal.seasonStats201314.allCompetitions.trophies.join(' · ')}
-                    </div>
-                  </div>
-
-                  {/* UEFA Champions League */}
-                  <div className="p-3 rounded-xl border bg-slate-900/70 border-white/15 flex flex-col gap-2">
-                    <span className="text-xs font-black text-white uppercase tracking-wider border-b border-white/10 pb-1 flex items-center justify-between">
-                      <span>UEFA Champions League</span>
-                      <span className="text-amber-400">22 G/A</span>
-                    </span>
-                    <div className="grid grid-cols-2 gap-1.5 text-xs text-slate-300">
-                      <div>Appearances: <strong className="text-white font-black">{activeExhibitModal.seasonStats201314.championsLeague.appearances}</strong></div>
-                      <div>Goals: <strong className="text-amber-400 font-black">{activeExhibitModal.seasonStats201314.championsLeague.goals} (All-Time Record)</strong></div>
-                      <div>Assists: <strong className="text-sky-400 font-black">{activeExhibitModal.seasonStats201314.championsLeague.assists}</strong></div>
-                      <div>Contributions: <strong className="text-emerald-400 font-black">{activeExhibitModal.seasonStats201314.championsLeague.goalContributions}</strong></div>
-                    </div>
-                    <div className="text-[11px] text-teal-300 pt-1 border-t border-white/10 font-bold">
-                      ⭐ {activeExhibitModal.seasonStats201314.championsLeague.achievement}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {/* Juventus 2018/19 Season Statistics Breakdown (Specific to Le Zebre) */}
-            {activeExhibitModal.juventusSeasonStats && (
-              <div>
-                <h4 className="text-xs font-black tracking-wider uppercase text-amber-400 font-mono mb-2 flex items-center gap-1.5">
-                  <Medal className="w-4 h-4 text-amber-400" />
-                  <span>Juventus 2018/19 Season Statistics</span>
-                </h4>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 font-mono">
-                  {/* All Competitions */}
-                  <div className="p-3 rounded-xl border bg-slate-900/70 border-white/15 flex flex-col gap-2">
-                    <span className="text-xs font-black text-white uppercase tracking-wider border-b border-white/10 pb-1 flex items-center justify-between">
-                      <span>All Competitions</span>
-                      <span className="text-amber-400">38 G/A</span>
-                    </span>
-                    <div className="grid grid-cols-2 gap-1.5 text-xs text-slate-300">
-                      <div>Appearances: <strong className="text-white font-black">{activeExhibitModal.juventusSeasonStats.allCompetitions.appearances}</strong></div>
-                      <div>Goals: <strong className="text-amber-400 font-black">{activeExhibitModal.juventusSeasonStats.allCompetitions.goals}</strong></div>
-                      <div>Assists: <strong className="text-sky-400 font-black">{activeExhibitModal.juventusSeasonStats.allCompetitions.assists}</strong></div>
-                      <div>Contributions: <strong className="text-emerald-400 font-black">{activeExhibitModal.juventusSeasonStats.allCompetitions.goalContributions}</strong></div>
-                    </div>
-                  </div>
-
-                  {/* UEFA Champions League */}
-                  <div className="p-3 rounded-xl border bg-slate-900/70 border-white/15 flex flex-col gap-2">
-                    <span className="text-xs font-black text-white uppercase tracking-wider border-b border-white/10 pb-1 flex items-center justify-between">
-                      <span>UEFA Champions League</span>
-                      <span className="text-amber-400">8 G/A</span>
-                    </span>
-                    <div className="grid grid-cols-2 gap-1.5 text-xs text-slate-300">
-                      <div>Appearances: <strong className="text-white font-black">{activeExhibitModal.juventusSeasonStats.championsLeague.appearances}</strong></div>
-                      <div>Goals: <strong className="text-amber-400 font-black">{activeExhibitModal.juventusSeasonStats.championsLeague.goals}</strong></div>
-                      <div>Assists: <strong className="text-sky-400 font-black">{activeExhibitModal.juventusSeasonStats.championsLeague.assists}</strong></div>
-                      <div>Contributions: <strong className="text-emerald-400 font-black">{activeExhibitModal.juventusSeasonStats.championsLeague.goalContributions}</strong></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {/* EURO Records Breakdown (Specific to Seleção Passion) */}
-            {activeExhibitModal.euroRecords && (
-              <div>
-                <h4 className="text-xs font-black tracking-wider uppercase text-emerald-400 font-mono mb-2 flex items-center gap-1.5">
-                  <Medal className="w-4 h-4 text-emerald-400" />
-                  <span>UEFA EURO All-Time Tournament Records ({activeExhibitModal.euroRecords.length})</span>
-                </h4>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
-                  {activeExhibitModal.euroRecords.map((record, i) => (
-                    <div
-                      key={i}
-                      className="p-2 rounded-lg border text-xs font-medium flex items-center gap-2 bg-emerald-950/30 border-emerald-500/20 text-slate-200"
-                    >
-                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shrink-0" />
-                      <span>{record}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* Individual Awards Breakdown */}
-            {activeExhibitModal.individualAwards && activeExhibitModal.individualAwards.length > 0 && (
-              <div>
-                <h4 className="text-xs font-black tracking-wider uppercase text-amber-400 font-mono mb-2 flex items-center gap-1.5">
-                  <Medal className="w-4 h-4 text-amber-400" />
-                  <span>Individual Honours & Accolades ({activeExhibitModal.individualAwards.length})</span>
-                </h4>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
-                  {activeExhibitModal.individualAwards.map((award, i) => (
-                    <div
-                      key={i}
-                      className="p-2 rounded-lg border text-xs font-medium flex items-center gap-2 bg-slate-900/60 border-white/10 text-slate-200"
-                    >
-                      <span className="w-1.5 h-1.5 rounded-full bg-amber-400 shrink-0" />
-                      <span>{award}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* Team Trophies */}
-            {activeExhibitModal.teamTrophies && activeExhibitModal.teamTrophies.length > 0 && (
-              <div>
-                <h4 className="text-xs font-black tracking-wider uppercase text-sky-400 font-mono mb-2 flex items-center gap-1.5">
-                  <Trophy className="w-4 h-4 text-sky-400" />
-                  <span>Team Trophies & Season Titles ({activeExhibitModal.teamTrophies.length})</span>
-                </h4>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
-                  {activeExhibitModal.teamTrophies.map((trophy, i) => (
-                    <div
-                      key={i}
-                      className="p-2 rounded-lg border text-xs font-medium flex items-center gap-2 bg-slate-900/60 border-white/10 text-slate-200"
-                    >
-                      <span className="w-1.5 h-1.5 rounded-full bg-sky-400 shrink-0" />
-                      <span>{trophy}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* Activate Preset Button in Modal */}
-            <div className="pt-2 border-t border-white/10 flex justify-end">
-              <button
-                type="button"
-                className="activate-theme-btn w-full sm:w-auto"
-                onClick={() => {
-                  onSelectPreset(activeExhibitModal.id);
-                  setActiveExhibitModal(null);
-                }}
-                style={{
-                  backgroundColor:
-                    activeExhibitModal.id === 'galactico-gold'
-                      ? undefined
+                  <Flame className="w-4 h-4" />
+                  <span className="btn-text">
+                    {activeExhibitModal.id === 'galactico-gold'
+                      ? 'ACTIVATE GALÁCTICO GOLD'
                       : activeExhibitModal.id === 'el-bicho'
-                      ? undefined
-                      : activeExhibitModal.id === 'selecao-passion'
-                      ? undefined
-                      : activeExhibitModal.id === 'the-red-devil'
-                      ? undefined
+                      ? 'ACTIVATE EL BICHO'
                       : activeExhibitModal.id === 'le-zebre'
-                      ? undefined
-                      : '#D4AF37',
-                  color: '#FFFFFF',
-                }}
-              >
-                <Flame className="w-4 h-4" />
-                <span className="btn-text">
-                  {activeExhibitModal.id === 'galactico-gold'
-                    ? 'ACTIVATE GALÁCTICO GOLD'
-                    : activeExhibitModal.id === 'el-bicho'
-                    ? 'ACTIVATE EL BICHO'
-                    : activeExhibitModal.id === 'le-zebre'
-                    ? 'ACTIVATE LE ZEBRE'
-                    : activeExhibitModal.id === 'selecao-passion'
-                    ? 'ACTIVATE SELEÇÃO PASSION'
-                    : activeExhibitModal.id === 'the-red-devil'
-                    ? 'ACTIVATE THE RED DEVIL'
-                    : `ACTIVATE ${activeExhibitModal.id.replace(/-/g, ' ').toUpperCase()}`}
-                </span>
-              </button>
+                      ? 'ACTIVATE LE ZEBRE'
+                      : activeExhibitModal.id === 'selecao-passion'
+                      ? 'ACTIVATE SELEÇÃO PASSION'
+                      : activeExhibitModal.id === 'the-red-devil'
+                      ? 'ACTIVATE THE RED DEVIL'
+                      : `ACTIVATE ${activeExhibitModal.id.replace(/-/g, ' ').toUpperCase()}`}
+                  </span>
+                </button>
+              </div>
             </div>
-          </div>
+          ) : null}
         </div>
-      )}
+      </div>
     </section>
   );
 };

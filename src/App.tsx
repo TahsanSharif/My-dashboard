@@ -168,20 +168,24 @@ export default function App() {
 
     if (settings.style === 'goat') {
       const preset = settings.goatPreset || 'mr-champions-league';
-      document.documentElement.setAttribute('data-goat-preset', preset);
-      // Support both red-devil and the-red-devil
-      if (preset === 'red-devil' || preset === 'the-red-devil') {
-        document.documentElement.setAttribute('data-goat-preset', 'the-red-devil');
-      }
+      const normalizedPreset =
+        preset === 'red-devil' || preset === 'the-red-devil'
+          ? 'the-red-devil'
+          : preset === 'mr-champions-league' || preset === 'european-nights'
+          ? 'european-nights'
+          : preset;
+      document.documentElement.setAttribute('data-goat-preset', normalizedPreset);
     } else {
       document.documentElement.removeAttribute('data-goat-preset');
     }
 
-    // Legacy fallback for any styles relying on data-theme
-    document.documentElement.setAttribute(
-      'data-theme',
+    const activeTheme =
       settings.style === 'goat'
-        ? (settings.goatPreset === 'red-devil' || settings.goatPreset === 'the-red-devil' ? 'the-red-devil' : (settings.goatPreset || 'mr-champions-league'))
+        ? (settings.goatPreset === 'red-devil' || settings.goatPreset === 'the-red-devil'
+            ? 'the-red-devil'
+            : (settings.goatPreset === 'mr-champions-league' || settings.goatPreset === 'european-nights' || !settings.goatPreset)
+            ? 'european-nights'
+            : settings.goatPreset)
         : settings.style === 'cyberdeck'
         ? 'cyberdeck'
         : settings.style === 'cassette'
@@ -200,8 +204,13 @@ export default function App() {
         ? 'solarpunk'
         : effectiveAppearance === 'dark'
         ? 'dark'
-        : settings.style
-    );
+        : settings.style;
+
+    // Apply theme data attribute to document body/root element and save user_active_theme
+    document.documentElement.setAttribute('data-theme', activeTheme);
+    try {
+      localStorage.setItem('user_active_theme', activeTheme);
+    } catch {}
   }, [settings.appearance, settings.style, settings.goatPreset]);
 
   // Trigger the UEFA Champions League Anthem audio playback whenever the user enters or activates
@@ -306,14 +315,21 @@ export default function App() {
 
     if (
       newStyle === 'mr-champions-league' ||
+      newStyle === 'european-nights' ||
       newStyle === 'galactico-gold' ||
       newStyle === 'selecao-passion' ||
       newStyle === 'red-devil' ||
       newStyle === 'the-red-devil' ||
-      newStyle === 'el-bicho'
+      newStyle === 'el-bicho' ||
+      newStyle === 'le-zebre'
     ) {
       actualStyle = 'goat';
-      actualGoatPreset = newStyle === 'the-red-devil' ? 'red-devil' : (newStyle as GoatPreset);
+      actualGoatPreset =
+        newStyle === 'the-red-devil'
+          ? 'red-devil'
+          : newStyle === 'european-nights'
+          ? 'mr-champions-league'
+          : (newStyle as GoatPreset);
     }
 
     // When switching to JARVIS, Matrix, Watch Dogs, or GOAT, automatically enforce dark appearance for optimal experience

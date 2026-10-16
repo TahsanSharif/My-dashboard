@@ -554,7 +554,7 @@ export const MovableResizableWidget: React.FC<MovableResizableWidgetProps> = ({
 
       {/* ── RESPONSIVE WIDGET BODY ── */}
       <div
-        className="flex-1 w-full flex flex-col min-h-0 overflow-y-auto relative cursor-default"
+        className="flex-1 w-full flex flex-col min-h-0 overflow-y-auto relative cursor-default z-10"
         data-no-drag="true"
         onPointerDown={(e) => {
           // Bring to front on click without initiating window movement
@@ -573,8 +573,7 @@ export const MovableResizableWidget: React.FC<MovableResizableWidgetProps> = ({
       {/* Number 7 Watermark element */}
       <span
         aria-hidden="true"
-        className="number-7-watermark absolute bottom-2 right-4 text-7xl sm:text-8xl font-black font-mono pointer-events-none select-none z-0"
-        style={{ lineHeight: 0.8 }}
+        className="widget-watermark-7 bg-number-7 watermark-overlay-7 number-7-watermark"
       >
         7
       </span>

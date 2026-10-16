@@ -5157,13 +5157,11 @@
   text-shadow: 0 2px 4px rgba(15, 23, 42, 0.08) !important;
 }
 
-/* 2. Number 7 Watermark Visibility Fix */
-[data-theme="galactico-gold"] .number-7-watermark,
+/* 2. Number 7 Watermark & Badge */
 [data-theme="galactico-gold"] .badge-number-7,
-[data-goat-preset="galactico-gold"] .number-7-watermark,
 [data-goat-preset="galactico-gold"] .badge-number-7 {
   color: #D5B46A !important;
-  opacity: 0.85 !important;
+  opacity: 1 !important;
   font-weight: 800 !important;
 }
 
@@ -5225,13 +5223,11 @@
   text-shadow: 0 0 12px rgba(200, 16, 46, 0.4) !important;
 }
 
-/* 2. Number 7 Watermark Visibility */
-[data-theme="selecao-passion"] .number-7-watermark,
+/* 2. Number 7 Watermark & Badge */
 [data-theme="selecao-passion"] .badge-number-7,
-[data-goat-preset="selecao-passion"] .number-7-watermark,
 [data-goat-preset="selecao-passion"] .badge-number-7 {
   color: #D4AF37 !important;
-  opacity: 0.85 !important;
+  opacity: 1 !important;
   font-weight: 800 !important;
 }
 
@@ -5496,17 +5492,13 @@
   text-shadow: 0 0 12px rgba(199, 1, 1, 0.5) !important;
 }
 
-/* 2. Number 7 Watermark Visibility */
-[data-theme="the-red-devil"] .number-7-watermark,
+/* 2. Number 7 Watermark & Badge */
 [data-theme="the-red-devil"] .badge-number-7,
-[data-theme="red-devil"] .number-7-watermark,
 [data-theme="red-devil"] .badge-number-7,
-[data-goat-preset="the-red-devil"] .number-7-watermark,
 [data-goat-preset="the-red-devil"] .badge-number-7,
-[data-goat-preset="red-devil"] .number-7-watermark,
 [data-goat-preset="red-devil"] .badge-number-7 {
   color: #D4AF37 !important;
-  opacity: 0.85 !important;
+  opacity: 1 !important;
   font-weight: 800 !important;
 }
 
@@ -5826,13 +5818,11 @@
   text-shadow: 0 0 12px rgba(0, 184, 176, 0.5) !important;
 }
 
-/* 2. Number 7 Watermark Visibility */
-[data-theme="el-bicho"] .number-7-watermark,
+/* 2. Number 7 Watermark & Badge */
 [data-theme="el-bicho"] .badge-number-7,
-[data-goat-preset="el-bicho"] .number-7-watermark,
 [data-goat-preset="el-bicho"] .badge-number-7 {
   color: #00E5FF !important;
-  opacity: 0.85 !important;
+  opacity: 1 !important;
   font-weight: 800 !important;
 }
 
@@ -6111,13 +6101,11 @@
   display: inline-flex !important;
 }
 
-/* 2. Number 7 Watermark Visibility */
-[data-theme="le-zebre"] .number-7-watermark,
+/* 2. Number 7 Watermark & Badge */
 [data-theme="le-zebre"] .badge-number-7,
-[data-goat-preset="le-zebre"] .number-7-watermark,
 [data-goat-preset="le-zebre"] .badge-number-7 {
   color: #FFFFFF !important;
-  opacity: 0.9 !important;
+  opacity: 1 !important;
   font-weight: 800 !important;
 }
 
@@ -6830,6 +6818,978 @@
   background: linear-gradient(135deg, #00e5ff 0%, #00b8b0 50%, #8b5cf6 100%);
   box-shadow: 0 6px 20px rgba(0, 229, 255, 0.65);
 }
+
+/* ===================================================
+   EUROPEAN NIGHTS: MASTER HALL OF FAME STATS PAVILION
+   =================================================== */
+.museum-exhibit-pavilion,
+.museum-exhibit-pavilion[data-theme="european-nights"] {
+  background: radial-gradient(circle at 50% 0%, rgba(7, 87, 200, 0.32) 0%, rgba(6, 21, 46, 0.95) 45%, #030a17 100%) !important;
+  border: 1.5px solid rgba(69, 183, 255, 0.4) !important;
+  border-radius: 20px !important;
+  padding: 22px !important;
+  color: #FFFFFF !important;
+  box-shadow: 
+    0 20px 50px rgba(0, 0, 0, 0.8),
+    0 0 35px rgba(7, 87, 200, 0.35),
+    inset 0 1px 1px rgba(255, 255, 255, 0.18) !important;
+  position: relative !important;
+  overflow: hidden !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  margin-bottom: 8px;
+}
+
+.museum-exhibit-pavilion::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 20px;
+  right: 20px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #45B7FF, #D4AF37, #45B7FF, transparent);
+  border-radius: 9999px;
+  pointer-events: none;
+}
+
+.museum-exhibit-pavilion::after {
+  content: "7";
+  position: absolute;
+  right: 20px;
+  top: 10px;
+  font-size: 140px;
+  font-weight: 900;
+  font-family: Impact, "Arial Black", sans-serif;
+  color: #45B7FF;
+  opacity: 0.04;
+  pointer-events: none;
+  line-height: 0.8;
+  z-index: 0;
+  user-select: none;
+}
+
+/* Pavilion Header */
+.pavilion-header {
+  position: relative;
+  z-index: 1;
+  border-bottom: 1px solid rgba(69, 183, 255, 0.2);
+  padding-bottom: 14px;
+  margin-bottom: 16px;
+  padding-right: 48px;
+}
+
+.pavilion-header .exhibit-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-family: var(--font-mono, monospace);
+  font-size: 10.5px;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  background: rgba(7, 87, 200, 0.35);
+  color: #45B7FF;
+  border: 1px solid rgba(69, 183, 255, 0.55);
+  box-shadow: 0 0 12px rgba(69, 183, 255, 0.25);
+}
+
+.pavilion-activate-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 12px;
+  border-radius: 8px;
+  font-family: var(--font-mono, monospace);
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  background: linear-gradient(135deg, #0757C8 0%, #1A73E8 60%, #45B7FF 100%);
+  color: #FFFFFF;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 2px 10px rgba(7, 87, 200, 0.4);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.pavilion-activate-chip:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(69, 183, 255, 0.6);
+}
+
+.pavilion-header h2 {
+  font-size: 1.75rem;
+  font-weight: 900;
+  color: #FFFFFF;
+  letter-spacing: -0.02em;
+  margin: 8px 0 2px 0;
+  text-shadow: 0 0 20px rgba(69, 183, 255, 0.5), 0 2px 6px rgba(0, 0, 0, 0.7);
+}
+
+.pavilion-header p {
+  font-size: 0.88rem;
+  color: #93C5FD;
+  font-weight: 500;
+  margin: 0;
+  letter-spacing: 0.01em;
+}
+
+/* Pavilion Sections */
+.pavilion-section {
+  position: relative;
+  z-index: 1;
+  background: rgba(4, 14, 32, 0.65);
+  border: 1px solid rgba(69, 183, 255, 0.22);
+  border-radius: 14px;
+  padding: 16px 18px;
+  margin-bottom: 16px;
+  backdrop-filter: blur(8px);
+}
+
+.section-title {
+  font-size: 0.92rem;
+  font-weight: 800;
+  color: #D4AF37;
+  text-shadow: 0 0 10px rgba(212, 175, 55, 0.4);
+  margin-top: 0;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+/* Core Career Statistics Grid */
+.stats-card-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+@media (min-width: 640px) {
+  .stats-card-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+  }
+}
+
+.stat-badge-box {
+  background: linear-gradient(135deg, rgba(7, 87, 200, 0.3) 0%, rgba(3, 10, 23, 0.8) 100%);
+  border: 1px solid rgba(69, 183, 255, 0.35);
+  border-radius: 12px;
+  padding: 14px 10px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 3px;
+  transition: all 0.2s ease;
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1);
+}
+
+.stat-badge-box:hover {
+  border-color: #45B7FF;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(7, 87, 200, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.2);
+}
+
+.stat-number {
+  font-size: 1.85rem;
+  font-weight: 900;
+  font-family: var(--font-mono, monospace);
+  color: #45B7FF;
+  text-shadow: 0 0 14px rgba(69, 183, 255, 0.75);
+  line-height: 1.1;
+}
+
+.stat-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #D7E3F4;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  line-height: 1.25;
+}
+
+/* Pavilion List */
+.pavilion-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
+}
+
+@media (min-width: 768px) {
+  .pavilion-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.pavilion-list li {
+  background: rgba(3, 10, 23, 0.65);
+  border: 1px solid rgba(69, 183, 255, 0.16);
+  border-left: 3px solid #45B7FF;
+  padding: 9px 12px;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  color: #E2E8F0;
+  line-height: 1.45;
+  transition: all 0.18s ease;
+}
+
+.pavilion-list li:hover {
+  background: rgba(7, 87, 200, 0.2);
+  border-left-color: #D4AF37;
+  transform: translateX(2px);
+}
+
+.pavilion-list li strong {
+  color: #45B7FF;
+  font-weight: 800;
+}
+
+/* Timeline Container */
+.timeline-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.timeline-item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: rgba(3, 10, 23, 0.65);
+  border: 1px solid rgba(212, 175, 55, 0.25);
+  border-left: 3px solid #D4AF37;
+  transition: all 0.18s ease;
+}
+
+@media (min-width: 640px) {
+  .timeline-item {
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
+  }
+}
+
+.timeline-item:hover {
+  background: rgba(7, 87, 200, 0.2);
+  border-color: rgba(212, 175, 55, 0.5);
+  transform: translateX(2px);
+}
+
+.timeline-year {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3px 10px;
+  border-radius: 6px;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.78rem;
+  font-weight: 900;
+  background: rgba(212, 175, 55, 0.2);
+  color: #F2CC63;
+  border: 1px solid rgba(212, 175, 55, 0.45);
+  box-shadow: 0 0 10px rgba(212, 175, 55, 0.25);
+  white-space: nowrap;
+  height: fit-content;
+  shrink: 0;
+}
+
+.timeline-item p {
+  margin: 0;
+  font-size: 0.8rem;
+  color: #E2E8F0;
+  line-height: 1.45;
+}
+
+.timeline-item p strong {
+  color: #FFFFFF;
+  font-weight: 800;
+}
+
+/* Pavilion Table */
+.pavilion-table-wrapper {
+  overflow-x: auto;
+  border-radius: 10px;
+  border: 1px solid rgba(69, 183, 255, 0.22);
+}
+
+.pavilion-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 0.82rem;
+}
+
+.pavilion-table thead tr {
+  background: rgba(7, 87, 200, 0.35);
+  border-bottom: 2px solid rgba(69, 183, 255, 0.4);
+}
+
+.pavilion-table th {
+  padding: 9px 14px;
+  font-family: var(--font-mono, monospace);
+  font-weight: 900;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #93C5FD;
+}
+
+.pavilion-table td {
+  padding: 9px 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  color: #E2E8F0;
+  font-family: var(--font-sans, sans-serif);
+}
+
+.pavilion-table tbody tr {
+  transition: background-color 0.15s ease;
+}
+
+.pavilion-table tbody tr:hover {
+  background: rgba(69, 183, 255, 0.12);
+}
+
+.pavilion-table tbody td:first-child {
+  font-family: var(--font-mono, monospace);
+  font-weight: 800;
+  color: #CBD5E1;
+}
+
+.pavilion-table tbody td:nth-child(2) {
+  font-family: var(--font-mono, monospace);
+  font-weight: 900;
+  color: #45B7FF;
+  font-size: 0.92rem;
+}
+
+.pavilion-table tbody tr.record-season-row {
+  background: rgba(212, 175, 55, 0.16);
+}
+
+.pavilion-table tbody tr.record-season-row td:nth-child(2) {
+  color: #F2CC63;
+  text-shadow: 0 0 10px rgba(242, 204, 99, 0.6);
+}
+
+/* Pavilion Footer Note */
+.pavilion-footer-note {
+  margin-top: 14px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  text-align: center;
+}
+
+.pavilion-footer-note p {
+  margin: 0;
+  font-size: 0.75rem;
+  color: #94A3B8;
+  font-style: italic;
+  line-height: 1.4;
+}
+
+/* Exhibit 01: European Nights Card */
+.museum-card[data-preset="mr-champions-league"],
+.museum-card.exhibit-european-nights {
+  border-color: rgba(69, 183, 255, 0.45);
+  background: linear-gradient(180deg, #0c1a30 0%, #060e1c 100%);
+}
+
+.museum-card[data-preset="mr-champions-league"]:hover,
+.museum-card.exhibit-european-nights:hover {
+  border-color: #45B7FF;
+  box-shadow: 0 16px 40px rgba(3, 10, 23, 0.95), 0 0 32px rgba(69, 183, 255, 0.4);
+}
+
+.museum-card[data-preset="mr-champions-league"] .match-meta,
+.museum-card.exhibit-european-nights .match-meta {
+  color: #45B7FF;
+}
+
+.museum-card[data-preset="mr-champions-league"] .activate-theme-btn,
+.museum-card.exhibit-european-nights .activate-theme-btn {
+  background: linear-gradient(135deg, #0757C8 0%, #1A73E8 60%, #45B7FF 100%);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  box-shadow: 0 4px 14px rgba(7, 87, 200, 0.5);
+}
+
+.museum-card[data-preset="mr-champions-league"] .activate-theme-btn:hover,
+.museum-card.exhibit-european-nights .activate-theme-btn:hover {
+  background: linear-gradient(135deg, #1A73E8 0%, #45B7FF 100%);
+  color: #030A17;
+  box-shadow: 0 6px 20px rgba(69, 183, 255, 0.7);
+}
+
+/* ===================================================
+   STANDARDIZED MUSEUM PAVILION MODAL COMPONENT
+   =================================================== */
+/* Modal Backdrop Isolation */
+.museum-pavilion-modal-backdrop,
+.museum-modal-backdrop,
+.pavilion-modal-overlay {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  background: rgba(3, 8, 20, 0.88) !important;
+  backdrop-filter: blur(14px) !important;
+  -webkit-backdrop-filter: blur(14px) !important;
+  z-index: 99999 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 20px !important;
+}
+
+.museum-pavilion-modal-backdrop:not(.active):not([data-active="true"])[style*="display: none"],
+.museum-modal-backdrop[style*="display: none"],
+.pavilion-modal-overlay[style*="display: none"] {
+  display: none !important;
+}
+
+.museum-pavilion-modal-container,
+.museum-modal-card,
+.pavilion-modal-content {
+  position: relative !important;
+  width: 100% !important;
+  max-width: 920px !important;
+  max-height: 85vh !important;
+  overflow-y: auto !important;
+  background: rgba(15, 23, 42, 0.95) !important;
+  border: 1px solid rgba(212, 175, 55, 0.4) !important;
+  border-radius: 16px !important;
+  box-shadow: 0 0 32px rgba(0, 0, 0, 0.8), 0 25px 60px rgba(0, 0, 0, 0.9) !important;
+  padding: 28px !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.pavilion-close-btn,
+.close-modal-x,
+.close-pavilion-btn {
+  position: absolute !important;
+  top: 16px !important;
+  right: 20px !important;
+  background: transparent !important;
+  border: none !important;
+  color: #D4AF37 !important;
+  font-size: 2.2rem !important;
+  font-weight: 800 !important;
+  line-height: 1 !important;
+  cursor: pointer !important;
+  z-index: 1000 !important;
+  transition: transform 0.15s ease, color 0.15s ease;
+}
+
+.pavilion-close-btn:hover,
+.close-modal-x:hover,
+.close-pavilion-btn:hover {
+  color: #FFFFFF !important;
+  transform: scale(1.15);
+}
+
+/* Pavilion Modal Body Structure */
+.pavilion-modal-body {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  overflow-y: visible;
+}
+
+.pavilion-modal-body .museum-exhibit-pavilion {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  margin-bottom: 0 !important;
+}
+
+/* ===================================================
+   THEME 09: HEADER NAVIGATION DOCK & HOVER PRESETS
+   =================================================== */
+/* Navigation Dock Layout */
+.header-nav-dock {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 8px 16px;
+  background: var(--panel-card, #0B2042);
+  border: 1px solid var(--panel-border, rgba(255, 255, 255, 0.12));
+  border-radius: 12px;
+  position: relative;
+  width: 100%;
+  gap: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  z-index: 40;
+}
+
+/* Top Right Controls Wrapper */
+.top-utility-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Themes Dropdown Styling (Utility Bar) */
+.themes-dropdown-wrapper {
+  position: relative;
+}
+
+.themes-menu-btn {
+  background: var(--panel-elevated, rgba(15, 23, 42, 0.6));
+  border: 1px solid var(--panel-border, rgba(255, 255, 255, 0.1));
+  color: var(--text-main, #fff);
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+}
+
+.themes-menu-btn:hover {
+  background: var(--panel-elevated, rgba(255, 255, 255, 0.14));
+  border-color: var(--primary-accent, #45B7FF);
+}
+
+.arrow-icon {
+  font-size: 0.75rem;
+  transition: transform 0.2s ease;
+  display: inline-block;
+}
+
+.themes-dropdown-wrapper.open .arrow-icon,
+.themes-dropdown-wrapper[data-open="true"] .arrow-icon {
+  transform: rotate(180deg);
+}
+
+.dropdown-popover-menu {
+  position: absolute;
+  top: 120%;
+  left: 0;
+  right: auto;
+  background: rgba(15, 23, 42, 0.95);
+  border: 1px solid var(--primary-accent, #d4af37);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 12px;
+  padding: 8px 0;
+  min-width: 180px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+  z-index: 9999;
+  overflow: visible;
+}
+
+/* Dropdown Item Standard Layout */
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  color: var(--text-muted, #94a3b8);
+  text-decoration: none;
+  font-size: 0.88rem;
+  font-weight: 600;
+  transition: background 0.2s ease, color 0.2s ease;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  width: 100%;
+  text-align: left;
+}
+
+.dropdown-item:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+}
+
+.dropdown-item.active-goat,
+.dropdown-item.active {
+  background: rgba(212, 175, 55, 0.2);
+  color: #D4AF37;
+  font-weight: 800;
+}
+
+/* Ensure text prefix for Matrix aligns cleanly with icon widths */
+.matrix-prefix {
+  font-family: monospace;
+  font-weight: 800;
+  font-size: 0.85rem;
+  color: var(--primary-accent, #D4AF37);
+  min-width: 20px;
+  text-align: center;
+  display: inline-block;
+}
+
+/* #7 THE GOAT Parent Container for Flyout */
+.dropdown-item.has-flyout {
+  position: relative !important;
+  cursor: pointer;
+}
+
+.goat-item-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: 8px;
+}
+
+.flyout-arrow {
+  font-size: 0.75rem;
+  opacity: 0.7;
+  transition: transform 0.2s ease;
+}
+
+.dropdown-item.has-flyout:hover .flyout-arrow {
+  transform: translateX(3px);
+  opacity: 1;
+}
+
+/* Ensure the flyout anchors to the bottom-right of #7 THE GOAT */
+.cr7-presets-flyout-menu {
+  position: absolute !important;
+  left: 100% !important;           /* Directly to the right */
+  bottom: 0 !important;            /* Align bottom edge with the foot of the dropdown menu */
+  top: auto !important;            /* Reset top alignment */
+  margin-left: 8px !important;      /* Clean horizontal gap */
+  background: rgba(10, 16, 30, 0.98) !important;
+  border: 1px solid #D4AF37 !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  border-radius: 12px !important;
+  padding: 12px !important;
+  min-width: 210px !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8) !important;
+  z-index: 100000 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 8px !important;
+  
+  /* Hidden by Default */
+  opacity: 0;
+  visibility: hidden;
+  transform: translateX(-6px);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Open Flyout Sub-menu on Hovering over #7 THE GOAT */
+.dropdown-item.has-flyout:hover .cr7-presets-flyout-menu {
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: translateX(0) !important;
+}
+
+/* Flyout Section Header */
+.flyout-header {
+  font-size: 0.7rem !important;
+  font-weight: 800 !important;
+  color: #D4AF37 !important;
+  letter-spacing: 0.8px !important;
+  text-transform: uppercase !important;
+  margin-bottom: 4px !important;
+}
+
+/* Base Preset Button Style */
+.preset-pill {
+  display: flex !important;
+  align-items: center !important;
+  padding: 8px 12px !important;
+  border-radius: 8px !important;
+  font-size: 0.82rem !important;
+  font-weight: 700 !important;
+  border: 1px solid transparent !important;
+  cursor: pointer !important;
+  transition: transform 0.15s ease, filter 0.15s ease !important;
+  white-space: nowrap !important;
+  text-align: left !important;
+}
+
+.preset-pill:hover {
+  transform: translateX(4px) !important;
+  filter: brightness(1.2) !important;
+}
+
+.preset-pill.active {
+  box-shadow: 0 0 0 2px #FFFFFF, 0 0 10px rgba(255, 255, 255, 0.4) !important;
+}
+
+/* 1. European Nights (Navy Blue & Gold) */
+.preset-pill[data-theme="european-nights"] {
+  background: #0052CC !important;
+  color: #FFFFFF !important;
+  border-color: #388BFD !important;
+}
+
+/* 2. Galáctico Gold (Gold & Dark Navy) */
+.preset-pill[data-theme="galactico-gold"] {
+  background: #D4AF37 !important;
+  color: #0A0F1D !important;  /* High-contrast dark text on bright gold */
+  border-color: #FFF0A5 !important;
+}
+
+/* 3. Seleção Passion (Deep Crimson & Green) */
+.preset-pill[data-theme="selecao-passion"] {
+  background: #8B0000 !important;
+  color: #FFFFFF !important;
+  border-color: #FF4D4D !important;
+}
+
+/* 4. The Red Devil (United Red & White) */
+.preset-pill[data-theme="the-red-devil"] {
+  background: #DA291C !important;
+  color: #FFFFFF !important;
+  border-color: #FF6B6B !important;
+}
+
+/* 5. El Bicho (Teal / Cyan Accent) */
+.preset-pill[data-theme="el-bicho"] {
+  background: #008080 !important;
+  color: #FFFFFF !important;
+  border-color: #00E5FF !important;
+}
+
+/* 6. Le Zebre (Juventus Monochrome Slate) */
+.preset-pill[data-theme="le-zebre"] {
+  background: #2D3748 !important;
+  color: #FFFFFF !important;
+  border-color: #A0AEC0 !important;
+}
+
+/* Responsive adjustment for flyout on narrow screens */
+@media (max-width: 640px) {
+  .cr7-presets-flyout-menu {
+    left: auto;
+    right: 100%;
+    margin-left: 0;
+    margin-right: 8px;
+    transform: translateX(6px);
+  }
+  .dropdown-item.has-flyout:hover .cr7-presets-flyout-menu {
+    transform: translateX(0);
+  }
+}
+
+/* Quote Side (Clean, no hover popover) */
+.cr7-quote-block {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.82rem;
+  max-width: 550px;
+}
+
+.quote-text {
+  font-style: italic;
+  color: var(--text-muted, #94A3B8);
+  font-weight: 500;
+}
+
+.quote-author {
+  font-weight: 800;
+  color: #D4AF37;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.78rem;
+  white-space: nowrap;
+}
+
+/* ===================================================
+   SECTION 4: THEME-SPECIFIC BEHAVIOR & OVERRIDES
+   =================================================== */
+
+/* 1. Galáctico Gold Preset Override: Crisp Light Themes Dropdown Menu */
+[data-theme="galactico-gold"] .dropdown-popover-menu,
+[data-goat-preset="galactico-gold"] .dropdown-popover-menu {
+  background: rgba(255, 255, 255, 0.98) !important;
+  border: 1px solid #D4AF37 !important;
+  box-shadow: 0 10px 30px rgba(212, 175, 55, 0.25), 0 4px 15px rgba(0, 0, 0, 0.1) !important;
+}
+
+[data-theme="galactico-gold"] .dropdown-item,
+[data-goat-preset="galactico-gold"] .dropdown-item {
+  color: #1E293B !important;
+  font-weight: 600 !important;
+}
+
+[data-theme="galactico-gold"] .dropdown-item:hover,
+[data-goat-preset="galactico-gold"] .dropdown-item:hover {
+  background: rgba(212, 175, 55, 0.18) !important;
+  color: #0F172A !important;
+}
+
+[data-theme="galactico-gold"] .dropdown-item.active-goat,
+[data-theme="galactico-gold"] .dropdown-item.active,
+[data-goat-preset="galactico-gold"] .dropdown-item.active-goat,
+[data-goat-preset="galactico-gold"] .dropdown-item.active {
+  background: rgba(212, 175, 55, 0.25) !important;
+  color: #9A6F09 !important;
+  font-weight: 800 !important;
+}
+
+/* 2. Oblivion Theme Quote Bar: Seamless Aesthetic Match */
+[data-style="oblivion"] .header-nav-dock,
+[data-theme="oblivion"] .header-nav-dock {
+  background: rgba(244, 246, 248, 0.85) !important;
+  border-color: #DDE4EA !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+}
+
+[data-style="oblivion"] .cr7-quote-block,
+[data-theme="oblivion"] .cr7-quote-block {
+  color: #19232D !important;
+}
+
+[data-style="oblivion"] .cr7-quote-block .quote-text,
+[data-theme="oblivion"] .cr7-quote-block .quote-text {
+  color: #697784 !important;
+}
+
+[data-style="oblivion"] .cr7-quote-block .quote-author,
+[data-theme="oblivion"] .cr7-quote-block .quote-author {
+  color: #3E91C9 !important;
+}
+
+/* ===================================================
+   SECTION 5: WATERMARK REPAIR: THEME COLORS & ACCENT OPACITY
+   =================================================== */
+
+/* Base Watermark Layering & Alignment */
+.widget-watermark-7,
+.bg-number-7,
+.watermark-overlay-7,
+.number-7-watermark {
+  position: absolute !important;
+  bottom: -10px !important;
+  right: 12px !important;
+  font-size: 5.5rem !important;
+  font-weight: 900 !important;
+  line-height: 1 !important;
+  font-family: Impact, "Arial Black", monospace, sans-serif !important;
+  
+  /* Strict Layering & Click-Through */
+  z-index: 1 !important;
+  pointer-events: none !important;
+  user-select: none !important;
+  
+  /* Restored High-Contrast Opacity */
+  opacity: 0.22 !important; /* Vivid and visible, yet strictly behind content */
+  color: var(--primary-accent, #ffffff) !important;
+  transition: color 0.3s ease, opacity 0.3s ease !important;
+}
+
+/* Preset-Specific Watermark Color Restorations */
+[data-theme="european-nights"] .bg-number-7,
+[data-theme="european-nights"] .number-7-watermark,
+[data-goat-preset="european-nights"] .bg-number-7,
+[data-goat-preset="european-nights"] .number-7-watermark,
+[data-goat-preset="mr-champions-league"] .bg-number-7,
+[data-goat-preset="mr-champions-league"] .number-7-watermark {
+  color: #388BFD !important; /* UCL Blue */
+  opacity: 0.25 !important;
+}
+
+[data-theme="galactico-gold"] .bg-number-7,
+[data-theme="galactico-gold"] .number-7-watermark,
+[data-goat-preset="galactico-gold"] .bg-number-7,
+[data-goat-preset="galactico-gold"] .number-7-watermark {
+  color: #D4AF37 !important; /* Madrid Gold */
+  opacity: 0.28 !important;
+}
+
+[data-theme="selecao-passion"] .bg-number-7,
+[data-theme="selecao-passion"] .number-7-watermark,
+[data-goat-preset="selecao-passion"] .bg-number-7,
+[data-goat-preset="selecao-passion"] .number-7-watermark {
+  color: #FF4D4D !important; /* Portugal Crimson */
+  opacity: 0.25 !important;
+}
+
+[data-theme="the-red-devil"] .bg-number-7,
+[data-theme="the-red-devil"] .number-7-watermark,
+[data-theme="red-devil"] .bg-number-7,
+[data-theme="red-devil"] .number-7-watermark,
+[data-goat-preset="the-red-devil"] .bg-number-7,
+[data-goat-preset="the-red-devil"] .number-7-watermark,
+[data-goat-preset="red-devil"] .bg-number-7,
+[data-goat-preset="red-devil"] .number-7-watermark {
+  color: #DA291C !important; /* United Red */
+  opacity: 0.25 !important;
+}
+
+/* El Bicho Theme Watermark Override — Exact System Purple */
+[data-theme="el-bicho"] .bg-number-7,
+[data-theme="el-bicho"] .widget-watermark-7,
+[data-theme="el-bicho"] .watermark-overlay-7,
+[data-theme="el-bicho"] .number-7-watermark,
+[data-goat-preset="el-bicho"] .bg-number-7,
+[data-goat-preset="el-bicho"] .widget-watermark-7,
+[data-goat-preset="el-bicho"] .watermark-overlay-7,
+[data-goat-preset="el-bicho"] .number-7-watermark {
+  color: #A78BFA !important; /* System Oblivion Purple */
+  opacity: 0.25 !important;
+  z-index: 1 !important;
+  pointer-events: none !important;
+}
+
+[data-theme="le-zebre"] .bg-number-7,
+[data-theme="le-zebre"] .number-7-watermark,
+[data-goat-preset="le-zebre"] .bg-number-7,
+[data-goat-preset="le-zebre"] .number-7-watermark {
+  color: #FFFFFF !important; /* Juventus White */
+  opacity: 0.18 !important;
+}
+
+[data-theme="oblivion"] .bg-number-7,
+[data-theme="oblivion"] .number-7-watermark,
+[data-style="oblivion"] .bg-number-7,
+[data-style="oblivion"] .number-7-watermark {
+  color: #A78BFA !important; /* Oblivion Purple */
+  opacity: 0.22 !important;
+}
+
+[data-theme="jarvis"] .bg-number-7,
+[data-theme="jarvis"] .number-7-watermark,
+[data-style="jarvis"] .bg-number-7,
+[data-style="jarvis"] .number-7-watermark {
+  color: #00E5FF !important; /* JARVIS Arc Blue */
+  opacity: 0.25 !important;
+}
+
+/* Card Content & Controls: Layered safely above the watermark */
+[data-widget-id] > div:not(.number-7-watermark):not(.bg-number-7):not(.widget-watermark-7):not(.watermark-overlay-7),
+[data-widget-id] [data-no-drag="true"],
+[data-widget-id] [id^="header-drag-zone"],
+[data-widget-id] button,
+[data-widget-id] input,
+[data-widget-id] select,
+[data-widget-id] textarea,
+[data-widget-id] [role="slider"],
+[data-widget-id] .widget-card-content,
+[data-widget-id] .flex-1 {
+  position: relative !important;
+  z-index: 10 !important;
+}
+
+
 
 
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Settings as SettingsIcon,
   Volume2,
@@ -8,9 +8,10 @@ import {
   Youtube,
   Sparkles,
   Trophy,
+  Sun,
+  Moon,
 } from 'lucide-react';
 import { AppearanceMode, LocationSettings, StylePalette, GoatPreset } from '../types';
-import { ThemeSwitcher } from './ThemeSwitcher';
 import { LocationIndicator } from './LocationIndicator';
 import { GOAT_PRESETS } from './JerseyCabinet';
 import { UclTrophyVector } from './UclTrophyVector';
@@ -96,6 +97,44 @@ export const Header: React.FC<HeaderProps> = ({
   onLocationUpdate,
   onReplayIntro,
 }) => {
+  const [isThemesOpen, setIsThemesOpen] = useState(false);
+
+  const toggleThemesMenu = () => {
+    setIsThemesOpen((prev) => !prev);
+  };
+
+  useEffect(() => {
+    (window as unknown as { toggleThemesMenu: () => void }).toggleThemesMenu = () => {
+      setIsThemesOpen((prev) => !prev);
+    };
+
+    const handleWindowClick = (e: MouseEvent) => {
+      const target = e.target as HTMLElement | null;
+      if (target && !target.closest('.themes-dropdown-wrapper')) {
+        setIsThemesOpen(false);
+      }
+    };
+
+    window.addEventListener('click', handleWindowClick);
+    return () => {
+      window.removeEventListener('click', handleWindowClick);
+      delete (window as unknown as { toggleThemesMenu?: () => void }).toggleThemesMenu;
+    };
+  }, []);
+
+  const handleSelectTheme = (themeKey: StylePalette) => {
+    onStyleChange(themeKey);
+    setIsThemesOpen(false);
+  };
+
+  const handleSelectPreset = (presetKey: GoatPreset) => {
+    onGoatPresetChange?.(presetKey);
+    if (style !== 'goat') {
+      onStyleChange('goat');
+    }
+    setIsThemesOpen(false);
+  };
+
   const effectivePresetKey =
     goatPreset === 'mr-champions-league' || !goatPreset
       ? 'european-nights'
@@ -107,13 +146,15 @@ export const Header: React.FC<HeaderProps> = ({
   return (
     <header
       id="main-header"
-      className="w-full max-w-7xl mx-auto pt-5 pb-3 px-3 sm:px-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border-b transition-colors relative z-20"
+      className="w-full max-w-7xl mx-auto pt-5 pb-3 px-3 sm:px-6 flex flex-col gap-3.5 border-b transition-colors relative z-20"
       style={{
         borderColor: 'var(--border-color)',
       }}
     >
-      {/* ── 1. TOP-LEFT BRANDING + INSTAGRAM + YOUTUBE + LOCATION ── */}
-      <div className="flex items-start sm:items-center gap-3.5 text-left w-full md:w-auto">
+      {/* Top Header Row: Branding on left, Quick utility toggles on right */}
+      <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 w-full">
+        {/* ── 1. TOP-LEFT BRANDING + INSTAGRAM + YOUTUBE + LOCATION ── */}
+        <div className="flex items-start sm:items-center gap-3.5 text-left w-full md:w-auto">
         {style !== 'goat' && (
           <div
             className="w-11 h-11 rounded-2xl flex items-center justify-center shadow-xs border shrink-0 transition-transform hover:scale-105"
@@ -476,108 +517,340 @@ export const Header: React.FC<HeaderProps> = ({
         </div>
       </div>
 
-      {/* ── RIGHT CONTROLS: Theme Switcher (Appearance + Style), Quick Sound, Settings ── */}
-      <div className="flex items-center gap-2 sm:gap-3 flex-wrap w-full md:w-auto justify-between md:justify-end">
-        {/* Compact Kit Selector for GOAT Presets */}
-        {style === 'goat' && onGoatPresetChange && (
+        {/* ── TOP-RIGHT UTILITY CONTROLS: Themes Dropdown, Light/Dark, Sound, Settings ── */}
+        <div className="top-utility-controls flex items-center gap-2 sm:gap-3 flex-wrap">
+          {/* 1. Themes Dropdown (Moved Beside Light/Dark) */}
           <div
-            id="header-goat-presets"
-            className="inline-flex items-center p-0.5 rounded-xl border gap-0.5 backdrop-blur-md"
+            className={`themes-dropdown-wrapper ${isThemesOpen ? 'open' : ''}`}
+            data-open={isThemesOpen ? 'true' : 'false'}
+          >
+            <button
+              type="button"
+              className="themes-menu-btn"
+              onClick={toggleThemesMenu}
+              aria-expanded={isThemesOpen}
+              aria-haspopup="true"
+            >
+              Themes <span className="arrow-icon">▾</span>
+            </button>
+
+            <div
+              id="themesDropdownMenu"
+              className="dropdown-popover-menu"
+              style={{ display: isThemesOpen ? 'block' : 'none' }}
+            >
+              <a
+                href="#theme-girly"
+                role="button"
+                className={`dropdown-item ${style === 'girly' ? 'active font-bold' : ''}`}
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleSelectTheme('girly');
+                }}
+              >
+                <span>🎀</span>
+                <span>Girly</span>
+              </a>
+              <a
+                href="#theme-boi"
+                role="button"
+                className={`dropdown-item ${style === 'boi' ? 'active font-bold' : ''}`}
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleSelectTheme('boi');
+                }}
+              >
+                <span>💙</span>
+                <span>Boi</span>
+              </a>
+              <a
+                href="#theme-cyberdeck"
+                role="button"
+                className={`dropdown-item ${style === 'cyberdeck' ? 'active font-bold' : ''}`}
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleSelectTheme('cyberdeck');
+                }}
+              >
+                <span>🖥️</span>
+                <span>Cyberdeck</span>
+              </a>
+              <a
+                href="#theme-cassette"
+                role="button"
+                className={`dropdown-item ${style === 'cassette' ? 'active font-bold' : ''}`}
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleSelectTheme('cassette');
+                }}
+              >
+                <span>📼</span>
+                <span>Cassette</span>
+              </a>
+              <a
+                href="#theme-jarvis"
+                role="button"
+                className={`dropdown-item ${style === 'jarvis' ? 'active font-bold' : ''}`}
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleSelectTheme('jarvis');
+                }}
+              >
+                <span>🤖</span>
+                <span>JARVIS</span>
+              </a>
+              <a
+                href="#theme-oblivion"
+                role="button"
+                className={`dropdown-item ${style === 'oblivion' ? 'active font-bold' : ''}`}
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleSelectTheme('oblivion');
+                }}
+              >
+                <span>⚔️</span>
+                <span>Oblivion</span>
+              </a>
+              <a
+                href="#theme-cybergothic"
+                role="button"
+                className={`dropdown-item ${style === 'cybergothic' ? 'active font-bold' : ''}`}
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleSelectTheme('cybergothic');
+                }}
+              >
+                <span>🕸️</span>
+                <span>Cyber-Gothic</span>
+              </a>
+              
+              {/* 01 Matrix with text prefix */}
+              <a
+                href="#theme-matrix"
+                role="button"
+                className={`dropdown-item ${style === 'matrix' ? 'active font-bold' : ''}`}
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleSelectTheme('matrix');
+                }}
+              >
+                <span className="matrix-prefix">01</span>
+                <span>Matrix</span>
+              </a>
+
+              <a
+                href="#theme-watchdogs"
+                role="button"
+                className={`dropdown-item ${style === 'watchdogs' ? 'active font-bold' : ''}`}
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleSelectTheme('watchdogs');
+                }}
+              >
+                <span>⚡</span>
+                <span>Watch Dogs</span>
+              </a>
+              <a
+                href="#theme-solarpunk"
+                role="button"
+                className={`dropdown-item ${style === 'solarpunk' || style === 'aerofuturism' ? 'active font-bold' : ''}`}
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleSelectTheme('solarpunk');
+                }}
+              >
+                <span>🌱</span>
+                <span>Solarpunk</span>
+              </a>
+
+              {/* #7 THE GOAT Item with Right Flyout Sub-menu */}
+              <div
+                className={`dropdown-item active-goat has-flyout ${style === 'goat' ? 'active font-black' : ''}`}
+                onClick={() => handleSelectTheme('goat')}
+              >
+                <div className="goat-item-content">
+                  <span>7 THE GOAT</span>
+                  <span className="flyout-arrow">▸</span>
+                </div>
+
+                {/* Nested Presets Box (Opens to the Right on Hover) */}
+                <div className="cr7-presets-flyout-menu" onClick={(e) => e.stopPropagation()}>
+                  <div className="flyout-header">CR7 ERA PRESETS</div>
+                  <button
+                    type="button"
+                    className={`preset-pill ${effectivePresetKey === 'european-nights' ? 'active' : ''}`}
+                    data-theme="european-nights"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleSelectPreset('mr-champions-league');
+                    }}
+                  >
+                    ● European Nights
+                  </button>
+                  <button
+                    type="button"
+                    className={`preset-pill ${effectivePresetKey === 'galactico-gold' ? 'active' : ''}`}
+                    data-theme="galactico-gold"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleSelectPreset('galactico-gold');
+                    }}
+                  >
+                    ● Galáctico Gold
+                  </button>
+                  <button
+                    type="button"
+                    className={`preset-pill ${effectivePresetKey === 'selecao-passion' ? 'active' : ''}`}
+                    data-theme="selecao-passion"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleSelectPreset('selecao-passion');
+                    }}
+                  >
+                    ● Seleção Passion
+                  </button>
+                  <button
+                    type="button"
+                    className={`preset-pill ${effectivePresetKey === 'the-red-devil' ? 'active' : ''}`}
+                    data-theme="the-red-devil"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleSelectPreset('the-red-devil');
+                    }}
+                  >
+                    ● The Red Devil
+                  </button>
+                  <button
+                    type="button"
+                    className={`preset-pill ${effectivePresetKey === 'el-bicho' ? 'active' : ''}`}
+                    data-theme="el-bicho"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleSelectPreset('el-bicho');
+                    }}
+                  >
+                    ● El Bicho
+                  </button>
+                  <button
+                    type="button"
+                    className={`preset-pill ${effectivePresetKey === 'le-zebre' ? 'active' : ''}`}
+                    data-theme="le-zebre"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleSelectPreset('le-zebre');
+                    }}
+                  >
+                    ● Le Zebre
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* 2. Existing Light/Dark Mode Switch (Locked strictly to dark mode under JARVIS) */}
+          <div
+            id="appearance-mode-group"
+            className="theme-toggle-switch inline-flex items-center p-0.5 rounded-xl border"
             style={{
-              backgroundColor: 'var(--panel-elevated, rgba(17, 42, 82, 0.75))',
+              backgroundColor: 'var(--bg-card-subtle)',
               borderColor: 'var(--border-color)',
             }}
-            title="Switch CR7 Active Era Preset"
+            role="group"
+            aria-label="Appearance Mode"
           >
-            {GOAT_PRESETS.map((p) => {
-              const active = goatPreset === p.id;
-              return (
-                <button
-                  key={p.id}
-                  type="button"
-                  id={`header-preset-btn-${p.id}`}
-                  onClick={() => onGoatPresetChange(p.id)}
-                  className={`px-2 py-1 text-[10px] font-bold rounded-lg transition-all cursor-pointer flex items-center gap-1 ${
-                    active ? 'scale-105 shadow-xs font-black' : 'opacity-65 hover:opacity-100'
-                  }`}
-                  style={{
-                    backgroundColor: active ? p.accentHex : 'transparent',
-                    color: active ? '#FFFFFF' : 'var(--text-secondary)',
-                    border: active ? '1px solid rgba(255,255,255,0.3)' : '1px solid transparent',
-                  }}
-                  title={`${p.name} (${p.sublabel})`}
-                >
-                  <span
-                    className="w-1.5 h-1.5 rounded-full shrink-0"
-                    style={{ backgroundColor: p.goldHex }}
-                  />
-                  <span className="hidden xl:inline">{p.id === 'mr-champions-league' ? 'European' : p.name.split(' ')[0]}</span>
-                  <span className="xl:hidden">{p.tag.replace('PRESET ', 'P')}</span>
-                </button>
-              );
-            })}
+            {style !== 'jarvis' && (
+              <button
+                type="button"
+                id="appearance-btn-light"
+                onClick={() => onAppearanceChange('light')}
+                className={`mode-btn flex items-center gap-1.5 px-2.5 py-1 text-xs font-semibold rounded-lg transition-all duration-200 cursor-pointer ${
+                  appearance === 'light'
+                    ? 'active shadow-xs font-bold scale-[1.02] bg-[var(--bg-card)] text-[var(--text-primary)]'
+                    : 'text-[var(--text-muted)] hover:opacity-75'
+                }`}
+                title="☀️ Light Appearance"
+                aria-pressed={appearance === 'light'}
+              >
+                <Sun className={`w-3.5 h-3.5 ${appearance === 'light' ? 'text-amber-500' : 'text-slate-400'}`} />
+                <span className="hidden sm:inline">Light</span>
+              </button>
+            )}
+
+            <button
+              type="button"
+              id="appearance-btn-dark"
+              onClick={() => onAppearanceChange('dark')}
+              className={`mode-btn flex items-center gap-1.5 px-2.5 py-1 text-xs font-semibold rounded-lg transition-all duration-200 cursor-pointer ${
+                appearance === 'dark' || style === 'jarvis'
+                  ? 'active shadow-xs font-bold scale-[1.02] bg-[var(--bg-card)] text-[var(--text-primary)]'
+                  : 'text-[var(--text-muted)] hover:opacity-75'
+              }`}
+              title={style === 'jarvis' ? '🌙 Dark Appearance (Locked in JARVIS)' : '🌙 Dark Appearance'}
+              aria-pressed={true}
+            >
+              <Moon className="w-3.5 h-3.5 text-sky-400" />
+              <span className="hidden sm:inline">Dark</span>
+            </button>
           </div>
-        )}
 
-        {/* Theme Switcher (Appearance: Light/Dark, Style: Girly/Boi) */}
-        <ThemeSwitcher
-          appearance={appearance}
-          style={style}
-          goatPreset={goatPreset}
-          onGoatPresetChange={onGoatPresetChange}
-          onAppearanceChange={onAppearanceChange}
-          onStyleChange={onStyleChange}
-        />
+          {/* Intro Replay Button */}
+          {onReplayIntro && (
+            <button
+              type="button"
+              onClick={onReplayIntro}
+              className="icon-btn p-2 rounded-full border shadow-2xs transition-all hover:scale-105 cursor-pointer opacity-80 hover:opacity-100"
+              style={{
+                backgroundColor: 'var(--bg-card)',
+                borderColor: 'var(--border-color)',
+                color: 'var(--text-secondary)',
+              }}
+              title="Replay startup intro & quick tips"
+              aria-label="Replay intro"
+            >
+              <Sparkles className="w-4 h-4 text-amber-500" />
+            </button>
+          )}
 
-        {/* Intro Replay Button */}
-        {onReplayIntro && (
+          {/* Quick Sound Toggle */}
           <button
-            type="button"
-            onClick={onReplayIntro}
-            className="p-2 rounded-full border shadow-2xs transition-all hover:scale-105 cursor-pointer opacity-80 hover:opacity-100"
+            id="sound-toggle-btn"
+            onClick={onToggleSound}
+            className="icon-btn p-2 rounded-full border shadow-2xs transition-all hover:scale-105 cursor-pointer"
+            style={{
+              backgroundColor: 'var(--bg-card)',
+              borderColor: 'var(--border-color)',
+              color: soundEnabled ? 'var(--accent)' : 'var(--text-muted)',
+            }}
+            title={soundEnabled ? 'Mute notification sounds' : 'Enable notification sounds'}
+            aria-label={soundEnabled ? 'Mute sounds' : 'Enable sounds'}
+          >
+            {soundEnabled ? <Volume2 className="w-4 h-4" /> : <VolumeX className="w-4 h-4" />}
+          </button>
+
+          {/* Settings Button */}
+          <button
+            id="open-settings-btn"
+            onClick={onOpenSettings}
+            className="settings-btn flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-full border shadow-2xs transition-all hover:scale-105 cursor-pointer"
             style={{
               backgroundColor: 'var(--bg-card)',
               borderColor: 'var(--border-color)',
               color: 'var(--text-secondary)',
             }}
-            title="Replay startup intro & quick tips"
-            aria-label="Replay intro"
+            aria-label="Open settings"
           >
-            <Sparkles className="w-4 h-4 text-amber-500" />
+            <SettingsIcon className="w-3.5 h-3.5" />
+            <span>Settings</span>
           </button>
-        )}
+        </div>
+      </div>
 
-        {/* Quick Sound Toggle */}
-        <button
-          id="sound-toggle-btn"
-          onClick={onToggleSound}
-          className="p-2 rounded-full border shadow-2xs transition-all hover:scale-105 cursor-pointer"
-          style={{
-            backgroundColor: 'var(--bg-card)',
-            borderColor: 'var(--border-color)',
-            color: soundEnabled ? 'var(--accent)' : 'var(--text-muted)',
-          }}
-          title={soundEnabled ? 'Mute notification sounds' : 'Enable notification sounds'}
-          aria-label={soundEnabled ? 'Mute sounds' : 'Enable sounds'}
-        >
-          {soundEnabled ? <Volume2 className="w-4 h-4" /> : <VolumeX className="w-4 h-4" />}
-        </button>
-
-        {/* Settings Button */}
-        <button
-          id="open-settings-btn"
-          onClick={onOpenSettings}
-          className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-full border shadow-2xs transition-all hover:scale-105 cursor-pointer"
-          style={{
-            backgroundColor: 'var(--bg-card)',
-            borderColor: 'var(--border-color)',
-            color: 'var(--text-secondary)',
-          }}
-          aria-label="Open settings"
-        >
-          <SettingsIcon className="w-3.5 h-3.5" />
-          <span>Settings</span>
-        </button>
+      {/* ── HEADER NAVIGATION DOCK (Quote Block) ── */}
+      <div className="header-nav-dock">
+        <div className="cr7-quote-block">
+          <span className="quote-text">“Your love makes me strong, your hate makes me unstoppable.”</span>
+          <span className="quote-author">— CR7</span>
+        </div>
       </div>
     </header>
   );
