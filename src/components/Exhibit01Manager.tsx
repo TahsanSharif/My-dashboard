@@ -25,17 +25,21 @@ export default function Exhibit01Manager() {
       
       {/* ================= OUTSIDE CARD PREVIEW ================= */}
       <div className="museum-card" data-exhibit="01">
-        <div className="card-hero-image-wrapper" style={{ position: 'relative' }}>
-          
+        {/* Card Header Tag & Image Wrapper */}
+        <div className="relative w-full h-[240px] bg-[#050a14] rounded-t-xl overflow-hidden card-hero-image-wrapper">
+          {/* Top-Left Exhibit Badge (Uniform for all exhibits 01-06) */}
+          <div className="absolute top-3 left-3 z-10 px-3 py-1 bg-amber-500/20 border border-amber-500/40 rounded text-amber-300 font-mono text-xs font-bold tracking-wider uppercase exhibit-tag">
+            EXHIBIT 01
+          </div>
+
           <img 
             src={exhibitImage} 
             alt="Mr. Champions League" 
-            className="card-preview-img"
+            className="card-preview-img w-full h-full block"
             style={{ 
-              width: '100%', 
-              height: '100%', 
-              objectFit: 'cover', 
-              objectPosition: `center ${focalY}%`, // Dynamically shifts the outside viewable portion!
+              objectFit: 'contain',
+              objectPosition: 'center center',
+              padding: '8px 0',
               display: 'block'
             }}
             onError={(e) => {
@@ -43,24 +47,11 @@ export default function Exhibit01Manager() {
               target.src = exhibit01Pic;
             }}
           />
-
-          {/* Quick trigger button on the card to adjust upload/cropping */}
-          <button 
-            type="button"
-            className="config-photo-btn"
-            onClick={(e) => {
-              e.stopPropagation();
-              setIsEditing(!isEditing);
-            }}
-            title="Upload or Adjust Outside Crop"
-          >
-            ⚙️ Edit Image
-          </button>
         </div>
 
         <div className="card-content">
           <h3>Mr. Champions League</h3>
-          <p className="card-subtitle">Official UEFA Archive • 140 Goals</p>
+          <p className="card-subtitle">UEFA Champions League • 140 Goals</p>
         </div>
       </div>
 

@@ -466,7 +466,7 @@ export const ALL_MUSEUM_EXHIBITS: MuseumExhibit[] = [
     id: 'mr-champions-league',
     exhibitNumber: 'EXHIBIT 01',
     title: 'Mr. Champions League — The European Nights',
-    clubEra: 'Official UEFA Champions League Archive',
+    clubEra: 'UEFA Champions League · European Nights',
     matchDate: '183 Apps · 140 Goals · 5 Modern Era Titles · 7 Golden Boots',
     photoAsset: exhibit01Pic,
     image: exhibit01Pic,
@@ -778,18 +778,24 @@ export const JerseyCabinet: React.FC<JerseyCabinetProps> = ({
                       data-exhibit="01"
                       onClick={() => handleCardClick('european-nights')}
                     >
-                      {/* Outside Card Image Container */}
-                      <div className="card-hero-image-wrapper">
+                      {/* Card Header Tag & Image Wrapper */}
+                      <div className="relative w-full h-[240px] bg-[#050a14] rounded-t-xl overflow-hidden card-hero-image-wrapper">
+                        {/* Top-Left Exhibit Badge (Uniform for all exhibits 01-06) */}
+                        <div className="absolute top-3 left-3 z-10 px-3 py-1 bg-amber-500/20 border border-amber-500/40 rounded text-amber-300 font-mono text-xs font-bold tracking-wider uppercase exhibit-tag">
+                          EXHIBIT 01
+                        </div>
+
+                        {/* Hero Image Container */}
                         {exhibit.hasImage ? (
                           <img 
                             src={exhibit01Image || exhibit.image || exhibit01Pic} 
                             alt={exhibit.title}
-                            className="card-preview-img"
+                            className="card-preview-img w-full h-full block"
                             style={{
-                              width: '100%',
-                              height: '100%',
-                              objectFit: 'cover',
-                              objectPosition: `center ${exhibit01FocalY}%`,
+                              // Exhibit 01 uses 'contain' to fit the portrait frame perfectly without cropping hands/trophy
+                              objectFit: 'contain',
+                              objectPosition: 'center center',
+                              padding: '8px 0',
                               display: 'block'
                             }}
                             onError={(e) => {
@@ -798,25 +804,12 @@ export const JerseyCabinet: React.FC<JerseyCabinetProps> = ({
                             }}
                           />
                         ) : (
-                          <div className="exhibit-placeholder-box">
-                            <span className="placeholder-icon">🏛️</span>
-                            <span className="placeholder-text">Official Archival Vault</span>
+                          <div className="w-full h-full bg-gradient-to-br from-slate-900 to-slate-950 flex flex-col items-center justify-center gap-2 text-blue-400">
+                            <span className="text-2xl">🏛️</span>
+                            <span className="text-xs font-mono">Official Archival Vault</span>
                           </div>
                         )}
 
-                        {/* Quick trigger button on the card to adjust upload/cropping */}
-                        <button 
-                          type="button"
-                          className="config-photo-btn"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            setIsEditingExhibit01(true);
-                          }}
-                          title="Upload or Adjust Outside Crop"
-                        >
-                          ⚙️ Edit Image
-                        </button>
-                        <span className="exhibit-tag">OFFICIAL UEFA ARCHIVE</span>
                         <span className="badge-number-7">#7</span>
                         <span
                           className="vertical-three-peat-badge"
@@ -832,7 +825,7 @@ export const JerseyCabinet: React.FC<JerseyCabinetProps> = ({
 
                       <div className="card-content">
                         <h3 className="exhibit-title">Mr. Champions League</h3>
-                        <span className="match-meta">Official UEFA Archive · 140 Goals · 5 Titles</span>
+                        <span className="match-meta">UEFA Champions League · 140 Goals · 5 Titles</span>
 
                         <p className="exhibit-description">{exhibit.narrative}</p>
 
@@ -1297,7 +1290,7 @@ export const JerseyCabinet: React.FC<JerseyCabinetProps> = ({
                   <X className="w-4 h-4" />
                 </button>
                 <div className="flex items-center justify-between gap-3 flex-wrap pr-12">
-                  <div className="official-uefa-badge exhibit-tag">OFFICIAL UEFA ARCHIVE • EXHIBIT 01</div>
+                  <div className="official-uefa-badge exhibit-tag">EXHIBIT 01</div>
                   <button
                     type="button"
                     onClick={() => onSelectPreset('mr-champions-league')}
@@ -1315,7 +1308,7 @@ export const JerseyCabinet: React.FC<JerseyCabinetProps> = ({
               <div className="modal-body exhibit-modal-body pavilion-modal-body modal-body-scrollable uefa-archive-modal-body exhibit-01-body">
                 {/* EXACT USER-PROVIDED IMAGE CONTAINER */}
                 {/* Inside Modal Image Container */}
-                <div className="exhibit-image-wrapper" style={{ position: 'relative' }}>
+                <div className="exhibit-image-wrapper">
                   <img
                     src={exhibit01Image || exhibit01Pic}
                     alt="Mr. Champions League"
@@ -1332,17 +1325,6 @@ export const JerseyCabinet: React.FC<JerseyCabinetProps> = ({
                       target.src = exhibit01Pic;
                     }}
                   />
-                  <button 
-                    type="button"
-                    className="config-photo-btn"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setIsEditingExhibit01(true);
-                    }}
-                    title="Upload or Adjust Outside Crop"
-                  >
-                    ⚙️ Edit Photo
-                  </button>
                 </div>
 
                 {/* Career Glance Metrics */}

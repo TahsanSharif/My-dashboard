@@ -33,7 +33,7 @@ export const EuropeanNightsPavilion: React.FC<EuropeanNightsPavilionProps> = ({
       {!hideHeader && (
         <div className="pavilion-header">
           <div className="flex items-center justify-between gap-3 flex-wrap">
-            <span className="exhibit-tag">OFFICIAL UEFA ARCHIVE</span>
+            <span className="exhibit-tag">EXHIBIT 01</span>
             {onActivatePreset && (
               <button
                 type="button"

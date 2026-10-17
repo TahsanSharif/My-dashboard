@@ -7436,7 +7436,7 @@ body:has(.exhibit-modal-backdrop) {
 .museum-card[data-preset="european-nights"] .card-image-wrapper,
 .museum-card[data-exhibit="01"] .card-image-wrapper {
   width: 100% !important;
-  height: 260px !important;
+  height: 240px !important;
   background: #050a14 !important;       /* Clean dark frame padding */
   display: flex !important;
   align-items: center !important;
@@ -7454,6 +7454,7 @@ body:has(.exhibit-modal-backdrop) {
   height: 100% !important;
   object-fit: contain !important;       /* Keeps full photo visible without cutting sides */
   object-position: center !important;
+  padding: 8px 0 !important;
   display: block !important;
   transition: transform 0.4s ease !important;
 }

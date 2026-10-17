@@ -844,14 +844,6 @@ export const Header: React.FC<HeaderProps> = ({
           </button>
         </div>
       </div>
-
-      {/* ── HEADER NAVIGATION DOCK (Quote Block) ── */}
-      <div className="header-nav-dock">
-        <div className="cr7-quote-block">
-          <span className="quote-text">“Your love makes me strong, your hate makes me unstoppable.”</span>
-          <span className="quote-author">— CR7</span>
-        </div>
-      </div>
     </header>
   );
 };
