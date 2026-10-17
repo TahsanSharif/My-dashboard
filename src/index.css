@@ -7229,85 +7229,191 @@
 }
 
 /* ===================================================
-   STANDARDIZED MUSEUM PAVILION MODAL COMPONENT
+   THEME 09 — MODAL PORTAL & FULLSCREEN VIEWPORT CENTERING OVERHAUL
    =================================================== */
-/* Modal Backdrop Isolation */
+/* 1. Force Lock Dashboard Page Scroll */
+body.modal-open,
+body:has(.modal-overlay),
+body:has(.exhibit-modal-backdrop) {
+  overflow: hidden !important;
+  height: 100vh !important;
+}
+
+/* 2. Fullscreen Backdrop Overlay (True Viewport Portal) */
+.modal-overlay,
+.modal-backdrop,
+.exhibit-modal-backdrop,
 .museum-pavilion-modal-backdrop,
 .museum-modal-backdrop,
 .pavilion-modal-overlay {
   position: fixed !important;
   top: 0 !important;
   left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
   width: 100vw !important;
   height: 100vh !important;
-  background: rgba(3, 8, 20, 0.88) !important;
+  background: rgba(5, 10, 20, 0.85) !important;
   backdrop-filter: blur(14px) !important;
   -webkit-backdrop-filter: blur(14px) !important;
-  z-index: 99999 !important;
+  
+  /* CRITICAL: Dead-Center Flex Layout */
   display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
+  align-items: center !important;     /* True Vertical Centering */
+  justify-content: center !important;  /* True Horizontal Centering */
+  z-index: 9999999 !important;        /* Topmost layer above dashboard */
   padding: 20px !important;
+  box-sizing: border-box !important;
+  margin: 0 !important;
 }
 
+.modal-overlay[style*="display: none"],
+.modal-backdrop[style*="display: none"],
+.exhibit-modal-backdrop[style*="display: none"],
 .museum-pavilion-modal-backdrop:not(.active):not([data-active="true"])[style*="display: none"],
 .museum-modal-backdrop[style*="display: none"],
 .pavilion-modal-overlay[style*="display: none"] {
   display: none !important;
 }
 
+/* 3. Modal Card Container (Fixed Center Dimensions) */
+.modal-container,
+.modal-dialog,
+.exhibit-modal-card,
 .museum-pavilion-modal-container,
 .museum-modal-card,
 .pavilion-modal-content {
   position: relative !important;
+  top: auto !important;
+  left: auto !important;
+  right: auto !important;
+  bottom: auto !important;
+  transform: none !important;          /* Remove relative transform shifts */
+  margin: auto !important;             /* Force margin centering */
+  
   width: 100% !important;
-  max-width: 920px !important;
-  max-height: 85vh !important;
-  overflow-y: auto !important;
-  background: rgba(15, 23, 42, 0.95) !important;
-  border: 1px solid rgba(212, 175, 55, 0.4) !important;
-  border-radius: 16px !important;
-  box-shadow: 0 0 32px rgba(0, 0, 0, 0.8), 0 25px 60px rgba(0, 0, 0, 0.9) !important;
-  padding: 28px !important;
+  max-width: 860px !important;
+  height: auto !important;
+  max-height: 85vh !important;         /* Keeps header and close button visible */
+  
   display: flex !important;
   flex-direction: column !important;
+  background: rgba(10, 16, 30, 0.98) !important;
+  border: 1px solid var(--primary-accent, rgba(56, 139, 253, 0.4)) !important;
+  box-shadow: 0 25px 70px rgba(0, 0, 0, 0.9) !important;
+  border-radius: 16px !important;
+  overflow: hidden !important;
 }
 
+/* 4. Fixed Unshrinkable Header */
+.modal-header,
+.exhibit-modal-header,
+.pavilion-header {
+  flex-shrink: 0 !important;           /* Prevents header from collapsing */
+  position: relative !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  gap: 6px !important;
+  padding: 20px 24px 16px 24px !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+  background: rgba(10, 16, 30, 0.98) !important;
+  z-index: 10 !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+.modal-header .badge-tag,
+.modal-header .official-badge,
+.modal-header .official-uefa-badge,
+.modal-header .exhibit-tag {
+  position: static !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  padding: 4px 12px !important;
+  font-size: 0.72rem !important;
+  font-weight: 800 !important;
+  border-radius: 20px !important;
+  background: rgba(56, 139, 253, 0.15) !important;
+  color: #388BFD !important;
+  border: 1px solid rgba(56, 139, 253, 0.3) !important;
+  margin-bottom: 2px !important;
+}
+
+.modal-close-btn,
+.exhibit-close-btn,
 .pavilion-close-btn,
 .close-modal-x,
 .close-pavilion-btn {
   position: absolute !important;
-  top: 16px !important;
+  top: 18px !important;
   right: 20px !important;
-  background: transparent !important;
-  border: none !important;
-  color: #D4AF37 !important;
-  font-size: 2.2rem !important;
-  font-weight: 800 !important;
-  line-height: 1 !important;
+  z-index: 20 !important;
   cursor: pointer !important;
-  z-index: 1000 !important;
-  transition: transform 0.15s ease, color 0.15s ease;
+  font-size: 1.25rem !important;
+  color: #94A3B8 !important;
+  background: rgba(255, 255, 255, 0.05) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 50% !important;
+  width: 32px !important;
+  height: 32px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  transition: all 0.2s ease !important;
+  line-height: 1 !important;
 }
 
+.modal-close-btn:hover,
+.exhibit-close-btn:hover,
 .pavilion-close-btn:hover,
 .close-modal-x:hover,
 .close-pavilion-btn:hover {
   color: #FFFFFF !important;
-  transform: scale(1.15);
+  background: rgba(255, 255, 255, 0.15) !important;
+  transform: scale(1.05) !important;
 }
 
-/* Pavilion Modal Body Structure */
-.pavilion-modal-body {
-  position: relative;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  overflow-y: visible;
+/* 5. Scrollable Body Content */
+.modal-body,
+.exhibit-modal-body,
+.pavilion-modal-body,
+.modal-body-scrollable {
+  flex: 1 1 auto !important;           /* Takes up remaining height */
+  min-height: 0 !important;             /* CRITICAL: Unlocks inner flex scrolling */
+  max-height: 100% !important;
+  overflow-y: auto !important;          /* Enables internal scrollbar */
+  overflow-x: hidden !important;
+  padding: 20px 24px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 18px !important;
+  box-sizing: border-box !important;
 }
 
-.pavilion-modal-body .museum-exhibit-pavilion {
+/* Scrollbar Custom Styling */
+.modal-body::-webkit-scrollbar,
+.exhibit-modal-body::-webkit-scrollbar,
+.pavilion-modal-body::-webkit-scrollbar,
+.modal-body-scrollable::-webkit-scrollbar {
+  width: 6px;
+}
+.modal-body::-webkit-scrollbar-track,
+.exhibit-modal-body::-webkit-scrollbar-track,
+.pavilion-modal-body::-webkit-scrollbar-track,
+.modal-body-scrollable::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.2);
+}
+.modal-body::-webkit-scrollbar-thumb,
+.exhibit-modal-body::-webkit-scrollbar-thumb,
+.pavilion-modal-body::-webkit-scrollbar-thumb,
+.modal-body-scrollable::-webkit-scrollbar-thumb {
+  background: var(--primary-accent, rgba(56, 139, 253, 0.5));
+  border-radius: 3px;
+}
+
+.pavilion-modal-body .museum-exhibit-pavilion,
+.uefa-archive-modal-body .museum-exhibit-pavilion {
   background: transparent !important;
   border: none !important;
   box-shadow: none !important;
@@ -7315,6 +7421,207 @@
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
   margin-bottom: 0 !important;
+  overflow: visible !important;
+  height: auto !important;
+  max-height: none !important;
+}
+
+/* =========================================================
+   IDENTICAL PORTRAIT IMAGE FITTING (OUTSIDE & INSIDE)
+   ========================================================= */
+
+/* 1. OUTSIDE THE BOX — Pavilion Card Preview Container */
+.museum-card[data-exhibit="01"] .card-hero-image-wrapper,
+.exhibit-preview-card-01 .card-image-box,
+.museum-card[data-preset="european-nights"] .card-image-wrapper,
+.museum-card[data-exhibit="01"] .card-image-wrapper {
+  width: 100% !important;
+  height: 260px !important;
+  background: #050a14 !important;       /* Clean dark frame padding */
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  overflow: hidden !important;
+  border-radius: 12px 12px 0 0 !important;
+  position: relative !important;
+}
+
+.museum-card[data-exhibit="01"] .card-preview-img,
+.exhibit-preview-card-01 img,
+.museum-card[data-preset="european-nights"] .exhibit-img,
+.museum-card[data-exhibit="01"] .exhibit-img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain !important;       /* Keeps full photo visible without cutting sides */
+  object-position: center !important;
+  display: block !important;
+  transition: transform 0.4s ease !important;
+}
+
+.museum-card[data-exhibit="01"]:hover .card-preview-img,
+.museum-card[data-preset="european-nights"]:hover .exhibit-img,
+.exhibit-preview-card-01:hover img {
+  transform: scale(1.03) !important;
+}
+
+/* 2. INSIDE THE BOX — Modal Exhibit Image Container */
+.exhibit-01-card .exhibit-image-wrapper,
+#exhibit-01-modal .exhibit-image-wrapper,
+[data-exhibit="01"] .exhibit-image-wrapper {
+  width: 100% !important;
+  height: 380px !important;
+  background: #050a14 !important;       /* Matching dark side framing */
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border-radius: 12px !important;
+  overflow: hidden !important;
+  margin-bottom: 20px !important;
+  border: 1px solid rgba(56, 139, 253, 0.3) !important;
+  flex-shrink: 0 !important;
+}
+
+.exhibit-01-card .exhibit-hero-img,
+#exhibit-01-modal .exhibit-hero-img,
+[data-exhibit="01"] .exhibit-hero-img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain !important;       /* Forces the entire portrait image to fit neatly */
+  object-position: center !important;
+  display: block !important;
+}
+
+/* Force Exhibit 1 Inner Scrollbar matching Exhibits 2-6 */
+.exhibit-01-card .modal-body,
+.uefa-archive-modal-body,
+#exhibit-01-modal .modal-body,
+[data-exhibit="01"] .modal-body {
+  flex: 1 1 auto !important;
+  min-height: 0 !important;            /* CRITICAL: Unlocks inner flex scrolling */
+  max-height: calc(85vh - 110px) !important;
+  overflow-y: auto !important;         /* Enables smooth scrolling */
+  overflow-x: hidden !important;
+  padding: 20px 24px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 18px !important;
+}
+
+.exhibit-01-card .modal-body::-webkit-scrollbar,
+.uefa-archive-modal-body::-webkit-scrollbar {
+  width: 6px !important;
+  display: block !important;
+}
+
+.exhibit-01-card .modal-body::-webkit-scrollbar-thumb,
+.uefa-archive-modal-body::-webkit-scrollbar-thumb {
+  background: var(--primary-accent, #388BFD) !important;
+  border-radius: 3px !important;
+}
+
+/* Exhibit 01 Metrics & Breakdown Styling */
+.exhibit-01-card .metrics-section h3,
+.exhibit-01-card .breakdown-section h3 {
+  font-size: 0.82rem !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.05em !important;
+  text-transform: uppercase !important;
+  color: #45B7FF !important;
+  margin-bottom: 10px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+}
+
+.exhibit-01-card .metrics-grid {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)) !important;
+  gap: 10px !important;
+}
+
+.exhibit-01-card .metric-box {
+  background: rgba(6, 21, 46, 0.75) !important;
+  border: 1px solid rgba(69, 183, 255, 0.25) !important;
+  border-radius: 10px !important;
+  padding: 12px 10px !important;
+  text-align: center !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 4px !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4) !important;
+}
+
+.exhibit-01-card .metric-box .number {
+  font-size: 1.5rem !important;
+  font-weight: 900 !important;
+  color: #D4AF37 !important;
+  font-family: monospace, sans-serif !important;
+  line-height: 1 !important;
+}
+
+.exhibit-01-card .metric-box .label {
+  font-size: 0.65rem !important;
+  font-weight: 700 !important;
+  color: #94A3B8 !important;
+  letter-spacing: 0.05em !important;
+  text-transform: uppercase !important;
+  line-height: 1.2 !important;
+}
+
+.exhibit-01-card .breakdown-grid {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)) !important;
+  gap: 8px !important;
+}
+
+.exhibit-01-card .breakdown-card {
+  background: rgba(15, 23, 42, 0.6) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-left: 3px solid #388BFD !important;
+  border-radius: 8px !important;
+  padding: 10px 14px !important;
+  font-size: 0.8rem !important;
+  color: #E2E8F0 !important;
+  line-height: 1.4 !important;
+}
+
+/* Museum Collapsed Default Styling */
+.museum-section-container.collapsed .museum-cards-wrapper {
+  max-height: 0 !important;
+  opacity: 0 !important;
+  overflow: hidden !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  pointer-events: none !important;
+}
+
+.museum-section-container.expanded .museum-cards-wrapper {
+  max-height: 2000px !important;
+  opacity: 1 !important;
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  pointer-events: auto !important;
+}
+
+/* Header Click Area Indicator */
+.museum-section-header {
+  cursor: pointer !important;
+  user-select: none !important;
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  padding: 16px 24px !important;
+  border-radius: 12px !important;
+  background: var(--card-bg, rgba(15, 23, 42, 0.6)) !important;
+  border: 1px solid var(--card-border, rgba(255, 255, 255, 0.1)) !important;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.museum-section-header:hover {
+  background: var(--card-bg-hover, rgba(20, 30, 55, 0.8)) !important;
+  border-color: rgba(212, 175, 55, 0.4) !important;
 }
 
 /* ===================================================
@@ -7787,6 +8094,102 @@
 [data-widget-id] .flex-1 {
   position: relative !important;
   z-index: 10 !important;
+}
+
+/* Config Button Overlay on Card */
+.config-photo-btn {
+  position: absolute !important;
+  top: 12px !important;
+  right: 12px !important;
+  background: rgba(10, 16, 30, 0.85) !important;
+  border: 1px solid rgba(56, 139, 253, 0.4) !important;
+  color: #388BFD !important;
+  padding: 6px 12px !important;
+  font-size: 0.75rem !important;
+  font-weight: 700 !important;
+  border-radius: 6px !important;
+  cursor: pointer !important;
+  z-index: 10 !important;
+  transition: all 0.2s ease !important;
+}
+
+.config-photo-btn:hover {
+  background: #388BFD !important;
+  color: #FFFFFF !important;
+}
+
+/* Upload & Crop Control Modal */
+.photo-config-overlay {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  background: rgba(5, 10, 20, 0.8) !important;
+  backdrop-filter: blur(10px) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  z-index: 9999999 !important;
+}
+
+.photo-config-modal {
+  width: 100% !important;
+  max-width: 480px !important;
+  background: rgba(10, 16, 30, 0.98) !important;
+  border: 1px solid rgba(56, 139, 253, 0.4) !important;
+  border-radius: 16px !important;
+  padding: 24px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 20px !important;
+  color: #FFFFFF !important;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8) !important;
+}
+
+.upload-label {
+  display: block !important;
+  text-align: center !important;
+  padding: 14px !important;
+  background: rgba(56, 139, 253, 0.15) !important;
+  border: 1px dashed rgba(56, 139, 253, 0.4) !important;
+  border-radius: 8px !important;
+  color: #388BFD !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+}
+
+.upload-label:hover {
+  background: rgba(56, 139, 253, 0.25) !important;
+}
+
+.crop-slider-group {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 8px !important;
+  font-size: 0.85rem !important;
+}
+
+.focal-range-slider {
+  width: 100% !important;
+  accent-color: #388BFD !important;
+  cursor: pointer !important;
+}
+
+.slider-hint {
+  font-size: 0.75rem !important;
+  color: #94A3B8 !important;
+}
+
+.close-config-btn {
+  padding: 10px !important;
+  background: #388BFD !important;
+  color: #FFFFFF !important;
+  border: none !important;
+  border-radius: 8px !important;
+  font-weight: 700 !important;
+  cursor: pointer !important;
 }
 
 

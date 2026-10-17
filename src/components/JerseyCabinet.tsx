@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
+import { createPortal } from 'react-dom';
 import { Trophy, Sparkles, Check, ChevronDown, ChevronUp, Landmark, Shirt, X, Award, Medal, Flame } from 'lucide-react';
 import { GoatPreset } from '../types';
 import { EuropeanNightsPavilion } from './EuropeanNightsPavilion';
@@ -173,7 +174,7 @@ export const GOAT_PRESETS: JerseyPresetConfig[] = [
 export const exhibitSelecao: MuseumExhibit = {
   id: 'selecao-passion',
   exhibitNumber: 'EXHIBIT 03',
-  title: 'Paris 2016 — European Champions',
+  title: 'Paris 2016 (Euro Glory) — European Champions',
   clubEra: 'Portugal National Team | UEFA Euro 2016',
   matchDate: '10 July 2016 · Portugal 1–0 France (AET)',
   photoAsset: 'assets/museum/euro-2016-trophy-kiss.jpg', // Bound to your uploaded image
@@ -206,7 +207,7 @@ export const exhibitSelecao: MuseumExhibit = {
 export const exhibitRedDevil: MuseumExhibit = {
   id: 'the-red-devil',
   exhibitNumber: 'EXHIBIT 04',
-  title: 'Moscow 2008 — The European Crown',
+  title: 'The All-Time Scorer (900+ Goals) — Moscow 2008 & Ballon d’Or',
   clubEra: 'Manchester United | 2007/08',
   matchDate: '21 May 2008 · Manchester United 1–1 Chelsea (6–5 on penalties)',
   photoAsset: 'assets/museum/moscow-2008-header.jpg', // Bound to your uploaded image
@@ -246,7 +247,7 @@ Ronaldo finished the season with 42 goals in all competitions, including 31 Prem
 export const exhibitElBicho: MuseumExhibit = {
   id: 'el-bicho',
   exhibitNumber: 'EXHIBIT 05',
-  title: 'El Bicho — Historic 3-Peat Dynasty (2016–2018)',
+  title: 'Real Madrid Apex Era — Historic 3-Peat Dynasty (2016–2018)',
   clubEra: 'Real Madrid | 2015/16 – 2017/18',
   matchDate: '3 Consecutive UEFA Champions League Titles (2016, 2017, 2018)',
   photoAsset: 'assets/museum/el-bicho-three-peat.jpg',
@@ -312,7 +313,7 @@ export const exhibitElBicho: MuseumExhibit = {
 export const exhibitLeZebre: MuseumExhibit = {
   id: 'le-zebre',
   exhibitNumber: 'EXHIBIT 06',
-  title: 'Turin 2019 — The Atlético Comeback Hat-Trick',
+  title: 'International Cap Record Holder — Turin 2019 Comeback Hat-Trick',
   clubEra: 'Juventus | 2018/19 Season',
   matchDate: '12 March 2019 · Juventus 3–0 Atlético Madrid (3–2 agg)',
   photoAsset: 'assets/museum/atletico-comeback-juventus.jpg', // Bound to your uploaded image
@@ -349,7 +350,7 @@ export const exhibitLeZebre: MuseumExhibit = {
 export const exhibitGalacticoGold: MuseumExhibit = {
   id: 'galactico-gold',
   exhibitNumber: 'EXHIBIT 02',
-  title: 'Lisbon 2014 — La Décima & The 17-Goal Record',
+  title: '5x Ballon d’Or Dynasty — Lisbon 2014 & La Décima',
   clubEra: 'Real Madrid | 2013/14 Season',
   matchDate: '24 May 2014 · Real Madrid 4–1 Atlético Madrid (AET)',
   photoAsset: 'assets/museum/la-decima-flex-celebration.jpg', // Bound to your uploaded image
@@ -395,7 +396,7 @@ export const ALL_MUSEUM_EXHIBITS: MuseumExhibit[] = [
     title: 'Mr. Champions League — The European Nights',
     clubEra: 'Official UEFA Champions League Archive',
     matchDate: '183 Apps · 140 Goals · 5 Modern Era Titles · 7 Golden Boots',
-    photoAsset: 'assets/museum/cr7-5-ucl-kyiv.jpg',
+    photoAsset: '/input_file_0.png',
     narrative: `Cristiano Ronaldo defined European football's pinnacle competition. With 140 goals in 183 appearances and 5 modern era titles, CR7 transformed the UEFA Champions League into his personal arena.`,
     statsSummary: '183 Apps · 140 Goals · 5 Titles · 7 Top-Scorer Seasons',
     individualAwards: [
@@ -432,8 +433,48 @@ export const JerseyCabinet: React.FC<JerseyCabinetProps> = ({
   onSelectPreset,
   compact = false,
 }) => {
-  const [isExpanded, setIsExpanded] = useState(true);
+  const [isExpanded, setIsExpanded] = useState(false);
   const [cabinetTab, setCabinetTab] = useState<'museum' | 'kits'>('museum');
+
+  // Exhibit 01 Custom Photo & Focal Crop State
+  const [exhibit01Image, setExhibit01Image] = useState<string>(() => {
+    try {
+      return localStorage.getItem('cr7_exhibit_01_custom_image') || '/input_file_0.png';
+    } catch {
+      return '/input_file_0.png';
+    }
+  });
+  const [exhibit01FocalY, setExhibit01FocalY] = useState<number>(() => {
+    try {
+      const saved = localStorage.getItem('cr7_exhibit_01_focal_y');
+      return saved !== null ? Number(saved) : 20;
+    } catch {
+      return 20;
+    }
+  });
+  const [isEditingExhibit01, setIsEditingExhibit01] = useState<boolean>(false);
+
+  const handleExhibit01ImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const imageUrl = URL.createObjectURL(file);
+      setExhibit01Image(imageUrl);
+      try {
+        localStorage.setItem('cr7_exhibit_01_custom_image', imageUrl);
+      } catch {
+        // ignore
+      }
+    }
+  };
+
+  const handleUpdateFocalY = (val: number) => {
+    setExhibit01FocalY(val);
+    try {
+      localStorage.setItem('cr7_exhibit_01_focal_y', String(val));
+    } catch {
+      // ignore
+    }
+  };
 
   // Standard Exhibit Selection Handler & Unified State Management
   const [activePavilionExhibit, setActivePavilionExhibit] = useState<MuseumExhibit | string | null>(null);
@@ -445,8 +486,12 @@ export const JerseyCabinet: React.FC<JerseyCabinetProps> = ({
 
   const handleCloseModal = () => {
     setActivePavilionExhibit(null);
+    document.body.classList.remove('modal-open');
     document.body.style.overflow = 'auto';
-    const modal = document.getElementById('uclPavilionModal') || document.getElementById('pavilionModal');
+    const modal =
+      document.getElementById('exhibit-01-modal') ||
+      document.getElementById('uclPavilionModal') ||
+      document.getElementById('pavilionModal');
     if (modal) {
       modal.style.display = 'none';
     }
@@ -494,10 +539,16 @@ export const JerseyCabinet: React.FC<JerseyCabinetProps> = ({
   // Synchronize body scroll locking
   useEffect(() => {
     if (activePavilionExhibit) {
+      document.body.classList.add('modal-open');
       document.body.style.overflow = 'hidden';
     } else {
+      document.body.classList.remove('modal-open');
       document.body.style.overflow = 'auto';
     }
+    return () => {
+      document.body.classList.remove('modal-open');
+      document.body.style.overflow = 'auto';
+    };
   }, [activePavilionExhibit]);
 
   // Allow closing via Escape key press & bind global modal controls
@@ -530,7 +581,7 @@ export const JerseyCabinet: React.FC<JerseyCabinetProps> = ({
   return (
     <section
       id="jersey-cabinet"
-      className="w-full rounded-2xl border backdrop-blur-xl transition-all duration-300 relative overflow-hidden my-3 shadow-lg"
+      className={`museum-section-container ${isExpanded ? 'expanded' : 'collapsed'} w-full rounded-2xl border backdrop-blur-xl transition-all duration-300 relative overflow-hidden my-3 shadow-lg`}
       style={{
         backgroundColor: 'var(--panel-card, var(--bg-card))',
         borderColor: 'var(--panel-border, var(--border-color))',
@@ -539,7 +590,8 @@ export const JerseyCabinet: React.FC<JerseyCabinetProps> = ({
     >
       {/* Top Banner & Header */}
       <div
-        className="px-4 py-3 border-b flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3"
+        className="museum-section-header px-4 py-3 border-b flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 cursor-pointer select-none"
+        onClick={() => setIsExpanded(!isExpanded)}
         style={{ borderColor: 'var(--panel-border, var(--border-color))' }}
       >
         <div className="flex items-center gap-2.5">
@@ -569,6 +621,11 @@ export const JerseyCabinet: React.FC<JerseyCabinetProps> = ({
                 >
                   6 EXHIBITS
                 </span>
+                {!isExpanded && (
+                  <span className="text-[10px] font-semibold text-slate-400 font-mono">
+                    (Click to expand)
+                  </span>
+                )}
               </h2>
             </div>
             <p
@@ -580,7 +637,7 @@ export const JerseyCabinet: React.FC<JerseyCabinetProps> = ({
           </div>
         </div>
 
-        {/* Header Toolbar Controls (Quick Kits Removed) */}
+        {/* Header Toolbar Controls */}
         <div className="flex items-center gap-2 self-stretch sm:self-auto justify-end">
           <div
             className="inline-flex items-center p-0.5 rounded-xl border text-xs font-bold"
@@ -598,13 +655,16 @@ export const JerseyCabinet: React.FC<JerseyCabinetProps> = ({
               title="CR7 Museum & Hall of Fame Exhibits"
             >
               <Landmark className="w-3.5 h-3.5" />
-              <span>Museum Exhibits</span>
+              <span>{isExpanded ? 'Museum Exhibits' : 'Expand Exhibits'}</span>
             </div>
           </div>
 
           <button
             type="button"
-            onClick={() => setIsExpanded(!isExpanded)}
+            onClick={(e) => {
+              e.stopPropagation();
+              setIsExpanded(!isExpanded);
+            }}
             className="p-1.5 rounded-xl border text-xs font-bold flex items-center gap-1 transition-all hover:scale-105 cursor-pointer shrink-0"
             style={{
               backgroundColor: 'var(--panel-elevated, var(--bg-card-subtle))',
@@ -619,8 +679,8 @@ export const JerseyCabinet: React.FC<JerseyCabinetProps> = ({
         </div>
       </div>
 
-      {/* Main Container Content */}
-      {isExpanded && (
+      {/* Main Container Content with Smooth Collapsible Transition */}
+      <div className="museum-cards-wrapper">
         <div className="p-3 sm:p-4">
           {cabinetTab === 'museum' ? (
             /* ── CR7 MUSEUM & HALL OF FAME EXHIBITS GRID ── */
@@ -633,21 +693,43 @@ export const JerseyCabinet: React.FC<JerseyCabinetProps> = ({
                   return (
                     <div
                       key={exhibit.exhibitNumber}
-                      className="museum-card exhibit-european-nights group cursor-pointer"
+                      className="museum-card exhibit-european-nights exhibit-preview-card-01 group cursor-pointer"
                       data-preset="european-nights"
                       data-theme="european-nights"
+                      data-exhibit="01"
                       onClick={() => handleCardClick('european-nights')}
                     >
-                      <div className="card-image-wrapper">
+                      <div className="card-hero-image-wrapper card-image-box card-image-wrapper" style={{ position: 'relative' }}>
                         <img
-                          src={exhibit.photoAsset.startsWith('/') ? exhibit.photoAsset : `/${exhibit.photoAsset}`}
-                          alt="Mr. Champions League 5 UCL Trophies Kyiv Celebration"
-                          className="exhibit-img"
+                          src={exhibit01Image}
+                          alt="Cristiano Ronaldo - Mr. Champions League"
+                          className="card-preview-img exhibit-img"
                           loading="lazy"
+                          style={{
+                            objectPosition: `center ${exhibit01FocalY}%`,
+                          }}
                           onError={(e) => {
-                            (e.currentTarget as HTMLImageElement).src = '/assets/ucl-stadium-bg.jpg';
+                            const target = e.currentTarget as HTMLImageElement;
+                            if (target.src.includes('input_file_0.png')) {
+                              target.src = '/image.png';
+                            } else {
+                              target.src = '/assets/cr7-5-ucl-kyiv.jpg';
+                            }
                           }}
                         />
+
+                        {/* Quick trigger button on the card to adjust upload/cropping */}
+                        <button 
+                          type="button"
+                          className="config-photo-btn"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setIsEditingExhibit01(true);
+                          }}
+                          title="Upload or Adjust Outside Crop"
+                        >
+                          ⚙️ Edit Image
+                        </button>
                         <span className="exhibit-tag">OFFICIAL UEFA ARCHIVE</span>
                         <span className="badge-number-7">#7</span>
                         <span
@@ -1062,22 +1144,28 @@ export const JerseyCabinet: React.FC<JerseyCabinetProps> = ({
             </div>
           )}
         </div>
-      )}
+      </div>
 
-      {/* ── STANDARD MUSEUM PAVILION MODAL ── */}
-      <div
-        id="uclPavilionModal"
-        className={`museum-pavilion-modal-backdrop museum-modal-backdrop pavilion-modal-overlay animate-fade-in ${
-          activePavilionExhibit ? 'active' : ''
-        }`}
-        style={{ display: activePavilionExhibit ? 'flex' : 'none' }}
-        data-active={activePavilionExhibit ? 'true' : 'false'}
-        onClick={handleCloseModal}
-        role="dialog"
-        aria-modal="true"
-      >
+      {/* ── STANDARD MUSEUM PAVILION MODAL (ROOT VIEWPORT PORTAL) ── */}
+      {activePavilionExhibit && typeof document !== 'undefined'
+        ? createPortal(
+            <div
+              id={isEuropeanNightsModal ? "exhibit-01-modal" : "uclPavilionModal"}
+              className={`museum-pavilion-modal-backdrop museum-modal-backdrop pavilion-modal-overlay modal-overlay modal-backdrop exhibit-modal-backdrop animate-fade-in active ${
+                isEuropeanNightsModal ? 'exhibit-01-modal-backdrop' : ''
+              }`}
+              data-active="true"
+              data-exhibit={isEuropeanNightsModal ? "01" : undefined}
+              onClick={handleCloseModal}
+              role="dialog"
+              aria-modal="true"
+            >
         <div
-          className="museum-pavilion-modal-container museum-modal-card pavilion-modal-content animate-scale-in"
+          id={isEuropeanNightsModal ? "exhibit-01-modal" : undefined}
+          data-exhibit={isEuropeanNightsModal ? "01" : (activeExhibitModal ? "modal" : undefined)}
+          className={`museum-pavilion-modal-container museum-modal-card pavilion-modal-content modal-container modal-dialog exhibit-modal-card animate-scale-in ${
+            isEuropeanNightsModal ? 'exhibit-01-card' : ''
+          }`}
           onClick={(e) => e.stopPropagation()}
           style={{
             borderColor: isEuropeanNightsModal
@@ -1094,25 +1182,24 @@ export const JerseyCabinet: React.FC<JerseyCabinetProps> = ({
               ? '#D4AF37'
               : 'rgba(212, 175, 55, 0.4)',
             boxShadow: isEuropeanNightsModal
-              ? '0 0 45px rgba(7, 87, 200, 0.5), 0 25px 60px rgba(0, 0, 0, 0.9)'
-              : undefined,
+              ? '0 0 45px rgba(7, 87, 200, 0.5), 0 20px 60px rgba(0, 0, 0, 0.85)'
+              : '0 20px 60px rgba(0, 0, 0, 0.85)',
           }}
         >
-          <button
-            type="button"
-            className="pavilion-close-btn close-modal-x close-pavilion-btn"
-            onClick={handleCloseModal}
-            aria-label="Close modal"
-          >
-            &times;
-          </button>
-
           {isEuropeanNightsModal ? (
             <>
-              {/* Standard Pavilion Header */}
-              <div className="pavilion-header">
-                <div className="flex items-center justify-between gap-3 flex-wrap">
-                  <span className="exhibit-tag">OFFICIAL UEFA ARCHIVE</span>
+              {/* Sticky Modal Header for Exhibit 01 */}
+              <div className="modal-header exhibit-modal-header pavilion-header">
+                <button
+                  type="button"
+                  className="modal-close-btn exhibit-close-btn pavilion-close-btn close-modal-x close-pavilion-btn"
+                  onClick={handleCloseModal}
+                  aria-label="Close modal"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+                <div className="flex items-center justify-between gap-3 flex-wrap pr-12">
+                  <div className="official-uefa-badge exhibit-tag">OFFICIAL UEFA ARCHIVE • EXHIBIT 01</div>
                   <button
                     type="button"
                     onClick={() => onSelectPreset('mr-champions-league')}
@@ -1122,68 +1209,154 @@ export const JerseyCabinet: React.FC<JerseyCabinetProps> = ({
                     <span>{isEuropeanNightsActive ? '✓ ACTIVE: MR. CHAMPIONS LEAGUE' : 'ACTIVATE THEME'}</span>
                   </button>
                 </div>
-                <h2>Mr. Champions League</h2>
-                <p>The definitive statistical legacy of Cristiano Ronaldo</p>
+                <h2 className="pr-12">Mr. Champions League</h2>
+                <p className="subtitle pr-12">The definitive statistical legacy of Cristiano Ronaldo</p>
               </div>
 
-              {/* Standard Pavilion Body (Same scroll & padding structure as Exhibits 2-6) */}
-              <div className="pavilion-modal-body">
+              {/* Scrollable Modal Body for Exhibit 01 */}
+              <div className="modal-body exhibit-modal-body pavilion-modal-body modal-body-scrollable uefa-archive-modal-body exhibit-01-body">
+                {/* EXACT USER-PROVIDED IMAGE CONTAINER */}
+                {/* EXACT USER-PROVIDED IMAGE CONTAINER */}
+                <div className="exhibit-image-wrapper" style={{ position: 'relative' }}>
+                  <img
+                    src={exhibit01Image}
+                    alt="Cristiano Ronaldo Champions League 5 Titles"
+                    className="exhibit-hero-img"
+                    onError={(e) => {
+                      const target = e.currentTarget as HTMLImageElement;
+                      if (target.src.includes('input_file_0.png')) {
+                        target.src = '/image.png';
+                      } else {
+                        target.src = '/assets/cr7-5-ucl-kyiv.jpg';
+                      }
+                    }}
+                  />
+                  <button 
+                    type="button"
+                    className="config-photo-btn"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setIsEditingExhibit01(true);
+                    }}
+                    title="Upload or Adjust Outside Crop"
+                  >
+                    ⚙️ Edit Photo
+                  </button>
+                </div>
+
+                {/* Career Glance Metrics */}
+                <div className="metrics-section">
+                  <h3>🏆 CAREER GLANCE METRICS</h3>
+                  <div className="metrics-grid">
+                    <div className="metric-box">
+                      <span className="number">183</span>
+                      <span className="label">APPEARANCES (ALL-TIME RECORD)</span>
+                    </div>
+                    <div className="metric-box">
+                      <span className="number">140</span>
+                      <span className="label">GOALS SCORED (ALL-TIME #1)</span>
+                    </div>
+                    <div className="metric-box">
+                      <span className="number">5</span>
+                      <span className="label">TITLES WON (MODERN ERA RECORD)</span>
+                    </div>
+                    <div className="metric-box">
+                      <span className="number">7</span>
+                      <span className="label">TOP-SCORER SEASONS (RECORD)</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Club & Phase Breakdown */}
+                <div className="breakdown-section">
+                  <h3>📊 CLUB & PHASE BREAKDOWN</h3>
+                  <div className="breakdown-grid">
+                    <div className="breakdown-card">Real Madrid UCL Goals: 105 goals.</div>
+                    <div className="breakdown-card">Manchester United UCL Goals: 21 goals.</div>
+                    <div className="breakdown-card">Juventus UCL Goals: 14 goals.</div>
+                    <div className="breakdown-card">Knockout-Stage Mastery: 67 goals (all-time record).</div>
+                    <div className="breakdown-card">Hat-Trick Prowess: 8 hat-tricks (joint all-time record with Lionel Messi).</div>
+                    <div className="breakdown-card">Single-Season Peak: 17 goals in the 2013/14 campaign (all-time record).</div>
+                    <div className="breakdown-card">Scoring Streak: 11 consecutive scoring appearances (all-time record).</div>
+                    <div className="breakdown-card">Finals Record: 6 final appearances (2008, 2009, 2014, 2016, 2017, 2018) with 4 goals scored across 3 different finals.</div>
+                  </div>
+                </div>
+
+                {/* Additional Detailed Crowns Timeline, Golden Boot & UEFA Awards */}
                 <EuropeanNightsPavilion
                   hideHeader={true}
+                  hideSummarySections={true}
                   onActivatePreset={() => onSelectPreset('mr-champions-league')}
                   isActive={isEuropeanNightsActive}
                 />
               </div>
             </>
           ) : activeExhibitModal ? (
-            <div className="pavilion-modal-body flex flex-col gap-4">
-              {/* Modal Header & Hero Image */}
-              <div className="relative rounded-xl overflow-hidden aspect-video bg-black border border-white/15">
-                <img
-                  src={
-                    activeExhibitModal.photoAsset.startsWith('/')
-                      ? activeExhibitModal.photoAsset
-                      : `/${activeExhibitModal.photoAsset}`
-                  }
-                  alt={activeExhibitModal.title}
-                  className="w-full h-full object-cover object-top"
-                  onError={(e) => {
-                    (e.currentTarget as HTMLImageElement).src = '/assets/ucl-stadium-bg.jpg';
-                  }}
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent flex flex-col justify-end p-4">
-                  <div className="flex items-center gap-2">
-                    <span className="text-[10px] font-black uppercase tracking-widest text-amber-400 font-mono">
-                      {activeExhibitModal.exhibitNumber} · {activeExhibitModal.clubEra}
-                    </span>
-                    {activeExhibitModal.id === 'el-bicho' && (
-                      <span className="px-1.5 py-0.5 rounded text-[9px] font-black tracking-widest bg-teal-500/30 text-teal-300 border border-teal-400/50 uppercase font-mono">
-                        3 PEAT
-                      </span>
-                    )}
-                  </div>
-                  <h2 className="text-lg sm:text-2xl font-black text-white leading-tight mt-0.5">
-                    {activeExhibitModal.title}
-                  </h2>
-                  <span
-                    className="text-xs font-bold font-mono mt-1"
-                    style={{
-                      color:
-                        activeExhibitModal.id === 'galactico-gold'
-                          ? '#F2CC63'
-                          : activeExhibitModal.id === 'el-bicho'
-                          ? '#00E5FF'
-                          : activeExhibitModal.id === 'selecao-passion'
-                          ? '#FF6680'
-                          : activeExhibitModal.id === 'le-zebre'
-                          ? '#F2CC63'
-                          : '#FF4D4D',
-                    }}
-                  >
-                    {activeExhibitModal.matchDate}
+            <>
+              {/* Sticky Modal Header for Exhibits 02 - 06 */}
+              <div className="modal-header exhibit-modal-header">
+                <button
+                  type="button"
+                  className="modal-close-btn exhibit-close-btn pavilion-close-btn close-modal-x close-pavilion-btn"
+                  onClick={handleCloseModal}
+                  aria-label="Close modal"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+                <div className="flex items-center gap-2 flex-wrap pr-12">
+                  <span className="text-[10px] font-black uppercase tracking-widest text-amber-400 font-mono bg-black/60 px-2.5 py-0.5 rounded border border-amber-400/30">
+                    {activeExhibitModal.exhibitNumber} · {activeExhibitModal.clubEra}
                   </span>
+                  {activeExhibitModal.id === 'el-bicho' && (
+                    <span className="px-2 py-0.5 rounded text-[9px] font-black tracking-widest bg-teal-500/30 text-teal-300 border border-teal-400/50 uppercase font-mono">
+                      3 PEAT
+                    </span>
+                  )}
                 </div>
+                <h2 className="text-base sm:text-xl font-black text-white leading-tight pr-12">
+                  {activeExhibitModal.title}
+                </h2>
+                <span
+                  className="text-xs font-bold font-mono pr-12"
+                  style={{
+                    color:
+                      activeExhibitModal.id === 'galactico-gold'
+                        ? '#F2CC63'
+                        : activeExhibitModal.id === 'el-bicho'
+                        ? '#00E5FF'
+                        : activeExhibitModal.id === 'selecao-passion'
+                        ? '#FF6680'
+                        : activeExhibitModal.id === 'le-zebre'
+                        ? '#F2CC63'
+                        : '#FF4D4D',
+                  }}
+                >
+                  {activeExhibitModal.matchDate}
+                </span>
               </div>
+
+              {/* Scrollable Modal Body for Exhibits 02 - 06 */}
+              <div className="modal-body exhibit-modal-body pavilion-modal-body modal-body-scrollable">
+                {/* Modal Hero Image */}
+                <div className="relative rounded-xl overflow-hidden aspect-video bg-black border border-white/15 shrink-0">
+                  <img
+                    src={
+                      activeExhibitModal.photoAsset.startsWith('/')
+                        ? activeExhibitModal.photoAsset
+                        : `/${activeExhibitModal.photoAsset}`
+                    }
+                    alt={activeExhibitModal.title}
+                    className="w-full h-full object-cover object-top"
+                    onError={(e) => {
+                      const target = e.currentTarget as HTMLImageElement;
+                      if (activeExhibitModal.id === 'mr-champions-league') {
+                        target.src = '/assets/cr7-5-ucl-kyiv.jpg';
+                      } else {
+                        target.src = '/assets/ucl-stadium-bg.jpg';
+                      }
+                    }}
+                  />
+                </div>
 
               {/* Three Finals Narrative Cards (Specific to El Bicho) */}
               {activeExhibitModal.finals && activeExhibitModal.finals.length > 0 && (
@@ -1454,9 +1627,128 @@ export const JerseyCabinet: React.FC<JerseyCabinetProps> = ({
                 </button>
               </div>
             </div>
-          ) : null}
+          </>
+        ) : null}
         </div>
-      </div>
+      </div>,
+      document.body
+    )
+  : null}
+
+      {/* ================= EXHIBIT 01 UPLOAD & CROP CONTROL MODAL/PANEL ================= */}
+      {isEditingExhibit01 && typeof document !== 'undefined'
+        ? createPortal(
+            <div
+              className="photo-config-overlay"
+              onClick={() => setIsEditingExhibit01(false)}
+            >
+              <div
+                className="photo-config-modal"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <div className="flex items-center justify-between">
+                  <h3 className="text-xl font-bold text-white">Exhibit 01 Photo &amp; Display Customizer</h3>
+                  <button
+                    type="button"
+                    className="text-slate-400 hover:text-white text-lg font-bold p-1 cursor-pointer"
+                    onClick={() => setIsEditingExhibit01(false)}
+                    aria-label="Close modal"
+                  >
+                    ✕
+                  </button>
+                </div>
+                <p className="text-sm text-slate-300">
+                  Upload your photo and drag the slider to choose exactly what appears on the outside card thumbnail.
+                </p>
+
+                {/* File Uploader */}
+                <div className="upload-box">
+                  <label htmlFor="custom-exhibit-upload-cabinet" className="upload-label">
+                    📁 Choose New Photo from Device
+                  </label>
+                  <input
+                    id="custom-exhibit-upload-cabinet"
+                    type="file"
+                    accept="image/*"
+                    onChange={handleExhibit01ImageUpload}
+                    style={{ display: 'none' }}
+                  />
+                </div>
+
+                {/* Live Cropping Slider Control */}
+                <div className="crop-slider-group">
+                  <label className="text-sm text-slate-200">
+                    Outside Thumbnail Focal Point (Vertical Position: <strong className="text-blue-400">{exhibit01FocalY}%</strong>)
+                  </label>
+                  <input
+                    type="range"
+                    min="0"
+                    max="100"
+                    value={exhibit01FocalY}
+                    onChange={(e) => handleUpdateFocalY(Number(e.target.value))}
+                    className="focal-range-slider"
+                  />
+                  <span className="slider-hint">0% = Top of photo | 50% = Center | 100% = Bottom</span>
+                </div>
+
+                {/* Live Preview Comparison */}
+                <div className="config-preview-row">
+                  <div className="mini-preview flex flex-col gap-1.5">
+                    <span className="text-xs text-slate-300 font-semibold">Outside Thumbnail Preview:</span>
+                    <div
+                      className="mini-card-thumb border border-blue-500/40 bg-[#050a14]"
+                      style={{ height: '120px', overflow: 'hidden', borderRadius: '8px' }}
+                    >
+                      <img
+                        src={exhibit01Image}
+                        alt="Thumbnail preview"
+                        style={{
+                          width: '100%',
+                          height: '100%',
+                          objectFit: 'cover',
+                          objectPosition: `center ${exhibit01FocalY}%`,
+                        }}
+                        onError={(e) => {
+                          const target = e.currentTarget as HTMLImageElement;
+                          if (target.src.includes('input_file_0.png')) {
+                            target.src = '/image.png';
+                          }
+                        }}
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex gap-2 justify-end mt-2">
+                  <button
+                    type="button"
+                    className="px-4 py-2 rounded-lg bg-slate-800 text-slate-300 hover:bg-slate-700 text-sm font-semibold transition cursor-pointer"
+                    onClick={() => {
+                      setExhibit01Image('/input_file_0.png');
+                      setExhibit01FocalY(20);
+                      try {
+                        localStorage.removeItem('cr7_exhibit_01_custom_image');
+                        localStorage.removeItem('cr7_exhibit_01_focal_y');
+                      } catch {
+                        // ignore
+                      }
+                    }}
+                  >
+                    Reset Default
+                  </button>
+                  <button
+                    type="button"
+                    className="close-config-btn"
+                    onClick={() => setIsEditingExhibit01(false)}
+                  >
+                    Save &amp; Close
+                  </button>
+                </div>
+              </div>
+            </div>,
+            document.body
+          )
+        : null}
     </section>
   );
 };

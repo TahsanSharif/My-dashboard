@@ -4,13 +4,22 @@ interface EuropeanNightsPavilionProps {
   onActivatePreset?: () => void;
   isActive?: boolean;
   hideHeader?: boolean;
+  hideSummarySections?: boolean;
+  customImage?: string;
 }
 
 export const EuropeanNightsPavilion: React.FC<EuropeanNightsPavilionProps> = ({
   onActivatePreset,
   isActive = false,
   hideHeader = false,
+  hideSummarySections = false,
+  customImage,
 }) => {
+  const displayImage =
+    customImage ||
+    (typeof window !== 'undefined'
+      ? localStorage.getItem('cr7_exhibit_01_custom_image') || '/input_file_0.png'
+      : '/input_file_0.png');
   return (
     <div className="museum-exhibit-pavilion" data-theme="european-nights">
       {/* Pavilion Header Banner */}
@@ -34,47 +43,70 @@ export const EuropeanNightsPavilion: React.FC<EuropeanNightsPavilionProps> = ({
         </div>
       )}
 
-      {/* Core Career Statistics Grid */}
-      <div className="pavilion-section">
-        <h3 className="section-title">🏆 Career Glance Metrics</h3>
-        <div className="stats-card-grid">
-          <div className="stat-badge-box">
-            <span className="stat-number">183</span>
-            <span className="stat-label">Appearances (All-Time Record)</span>
-          </div>
-          <div className="stat-badge-box">
-            <span className="stat-number">140</span>
-            <span className="stat-label">Goals Scored (All-Time #1)</span>
-          </div>
-          <div className="stat-badge-box">
-            <span className="stat-number">5</span>
-            <span className="stat-label">Titles Won (Modern Era Record)</span>
-          </div>
-          <div className="stat-badge-box">
-            <span className="stat-number">7</span>
-            <span className="stat-label">Top-Scorer Seasons (Record)</span>
-          </div>
+      {/* Hero Image */}
+      {!hideHeader && (
+        <div className="exhibit-image-wrapper my-3 rounded-xl overflow-hidden border border-blue-500/30 flex items-center justify-center bg-[#050a14]">
+          <img
+            src={displayImage}
+            alt="Cristiano Ronaldo Champions League 5 Titles"
+            className="exhibit-hero-img w-full object-contain"
+            style={{ maxHeight: '380px' }}
+            onError={(e) => {
+              const target = e.currentTarget as HTMLImageElement;
+              if (target.src.includes('input_file_0.png')) {
+                target.src = '/image.png';
+              } else {
+                target.src = '/assets/cr7-5-ucl-kyiv.jpg';
+              }
+            }}
+          />
         </div>
-      </div>
+      )}
 
-      {/* Club Breakdown & Knockout Dominance */}
-      <div className="pavilion-section">
-        <h3 className="section-title">📊 Club & Phase Breakdown</h3>
-        <ul className="pavilion-list">
-          <li><strong>Real Madrid UCL Goals:</strong> 105 goals.</li>
-          <li><strong>Manchester United UCL Goals:</strong> 21 goals.</li>
-          <li><strong>Juventus UCL Goals:</strong> 14 goals.</li>
-          <li><strong>Knockout-Stage Mastery:</strong> 67 goals (all-time record).</li>
-          <li><strong>Hat-Trick Prowess:</strong> 8 hat-tricks (joint all-time record with Lionel Messi).</li>
-          <li><strong>Single-Season Peak:</strong> 17 goals in the 2013/14 campaign (all-time record).</li>
-          <li><strong>Scoring Streak:</strong> 11 consecutive scoring appearances (all-time record).</li>
-          <li><strong>Finals Record:</strong> 6 final appearances (2008, 2009, 2014, 2016, 2017, 2018) with 4 goals scored across 3 different finals.</li>
-          <li><strong>Milestone Record:</strong> First player to reach 100 Champions League goals (achieved in April 2017).</li>
-          <li><strong>Group Stage Mastery:</strong> Scored in all 6 group-stage matches in a single campaign (one of only two players to ever achieve this).</li>
-          <li><strong>Shared Glory:</strong> Shared the 2014–15 top-scorer award with Lionel Messi and Neymar (10 goals).</li>
-          <li><strong>Modern Era Milestone:</strong> First player to win the Champions League five times in the modern era (completed in 2018).</li>
-        </ul>
-      </div>
+      {/* Core Career Statistics Grid & Club Breakdown */}
+      {!hideSummarySections && (
+        <>
+          <div className="pavilion-section">
+            <h3 className="section-title">🏆 Career Glance Metrics</h3>
+            <div className="stats-card-grid">
+              <div className="stat-badge-box">
+                <span className="stat-number">183</span>
+                <span className="stat-label">Appearances (All-Time Record)</span>
+              </div>
+              <div className="stat-badge-box">
+                <span className="stat-number">140</span>
+                <span className="stat-label">Goals Scored (All-Time #1)</span>
+              </div>
+              <div className="stat-badge-box">
+                <span className="stat-number">5</span>
+                <span className="stat-label">Titles Won (Modern Era Record)</span>
+              </div>
+              <div className="stat-badge-box">
+                <span className="stat-number">7</span>
+                <span className="stat-label">Top-Scorer Seasons (Record)</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="pavilion-section">
+            <h3 className="section-title">📊 Club & Phase Breakdown</h3>
+            <ul className="pavilion-list">
+              <li><strong>Real Madrid UCL Goals:</strong> 105 goals.</li>
+              <li><strong>Manchester United UCL Goals:</strong> 21 goals.</li>
+              <li><strong>Juventus UCL Goals:</strong> 14 goals.</li>
+              <li><strong>Knockout-Stage Mastery:</strong> 67 goals (all-time record).</li>
+              <li><strong>Hat-Trick Prowess:</strong> 8 hat-tricks (joint all-time record with Lionel Messi).</li>
+              <li><strong>Single-Season Peak:</strong> 17 goals in the 2013/14 campaign (all-time record).</li>
+              <li><strong>Scoring Streak:</strong> 11 consecutive scoring appearances (all-time record).</li>
+              <li><strong>Finals Record:</strong> 6 final appearances (2008, 2009, 2014, 2016, 2017, 2018) with 4 goals scored across 3 different finals.</li>
+              <li><strong>Milestone Record:</strong> First player to reach 100 Champions League goals (achieved in April 2017).</li>
+              <li><strong>Group Stage Mastery:</strong> Scored in all 6 group-stage matches in a single campaign (one of only two players to ever achieve this).</li>
+              <li><strong>Shared Glory:</strong> Shared the 2014–15 top-scorer award with Lionel Messi and Neymar (10 goals).</li>
+              <li><strong>Modern Era Milestone:</strong> First player to win the Champions League five times in the modern era (completed in 2018).</li>
+            </ul>
+          </div>
+        </>
+      )}
 
       {/* The 5 Champions League Trophies Timeline */}
       <div className="pavilion-section">
