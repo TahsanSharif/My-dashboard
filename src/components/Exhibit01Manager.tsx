@@ -119,9 +119,7 @@ export default function Exhibit01Manager() {
                     style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: `center ${focalY}%` }}
                     onError={(e) => {
                       const target = e.currentTarget as HTMLImageElement;
-                      if (target.src.includes('input_file_0.png')) {
-                        target.src = '/image.png';
-                      }
+                      target.src = exhibit01Pic;
                     }}
                   />
                 </div>

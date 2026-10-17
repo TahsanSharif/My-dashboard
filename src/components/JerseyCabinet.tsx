@@ -3,60 +3,60 @@ import { createPortal } from 'react-dom';
 import { Trophy, Sparkles, Check, ChevronDown, ChevronUp, Landmark, Shirt, X, Award, Medal, Flame } from 'lucide-react';
 import { GoatPreset } from '../types';
 import { EuropeanNightsPavilion } from './EuropeanNightsPavilion';
-// Explicit ES module imports for all 6 exhibits
-import exhibit1Img from '../assets/images/input_file_0.png';
-import exhibit2Img from '../assets/images/la_decima_flex_1792094860767.jpg';
-import exhibit3Img from '../assets/images/euro_trophy_kiss_1792092651669.jpg';
-import exhibit4Img from '../assets/images/moscow_header_1792091966560.jpg'; // Moscow 2008 header for Exhibit 04
-import exhibit5Img from '../assets/images/el_bicho_three_peat_1792093786564.jpg';
-import exhibit6Img from '../assets/images/juve_atletico_hattrick_1792093077787.jpg';
+// No imports needed for public assets! Direct path string references:
 
-// Complete Exhibit Configuration Array (Exhibits 01 - 06)
 export const EXHIBITS = [
   { 
     id: '01', 
     title: 'Mr. Champions League', 
-    image: exhibit1Img, 
+    image: '/assets/museum/Cr7_kyiv_five_trophies_1792097274769.jpg', 
     focalY: 20 
   },
   { 
     id: '02', 
     title: "5x Ballon d'Or Dynasty", 
-    image: exhibit2Img, 
+    image: '/assets/museum/la_decima_flex_1792094860767.jpg', 
     focalY: 30 
   },
   { 
     id: '03', 
     title: 'Paris 2016 (Euro Glory)', 
-    image: exhibit3Img, 
-    focalY: 25 
+    image: '/assets/museum/euro_trophy_kiss_1792092651669.jpg', 
+    focalY: 15  // <-- Lowered to shift image down and keep head/hair fully in view
   },
   { 
     id: '04', 
     title: 'Official Archival Vault — Moscow 2008', 
-    image: exhibit4Img, 
+    image: '/assets/museum/moscow_header_1792091966560.jpg', 
     focalY: 40 
   },
   { 
     id: '05', 
     title: 'Real Madrid Apex Era', 
-    image: exhibit5Img, 
-    focalY: 35 
+    image: '/assets/museum/el_bicho_three_peat_1792093786564.jpg', 
+    focalY: 20  // <-- Lowered to shift image down
   },
   { 
     id: '06', 
     title: 'International Cap Record', 
-    image: exhibit6Img, 
-    focalY: 40 
+    image: '/assets/museum/juve_atletico_hattrick_1792093077787.jpg', 
+    focalY: 25  // <-- Lowered to shift image down
   }
 ];
 
-const exhibit01Pic = exhibit1Img;
-const exhibit02Pic = exhibit2Img;
-const exhibit03Pic = exhibit3Img;
-const exhibit04Pic = exhibit4Img;
-const exhibit05Pic = exhibit5Img;
-const exhibit06Pic = exhibit6Img;
+export const exhibit1Img = EXHIBITS[0].image;
+export const exhibit2Img = EXHIBITS[1].image;
+export const exhibit3Img = EXHIBITS[2].image;
+export const exhibit4Img = EXHIBITS[3].image;
+export const exhibit5Img = EXHIBITS[4].image;
+export const exhibit6Img = EXHIBITS[5].image;
+
+const exhibit01Pic = EXHIBITS[0].image;
+const exhibit02Pic = EXHIBITS[1].image;
+const exhibit03Pic = EXHIBITS[2].image;
+const exhibit04Pic = EXHIBITS[3].image;
+const exhibit05Pic = EXHIBITS[4].image;
+const exhibit06Pic = EXHIBITS[5].image;
 
 export interface JerseyPresetConfig {
   id: GoatPreset;
@@ -236,7 +236,7 @@ export const exhibitSelecao: MuseumExhibit = {
   matchDate: '10 July 2016 · Portugal 1–0 France (AET)',
   photoAsset: exhibit03Pic,
   image: exhibit03Pic,
-  focalY: 25,
+  focalY: 15,
   hasImage: true,
   narrative: `Ronaldo leaves the final in tears after a knee injury but continues inspiring Portugal from the sidelines. Éder scores in extra time to secure a historic 1–0 victory over France. Portugal become European champions, and Ronaldo lifts his first major international trophy. He finishes the tournament with 3 goals, 3 assists, 7 appearances and 12 shots on target, earning the Silver Boot.`,
   statsSummary: '1 Title · 30 Appearances · 14 Goals · 7 Assists',
@@ -315,7 +315,7 @@ export const exhibitElBicho: MuseumExhibit = {
   matchDate: '3 Consecutive UEFA Champions League Titles (2016, 2017, 2018)',
   photoAsset: exhibit05Pic,
   image: exhibit05Pic,
-  focalY: 35,
+  focalY: 20,
   hasImage: true,
   
   // Three Finals Narrative
@@ -384,7 +384,7 @@ export const exhibitLeZebre: MuseumExhibit = {
   matchDate: '12 March 2019 · Juventus 3–0 Atlético Madrid (3–2 agg)',
   photoAsset: exhibit06Pic,
   image: exhibit06Pic,
-  focalY: 40,
+  focalY: 25,
   hasImage: true,
   narrative: `Cristiano Ronaldo produced a legendary comeback at Juventus Stadium, scoring twice with towering headers before sealing a 3–0 victory with an 86th-minute penalty. After Juventus lost the first leg 2–0, his hat-trick sent them through to the Champions League quarter-finals with a 3–2 aggregate victory. It was his eighth Champions League hat-trick, and he once again tormented Atlético Madrid, scoring his 24th goal against them. Ronaldo delivered when Juventus needed him most, turning an almost impossible comeback into one of the greatest nights of his Juventus era.`,
   statsSummary: '43 Apps · 28 Goals · 10 Assists (2018/19 Season)',
