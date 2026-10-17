@@ -28,6 +28,7 @@ export const DEFAULT_LOCATION: LocationSettings = {
   timezone: 'Asia/Dhaka',
   latitude: 23.8103,
   longitude: 90.4125,
+  juristicMethod: 'hanafi',
 };
 
 export const DEFAULT_DAILY_STUDY_GOAL_HOURS = 8;

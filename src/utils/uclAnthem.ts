@@ -1,7 +1,8 @@
 /**
  * UEFA Champions League Anthem Audio Controller
- * Binds directly to the user-provided custom audio file: assets/audio/user-ucl-anthem.mp3
+ * Binds directly to the user-provided custom audio file: /assets/audio/user-ucl-anthem.mp3
  * Handles auto-trigger on theme entry, browser autoplay unlock, volume, and mute toggles.
+ * Incorporates cache-busting to ensure newly uploaded audio tracks invalidate browser disk caching.
  */
 
 type AnthemStateListener = (state: {
@@ -9,6 +10,15 @@ type AnthemStateListener = (state: {
   isMuted: boolean;
   volume: number;
 }) => void;
+
+export const UCL_ANTHEM_BASE_PATH = '/assets/audio/user-ucl-anthem.mp3';
+export const UCL_ANTHEM_ALT_PATH = '/assets/audio/user-ucl-anthem.mp3.mp3';
+
+// Cache-busting query parameter strategy to prevent stale browser media caching
+export function getUclAnthemUrl(bustCache = false): string {
+  const cacheKey = bustCache ? Date.now() : '20261017-ucl';
+  return `${UCL_ANTHEM_BASE_PATH}?v=${cacheKey}`;
+}
 
 let audioElement: HTMLAudioElement | null = null;
 let isPlaying = false;
@@ -42,7 +52,7 @@ function getAudio(): HTMLAudioElement | null {
   if (typeof window === 'undefined') return null;
 
   if (!audioElement) {
-    audioElement = new Audio('/assets/audio/user-ucl-anthem.mp3');
+    audioElement = new Audio(getUclAnthemUrl(true));
     audioElement.loop = true;
     audioElement.preload = 'auto';
     audioElement.volume = isMuted ? 0 : anthemVolume;
@@ -58,16 +68,27 @@ function getAudio(): HTMLAudioElement | null {
     });
 
     audioElement.addEventListener('ended', () => {
+      // Loop is true by default, but if loop terminates or resets
       isPlaying = false;
       notifyListeners();
     });
 
     audioElement.addEventListener('error', (e) => {
-      console.warn('UCL Anthem custom audio error:', e);
-      if (audioElement && !audioElement.src.endsWith('assets/audio/user-ucl-anthem.mp3')) {
-        audioElement.src = 'assets/audio/user-ucl-anthem.mp3';
-        if (isPlaying) {
-          audioElement.play().catch(() => {});
+      console.warn('UCL Anthem audio load notice:', e);
+      if (audioElement) {
+        // Fallback: try alternate path or raw path without query string
+        if (!audioElement.src.includes('user-ucl-anthem.mp3.mp3')) {
+          audioElement.src = `${UCL_ANTHEM_ALT_PATH}?v=${Date.now()}`;
+          audioElement.load();
+          if (isPlaying) {
+            audioElement.play().catch(() => {});
+          }
+        } else if (audioElement.src.includes('?')) {
+          audioElement.src = UCL_ANTHEM_BASE_PATH;
+          audioElement.load();
+          if (isPlaying) {
+            audioElement.play().catch(() => {});
+          }
         }
       }
     });
@@ -97,7 +118,7 @@ function setupUserInteractionUnlock() {
 }
 
 /**
- * Triggers UCL Anthem playback from assets/audio/user-ucl-anthem.mp3
+ * Triggers UCL Anthem playback from /assets/audio/user-ucl-anthem.mp3
  */
 export function playUclAnthem() {
   const audio = getAudio();
@@ -171,4 +192,19 @@ export function setUclAnthemVolume(volume: number) {
     audio.volume = anthemVolume;
   }
   notifyListeners();
+}
+
+/**
+ * Force-reloads the UCL anthem audio element with a cache-busted URL
+ */
+export function reloadUclAnthem(forceBust = true) {
+  if (audioElement) {
+    const wasPlaying = isPlaying;
+    audioElement.pause();
+    audioElement.src = getUclAnthemUrl(forceBust);
+    audioElement.load();
+    if (wasPlaying) {
+      audioElement.play().catch(() => {});
+    }
+  }
 }

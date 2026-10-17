@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { MapPin, RefreshCw } from 'lucide-react';
 import { LocationSettings } from '../types';
+import { getCurrentGpsPosition, reverseGeocodeLocation } from '../utils/prayer';
 
 interface LocationIndicatorProps {
   location: LocationSettings;
@@ -22,9 +23,9 @@ export const LocationIndicator: React.FC<LocationIndicatorProps> = ({
 
   const [status, setStatus] = useState<'idle' | 'detecting' | 'success' | 'unavailable'>('idle');
 
-  // Perform single geolocation query without continuous tracking
-  const detectLocation = useCallback(() => {
-    if (!navigator.geolocation) {
+  // Perform single geolocation query without continuous tracking using browser GPS
+  const detectLocation = useCallback(async () => {
+    if (typeof window === 'undefined' || !navigator.geolocation) {
       setDisplayText('Location unavailable');
       setStatus('unavailable');
       return;
@@ -32,76 +33,39 @@ export const LocationIndicator: React.FC<LocationIndicatorProps> = ({
 
     setStatus('detecting');
 
-    navigator.geolocation.getCurrentPosition(
-      async (position) => {
-        try {
-          const lat = position.coords.latitude;
-          const lon = position.coords.longitude;
+    try {
+      const position = await getCurrentGpsPosition();
+      const lat = position.coords.latitude;
+      const lon = position.coords.longitude;
 
-          // Free, high-speed reverse geocoding without API keys
-          const response = await fetch(
-            `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lon}&localityLanguage=en`,
-            { signal: AbortSignal.timeout(6000) }
-          );
+      const cityName = await reverseGeocodeLocation(lat, lon);
+      const formatted = `${cityName}, Bangladesh`;
 
-          if (!response.ok) throw new Error('Geocoding service error');
+      setDisplayText(formatted);
+      setStatus('success');
+      localStorage.setItem('admission_location_display', formatted);
 
-          const data = await response.json();
-          const city = data.city || data.locality || data.principalSubdivision || '';
-          const country = data.countryName || '';
-
-          if (city && country) {
-            const formatted = `${city}, ${country}`;
-            setDisplayText(formatted);
-            setStatus('success');
-            localStorage.setItem('admission_location_display', formatted);
-
-            onLocationUpdate?.({
-              city,
-              country,
-              latitude: lat,
-              longitude: lon,
-            });
-          } else if (country) {
-            setDisplayText(country);
-            setStatus('success');
-            localStorage.setItem('admission_location_display', country);
-            onLocationUpdate?.({ country, latitude: lat, longitude: lon });
-          } else {
-            setDisplayText('Location unavailable');
-            setStatus('unavailable');
-          }
-        } catch {
-          // If network reverse-geocoding failed, check if we have previous display text or fallback
-          const cached = localStorage.getItem('admission_location_display');
-          if (cached) {
-            setDisplayText(cached);
-            setStatus('success');
-          } else {
-            setDisplayText('Location unavailable');
-            setStatus('unavailable');
-          }
-        }
-      },
-      (error) => {
-        // Handle permission errors gracefully
-        console.warn('Geolocation access not available or denied:', error.message);
-        const cached = localStorage.getItem('admission_location_display');
-        if (cached) {
-          setDisplayText(cached);
-          setStatus('idle');
-        } else {
-          setDisplayText('Location unavailable');
-          setStatus('unavailable');
-        }
-      },
-      {
-        enableHighAccuracy: false,
-        timeout: 8000,
-        maximumAge: 3600000, // 1 hour cached coords to avoid unnecessary querying
+      onLocationUpdate?.({
+        city: cityName,
+        country: 'Bangladesh',
+        latitude: lat,
+        longitude: lon,
+      });
+    } catch (err: unknown) {
+      console.warn('Geolocation detection error:', err);
+      const cached = localStorage.getItem('admission_location_display');
+      if (cached) {
+        setDisplayText(cached);
+        setStatus('idle');
+      } else if (location.city) {
+        setDisplayText(`${location.city}, Bangladesh`);
+        setStatus('idle');
+      } else {
+        setDisplayText('Location unavailable');
+        setStatus('unavailable');
       }
-    );
-  }, [onLocationUpdate]);
+    }
+  }, [location.city, onLocationUpdate]);
 
   // Run detection on initial load if not already detected
   useEffect(() => {

@@ -19,10 +19,18 @@ import {
   Target,
   Download,
   Upload,
+  Navigation,
+  Loader2,
 } from 'lucide-react';
 import { AppearanceMode, LocationSettings, StylePalette, TimerSettings, UserSettings, GoatPreset } from '../types';
 import { playTimerCompletionSound } from '../utils/audio';
 import { exportBackupData, importBackupData, saveDailyStudyGoal } from '../utils/storage';
+import {
+  BD_DIVISIONS,
+  findDivisionByName,
+  getCurrentGpsPosition,
+  reverseGeocodeLocation,
+} from '../utils/prayer';
 import { GOAT_PRESETS } from './JerseyCabinet';
 
 interface SettingsModalProps {
@@ -47,6 +55,52 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
       : 'unsupported'
   );
   const [saveToast, setSaveToast] = useState(false);
+  const [gpsStatus, setGpsStatus] = useState<'idle' | 'detecting' | 'success' | 'error'>('idle');
+  const [gpsMessage, setGpsMessage] = useState<string>('');
+
+  const handleAutoDetectGps = async () => {
+    setGpsStatus('detecting');
+    setGpsMessage('Acquiring high-accuracy GPS coordinates...');
+    try {
+      const position = await getCurrentGpsPosition();
+      const lat = position.coords.latitude;
+      const lng = position.coords.longitude;
+
+      setGpsMessage(`Resolving location (${lat.toFixed(4)}°, ${lng.toFixed(4)}°)...`);
+      const detectedCity = await reverseGeocodeLocation(lat, lng);
+
+      setFormData((prev) => ({
+        ...prev,
+        location: {
+          city: detectedCity,
+          country: 'Bangladesh',
+          timezone: 'Asia/Dhaka',
+          latitude: Number(lat.toFixed(4)),
+          longitude: Number(lng.toFixed(4)),
+          juristicMethod: prev.location.juristicMethod || 'hanafi',
+        },
+      }));
+
+      setGpsStatus('success');
+      setGpsMessage(`Live GPS locked: ${detectedCity} (${lat.toFixed(2)}°N, ${lng.toFixed(2)}°E)`);
+    } catch (err: unknown) {
+      console.warn('GPS detection failed:', err);
+      const fallbackDiv = findDivisionByName(formData.location.city) || BD_DIVISIONS[2];
+      setGpsStatus('error');
+      setGpsMessage('Location access unavailable or denied. Fell back to manual division.');
+      setFormData((prev) => ({
+        ...prev,
+        location: {
+          city: fallbackDiv.name,
+          country: 'Bangladesh',
+          timezone: 'Asia/Dhaka',
+          latitude: fallbackDiv.lat,
+          longitude: fallbackDiv.lng,
+          juristicMethod: prev.location.juristicMethod || 'hanafi',
+        },
+      }));
+    }
+  };
 
   if (!isOpen) return null;
 
@@ -125,16 +179,6 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
       onClose();
     }, 400);
   };
-
-  // Popular preset locations for quick setup
-  const presets = [
-    { city: 'Dhaka', country: 'Bangladesh', timezone: 'Asia/Dhaka', lat: 23.8103, lng: 90.4125 },
-    { city: 'Chittagong', country: 'Bangladesh', timezone: 'Asia/Dhaka', lat: 22.3569, lng: 91.7832 },
-    { city: 'Sylhet', country: 'Bangladesh', timezone: 'Asia/Dhaka', lat: 24.8949, lng: 91.8687 },
-    { city: 'London', country: 'United Kingdom', timezone: 'Europe/London', lat: 51.5074, lng: -0.1278 },
-    { city: 'New York', country: 'United States', timezone: 'America/New_York', lat: 40.7128, lng: -74.006 },
-    { city: 'Dubai', country: 'United Arab Emirates', timezone: 'Asia/Dubai', lat: 25.2048, lng: 55.2708 },
-  ];
 
   return (
     <div
@@ -344,57 +388,118 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
           </div>
 
           {/* 2. LOCATION & TIMEZONE */}
-          <div className="pt-2 border-t" style={{ borderColor: 'var(--border-color)' }}>
-            <div className="flex items-center gap-2 mb-3">
-              <MapPin className="w-4 h-4" style={{ color: 'var(--accent)' }} />
-              <h3 className="text-xs font-black tracking-wider uppercase" style={{ color: 'var(--text-muted)' }}>
-                LOCATION & PRAYER GEOGRAPHY
-              </h3>
+          <div className="location-settings-section pt-2 border-t border-slate-800 pb-6" style={{ borderColor: 'var(--border-color)' }}>
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3">
+              <div className="flex items-center gap-2">
+                <MapPin className="w-4 h-4 text-sky-400" style={{ color: 'var(--accent)' }} />
+                <h3 className="text-xs font-bold font-mono tracking-wider text-sky-400 uppercase" style={{ color: 'var(--text-muted)' }}>
+                  Location & Prayer Geography
+                </h3>
+              </div>
+
+              {/* Auto-Detect Live Location Button */}
+              <button
+                type="button"
+                onClick={handleAutoDetectGps}
+                disabled={gpsStatus === 'detecting'}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border text-xs font-mono font-bold transition-all hover:scale-105 active:scale-95 cursor-pointer disabled:opacity-50 self-start sm:self-auto"
+                style={{
+                  backgroundColor: gpsStatus === 'success' ? 'rgba(16, 185, 129, 0.15)' : 'var(--bg-card-subtle)',
+                  borderColor: gpsStatus === 'success' ? 'rgba(16, 185, 129, 0.4)' : 'var(--border-color)',
+                  color: gpsStatus === 'success' ? '#10B981' : 'var(--accent)',
+                }}
+                title="Detect live GPS coordinates via browser"
+              >
+                {gpsStatus === 'detecting' ? (
+                  <>
+                    <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                    <span>Detecting GPS...</span>
+                  </>
+                ) : (
+                  <>
+                    <Navigation className="w-3.5 h-3.5" />
+                    <span>Auto-Detect Live Location</span>
+                  </>
+                )}
+              </button>
             </div>
 
-            {/* Quick preset chips */}
-            <div className="flex flex-wrap gap-1.5 mb-3">
-              {presets.map((p) => (
-                <button
-                  type="button"
-                  key={p.city}
-                  onClick={() => {
-                    setFormData((prev) => ({
-                      ...prev,
-                      location: {
-                        city: p.city,
-                        country: p.country,
-                        timezone: p.timezone,
-                        latitude: p.lat,
-                        longitude: p.lng,
-                      },
-                    }));
-                  }}
-                  className="px-2.5 py-1 text-xs rounded-lg border font-semibold transition-all hover:scale-105 cursor-pointer"
-                  style={{
-                    backgroundColor:
-                      formData.location.city === p.city ? 'var(--accent-soft)' : 'var(--bg-card-subtle)',
-                    borderColor:
-                      formData.location.city === p.city ? 'var(--accent)' : 'var(--border-color)',
-                    color:
-                      formData.location.city === p.city ? 'var(--accent-text)' : 'var(--text-secondary)',
-                  }}
-                >
-                  {p.city}
-                </button>
-              ))}
+            {gpsMessage && (
+              <div
+                className={`mb-3 px-3 py-2 rounded-xl text-xs font-mono border flex items-center justify-between gap-2 ${
+                  gpsStatus === 'success'
+                    ? 'bg-emerald-950/40 border-emerald-500/30 text-emerald-300'
+                    : gpsStatus === 'error'
+                    ? 'bg-amber-950/40 border-amber-500/30 text-amber-300'
+                    : 'bg-sky-950/40 border-sky-500/30 text-sky-300'
+                }`}
+              >
+                <span>{gpsMessage}</span>
+                {gpsStatus === 'success' && <Check className="w-3.5 h-3.5 shrink-0" />}
+              </div>
+            )}
+
+            {/* Quick Select Pills: 8 Divisions of Bangladesh (Wraps into 2 clean rows of 4) */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-4">
+              {BD_DIVISIONS.map((division) => {
+                const isSelected =
+                  formData.location.city.toLowerCase() === division.name.toLowerCase();
+                return (
+                  <button
+                    key={division.name}
+                    type="button"
+                    onClick={() => {
+                      setFormData((prev) => ({
+                        ...prev,
+                        location: {
+                          city: division.name,
+                          country: 'Bangladesh',
+                          timezone: 'Asia/Dhaka',
+                          latitude: division.lat,
+                          longitude: division.lng,
+                          juristicMethod: prev.location.juristicMethod || 'hanafi',
+                        },
+                      }));
+                      setGpsStatus('idle');
+                      setGpsMessage('');
+                    }}
+                    className={`px-3 py-2 rounded-lg text-xs font-medium font-mono transition-all text-center cursor-pointer ${
+                      isSelected
+                        ? 'bg-sky-500/20 text-sky-300 border border-sky-400/50 shadow-sm font-bold'
+                        : 'bg-slate-900/60 text-slate-400 border border-slate-800 hover:border-slate-700 hover:text-slate-200'
+                    }`}
+                    style={
+                      isSelected
+                        ? {
+                            backgroundColor: 'var(--accent-soft)',
+                            borderColor: 'var(--accent)',
+                            color: 'var(--accent-text)',
+                          }
+                        : {
+                            backgroundColor: 'var(--bg-card-subtle)',
+                            borderColor: 'var(--border-color)',
+                            color: 'var(--text-secondary)',
+                          }
+                    }
+                  >
+                    <div>{division.name}</div>
+                    <div className="text-[10px] opacity-70 font-sans">{division.bnName}</div>
+                  </button>
+                );
+              })}
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            {/* Input Fields */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
               <div>
-                <label className="block text-xs font-bold mb-1" style={{ color: 'var(--text-secondary)' }}>
-                  City
+                <label className="block text-xs font-semibold text-slate-400 mb-1" style={{ color: 'var(--text-secondary)' }}>
+                  Division
                 </label>
                 <input
                   type="text"
                   value={formData.location.city}
                   onChange={(e) => handleLocationChange('city', e.target.value)}
-                  className="w-full px-3 py-2 rounded-xl border text-sm outline-none"
+                  className="w-full bg-slate-900/80 border border-slate-800 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-sky-500"
                   style={{
                     backgroundColor: 'var(--bg-card-subtle)',
                     borderColor: 'var(--border-color)',
@@ -404,14 +509,33 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
               </div>
 
               <div>
-                <label className="block text-xs font-bold mb-1" style={{ color: 'var(--text-secondary)' }}>
+                <label className="block text-xs font-semibold text-slate-400 mb-1" style={{ color: 'var(--text-secondary)' }}>
                   Country
                 </label>
                 <input
                   type="text"
-                  value={formData.location.country}
-                  onChange={(e) => handleLocationChange('country', e.target.value)}
-                  className="w-full px-3 py-2 rounded-xl border text-sm outline-none"
+                  value={formData.location.country || 'Bangladesh'}
+                  readOnly
+                  className="w-full bg-slate-900/80 border border-slate-800 rounded-lg px-3 py-2 text-sm text-slate-200"
+                  style={{
+                    backgroundColor: 'var(--bg-card-subtle)',
+                    borderColor: 'var(--border-color)',
+                    color: 'var(--text-primary)',
+                  }}
+                />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-xs font-semibold text-slate-400 mb-1" style={{ color: 'var(--text-secondary)' }}>
+                  Timezone Name (IANA)
+                </label>
+                <input
+                  type="text"
+                  value={formData.location.timezone || 'Asia/Dhaka'}
+                  readOnly
+                  className="w-full bg-slate-900/80 border border-slate-800 rounded-lg px-3 py-2 text-sm text-slate-200 font-mono"
                   style={{
                     backgroundColor: 'var(--bg-card-subtle)',
                     borderColor: 'var(--border-color)',
@@ -420,22 +544,120 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
                 />
               </div>
 
-              <div className="sm:col-span-2">
-                <label className="block text-xs font-bold mb-1" style={{ color: 'var(--text-secondary)' }}>
-                  Timezone Name (IANA)
+              <div>
+                <label className="block text-xs font-semibold text-slate-400 mb-1" style={{ color: 'var(--text-secondary)' }}>
+                  Coordinates (Lat, Lng)
                 </label>
-                <input
-                  type="text"
-                  value={formData.location.timezone}
-                  onChange={(e) => handleLocationChange('timezone', e.target.value)}
-                  placeholder="e.g. Asia/Dhaka"
-                  className="w-full px-3 py-2 rounded-xl border text-sm font-mono outline-none"
+                <div
+                  className="w-full px-3 py-2 rounded-lg border text-sm font-mono flex items-center justify-between"
                   style={{
                     backgroundColor: 'var(--bg-card-subtle)',
                     borderColor: 'var(--border-color)',
                     color: 'var(--text-primary)',
                   }}
-                />
+                >
+                  <span>
+                    {formData.location.latitude?.toFixed(4) || '23.8103'}°, {formData.location.longitude?.toFixed(4) || '90.4125'}°
+                  </span>
+                  <span className="text-[10px] text-sky-400 font-bold uppercase">
+                    0ms adhan
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* Juristic Method / Madhab Selection */}
+            <div className="mt-4 pt-3 border-t border-slate-800/60" style={{ borderColor: 'var(--border-color)' }}>
+              <div className="flex items-center justify-between mb-2">
+                <label className="block text-xs font-semibold text-slate-400" style={{ color: 'var(--text-secondary)' }}>
+                  Asr Juristic Calculation Method (Madhab)
+                </label>
+                <span className="text-[10px] font-mono text-sky-400 font-bold uppercase">
+                  Karachi Method
+                </span>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                <button
+                  type="button"
+                  onClick={() =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      location: {
+                        ...prev.location,
+                        juristicMethod: 'hanafi',
+                      },
+                    }))
+                  }
+                  className={`p-2.5 rounded-xl border text-left transition-all cursor-pointer flex flex-col gap-0.5 ${
+                    formData.location.juristicMethod !== 'shafi'
+                      ? 'border-sky-500/60 bg-sky-500/15 shadow-xs'
+                      : 'border-slate-800 bg-slate-900/60 hover:border-slate-700'
+                  }`}
+                  style={
+                    formData.location.juristicMethod !== 'shafi'
+                      ? {
+                          backgroundColor: 'var(--accent-soft)',
+                          borderColor: 'var(--accent)',
+                        }
+                      : {
+                          backgroundColor: 'var(--bg-card-subtle)',
+                          borderColor: 'var(--border-color)',
+                        }
+                  }
+                >
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-bold" style={{ color: 'var(--text-primary)' }}>
+                      Hanafi (Standard BD)
+                    </span>
+                    {formData.location.juristicMethod !== 'shafi' && (
+                      <Check className="w-3.5 h-3.5" style={{ color: 'var(--accent)' }} />
+                    )}
+                  </div>
+                  <span className="text-[11px]" style={{ color: 'var(--text-muted)' }}>
+                    Shadow 2x • Default for South Asia & Bangladesh
+                  </span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      location: {
+                        ...prev.location,
+                        juristicMethod: 'shafi',
+                      },
+                    }))
+                  }
+                  className={`p-2.5 rounded-xl border text-left transition-all cursor-pointer flex flex-col gap-0.5 ${
+                    formData.location.juristicMethod === 'shafi'
+                      ? 'border-sky-500/60 bg-sky-500/15 shadow-xs'
+                      : 'border-slate-800 bg-slate-900/60 hover:border-slate-700'
+                  }`}
+                  style={
+                    formData.location.juristicMethod === 'shafi'
+                      ? {
+                          backgroundColor: 'var(--accent-soft)',
+                          borderColor: 'var(--accent)',
+                        }
+                      : {
+                          backgroundColor: 'var(--bg-card-subtle)',
+                          borderColor: 'var(--border-color)',
+                        }
+                  }
+                >
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-bold" style={{ color: 'var(--text-primary)' }}>
+                      Shafi'i / Standard
+                    </span>
+                    {formData.location.juristicMethod === 'shafi' && (
+                      <Check className="w-3.5 h-3.5" style={{ color: 'var(--accent)' }} />
+                    )}
+                  </div>
+                  <span className="text-[11px]" style={{ color: 'var(--text-muted)' }}>
+                    Shadow 1x • Earlier Asr calculation
+                  </span>
+                </button>
               </div>
             </div>
           </div>

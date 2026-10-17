@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Compass, Clock, ChevronDown, Moon, Sunrise, Sun, CloudSun, Sunset } from 'lucide-react';
+import { Compass, Clock, ChevronDown, Moon, Sunrise, Sun, CloudSun, Sunset, Sparkles } from 'lucide-react';
 import { LocationSettings, NextPrayerInfo, PrayerTime } from '../types';
 import {
   formatRemainingTime,
   formatTime12,
   getNextPrayer,
-  getPrayerTimes,
+  getPrayerTimesSync,
 } from '../utils/prayer';
 
 interface MiniPrayerTimerProps {
@@ -21,50 +21,48 @@ export const MiniPrayerTimer: React.FC<MiniPrayerTimerProps> = ({
   containerHeight,
   onScrollToFull,
 }) => {
-  const [prayers, setPrayers] = useState<PrayerTime[]>([]);
-  const [nextPrayer, setNextPrayer] = useState<NextPrayerInfo | null>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [prayers, setPrayers] = useState<PrayerTime[]>(() =>
+    getPrayerTimesSync(location, new Date())
+  );
+  const [nextPrayer, setNextPrayer] = useState<NextPrayerInfo | null>(() =>
+    getNextPrayer(getPrayerTimesSync(location, new Date()), new Date())
+  );
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   // Responsive breakpoints
   const isCompact = containerWidth ? containerWidth < 360 : false;
   const isWide = containerWidth ? containerWidth >= 520 : false;
   const isShort = containerHeight ? containerHeight < 240 : false;
 
+  // Zero-latency update upon coordinate, division, or juristic method change
   useEffect(() => {
-    let isMounted = true;
-    setIsLoading(true);
+    const now = new Date();
+    const data = getPrayerTimesSync(location, now);
+    setPrayers(data);
+    setNextPrayer(getNextPrayer(data, now));
+    setIsLoading(false);
+  }, [location.city, location.country, location.latitude, location.longitude, location.juristicMethod]);
 
-    getPrayerTimes(location)
-      .then((data) => {
-        if (isMounted) {
-          setPrayers(data);
-          setNextPrayer(getNextPrayer(data, new Date()));
-          setIsLoading(false);
-        }
-      })
-      .catch(() => {
-        if (isMounted) {
-          setIsLoading(false);
-        }
-      });
-
-    return () => {
-      isMounted = false;
-    };
-  }, [location.city, location.country, location.latitude, location.longitude]);
-
-  // Tick countdown every second
+  // Tick countdown every second with automatic midnight rollover
   useEffect(() => {
-    if (prayers.length === 0) return;
-
+    let lastDay = new Date().getDate();
     const interval = setInterval(() => {
-      setNextPrayer(getNextPrayer(prayers, new Date()));
+      const now = new Date();
+      if (now.getDate() !== lastDay) {
+        lastDay = now.getDate();
+        const fresh = getPrayerTimesSync(location, now);
+        setPrayers(fresh);
+        setNextPrayer(getNextPrayer(fresh, now));
+      } else if (prayers.length > 0) {
+        setNextPrayer(getNextPrayer(prayers, now));
+      }
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [prayers]);
+  }, [location, prayers]);
 
   const getPrayerIcon = (name: string, className = 'w-4 h-4') => {
+    if (name.includes('Tahajjud')) return <Sparkles className={`${className} text-purple-400`} />;
     if (name.includes('Fajr')) return <Moon className={`${className} text-indigo-400`} />;
     if (name.includes('Sunrise')) return <Sunrise className={`${className} text-amber-500`} />;
     if (name.includes('Dhuhr')) return <Sun className={`${className} text-yellow-500`} />;

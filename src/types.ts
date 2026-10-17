@@ -73,6 +73,7 @@ export interface LocationSettings {
   timezone: string;
   latitude: number;
   longitude: number;
+  juristicMethod?: 'hanafi' | 'shafi';
 }
 
 export interface UserSettings {
@@ -112,11 +113,17 @@ export interface DailyRecord {
   studyDurationSeconds?: number; // Total actual study time in seconds for this date
 }
 
+export type PrayerName = 'Tahajjud' | 'Fajr' | 'Sunrise' | 'Dhuhr' | 'Asr' | 'Maghrib' | 'Isha';
+
 export interface PrayerTime {
-  name: 'Fajr' | 'Sunrise' | 'Dhuhr' | 'Asr' | 'Maghrib' | 'Isha';
+  name: PrayerName;
   arabicName: string;
   time: string; // HH:MM (24h or 12h)
   timestamp: number; // today's epoch ms for that prayer
+  isVoluntary?: boolean;
+  category?: 'fard' | 'sunnah' | 'nafl' | 'sunrise';
+  badge?: string;
+  timeRange?: string;
 }
 
 export interface NextPrayerInfo {
