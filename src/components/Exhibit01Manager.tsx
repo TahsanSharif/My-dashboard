@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
+import { exhibit01Pic } from '../exhibitsConfig';
 
 export default function Exhibit01Manager() {
   // State for image source (defaults to your uploaded trophy photo)
-  const [exhibitImage, setExhibitImage] = useState<string>('/input_file_0.png');
+  const [exhibitImage, setExhibitImage] = useState<string>(exhibit01Pic);
   
   // State for controlling the outside card crop focus (Vertical percentage 0% to 100%)
   const [focalY, setFocalY] = useState<number>(20); 
@@ -39,9 +40,7 @@ export default function Exhibit01Manager() {
             }}
             onError={(e) => {
               const target = e.currentTarget as HTMLImageElement;
-              if (target.src.includes('input_file_0.png')) {
-                target.src = '/image.png';
-              }
+              target.src = exhibit01Pic;
             }}
           />
 

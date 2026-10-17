@@ -1,4 +1,5 @@
 import React from 'react';
+import { exhibit01Pic } from '../exhibitsConfig';
 
 interface EuropeanNightsPavilionProps {
   onActivatePreset?: () => void;
@@ -18,8 +19,14 @@ export const EuropeanNightsPavilion: React.FC<EuropeanNightsPavilionProps> = ({
   const displayImage =
     customImage ||
     (typeof window !== 'undefined'
-      ? localStorage.getItem('cr7_exhibit_01_custom_image') || '/input_file_0.png'
-      : '/input_file_0.png');
+      ? (() => {
+          const saved = localStorage.getItem('cr7_exhibit_01_custom_image');
+          if (saved && !saved.startsWith('/input_file_0.png') && !saved.startsWith('blob:')) {
+            return saved;
+          }
+          return exhibit01Pic;
+        })()
+      : exhibit01Pic);
   return (
     <div className="museum-exhibit-pavilion" data-theme="european-nights">
       {/* Pavilion Header Banner */}
@@ -50,14 +57,17 @@ export const EuropeanNightsPavilion: React.FC<EuropeanNightsPavilionProps> = ({
             src={displayImage}
             alt="Cristiano Ronaldo Champions League 5 Titles"
             className="exhibit-hero-img w-full object-contain"
-            style={{ maxHeight: '380px' }}
+            style={{
+              width: '100%',
+              height: '100%',
+              maxHeight: '380px',
+              objectFit: 'contain',
+              objectPosition: 'center',
+              display: 'block',
+            }}
             onError={(e) => {
               const target = e.currentTarget as HTMLImageElement;
-              if (target.src.includes('input_file_0.png')) {
-                target.src = '/image.png';
-              } else {
-                target.src = '/assets/cr7-5-ucl-kyiv.jpg';
-              }
+              target.src = exhibit01Pic;
             }}
           />
         </div>

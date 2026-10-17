@@ -3,6 +3,60 @@ import { createPortal } from 'react-dom';
 import { Trophy, Sparkles, Check, ChevronDown, ChevronUp, Landmark, Shirt, X, Award, Medal, Flame } from 'lucide-react';
 import { GoatPreset } from '../types';
 import { EuropeanNightsPavilion } from './EuropeanNightsPavilion';
+// Explicit ES module imports for all 6 exhibits
+import exhibit1Img from '../assets/images/input_file_0.png';
+import exhibit2Img from '../assets/images/la_decima_flex_1792094860767.jpg';
+import exhibit3Img from '../assets/images/euro_trophy_kiss_1792092651669.jpg';
+import exhibit4Img from '../assets/images/moscow_header_1792091966560.jpg'; // Moscow 2008 header for Exhibit 04
+import exhibit5Img from '../assets/images/el_bicho_three_peat_1792093786564.jpg';
+import exhibit6Img from '../assets/images/juve_atletico_hattrick_1792093077787.jpg';
+
+// Complete Exhibit Configuration Array (Exhibits 01 - 06)
+export const EXHIBITS = [
+  { 
+    id: '01', 
+    title: 'Mr. Champions League', 
+    image: exhibit1Img, 
+    focalY: 20 
+  },
+  { 
+    id: '02', 
+    title: "5x Ballon d'Or Dynasty", 
+    image: exhibit2Img, 
+    focalY: 30 
+  },
+  { 
+    id: '03', 
+    title: 'Paris 2016 (Euro Glory)', 
+    image: exhibit3Img, 
+    focalY: 25 
+  },
+  { 
+    id: '04', 
+    title: 'Official Archival Vault — Moscow 2008', 
+    image: exhibit4Img, 
+    focalY: 40 
+  },
+  { 
+    id: '05', 
+    title: 'Real Madrid Apex Era', 
+    image: exhibit5Img, 
+    focalY: 35 
+  },
+  { 
+    id: '06', 
+    title: 'International Cap Record', 
+    image: exhibit6Img, 
+    focalY: 40 
+  }
+];
+
+const exhibit01Pic = exhibit1Img;
+const exhibit02Pic = exhibit2Img;
+const exhibit03Pic = exhibit3Img;
+const exhibit04Pic = exhibit4Img;
+const exhibit05Pic = exhibit5Img;
+const exhibit06Pic = exhibit6Img;
 
 export interface JerseyPresetConfig {
   id: GoatPreset;
@@ -87,6 +141,9 @@ export interface MuseumExhibit {
   euroRecords?: string[];
   individualAwards?: string[];
   teamTrophies?: string[];
+  image?: string | null;
+  focalY?: number;
+  hasImage?: boolean;
 }
 
 export const GOAT_PRESETS: JerseyPresetConfig[] = [
@@ -177,7 +234,10 @@ export const exhibitSelecao: MuseumExhibit = {
   title: 'Paris 2016 (Euro Glory) — European Champions',
   clubEra: 'Portugal National Team | UEFA Euro 2016',
   matchDate: '10 July 2016 · Portugal 1–0 France (AET)',
-  photoAsset: 'assets/museum/euro-2016-trophy-kiss.jpg', // Bound to your uploaded image
+  photoAsset: exhibit03Pic,
+  image: exhibit03Pic,
+  focalY: 25,
+  hasImage: true,
   narrative: `Ronaldo leaves the final in tears after a knee injury but continues inspiring Portugal from the sidelines. Éder scores in extra time to secure a historic 1–0 victory over France. Portugal become European champions, and Ronaldo lifts his first major international trophy. He finishes the tournament with 3 goals, 3 assists, 7 appearances and 12 shots on target, earning the Silver Boot.`,
   statsSummary: '1 Title · 30 Appearances · 14 Goals · 7 Assists',
   euroRecords: [
@@ -207,10 +267,13 @@ export const exhibitSelecao: MuseumExhibit = {
 export const exhibitRedDevil: MuseumExhibit = {
   id: 'the-red-devil',
   exhibitNumber: 'EXHIBIT 04',
-  title: 'The All-Time Scorer (900+ Goals) — Moscow 2008 & Ballon d’Or',
+  title: 'Official Archival Vault — Moscow 2008',
   clubEra: 'Manchester United | 2007/08',
   matchDate: '21 May 2008 · Manchester United 1–1 Chelsea (6–5 on penalties)',
-  photoAsset: 'assets/museum/moscow-2008-header.jpg', // Bound to your uploaded image
+  photoAsset: exhibit4Img,
+  image: exhibit4Img,
+  focalY: 40,
+  hasImage: true,
   narrative: `At the Luzhniki Stadium in Moscow, Cristiano Ronaldo rose above Michael Essien to meet Wes Brown’s cross, powering a towering header past Petr Čech in the 26th minute. His goal put Manchester United ahead in an all-English UEFA Champions League final.
 
 Although Chelsea equalised and Ronaldo missed his penalty in the shootout, Manchester United triumphed 6–5 on penalties, completing a historic Premier League and Champions League double.
@@ -250,7 +313,10 @@ export const exhibitElBicho: MuseumExhibit = {
   title: 'Real Madrid Apex Era — Historic 3-Peat Dynasty (2016–2018)',
   clubEra: 'Real Madrid | 2015/16 – 2017/18',
   matchDate: '3 Consecutive UEFA Champions League Titles (2016, 2017, 2018)',
-  photoAsset: 'assets/museum/el-bicho-three-peat.jpg',
+  photoAsset: exhibit05Pic,
+  image: exhibit05Pic,
+  focalY: 35,
+  hasImage: true,
   
   // Three Finals Narrative
   finals: [
@@ -316,7 +382,10 @@ export const exhibitLeZebre: MuseumExhibit = {
   title: 'International Cap Record Holder — Turin 2019 Comeback Hat-Trick',
   clubEra: 'Juventus | 2018/19 Season',
   matchDate: '12 March 2019 · Juventus 3–0 Atlético Madrid (3–2 agg)',
-  photoAsset: 'assets/museum/atletico-comeback-juventus.jpg', // Bound to your uploaded image
+  photoAsset: exhibit06Pic,
+  image: exhibit06Pic,
+  focalY: 40,
+  hasImage: true,
   narrative: `Cristiano Ronaldo produced a legendary comeback at Juventus Stadium, scoring twice with towering headers before sealing a 3–0 victory with an 86th-minute penalty. After Juventus lost the first leg 2–0, his hat-trick sent them through to the Champions League quarter-finals with a 3–2 aggregate victory. It was his eighth Champions League hat-trick, and he once again tormented Atlético Madrid, scoring his 24th goal against them. Ronaldo delivered when Juventus needed him most, turning an almost impossible comeback into one of the greatest nights of his Juventus era.`,
   statsSummary: '43 Apps · 28 Goals · 10 Assists (2018/19 Season)',
   juventusSeasonStats: {
@@ -353,7 +422,10 @@ export const exhibitGalacticoGold: MuseumExhibit = {
   title: '5x Ballon d’Or Dynasty — Lisbon 2014 & La Décima',
   clubEra: 'Real Madrid | 2013/14 Season',
   matchDate: '24 May 2014 · Real Madrid 4–1 Atlético Madrid (AET)',
-  photoAsset: 'assets/museum/la-decima-flex-celebration.jpg', // Bound to your uploaded image
+  photoAsset: exhibit02Pic,
+  image: exhibit02Pic,
+  focalY: 30,
+  hasImage: true,
   narrative: `120th minute · Real Madrid 4–1 Atlético Madrid. Ronaldo converts the penalty, takes off his shirt and flexes in front of the crowd. The match is already decided, but the image becomes one of the defining photographs of his Madrid era. Closed his goal tally with a record-breaking 17th goal at the 120th minute to seal Madrid’s 4–1 victory and their historic La Décima triumph.`,
   statsSummary: '17 UCL Goals (All-Time Record) · 68 Total Goal Contributions · La Décima & Copa del Rey',
   seasonStats201314: {
@@ -396,7 +468,10 @@ export const ALL_MUSEUM_EXHIBITS: MuseumExhibit[] = [
     title: 'Mr. Champions League — The European Nights',
     clubEra: 'Official UEFA Champions League Archive',
     matchDate: '183 Apps · 140 Goals · 5 Modern Era Titles · 7 Golden Boots',
-    photoAsset: '/input_file_0.png',
+    photoAsset: exhibit01Pic,
+    image: exhibit01Pic,
+    focalY: 20,
+    hasImage: true,
     narrative: `Cristiano Ronaldo defined European football's pinnacle competition. With 140 goals in 183 appearances and 5 modern era titles, CR7 transformed the UEFA Champions League into his personal arena.`,
     statsSummary: '183 Apps · 140 Goals · 5 Titles · 7 Top-Scorer Seasons',
     individualAwards: [
@@ -439,9 +514,13 @@ export const JerseyCabinet: React.FC<JerseyCabinetProps> = ({
   // Exhibit 01 Custom Photo & Focal Crop State
   const [exhibit01Image, setExhibit01Image] = useState<string>(() => {
     try {
-      return localStorage.getItem('cr7_exhibit_01_custom_image') || '/input_file_0.png';
+      const saved = localStorage.getItem('cr7_exhibit_01_custom_image');
+      if (saved && !saved.startsWith('/input_file_0.png') && !saved.startsWith('blob:')) {
+        return saved;
+      }
+      return exhibit01Pic;
     } catch {
-      return '/input_file_0.png';
+      return exhibit01Pic;
     }
   });
   const [exhibit01FocalY, setExhibit01FocalY] = useState<number>(() => {
@@ -699,24 +778,31 @@ export const JerseyCabinet: React.FC<JerseyCabinetProps> = ({
                       data-exhibit="01"
                       onClick={() => handleCardClick('european-nights')}
                     >
-                      <div className="card-hero-image-wrapper card-image-box card-image-wrapper" style={{ position: 'relative' }}>
-                        <img
-                          src={exhibit01Image}
-                          alt="Cristiano Ronaldo - Mr. Champions League"
-                          className="card-preview-img exhibit-img"
-                          loading="lazy"
-                          style={{
-                            objectPosition: `center ${exhibit01FocalY}%`,
-                          }}
-                          onError={(e) => {
-                            const target = e.currentTarget as HTMLImageElement;
-                            if (target.src.includes('input_file_0.png')) {
-                              target.src = '/image.png';
-                            } else {
-                              target.src = '/assets/cr7-5-ucl-kyiv.jpg';
-                            }
-                          }}
-                        />
+                      {/* Outside Card Image Container */}
+                      <div className="card-hero-image-wrapper">
+                        {exhibit.hasImage ? (
+                          <img 
+                            src={exhibit01Image || exhibit.image || exhibit01Pic} 
+                            alt={exhibit.title}
+                            className="card-preview-img"
+                            style={{
+                              width: '100%',
+                              height: '100%',
+                              objectFit: 'cover',
+                              objectPosition: `center ${exhibit01FocalY}%`,
+                              display: 'block'
+                            }}
+                            onError={(e) => {
+                              const target = e.currentTarget as HTMLImageElement;
+                              target.src = exhibit01Pic;
+                            }}
+                          />
+                        ) : (
+                          <div className="exhibit-placeholder-box">
+                            <span className="placeholder-icon">🏛️</span>
+                            <span className="placeholder-text">Official Archival Vault</span>
+                          </div>
+                        )}
 
                         {/* Quick trigger button on the card to adjust upload/cropping */}
                         <button 
@@ -805,16 +891,27 @@ export const JerseyCabinet: React.FC<JerseyCabinetProps> = ({
                         data-preset="el-bicho"
                         onClick={() => handleCardClick(exhibit)}
                       >
-                      <div className="card-image-wrapper">
-                        <img
-                          src={exhibit.photoAsset.startsWith('/') ? exhibit.photoAsset : `/${exhibit.photoAsset}`}
-                          alt="El Bicho 3-Peat Celebration"
-                          className="exhibit-img"
-                          loading="lazy"
-                          onError={(e) => {
-                            (e.currentTarget as HTMLImageElement).src = '/assets/ucl-stadium-bg.jpg';
-                          }}
-                        />
+                      {/* Outside Card Image Container */}
+                      <div className="card-hero-image-wrapper">
+                        {exhibit.image ? (
+                          <img 
+                            src={exhibit.image} 
+                            alt={exhibit.title}
+                            className="card-preview-img"
+                            style={{
+                              width: '100%',
+                              height: '100%',
+                              objectFit: 'cover',
+                              objectPosition: `center ${exhibit.focalY}%`,
+                              display: 'block'
+                            }}
+                          />
+                        ) : (
+                          <div className="exhibit-placeholder-box">
+                            <span className="placeholder-icon">🏛️</span>
+                            <span className="placeholder-text">Official Archival Vault</span>
+                          </div>
+                        )}
                         <span className="exhibit-tag">EXHIBIT 05</span>
                         <span className="badge-number-7">#7</span>
                         <span className="vertical-three-peat-badge">3 PEAT</span>
@@ -903,26 +1000,27 @@ export const JerseyCabinet: React.FC<JerseyCabinetProps> = ({
                     data-preset={exhibit.id}
                     onClick={() => handleCardClick(exhibit)}
                   >
-                    <div className="card-image-wrapper">
-                      <img
-                        src={exhibit.photoAsset.startsWith('/') ? exhibit.photoAsset : `/${exhibit.photoAsset}`}
-                        alt={
-                          exhibit.id === 'galactico-gold'
-                            ? 'Ronaldo Shirtless Celebration La Decima 2014'
-                            : exhibit.id === 'le-zebre'
-                            ? 'Ronaldo Celebration vs Atletico Madrid 2019'
-                            : exhibit.id === 'selecao-passion'
-                            ? 'Ronaldo Kissing UEFA Euro Trophy 2016'
-                            : exhibit.id === 'the-red-devil'
-                            ? 'Moscow 2008 Towering Header'
-                            : exhibit.title
-                        }
-                        className="exhibit-img"
-                        loading="lazy"
-                        onError={(e) => {
-                          (e.currentTarget as HTMLImageElement).src = '/assets/ucl-stadium-bg.jpg';
-                        }}
-                      />
+                    {/* Outside Card Image Container */}
+                    <div className="card-hero-image-wrapper">
+                      {exhibit.image ? (
+                        <img 
+                          src={exhibit.image} 
+                          alt={exhibit.title}
+                          className="card-preview-img"
+                          style={{
+                            width: '100%',
+                            height: '100%',
+                            objectFit: 'cover',
+                            objectPosition: `center ${exhibit.focalY ?? 30}%`,
+                            display: 'block'
+                          }}
+                        />
+                      ) : (
+                        <div className="exhibit-placeholder-box">
+                          <span className="placeholder-icon">🏛️</span>
+                          <span className="placeholder-text">Official Archival Vault</span>
+                        </div>
+                      )}
                       <span className="exhibit-tag">{exhibit.exhibitNumber}</span>
                       <span className="badge-number-7">#7</span>
                     </div>
@@ -1216,19 +1314,22 @@ export const JerseyCabinet: React.FC<JerseyCabinetProps> = ({
               {/* Scrollable Modal Body for Exhibit 01 */}
               <div className="modal-body exhibit-modal-body pavilion-modal-body modal-body-scrollable uefa-archive-modal-body exhibit-01-body">
                 {/* EXACT USER-PROVIDED IMAGE CONTAINER */}
-                {/* EXACT USER-PROVIDED IMAGE CONTAINER */}
+                {/* Inside Modal Image Container */}
                 <div className="exhibit-image-wrapper" style={{ position: 'relative' }}>
                   <img
-                    src={exhibit01Image}
-                    alt="Cristiano Ronaldo Champions League 5 Titles"
+                    src={exhibit01Image || exhibit01Pic}
+                    alt="Mr. Champions League"
                     className="exhibit-hero-img"
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'contain',
+                      objectPosition: 'center',
+                      display: 'block'
+                    }}
                     onError={(e) => {
                       const target = e.currentTarget as HTMLImageElement;
-                      if (target.src.includes('input_file_0.png')) {
-                        target.src = '/image.png';
-                      } else {
-                        target.src = '/assets/cr7-5-ucl-kyiv.jpg';
-                      }
+                      target.src = exhibit01Pic;
                     }}
                   />
                   <button 
@@ -1337,25 +1438,27 @@ export const JerseyCabinet: React.FC<JerseyCabinetProps> = ({
 
               {/* Scrollable Modal Body for Exhibits 02 - 06 */}
               <div className="modal-body exhibit-modal-body pavilion-modal-body modal-body-scrollable">
-                {/* Modal Hero Image */}
-                <div className="relative rounded-xl overflow-hidden aspect-video bg-black border border-white/15 shrink-0">
-                  <img
-                    src={
-                      activeExhibitModal.photoAsset.startsWith('/')
-                        ? activeExhibitModal.photoAsset
-                        : `/${activeExhibitModal.photoAsset}`
-                    }
-                    alt={activeExhibitModal.title}
-                    className="w-full h-full object-cover object-top"
-                    onError={(e) => {
-                      const target = e.currentTarget as HTMLImageElement;
-                      if (activeExhibitModal.id === 'mr-champions-league') {
-                        target.src = '/assets/cr7-5-ucl-kyiv.jpg';
-                      } else {
-                        target.src = '/assets/ucl-stadium-bg.jpg';
-                      }
-                    }}
-                  />
+                {/* Inside Modal Image Container */}
+                <div className="exhibit-image-wrapper">
+                  {activeExhibitModal.hasImage && activeExhibitModal.image ? (
+                    <img 
+                      src={activeExhibitModal.image} 
+                      alt={activeExhibitModal.title}
+                      className="exhibit-hero-img"
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'contain',
+                        objectPosition: 'center',
+                        display: 'block'
+                      }}
+                    />
+                  ) : (
+                    <div className="exhibit-placeholder-box modal-placeholder">
+                      <span className="placeholder-icon">🏛️</span>
+                      <span className="placeholder-text">Official Archival Vault</span>
+                    </div>
+                  )}
                 </div>
 
               {/* Three Finals Narrative Cards (Specific to El Bicho) */}
@@ -1710,9 +1813,7 @@ export const JerseyCabinet: React.FC<JerseyCabinetProps> = ({
                         }}
                         onError={(e) => {
                           const target = e.currentTarget as HTMLImageElement;
-                          if (target.src.includes('input_file_0.png')) {
-                            target.src = '/image.png';
-                          }
+                          target.src = exhibit01Pic;
                         }}
                       />
                     </div>
@@ -1724,7 +1825,7 @@ export const JerseyCabinet: React.FC<JerseyCabinetProps> = ({
                     type="button"
                     className="px-4 py-2 rounded-lg bg-slate-800 text-slate-300 hover:bg-slate-700 text-sm font-semibold transition cursor-pointer"
                     onClick={() => {
-                      setExhibit01Image('/input_file_0.png');
+                      setExhibit01Image(exhibit01Pic);
                       setExhibit01FocalY(20);
                       try {
                         localStorage.removeItem('cr7_exhibit_01_custom_image');

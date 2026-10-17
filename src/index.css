@@ -8192,6 +8192,129 @@ body:has(.exhibit-modal-backdrop) {
   cursor: pointer !important;
 }
 
+/* =========================================================
+   EXHIBIT PHYSICAL ASSET IMPORTER & ARCHIVAL VAULT PLACEHOLDER
+   ========================================================= */
+
+.card-hero-image-wrapper {
+  position: relative !important;
+  width: 100% !important;
+  height: 240px !important;
+  background: #050a14 !important;
+  border-radius: 12px 12px 0 0 !important;
+  overflow: hidden !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.card-preview-img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  display: block !important;
+  transition: transform 0.4s ease !important;
+}
+
+.museum-card:hover .card-preview-img {
+  transform: scale(1.03) !important;
+}
+
+.exhibit-image-wrapper {
+  width: 100% !important;
+  height: 380px !important;
+  background: #050a14 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border-radius: 12px !important;
+  overflow: hidden !important;
+  margin-bottom: 20px !important;
+  border: 1px solid rgba(56, 139, 253, 0.3) !important;
+  flex-shrink: 0 !important;
+  position: relative !important;
+}
+
+.exhibit-hero-img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain !important;
+  object-position: center !important;
+  display: block !important;
+}
+
+/* Official Archival Vault Placeholder */
+.exhibit-placeholder-box {
+  width: 100% !important;
+  height: 100% !important;
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.9), rgba(10, 16, 30, 0.95)) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
+  color: #388BFD !important;
+}
+
+.exhibit-placeholder-box::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 35%, rgba(212, 175, 55, 0.15) 0%, transparent 65%);
+  pointer-events: none;
+}
+
+.exhibit-placeholder-box .placeholder-icon {
+  font-size: 2.75rem !important;
+  line-height: 1 !important;
+  filter: drop-shadow(0 0 16px rgba(212, 175, 55, 0.6)) !important;
+  animation: pulse-vault 3s ease-in-out infinite alternate !important;
+  z-index: 1;
+}
+
+.exhibit-placeholder-box .placeholder-text {
+  font-family: 'JetBrains Mono', monospace !important;
+  font-size: 0.85rem !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.12em !important;
+  text-transform: uppercase !important;
+  color: #F2CC63 !important;
+  text-shadow: 0 0 12px rgba(242, 204, 99, 0.6) !important;
+  background: rgba(0, 0, 0, 0.6) !important;
+  padding: 6px 16px !important;
+  border-radius: 9999px !important;
+  border: 1px solid rgba(212, 175, 55, 0.4) !important;
+  z-index: 1;
+}
+
+.exhibit-placeholder-box.modal-placeholder {
+  min-height: 340px !important;
+  height: 380px !important;
+  border-radius: 12px !important;
+  border: 1px dashed rgba(212, 175, 55, 0.5) !important;
+}
+
+.exhibit-placeholder-box.modal-placeholder .placeholder-icon {
+  font-size: 3.5rem !important;
+}
+
+.exhibit-placeholder-box.modal-placeholder .placeholder-text {
+  font-size: 1rem !important;
+  padding: 8px 20px !important;
+}
+
+@keyframes pulse-vault {
+  from {
+    transform: scale(1);
+    filter: drop-shadow(0 0 12px rgba(212, 175, 55, 0.4));
+  }
+  to {
+    transform: scale(1.06);
+    filter: drop-shadow(0 0 24px rgba(212, 175, 55, 0.8));
+  }
+}
+
+
 
 
 
