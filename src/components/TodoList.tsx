@@ -237,7 +237,7 @@ export const TodoList: React.FC<TodoListProps> = ({
                 }}
               >
                 {/* Checkbox and Text */}
-                <div className="flex items-center gap-3 flex-1 min-w-0">
+                <div className="flex items-center gap-2.5 min-w-0 flex-1">
                   <button
                     onClick={(e) => {
                       if (!todo.completed) {
@@ -294,75 +294,67 @@ export const TodoList: React.FC<TodoListProps> = ({
                       </button>
                     </div>
                   ) : (
-                    <span
-                      onClick={(e) => {
-                        if (!todo.completed) {
-                          window.dispatchEvent(
-                            new CustomEvent('goat-mission-completed', {
-                              detail: { id: todo.id, x: e.clientX, y: e.clientY },
-                            })
-                          );
-                        }
-                        onToggleTodo(todo.id);
-                      }}
-                      className={`text-xs sm:text-sm font-medium select-none break-words min-w-0 cursor-pointer transition-all leading-snug ${
-                        todo.completed
-                          ? 'line-through opacity-50'
-                          : 'opacity-95'
-                      }`}
-                      style={{ color: 'var(--text-primary)' }}
-                    >
-                      {todo.text}
-                    </span>
-                  )}
-                </div>
-
-                {/* Actions: Edit & Delete + #7 WIN badge with clean flex spacing */}
-                <div className="flex items-center gap-2.5 shrink-0">
-                  {todo.completed && (
-                    <span
-                      className="mission-win-badge completed-task-badge badge-number-7 inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-black tracking-wider border shadow-2xs select-none"
-                      style={{
-                        backgroundColor: 'rgba(213, 180, 106, 0.15)',
-                        borderColor: 'rgba(213, 180, 106, 0.4)',
-                        color: 'var(--gold-trophy, #D5B46A)',
-                      }}
-                      title="SIUUU - Mission Completed"
-                    >
-                      <span className="sr-only">SIUUU</span>
-                    </span>
-                  )}
-
-                  {!isEditing && (
-                    <div className="mission-item-actions flex items-center opacity-80 group-hover:opacity-100 transition-opacity">
-                      <button
-                        onClick={() => startEditing(todo)}
-                        className="p-2 rounded-xl border shadow-2xs hover:scale-105 cursor-pointer"
-                        style={{
-                          backgroundColor: 'var(--bg-card-subtle)',
-                          borderColor: 'var(--border-color)',
-                          color: 'var(--text-secondary)',
+                    <div className="flex items-center gap-2.5 min-w-0 flex-1">
+                      <span
+                        onClick={(e) => {
+                          if (!todo.completed) {
+                            window.dispatchEvent(
+                              new CustomEvent('goat-mission-completed', {
+                                detail: { id: todo.id, x: e.clientX, y: e.clientY },
+                              })
+                            );
+                          }
+                          onToggleTodo(todo.id);
                         }}
-                        title="Edit task"
-                        aria-label="Edit task"
+                        className={`text-xs sm:text-sm font-medium select-none break-words min-w-0 cursor-pointer transition-all leading-snug ${
+                          todo.completed
+                            ? 'line-through opacity-50'
+                            : 'opacity-95'
+                        }`}
+                        style={{ color: 'var(--text-primary)' }}
                       >
-                        <Edit3 className="w-3.5 h-3.5" />
-                      </button>
-                      <button
-                        onClick={() => onDeleteTodo(todo.id)}
-                        className="p-2 rounded-xl border shadow-2xs hover:scale-105 text-rose-500 hover:bg-rose-500/10 cursor-pointer"
-                        style={{
-                          backgroundColor: 'var(--bg-card-subtle)',
-                          borderColor: 'var(--border-color)',
-                        }}
-                        title="Delete task"
-                        aria-label="Delete task"
-                      >
-                        <Trash2 className="w-3.5 h-3.5" />
-                      </button>
+                        {todo.text}
+                      </span>
+
+                      {todo.completed && (
+                        <span className="inline-flex items-center justify-center px-2 py-0.5 rounded-md text-[10px] font-black uppercase tracking-wider bg-amber-500/15 text-amber-400 border border-amber-500/30 shrink-0 ml-1">
+                          SIUUU
+                        </span>
+                      )}
                     </div>
                   )}
                 </div>
+
+                {/* Actions: Edit & Delete action buttons container */}
+                {!isEditing && (
+                  <div className="mission-item-actions flex items-center gap-1.5 opacity-80 group-hover:opacity-100 transition-opacity shrink-0">
+                    <button
+                      onClick={() => startEditing(todo)}
+                      className="p-2 rounded-xl border shadow-2xs hover:scale-105 cursor-pointer"
+                      style={{
+                        backgroundColor: 'var(--bg-card-subtle)',
+                        borderColor: 'var(--border-color)',
+                        color: 'var(--text-secondary)',
+                      }}
+                      title="Edit task"
+                      aria-label="Edit task"
+                    >
+                      <Edit3 className="w-3.5 h-3.5" />
+                    </button>
+                    <button
+                      onClick={() => onDeleteTodo(todo.id)}
+                      className="p-2 rounded-xl border shadow-2xs hover:scale-105 text-rose-500 hover:bg-rose-500/10 cursor-pointer"
+                      style={{
+                        backgroundColor: 'var(--bg-card-subtle)',
+                        borderColor: 'var(--border-color)',
+                      }}
+                      title="Delete task"
+                      aria-label="Delete task"
+                    >
+                      <Trash2 className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+                )}
               </div>
             );
           })
