@@ -3036,7 +3036,7 @@
 }
 
 /* 2. Open Architectural & Sharp Terminal Containers */
-[data-style="matrix"] .freeform-canvas-widget,
+[data-style="matrix"] .card-panel,
 [data-style="matrix"] #central-clock-widget,
 [data-style="matrix"] #mini-prayer-timer-widget,
 [data-style="matrix"] #prayer-times-widget,
@@ -3060,7 +3060,7 @@
   z-index: 2;
 }
 
-[data-style="matrix"] .freeform-canvas-widget:hover,
+[data-style="matrix"] .card-panel:hover,
 [data-style="matrix"] #central-clock-widget:hover,
 [data-style="matrix"] #prayer-times-widget:hover,
 [data-style="matrix"] #pomodoro-study-timer:hover,

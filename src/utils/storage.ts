@@ -731,11 +731,26 @@ export function loadDeskLayout(): WidgetLayoutConfig[] {
     if (raw) {
       const parsed = JSON.parse(raw);
       if (Array.isArray(parsed) && parsed.length >= 4) {
-        // Merge any new default widgets that might not be in the user's saved array yet
-        const existingMap = new Map<string, WidgetLayoutConfig>();
-        parsed.forEach((w: WidgetLayoutConfig) => existingMap.set(w.id, w));
+        const defaultMap = new Map<DeskWidgetId, WidgetLayoutConfig>();
+        DEFAULT_DESK_LAYOUT.forEach((def) => defaultMap.set(def.id, def));
 
-        const merged: WidgetLayoutConfig[] = [...parsed];
+        const existingMap = new Map<string, WidgetLayoutConfig>();
+        // Sanitize and ensure each saved widget preserves all attributes
+        const merged: WidgetLayoutConfig[] = parsed.map((item: WidgetLayoutConfig, idx: number) => {
+          const def = defaultMap.get(item.id);
+          existingMap.set(item.id, item);
+          return {
+            ...def,
+            ...item,
+            order: typeof item.order === 'number' ? item.order : (def?.order ?? idx),
+            colSpan: typeof item.colSpan === 'number' ? item.colSpan : def?.colSpan,
+            height: typeof item.height === 'number' ? item.height : def?.height,
+            width: typeof item.width === 'number' ? item.width : def?.width,
+            hidden: typeof item.hidden === 'boolean' ? item.hidden : (def?.hidden ?? false),
+          };
+        });
+
+        // Merge any new default widgets that might not be in the user's saved array yet
         for (const def of DEFAULT_DESK_LAYOUT) {
           if (!existingMap.has(def.id)) {
             merged.push({ ...def });

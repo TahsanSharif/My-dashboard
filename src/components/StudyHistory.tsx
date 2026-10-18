@@ -164,7 +164,7 @@ export const StudyHistory: React.FC<StudyHistoryProps> = ({
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = `admission2026_backup_${todayKey}.json`;
+      a.download = `lifepivot_backup_${todayKey}.json`;
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);

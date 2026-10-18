@@ -42,20 +42,31 @@ export const Clock: React.FC<ClockProps> = ({
     return () => clearInterval(interval);
   }, [location.timezone]);
 
-  // Dynamic responsive sizing based on container width
-  const isCompact = containerWidth ? containerWidth < 400 : false;
-  const isMedium = containerWidth ? containerWidth >= 400 && containerWidth < 680 : false;
-  const isLarge = containerWidth ? containerWidth >= 680 : true;
-  const isShort = containerHeight ? containerHeight < 240 : false;
+  // Dynamic responsive sizing based on container width & height
+  const w = containerWidth || 480;
+  const h = containerHeight || 280;
+
+  const isVeryShort = h < 180;
+  const isShort = h < 220;
+  const isCompact = w < 380;
+  const isTiny = w < 300;
+
+  // Responsive font sizes calculated dynamically so digits never wrap, overflow, or clip
+  const digitFontSizePx = Math.min(
+    Math.max(18, Math.round(w / 8.5)),
+    Math.max(18, Math.round((h - (isShort ? 35 : 75)) * 0.42)),
+    72
+  );
+  const secondsFontSizePx = Math.max(12, Math.round(digitFontSizePx * 0.52));
+  const ampmFontSizePx = Math.max(9, Math.round(digitFontSizePx * 0.28));
 
   return (
     <div
-      id="central-clock-card"
-      className={`matchday-clock-container w-full h-full flex flex-col items-center justify-center text-center relative overflow-hidden transition-all duration-300 ${
-        isShort ? 'p-3' : isCompact ? 'p-4' : 'p-6 sm:p-8'
-      }`}
+      id="desk-clock-widget"
+      className="matchday-clock-container w-full h-full relative overflow-y-auto overflow-x-hidden min-h-0 flex flex-col justify-start gap-2 transition-all duration-200"
       style={{
         color: 'var(--text-primary)',
+        padding: isVeryShort ? '6px 10px' : isShort ? '10px 12px' : '16px',
       }}
     >
       {/* Ambient Clock Card Glassmorphic Stadium Glow - Scope to European Nights */}
@@ -81,11 +92,11 @@ export const Clock: React.FC<ClockProps> = ({
       />
 
       {/* Top tiny label & UCL View Toggle (hidden if very short) */}
-      {!isShort && (
-        <div className="relative z-10 flex items-center justify-center gap-2 mb-1.5 flex-wrap">
+      {!isVeryShort && (
+        <div className="relative z-10 flex items-center justify-center gap-2 mb-1 flex-wrap shrink-0">
           <span
             id="desk-clock-label"
-            className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-bold tracking-wider uppercase border shadow-2xs hardware-engraved-badge"
+            className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-bold tracking-wider uppercase border shadow-2xs hardware-engraved-badge"
             style={{
               backgroundColor: 'var(--bg-card-subtle)',
               borderColor: 'var(--border-color)',
@@ -96,33 +107,33 @@ export const Clock: React.FC<ClockProps> = ({
             <span>Desk Clock</span>
           </span>
 
-          <button
-            type="button"
-            id="clock-bg-view-toggle-btn"
-            onClick={toggleBgView}
-            className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold tracking-wide uppercase transition-all duration-200 border cursor-pointer hover:scale-105 active:scale-95 shadow-xs"
-            style={{
-              backgroundColor: 'var(--bg-card-subtle)',
-              borderColor: 'var(--border-color)',
-              color: 'var(--text-secondary)',
-            }}
-            title={`Current View: ${bgView === 'aerial' ? 'Aerial Starball Stadium' : 'Starry Night Sky'}. Click to toggle.`}
-            aria-label="Toggle UCL Clock Background View"
-          >
-            <Sparkles className="w-2.5 h-2.5" style={{ color: 'var(--accent)' }} />
-            <span>{bgView === 'aerial' ? 'Aerial Dome' : 'Starry Sky'}</span>
-          </button>
+          {!isShort && (
+            <button
+              type="button"
+              id="clock-bg-view-toggle-btn"
+              onClick={toggleBgView}
+              className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold tracking-wide uppercase transition-all duration-200 border cursor-pointer hover:scale-105 active:scale-95 shadow-xs"
+              style={{
+                backgroundColor: 'var(--bg-card-subtle)',
+                borderColor: 'var(--border-color)',
+                color: 'var(--text-secondary)',
+              }}
+              title={`Current View: ${bgView === 'aerial' ? 'Aerial Starball Stadium' : 'Starry Night Sky'}. Click to toggle.`}
+              aria-label="Toggle UCL Clock Background View"
+            >
+              <Sparkles className="w-2.5 h-2.5" style={{ color: 'var(--accent)' }} />
+              <span>{bgView === 'aerial' ? 'Aerial Dome' : 'Starry Sky'}</span>
+            </button>
+          )}
         </div>
       )}
 
-      {/* Big Digital Display: HH:MM:SS AM/PM with Non-Clipping Height & Overflow Visible */}
+      {/* Big Digital Display: HH:MM:SS AM/PM with Non-Clipping Height & Responsive Scaling */}
       <div
         id="clock-crt-screen"
-        className="clock-display-panel subboard-bg relative z-10 my-1 flex flex-col items-center justify-center w-full max-w-xl mx-auto select-none crt-screen-inset rounded-2xl border"
+        className="clock-display-panel subboard-bg relative z-10 flex-1 min-h-0 w-full flex flex-col items-center justify-center py-2 max-w-xl mx-auto select-none crt-screen-inset rounded-2xl border"
         style={{
-          minHeight: '90px',
-          height: 'auto',
-          padding: isCompact ? '12px 16px' : '14px 20px',
+          padding: isVeryShort ? '4px 8px' : isShort ? '6px 12px' : '10px 16px',
           overflow: 'visible',
         }}
       >
@@ -165,28 +176,25 @@ export const Clock: React.FC<ClockProps> = ({
         {/* Circular HUD element for JARVIS Command Center */}
         <JarvisCircularHud variant="clock" />
 
-        <div className="flex items-baseline justify-center tracking-tight font-mono-numbers flex-wrap gap-1 sm:gap-2 relative z-10 overflow-visible">
+        <div className="flex items-baseline justify-center tracking-tight font-mono-numbers whitespace-nowrap relative z-10 overflow-visible">
           <div
             id="clock-time-display"
-            className={`clock-digits led-numerals font-black font-mono tracking-tight ${
-              isCompact
-                ? 'text-3xl xs:text-4xl'
-                : isMedium
-                ? 'text-4xl sm:text-5xl md:text-6xl'
-                : 'text-5xl sm:text-6xl md:text-7xl lg:text-8xl'
-            }`}
+            className="clock-digits led-numerals font-black font-mono tracking-tight flex items-baseline justify-center whitespace-nowrap"
             style={{
               color: 'var(--text-primary)',
-              lineHeight: 1.1,
-              display: 'inline-block',
+              fontSize: `${digitFontSizePx}px`,
+              lineHeight: 1.05,
+              display: 'inline-flex',
             }}
           >
-            {timeData.hours}:{timeData.minutes}
+            <span>{timeData.hours}:{timeData.minutes}</span>
             <span
-              className={`font-bold opacity-70 ml-0.5 sm:ml-1 ${
-                isCompact ? 'text-xl xs:text-2xl' : isMedium ? 'text-2xl sm:text-3xl' : 'text-3xl sm:text-4xl'
-              }`}
-              style={{ color: 'var(--accent)', lineHeight: 1.1 }}
+              className="font-bold opacity-75 ml-0.5 sm:ml-1"
+              style={{
+                color: 'var(--accent)',
+                fontSize: `${secondsFontSizePx}px`,
+                lineHeight: 1.05,
+              }}
             >
               :{timeData.seconds}
             </span>
@@ -196,13 +204,12 @@ export const Clock: React.FC<ClockProps> = ({
           <div className="ml-1 sm:ml-2 flex flex-col justify-center">
             <span
               id="clock-ampm-badge"
-              className={`font-black px-1.5 sm:px-2 py-0.5 rounded-md border font-mono tracking-wider ${
-                isCompact ? 'text-[11px]' : 'text-xs sm:text-sm'
-              }`}
+              className="font-black px-1.5 py-0.5 rounded-md border font-mono tracking-wider whitespace-nowrap"
               style={{
                 backgroundColor: 'var(--accent-soft)',
                 borderColor: 'var(--border-color)',
                 color: 'var(--accent-text)',
+                fontSize: `${ampmFontSizePx}px`,
               }}
             >
               {timeData.ampm}
@@ -211,49 +218,49 @@ export const Clock: React.FC<ClockProps> = ({
         </div>
       </div>
 
-      {/* Date line: Day, Month Date */}
-      <div
-        id="clock-date-display"
-        className={`relative z-10 font-bold flex items-center justify-center gap-1.5 ${
-          isCompact ? 'text-xs mt-1' : 'text-sm sm:text-base mt-2'
-        }`}
-        style={{ color: 'var(--text-secondary)' }}
-      >
-        <Calendar className="w-3.5 h-3.5 opacity-70 shrink-0" />
-        <span className="truncate">{timeData.dateString}</span>
-      </div>
-
-      {/* Location line */}
-      {!isShort && (
+      {/* Date & Location Footer Tag */}
+      <div className="shrink-0 w-full flex flex-col items-center justify-center gap-1 text-xs opacity-80 pt-1 relative z-10">
         <div
-          id="clock-location-display"
-          className={`relative z-10 flex items-center justify-center gap-1.5 font-semibold tracking-wide ${
-            isCompact ? 'text-[11px] mt-2' : 'text-xs mt-3'
-          }`}
-          style={{ color: 'var(--text-muted)' }}
+          id="clock-date-display"
+          className="font-bold flex items-center justify-center gap-1.5 truncate"
+          style={{
+            color: 'var(--text-secondary)',
+            fontSize: isTiny ? '10px' : isCompact ? '11px' : '12px',
+          }}
         >
-          <div
-            className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full border shadow-2xs max-w-full truncate"
-            style={{
-              backgroundColor: 'var(--bg-card-subtle)',
-              borderColor: 'var(--border-color)',
-            }}
-          >
-            <MapPin className="w-3 h-3 shrink-0" style={{ color: 'var(--accent)' }} />
-            <span className="truncate" style={{ color: 'var(--text-primary)' }}>
-              {location.city}, {location.country}
-            </span>
-            {!isCompact && (
-              <>
-                <span className="opacity-50">|</span>
-                <span className="opacity-80 font-mono text-[10px] truncate">
-                  {location.timezone.replace('_', ' ')}
-                </span>
-              </>
-            )}
-          </div>
+          <Calendar className="w-3 h-3 opacity-70 shrink-0" />
+          <span className="truncate">{timeData.dateString}</span>
         </div>
-      )}
+
+        {!isShort && (
+          <div
+            id="clock-location-display"
+            className="flex items-center justify-center gap-1.5 font-semibold tracking-wide text-[10px] truncate"
+            style={{ color: 'var(--text-muted)' }}
+          >
+            <div
+              className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full border shadow-2xs max-w-full truncate"
+              style={{
+                backgroundColor: 'var(--bg-card-subtle)',
+                borderColor: 'var(--border-color)',
+              }}
+            >
+              <MapPin className="w-2.5 h-2.5 shrink-0" style={{ color: 'var(--accent)' }} />
+              <span className="truncate" style={{ color: 'var(--text-primary)' }}>
+                {location.city}, {location.country}
+              </span>
+              {!isCompact && (
+                <>
+                  <span className="opacity-50">|</span>
+                  <span className="opacity-80 font-mono text-[9px] truncate">
+                    {location.timezone.replace('_', ' ')}
+                  </span>
+                </>
+              )}
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

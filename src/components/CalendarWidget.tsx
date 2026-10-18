@@ -51,13 +51,20 @@ export const CalendarWidget: React.FC<CalendarWidgetProps> = ({
   return (
     <div
       id="calendar-widget-content"
-      className="w-full h-full flex flex-col justify-between p-4 sm:p-5 select-none transition-all"
+      className="w-full h-full flex flex-col justify-start gap-2 select-none transition-all overflow-y-auto overflow-x-hidden min-h-0 relative"
       style={{
         color: 'var(--text-primary)',
+        height: '100%',
+        width: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'flex-start',
+        gap: '8px',
+        padding: isCompact ? '10px 12px' : '12px 14px',
       }}
     >
       {/* Calendar Header: Month/Year navigation */}
-      <div className="flex items-center justify-between gap-2 mb-3">
+      <div className="shrink-0 flex items-center justify-between gap-2 mb-1">
         <div className="flex items-center gap-2">
           <CalendarIcon className="w-4 h-4" style={{ color: 'var(--accent)' }} />
           <h3 className="font-bold text-sm tracking-tight">
@@ -110,7 +117,7 @@ export const CalendarWidget: React.FC<CalendarWidgetProps> = ({
       </div>
 
       {/* Weekday Labels */}
-      <div className="grid grid-cols-7 gap-1 text-center text-[10px] font-bold opacity-60 mb-1">
+      <div className="shrink-0 grid grid-cols-7 gap-1 text-center text-[10px] font-bold opacity-60 mb-0.5">
         {daysOfWeek.map((day) => (
           <div key={day} className="py-0.5">
             {day}
@@ -119,7 +126,7 @@ export const CalendarWidget: React.FC<CalendarWidgetProps> = ({
       </div>
 
       {/* Calendar Grid Days */}
-      <div className="grid grid-cols-7 gap-1 flex-1 items-stretch">
+      <div className="grid grid-cols-7 gap-1 flex-1 min-h-0 items-stretch">
         {/* Prev month fill */}
         {Array.from({ length: firstDayIndex }).map((_, i) => {
           const prevDay = daysInPrevMonth - firstDayIndex + i + 1;
@@ -162,12 +169,12 @@ export const CalendarWidget: React.FC<CalendarWidgetProps> = ({
 
       {/* Footer Admission Target Counter */}
       <div
-        className="mt-3 pt-2 border-t flex items-center justify-between text-[11px]"
+        className="shrink-0 mt-1 pt-1.5 border-t flex items-center justify-between text-[11px]"
         style={{ borderColor: 'var(--border-color)' }}
       >
         <span className="opacity-70 flex items-center gap-1">
           <Clock className="w-3 h-3 text-amber-500" />
-          <span>Admission Sprint</span>
+          <span>Life Pivot Sprint</span>
         </span>
         <span
           className="font-bold px-2 py-0.5 rounded-full text-[10px]"

@@ -44,14 +44,21 @@ export const CycleCounter: React.FC<CycleCounterProps> = ({
   return (
     <div
       id="cycle-counter-card"
-      className="w-full p-6 sm:p-7 rounded-3xl border shadow-md relative overflow-hidden flex flex-col justify-between transition-all duration-300"
+      className="w-full h-full relative overflow-y-auto overflow-x-hidden min-h-0 flex flex-col justify-start gap-2 transition-all duration-200"
       style={{
+        height: '100%',
+        width: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'flex-start',
+        gap: '8px',
+        padding: '10px 12px',
         backgroundColor: 'var(--bg-card)',
         borderColor: 'var(--border-color)',
       }}
     >
       {/* Header */}
-      <div className="flex items-center justify-between gap-2">
+      <div className="shrink-0 flex items-center justify-between gap-2">
         <div className="flex items-center gap-2">
           <div
             className="p-2 rounded-xl border shadow-2xs"
@@ -74,7 +81,7 @@ export const CycleCounter: React.FC<CycleCounterProps> = ({
               className="text-[11px] font-medium"
               style={{ color: 'var(--text-secondary)' }}
             >
-              Admission Target: 6+
+              Life Pivot Target: 6+
             </span>
           </div>
         </div>
@@ -114,7 +121,7 @@ export const CycleCounter: React.FC<CycleCounterProps> = ({
       {/* Main Big Number */}
       <div
         id="cycle-crt-screen"
-        className="my-3 flex flex-col items-center justify-center p-4 sm:p-6 w-full max-w-xs mx-auto text-center select-none crt-screen-inset relative overflow-hidden rounded-2xl border"
+        className="my-auto flex-1 flex flex-col items-center justify-center p-3 sm:p-5 w-full max-w-xs mx-auto text-center select-none crt-screen-inset relative overflow-hidden rounded-2xl border min-h-0"
       >
         {/* UCL Stadium Glassmorphic Blurry Background Layer - Scoped exclusively to European Nights */}
         <div

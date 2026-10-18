@@ -158,7 +158,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
         setNotificationStatus(perm);
         if (perm === 'granted') {
           handleTimerChange('notificationsEnabled', true);
-          new Notification('ADMISSION 2026 Notifications Active', {
+          new Notification('Life Pivot Notifications Active', {
             body: 'You will receive study interval and prayer alerts.',
           });
         } else {
@@ -1376,7 +1376,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
                     const url = URL.createObjectURL(blob);
                     const a = document.createElement('a');
                     a.href = url;
-                    a.download = `admission2026_backup_${new Date().toISOString().split('T')[0]}.json`;
+                    a.download = `lifepivot_backup_${new Date().toISOString().split('T')[0]}.json`;
                     document.body.appendChild(a);
                     a.click();
                     document.body.removeChild(a);
@@ -1447,7 +1447,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
                   style={{ borderColor: 'var(--border-color)' }}
                 >
                   <span className="font-medium" style={{ color: 'var(--text-muted)' }}>
-                    Developed by Tahsan Sharif + AI
+                    Developed by Tahsan Sharif
                   </span>
                   <div className="flex items-center gap-2.5">
                     <a

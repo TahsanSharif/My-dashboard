@@ -1,6 +1,6 @@
 {
   "name": "ADMISSION 2026",
-  "description": "Personal university-admission study dashboard with central live clock, customizable study timer, cycle tracker, prayer times, duas, and to-do list.",
+  "description": "Life Pivot — Personal study & focus dashboard with central live clock, customizable focus timer, cycle tracker, prayer times, duas, and to-do list.",
   "requestFramePermissions": ["geolocation"],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

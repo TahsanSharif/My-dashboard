@@ -440,14 +440,14 @@ export const Header: React.FC<HeaderProps> = ({
                   className="text-xl sm:text-2xl font-black tracking-tight flex items-center gap-2"
                   style={{ color: 'var(--text-primary)' }}
                 >
-                  <span>ADMISSION</span>
+                  <span>LIFE</span>
                   <span
                     className="px-2 py-0.5 text-xs font-black rounded-md tracking-wider text-white shadow-2xs"
                     style={{
                       background: 'var(--accent-gradient)',
                     }}
                   >
-                    2026
+                    PIVOT
                   </span>
                 </h1>
 

@@ -114,8 +114,16 @@ export const TrelloWidget: React.FC<TrelloWidgetProps> = ({
   return (
     <div
       id="trello-widget-content"
-      className="w-full h-full flex flex-col p-3 sm:p-4 overflow-hidden select-none"
-      style={{ color: 'var(--text-primary)' }}
+      className="w-full h-full flex flex-col justify-start gap-2 p-3 sm:p-3.5 relative overflow-y-auto overflow-x-hidden min-h-0 select-none"
+      style={{
+        color: 'var(--text-primary)',
+        height: '100%',
+        width: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'flex-start',
+        gap: '8px',
+      }}
     >
       {/* Compact Column Switcher Tabs on narrow viewports */}
       {isCompact && (
@@ -158,7 +166,7 @@ export const TrelloWidget: React.FC<TrelloWidgetProps> = ({
           return (
             <div
               key={col.id}
-              className="flex flex-col rounded-2xl border p-2.5 min-h-[140px]"
+              className="flex flex-col rounded-2xl border p-2.5 flex-1 min-h-[120px] overflow-hidden"
               style={{
                 backgroundColor: 'var(--bg-card-subtle)',
                 borderColor: 'var(--border-color)',

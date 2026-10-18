@@ -106,7 +106,16 @@ export const NotesWidget: React.FC<NotesWidgetProps> = () => {
   };
 
   return (
-    <div className="flex-1 flex flex-col p-3 sm:p-4 justify-between h-full select-none">
+    <div
+      className="w-full h-full flex-1 flex flex-col p-3 sm:p-4 justify-between select-none overflow-hidden"
+      style={{
+        height: '100%',
+        width: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+      }}
+    >
       {/* Quick Input Bar */}
       <form onSubmit={handleAddNote} className="space-y-2 mb-3">
         <div className="flex items-center gap-1.5">

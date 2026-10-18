@@ -28,7 +28,6 @@ import {
   saveTodos,
   syncHistoryRecord,
 } from './utils/storage';
-import { calculateTidyFreeformLayout, isFreeformLayoutTidy } from './utils/freeformLayout';
 import { Header } from './components/Header';
 import { Clock } from './components/Clock';
 import { MiniPrayerTimer } from './components/MiniPrayerTimer';
@@ -59,6 +58,8 @@ import { playUclAnthem, stopUclAnthem } from './utils/uclAnthem';
 import {
   LayoutGrid,
   RotateCcw,
+  Lock,
+  Unlock,
   Clock as ClockIcon,
   Compass,
   BookOpen,
@@ -97,16 +98,37 @@ export default function App() {
   const [isSiuuuModalOpen, setIsSiuuuModalOpen] = useState<boolean>(false);
   const [siuuuReason, setSiuuuReason] = useState<string>('Goal Scored! Mission #7 Completed!');
 
-  // Responsive desk container measurement & layout mode
+  // Responsive desk container measurement
   const deskContainerRef = useRef<HTMLDivElement>(null);
   const [containerWidth, setContainerWidth] = useState<number>(1200);
-  const [layoutMode, setLayoutMode] = useState<'adaptive' | 'freeform'>(() => {
+
+  // Global Layout Lock state with localStorage persistence
+  const [isLocked, setIsLocked] = useState<boolean>(() => {
     try {
-      const saved = localStorage.getItem('admission_desk_layout_mode');
-      if (saved === 'adaptive' || saved === 'freeform') return saved;
-    } catch {}
-    return 'adaptive';
+      const saved = localStorage.getItem('admission_desk_layout_locked');
+      if (saved !== null) return JSON.parse(saved);
+    } catch {
+      // ignore
+    }
+    return false; // Default to unlocked so user can immediately customize and reorder
   });
+
+  const handleToggleLock = useCallback(() => {
+    setIsLocked((prev) => {
+      const next = !prev;
+      try {
+        localStorage.setItem('admission_desk_layout_locked', JSON.stringify(next));
+      } catch {
+        // ignore
+      }
+      return next;
+    });
+  }, []);
+
+  // Drag-and-drop reordering state
+  const [draggedWidgetId, setDraggedWidgetId] = useState<DeskWidgetId | null>(null);
+  const [dragOverWidgetId, setDragOverWidgetId] = useState<DeskWidgetId | null>(null);
+  const [dropPosition, setDropPosition] = useState<'before' | 'after'>('before');
 
   // Track desk canvas container width in real-time
   useEffect(() => {
@@ -126,34 +148,6 @@ export default function App() {
     observer.observe(el);
     return () => observer.disconnect();
   }, []);
-
-  const handleSetLayoutMode = (mode: 'adaptive' | 'freeform') => {
-    setLayoutMode(mode);
-    try {
-      localStorage.setItem('admission_desk_layout_mode', mode);
-    } catch {}
-    if (mode === 'freeform' && !isFreeformLayoutTidy(deskLayout, containerWidth)) {
-      const tidy = calculateTidyFreeformLayout(deskLayout, containerWidth);
-      setDeskLayout(tidy);
-      saveDeskLayout(tidy);
-    }
-  };
-
-  // If container width is narrow (< 960px), freeform absolute multi-card placement
-  // would cause clipping / offscreen widgets, so enforce adaptive flow automatically
-  const isNarrowScreen = containerWidth < 960;
-  const effectiveLayoutMode = isNarrowScreen ? 'adaptive' : layoutMode;
-
-  // Auto-align freeform layout if coordinates are untidy, overlapping or missing
-  useEffect(() => {
-    if (layoutMode === 'freeform' && !isNarrowScreen && containerWidth > 0) {
-      if (!isFreeformLayoutTidy(deskLayout, containerWidth)) {
-        const tidy = calculateTidyFreeformLayout(deskLayout, containerWidth);
-        setDeskLayout(tidy);
-        saveDeskLayout(tidy);
-      }
-    }
-  }, [layoutMode, isNarrowScreen, containerWidth]);
 
   // Apply two independent theme layers to document element (enforcing dark mode for JARVIS & GOAT)
   useEffect(() => {
@@ -478,7 +472,8 @@ export default function App() {
   const handleUpdateWidgetPositionAndSize = useCallback(
     (
       id: DeskWidgetId,
-      changes: { x?: number; y?: number; width?: number; height?: number; zIndex?: number }
+      changes: { x?: number; y?: number; width?: number; height?: number; zIndex?: number; colSpan?: number },
+      commitToStorage = true
     ) => {
       setDeskLayout((prev) => {
         const next = prev.map((item) => {
@@ -489,17 +484,131 @@ export default function App() {
               y: changes.y !== undefined ? changes.y : item.y,
               width: changes.width !== undefined ? changes.width : item.width,
               height: changes.height !== undefined ? changes.height : item.height,
+              colSpan: changes.colSpan !== undefined ? changes.colSpan : item.colSpan,
               zIndex: changes.zIndex !== undefined ? changes.zIndex : item.zIndex,
             };
           }
           return item;
         });
+        if (commitToStorage) {
+          saveDeskLayout(next);
+        }
+        return next;
+      });
+    },
+    []
+  );
+
+  // Drag-and-drop reorder handler for Adaptive Grid
+  const handleReorderWidgets = useCallback(
+    (sourceId: DeskWidgetId, targetId: DeskWidgetId, position: 'before' | 'after' = 'before') => {
+      setDeskLayout((prev) => {
+        const visible = prev
+          .filter((w) => !w.hidden)
+          .sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+
+        const sourceIdx = visible.findIndex((w) => w.id === sourceId);
+        const targetIdx = visible.findIndex((w) => w.id === targetId);
+        if (sourceIdx < 0 || targetIdx < 0 || sourceIdx === targetIdx) return prev;
+
+        const reordered = [...visible];
+        const [moved] = reordered.splice(sourceIdx, 1);
+
+        let insertIdx = reordered.findIndex((w) => w.id === targetId);
+        if (position === 'after') {
+          insertIdx += 1;
+        }
+        reordered.splice(insertIdx, 0, moved);
+
+        const hidden = prev
+          .filter((w) => w.hidden)
+          .sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+
+        const orderMap = new Map<DeskWidgetId, number>();
+        reordered.forEach((w, index) => {
+          orderMap.set(w.id, index);
+        });
+        hidden.forEach((w, index) => {
+          orderMap.set(w.id, reordered.length + index);
+        });
+
+        const next = prev.map((w) => {
+          if (orderMap.has(w.id)) {
+            return { ...w, order: orderMap.get(w.id)! };
+          }
+          return w;
+        });
+
         saveDeskLayout(next);
         return next;
       });
     },
     []
   );
+
+  const handleDragStart = useCallback(
+    (e: React.DragEvent<HTMLDivElement>, id: DeskWidgetId) => {
+      if (isLocked) {
+        e.preventDefault();
+        return;
+      }
+      const target = e.target as HTMLElement;
+      if (target.closest('[data-no-drag="true"]')) {
+        e.preventDefault();
+        return;
+      }
+      setDraggedWidgetId(id);
+      e.dataTransfer.setData('text/plain', id);
+      e.dataTransfer.effectAllowed = 'move';
+    },
+    [isLocked]
+  );
+
+  const handleDragOver = useCallback(
+    (e: React.DragEvent<HTMLDivElement>, id: DeskWidgetId) => {
+      if (isLocked || !draggedWidgetId || draggedWidgetId === id) return;
+      e.preventDefault();
+      e.dataTransfer.dropEffect = 'move';
+      const rect = e.currentTarget.getBoundingClientRect();
+      // Diagonal normalized 2D threshold: top-left quadrant/half is 'before', bottom-right is 'after'
+      const progressX = (e.clientX - rect.left) / Math.max(rect.width, 1);
+      const progressY = (e.clientY - rect.top) / Math.max(rect.height, 1);
+      const isAfter = (progressX + progressY) > 1.0;
+      setDragOverWidgetId(id);
+      setDropPosition(isAfter ? 'after' : 'before');
+    },
+    [isLocked, draggedWidgetId]
+  );
+
+  const handleDragLeave = useCallback(
+    (e: React.DragEvent<HTMLDivElement>, id: DeskWidgetId) => {
+      // Ignore dragleave triggered by child node transitions
+      if (e.relatedTarget && e.currentTarget.contains(e.relatedTarget as Node)) return;
+      if (dragOverWidgetId === id) {
+        setDragOverWidgetId(null);
+      }
+    },
+    [dragOverWidgetId]
+  );
+
+  const handleDrop = useCallback(
+    (e: React.DragEvent<HTMLDivElement>, targetId: DeskWidgetId) => {
+      if (isLocked) return;
+      e.preventDefault();
+      const sourceId = (e.dataTransfer.getData('text/plain') as DeskWidgetId) || draggedWidgetId;
+      if (sourceId && sourceId !== targetId) {
+        handleReorderWidgets(sourceId, targetId, dropPosition);
+      }
+      setDraggedWidgetId(null);
+      setDragOverWidgetId(null);
+    },
+    [isLocked, draggedWidgetId, dropPosition, handleReorderWidgets]
+  );
+
+  const handleDragEnd = useCallback(() => {
+    setDraggedWidgetId(null);
+    setDragOverWidgetId(null);
+  }, []);
 
   const handleBringToFront = useCallback((id: DeskWidgetId) => {
     setDeskLayout((prev) => {
@@ -516,22 +625,23 @@ export default function App() {
   }, []);
 
   const handleResetDeskLayout = useCallback(() => {
-    const tidy = calculateTidyFreeformLayout(DEFAULT_DESK_LAYOUT, containerWidth);
-    setDeskLayout(tidy);
-    saveDeskLayout(tidy);
-  }, [containerWidth]);
-
-  const handleAutoAlignDeskLayout = useCallback(() => {
-    const tidy = calculateTidyFreeformLayout(deskLayout, containerWidth);
-    setDeskLayout(tidy);
-    saveDeskLayout(tidy);
-  }, [deskLayout, containerWidth]);
+    setDeskLayout(DEFAULT_DESK_LAYOUT);
+    saveDeskLayout(DEFAULT_DESK_LAYOUT);
+  }, []);
 
   const handleToggleWidget = useCallback((id: DeskWidgetId, visible: boolean) => {
     setDeskLayout((prev) => {
+      const maxVisibleOrder = Math.max(
+        ...prev.filter((w) => !w.hidden && w.id !== id).map((w) => w.order ?? 0),
+        -1
+      );
       const next = prev.map((item) => {
         if (item.id === id) {
-          return { ...item, hidden: !visible };
+          return {
+            ...item,
+            hidden: !visible,
+            order: visible ? maxVisibleOrder + 1 : item.order,
+          };
         }
         return item;
       });
@@ -542,7 +652,7 @@ export default function App() {
 
   const handleShowAllWidgets = useCallback(() => {
     setDeskLayout((prev) => {
-      const next = prev.map((item) => ({ ...item, hidden: false }));
+      const next = prev.map((item, idx) => ({ ...item, hidden: false, order: idx }));
       saveDeskLayout(next);
       return next;
     });
@@ -556,7 +666,7 @@ export default function App() {
     });
   }, []);
 
-  // Touch-friendly widget reordering for responsive/mobile layouts
+  // Touch-friendly & deterministic widget reordering for responsive layouts
   const handleMoveWidgetUp = useCallback((id: DeskWidgetId) => {
     setDeskLayout((prev) => {
       const visible = prev
@@ -566,15 +676,26 @@ export default function App() {
       const currentIndex = visible.findIndex((w) => w.id === id);
       if (currentIndex <= 0) return prev;
 
-      const prevWidget = visible[currentIndex - 1];
-      const currentWidget = visible[currentIndex];
+      const reordered = [...visible];
+      const [item] = reordered.splice(currentIndex, 1);
+      reordered.splice(currentIndex - 1, 0, item);
 
-      const newOrderCurrent = prevWidget.order ?? 0;
-      const newOrderPrev = currentWidget.order ?? 0;
+      const hidden = prev
+        .filter((w) => w.hidden)
+        .sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+
+      const orderMap = new Map<DeskWidgetId, number>();
+      reordered.forEach((w, index) => {
+        orderMap.set(w.id, index);
+      });
+      hidden.forEach((w, index) => {
+        orderMap.set(w.id, reordered.length + index);
+      });
 
       const next = prev.map((w) => {
-        if (w.id === currentWidget.id) return { ...w, order: newOrderCurrent };
-        if (w.id === prevWidget.id) return { ...w, order: newOrderPrev };
+        if (orderMap.has(w.id)) {
+          return { ...w, order: orderMap.get(w.id)! };
+        }
         return w;
       });
 
@@ -592,15 +713,26 @@ export default function App() {
       const currentIndex = visible.findIndex((w) => w.id === id);
       if (currentIndex < 0 || currentIndex >= visible.length - 1) return prev;
 
-      const nextWidget = visible[currentIndex + 1];
-      const currentWidget = visible[currentIndex];
+      const reordered = [...visible];
+      const [item] = reordered.splice(currentIndex, 1);
+      reordered.splice(currentIndex + 1, 0, item);
 
-      const newOrderCurrent = nextWidget.order ?? 0;
-      const newOrderNext = currentWidget.order ?? 0;
+      const hidden = prev
+        .filter((w) => w.hidden)
+        .sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+
+      const orderMap = new Map<DeskWidgetId, number>();
+      reordered.forEach((w, index) => {
+        orderMap.set(w.id, index);
+      });
+      hidden.forEach((w, index) => {
+        orderMap.set(w.id, reordered.length + index);
+      });
 
       const next = prev.map((w) => {
-        if (w.id === currentWidget.id) return { ...w, order: newOrderCurrent };
-        if (w.id === nextWidget.id) return { ...w, order: newOrderNext };
+        if (orderMap.has(w.id)) {
+          return { ...w, order: orderMap.get(w.id)! };
+        }
         return w;
       });
 
@@ -639,20 +771,22 @@ export default function App() {
 
       case 'pomodoro':
         return (
-          <div className="flex-1 flex flex-col justify-between h-full">
-            <StudyTimer
-              settings={settings.timer}
-              onStudyCycleCompleted={handleStudyCycleCompleted}
-              onOpenSettings={() => setIsSettingsOpen(true)}
-              containerWidth={dimensions.width}
-              containerHeight={dimensions.height}
-              todayStudySeconds={todayStudySeconds}
-              dailyGoalHours={dailyGoalHours}
-              onStudyTimeTick={handleStudyTimeTick}
-            />
+          <div className="flex-1 flex flex-col justify-start h-full min-h-0 overflow-hidden">
+            <div className="flex-1 min-h-0 overflow-hidden flex flex-col">
+              <StudyTimer
+                settings={settings.timer}
+                onStudyCycleCompleted={handleStudyCycleCompleted}
+                onOpenSettings={() => setIsSettingsOpen(true)}
+                containerWidth={dimensions.width}
+                containerHeight={dimensions.height}
+                todayStudySeconds={todayStudySeconds}
+                dailyGoalHours={dailyGoalHours}
+                onStudyTimeTick={handleStudyTimeTick}
+              />
+            </div>
             {/* Integrated Quick Cycle Tracker status footer */}
             <div
-              className="px-4 py-2 border-t flex items-center justify-between text-xs font-semibold select-none"
+              className="px-4 py-2 border-t flex items-center justify-between text-xs font-semibold select-none shrink-0"
               style={{
                 backgroundColor: 'var(--bg-card-subtle)',
                 borderColor: 'var(--border-color)',
@@ -814,7 +948,7 @@ export default function App() {
         };
       case 'todolist':
         return {
-          title: isGoat ? 'Mission Board' : 'Daily Admission To-Do',
+          title: isGoat ? 'Mission Board' : 'Daily Life Pivot To-Do',
           subtitle: isGoat
             ? `${todos.filter((t) => t.completed).length}/${todos.length} Matches Won (#7)`
             : `${todos.filter((t) => t.completed).length}/${todos.length} done`,
@@ -822,7 +956,7 @@ export default function App() {
         };
       case 'calendar':
         return {
-          title: isGoat ? 'This Season' : 'Admission Calendar',
+          title: isGoat ? 'This Season' : 'Life Pivot Calendar',
           subtitle: isGoat ? 'European Fixtures & Matchdays' : 'Milestones & Dates',
           icon: <CalendarIcon className="w-3.5 h-3.5" />,
         };
@@ -954,7 +1088,7 @@ export default function App() {
           />
         )}
 
-        {/* INTERACTIVE DESK BAR: Controls for adaptive grid & freeform movable widgets */}
+        {/* INTERACTIVE DESK BAR: Controls for adaptive grid widgets */}
         <section className="w-full mb-3 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 px-1">
           <div className="flex flex-wrap items-center gap-2">
             <span
@@ -966,62 +1100,44 @@ export default function App() {
               }}
             >
               <LayoutGrid className="w-3.5 h-3.5" />
-              <span>{effectiveLayoutMode === 'adaptive' ? 'Adaptive Responsive Desk' : 'Free-Move Interactive Desk'}</span>
+              <span>Adaptive Responsive Desk</span>
             </span>
 
-            {/* Layout mode switcher on viewports wide enough for freeform canvas */}
-            {!isNarrowScreen ? (
-              <div
-                id="layout-mode-toggle-group"
-                className="inline-flex items-center p-0.5 rounded-xl border text-xs font-bold"
-                style={{
-                  backgroundColor: 'var(--bg-card)',
-                  borderColor: 'var(--border-color)',
-                }}
-              >
-                <button
-                  type="button"
-                  onClick={() => handleSetLayoutMode('adaptive')}
-                  className={`px-2.5 py-1 rounded-lg transition-all cursor-pointer ${
-                    layoutMode === 'adaptive' ? 'shadow-xs font-black text-white' : 'opacity-70 hover:opacity-100'
-                  }`}
-                  style={{
-                    background: layoutMode === 'adaptive' ? 'var(--accent-gradient)' : 'transparent',
-                    color: layoutMode === 'adaptive' ? '#ffffff' : 'var(--text-secondary)',
-                  }}
-                  title="Fluid multi-column adaptive layout that reorganizes dynamically"
-                >
-                  📐 Adaptive Grid
-                </button>
-                <button
-                  type="button"
-                  onClick={() => handleSetLayoutMode('freeform')}
-                  className={`px-2.5 py-1 rounded-lg transition-all cursor-pointer ${
-                    layoutMode === 'freeform' ? 'shadow-xs font-black text-white' : 'opacity-70 hover:opacity-100'
-                  }`}
-                  style={{
-                    background: layoutMode === 'freeform' ? 'var(--accent-gradient)' : 'transparent',
-                    color: layoutMode === 'freeform' ? '#ffffff' : 'var(--text-secondary)',
-                  }}
-                  title="Freeform drag and resize anywhere on desktop canvas"
-                >
-                  🖐️ Freeform Canvas
-                </button>
-              </div>
+            {/* Layout Edit Mode Hint Badge when unlocked */}
+            {!isLocked ? (
+              <span className="hidden md:inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold text-emerald-500 bg-emerald-500/10 border border-emerald-500/30">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                <span>Edit Mode: Drag headers to reorder • Drag corner to resize</span>
+              </span>
             ) : (
-              <span
-                className="text-[11px] font-medium px-2 py-0.5 rounded-full border opacity-75 hidden xs:inline"
-                style={{
-                  borderColor: 'var(--border-color)',
-                  color: 'var(--text-muted)',
-                }}
-              >
-                Intelligently adapts to available screen width
+              <span className="hidden md:inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold text-amber-500/80 bg-amber-500/10 border border-amber-500/20">
+                <Lock className="w-3 h-3" />
+                <span>Positions Locked</span>
               </span>
             )}
           </div>
 
           <div className="flex items-center gap-2 self-stretch sm:self-auto justify-between sm:justify-end flex-wrap">
+            {/* Global Layout Lock / Edit Mode Toggle Button */}
+            <button
+              type="button"
+              id="toggle-layout-lock-btn"
+              onClick={handleToggleLock}
+              className={`inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-bold rounded-xl border shadow-2xs transition-all hover:scale-105 active:scale-95 cursor-pointer ${
+                isLocked
+                  ? 'bg-amber-500/15 border-amber-500/40 text-amber-500 hover:border-amber-500/70 hover:bg-amber-500/25'
+                  : 'bg-emerald-500/15 border-emerald-500/50 text-emerald-500 hover:bg-emerald-500/25 ring-1 ring-emerald-500/30'
+              }`}
+              title={
+                isLocked
+                  ? "Unlock layout to drag-reorder widgets and resize cards"
+                  : "Lock layout to freeze widget positions and sizes"
+              }
+            >
+              {isLocked ? <Lock className="w-3.5 h-3.5" /> : <Unlock className="w-3.5 h-3.5" />}
+              <span>{isLocked ? '🔓 Unlock Layout' : '🔒 Lock Layout'}</span>
+            </button>
+
             {/* Widget Manager Modal Trigger Button */}
             <button
               type="button"
@@ -1037,24 +1153,6 @@ export default function App() {
               <span>Widgets ({deskLayout.filter((w) => !w.hidden).length}/{ALL_WIDGETS_METADATA.length})</span>
             </button>
 
-            {/* Quick auto-align button in freeform canvas */}
-            {effectiveLayoutMode === 'freeform' && (
-              <button
-                type="button"
-                onClick={handleAutoAlignDeskLayout}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-xl border shadow-2xs transition-all hover:scale-105 active:scale-95 cursor-pointer opacity-90 hover:opacity-100"
-                style={{
-                  backgroundColor: 'var(--bg-card)',
-                  borderColor: 'var(--border-color)',
-                  color: 'var(--accent)',
-                }}
-                title="Auto-align and snap all visible widgets into a clean 2-column matrix"
-              >
-                <Sparkles className="w-3.5 h-3.5" />
-                <span>Auto-Align</span>
-              </button>
-            )}
-
             {/* Quick reset widget layout button */}
             <button
               type="button"
@@ -1065,7 +1163,7 @@ export default function App() {
                 borderColor: 'var(--border-color)',
                 color: 'var(--text-secondary)',
               }}
-              title="Reset desk widgets to tidy default positions and sizes calculated for your screen width"
+              title="Reset desk widgets to default layout positions and order"
             >
               <RotateCcw className="w-3.5 h-3.5" />
               <span>Reset Layout</span>
@@ -1073,8 +1171,7 @@ export default function App() {
           </div>
         </section>
 
-        {/* 2. DYNAMIC WORKSPACE: ADAPTIVE FLUID GRID OR FREEFORM CANVAS */}
-        {effectiveLayoutMode === 'adaptive' ? (
+        {/* 2. DYNAMIC WORKSPACE: ADAPTIVE FLUID GRID */}
           <section
             ref={deskContainerRef}
             id="desk-canvas-area"
@@ -1103,58 +1200,83 @@ export default function App() {
                 </button>
               </div>
             ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-12 gap-4 sm:gap-5 w-full">
+              <div className="grid grid-cols-1 sm:grid-cols-12 sm:grid-flow-row-dense gap-4 sm:gap-5 w-full">
                 {deskLayout
                   .filter((w) => !w.hidden)
                   .sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
                   .map((widgetConfig, idx, arr) => {
                     const meta = getWidgetMeta(widgetConfig.id);
-                    // Determine smart multi-column span for wider widgets on tablets / desktops:
-                    // Default desktop pairs have ~60% (7 cols) and ~40% (5 cols) out of 12 columns.
-                    let colSpanClass = 'col-span-1 sm:col-span-12 md:col-span-6';
+                    // Determine smart multi-column span for widgets on tablets / desktops
+                    const activeColSpan =
+                      widgetConfig.colSpan ??
+                      (widgetConfig.id === 'time' ||
+                      widgetConfig.id === 'pomodoro' ||
+                      widgetConfig.id === 'todolist' ||
+                      widgetConfig.id === 'trello'
+                        ? 7
+                        : widgetConfig.id === 'prayer' ||
+                          widgetConfig.id === 'music' ||
+                          widgetConfig.id === 'calendar' ||
+                          widgetConfig.id === 'notes'
+                        ? 5
+                        : widgetConfig.id === 'stats'
+                        ? 12
+                        : 6);
 
-                    if (widgetConfig.id === 'time') {
-                      // Row 1 Left: Central Clock (~60% width)
-                      colSpanClass = 'col-span-1 sm:col-span-7';
-                    } else if (widgetConfig.id === 'prayer') {
-                      // Row 1 Right: Upcoming Prayer (~40% width)
-                      colSpanClass = 'col-span-1 sm:col-span-5';
-                    } else if (widgetConfig.id === 'pomodoro') {
-                      // Row 2 Left: Pomodoro Study Timer (~60% width)
-                      colSpanClass = 'col-span-1 sm:col-span-12 md:col-span-7';
-                    } else if (widgetConfig.id === 'music') {
-                      // Row 2 Right: Study Music & Ambient Player (~40% width)
-                      colSpanClass = 'col-span-1 sm:col-span-12 md:col-span-5';
-                    } else if (widgetConfig.id === 'todolist') {
-                      // Row 3 Left: Admission To Do List (~60% width)
-                      colSpanClass = 'col-span-1 sm:col-span-12 md:col-span-7';
-                    } else if (widgetConfig.id === 'calendar') {
-                      // Row 3 Right: Milestones & Exam Calendar (~40% width)
-                      colSpanClass = 'col-span-1 sm:col-span-12 md:col-span-5';
-                    } else if (
-                      widgetConfig.id === 'stats' ||
-                      widgetConfig.id === 'prayer_full' ||
-                      (widgetConfig.colSpan !== undefined && widgetConfig.colSpan >= 12)
-                    ) {
-                      colSpanClass = 'col-span-1 sm:col-span-12';
-                    } else if (widgetConfig.colSpan === 7) {
-                      colSpanClass = 'col-span-1 sm:col-span-12 md:col-span-7';
-                    } else if (widgetConfig.colSpan === 5) {
-                      colSpanClass = 'col-span-1 sm:col-span-12 md:col-span-5';
-                    } else if (widgetConfig.colSpan !== undefined) {
-                      colSpanClass =
-                        widgetConfig.colSpan >= 8
-                          ? 'col-span-1 sm:col-span-12 md:col-span-8'
-                          : 'col-span-1 sm:col-span-12 md:col-span-6';
-                    }
+                    const colSpanClass =
+                      activeColSpan >= 12
+                        ? 'col-span-1 sm:col-span-12'
+                        : activeColSpan >= 10
+                        ? 'col-span-1 sm:col-span-12 md:col-span-10'
+                        : activeColSpan >= 8
+                        ? 'col-span-1 sm:col-span-12 md:col-span-8'
+                        : activeColSpan === 7
+                        ? 'col-span-1 sm:col-span-12 md:col-span-7'
+                        : activeColSpan === 5
+                        ? 'col-span-1 sm:col-span-12 md:col-span-5'
+                        : activeColSpan <= 4
+                        ? 'col-span-1 sm:col-span-12 md:col-span-4'
+                        : 'col-span-1 sm:col-span-12 md:col-span-6';
 
                     return (
-                      <div key={widgetConfig.id} className={`${colSpanClass} flex flex-col w-full min-w-0`}>
+                      <div
+                        key={widgetConfig.id}
+                        draggable={!isLocked}
+                        onDragStart={(e) => handleDragStart(e, widgetConfig.id)}
+                        onDragOver={(e) => handleDragOver(e, widgetConfig.id)}
+                        onDragLeave={(e) => handleDragLeave(e, widgetConfig.id)}
+                        onDrop={(e) => handleDrop(e, widgetConfig.id)}
+                        onDragEnd={handleDragEnd}
+                        className={`${colSpanClass} flex flex-col w-full min-w-0 transition-all duration-200 relative ${
+                          draggedWidgetId === widgetConfig.id ? 'opacity-35 scale-[0.98]' : ''
+                        } ${
+                          dragOverWidgetId === widgetConfig.id
+                            ? 'ring-2 ring-amber-400 ring-offset-2 ring-offset-transparent rounded-3xl bg-amber-500/5'
+                            : ''
+                        }`}
+                        style={
+                          containerWidth >= 640
+                            ? { gridColumn: `span ${Math.min(12, Math.max(3, activeColSpan))} / span ${Math.min(12, Math.max(3, activeColSpan))}` }
+                            : undefined
+                        }
+                      >
+                        {/* Drop indicator bar */}
+                        {dragOverWidgetId === widgetConfig.id && (
+                          <div
+                            className={`absolute pointer-events-none z-30 transition-all ${
+                              dropPosition === 'before'
+                                ? '-top-2 left-2 right-2 h-1 bg-amber-400 rounded-full shadow-lg shadow-amber-400/50'
+                                : '-bottom-2 left-2 right-2 h-1 bg-amber-400 rounded-full shadow-lg shadow-amber-400/50'
+                            }`}
+                          />
+                        )}
+
                         <MovableResizableWidget
                           config={widgetConfig}
                           title={meta.title}
                           subtitle={meta.subtitle}
                           icon={meta.icon}
+                          isLocked={isLocked}
                           layoutMode="adaptive"
                           containerWidth={containerWidth}
                           isFirst={idx === 0}
@@ -1174,67 +1296,6 @@ export default function App() {
               </div>
             )}
           </section>
-        ) : (
-          <section
-            ref={deskContainerRef}
-            id="desk-canvas-area"
-            className="w-full relative rounded-3xl border border-dashed p-4 transition-all duration-300 select-none overflow-x-hidden"
-            style={{
-              borderColor: 'var(--border-color)',
-              backgroundColor: 'var(--bg-card-subtle)',
-              minHeight: `${Math.max(
-                700,
-                ...deskLayout
-                  .filter((w) => !w.hidden)
-                  .map((w) => (w.y ?? 0) + (w.height ?? 380) + 40),
-                0
-              )}px`,
-            }}
-          >
-            {deskLayout.filter((w) => !w.hidden).length === 0 ? (
-              <div className="py-24 text-center flex flex-col items-center justify-center opacity-70">
-                <SlidersHorizontal className="w-10 h-10 mb-3 text-amber-500 animate-pulse" />
-                <h3 className="text-base font-black mb-1" style={{ color: 'var(--text-primary)' }}>
-                  All Widgets Are Currently Hidden
-                </h3>
-                <p className="text-xs max-w-sm mb-4" style={{ color: 'var(--text-muted)' }}>
-                  Your desk is completely cleared. Open the Widget Manager to restore or add any focus tools.
-                </p>
-                <button
-                  type="button"
-                  onClick={() => setIsWidgetManagerOpen(true)}
-                  className="px-4 py-2 rounded-xl text-xs font-black uppercase tracking-wider text-white shadow-md transition-all hover:scale-105 cursor-pointer"
-                  style={{ background: 'var(--accent-gradient)' }}
-                >
-                  Open Widget Manager
-                </button>
-              </div>
-            ) : (
-              deskLayout
-                .filter((widgetConfig) => !widgetConfig.hidden)
-                .map((widgetConfig) => {
-                  const meta = getWidgetMeta(widgetConfig.id);
-                  return (
-                    <MovableResizableWidget
-                      key={widgetConfig.id}
-                      config={widgetConfig}
-                      title={meta.title}
-                      subtitle={meta.subtitle}
-                      icon={meta.icon}
-                      layoutMode="freeform"
-                      containerWidth={containerWidth}
-                      onUpdatePositionAndSize={handleUpdateWidgetPositionAndSize}
-                      onBringToFront={handleBringToFront}
-                      onResetSize={handleResetDeskLayout}
-                      onClose={(id) => handleToggleWidget(id, false)}
-                    >
-                      {(dimensions) => renderWidgetContent(widgetConfig.id, dimensions)}
-                    </MovableResizableWidget>
-                  );
-                })
-            )}
-          </section>
-        )}
 
         {/* 3. DOWNWARDS: The Whole Prayer Schedule & Timers */}
         <section id="whole-prayer-schedule" className="w-full my-6">
@@ -1276,7 +1337,7 @@ export default function App() {
         <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3">
           <div className="flex items-center gap-2 flex-wrap justify-center sm:justify-start">
             <span className="font-semibold tracking-wide">
-              ADMISSION 2026 — FOCUS • STUDY • PRAY • REPEAT
+              LIFE PIVOT — FOCUS • STUDY • PRAY • REPEAT
             </span>
             <div className="flex items-center gap-2">
               <a
@@ -1303,7 +1364,7 @@ export default function App() {
             </div>
           </div>
           <div className="flex items-center gap-2.5 font-mono text-[11px]">
-            <span>Developed by Tahsan Sharif + AI</span>
+            <span>Developed by Tahsan Sharif</span>
             <span className="opacity-40">•</span>
             <span>Pin this tab 📌</span>
           </div>

@@ -29,10 +29,26 @@ export const MiniPrayerTimer: React.FC<MiniPrayerTimerProps> = ({
   );
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  // Responsive breakpoints
-  const isCompact = containerWidth ? containerWidth < 360 : false;
-  const isWide = containerWidth ? containerWidth >= 520 : false;
-  const isShort = containerHeight ? containerHeight < 240 : false;
+  // Responsive sizing based on container dimensions
+  const w = containerWidth || 360;
+  const h = containerHeight || 260;
+
+  const isVeryShort = h < 180;
+  const isShort = h < 220;
+  const isCompact = w < 360;
+  const isWide = w >= 520 && h >= 220;
+
+  // Responsive font sizes calculated dynamically
+  const countdownFontSizePx = Math.min(
+    Math.max(16, Math.round(w / 11)),
+    Math.max(16, Math.round((h - (isShort ? 35 : 65)) * 0.28)),
+    36
+  );
+  const nameFontSizePx = Math.min(
+    Math.max(13, Math.round(w / 16)),
+    Math.max(13, Math.round((h - (isShort ? 35 : 65)) * 0.18)),
+    24
+  );
 
   // Zero-latency update upon coordinate, division, or juristic method change
   useEffect(() => {
@@ -86,15 +102,14 @@ export const MiniPrayerTimer: React.FC<MiniPrayerTimerProps> = ({
   return (
     <div
       id="corner-prayer-widget"
-      className={`w-full h-full flex flex-col justify-between transition-all duration-300 ${
-        isShort ? 'p-3' : 'p-4 sm:p-5'
-      }`}
+      className="w-full h-full relative overflow-y-auto overflow-x-hidden min-h-0 transition-all duration-200 flex flex-col justify-start gap-2"
       style={{
         color: 'var(--text-primary)',
+        padding: isVeryShort ? '8px 10px' : isShort ? '10px 12px' : '14px 16px',
       }}
     >
       {/* Top Header Badge */}
-      <div className="flex items-center justify-between gap-1 mb-1">
+      <div className="flex items-center justify-between gap-1 shrink-0">
         <div className="flex items-center gap-1.5">
           <div
             className="p-1 rounded-lg border shadow-2xs"
@@ -119,7 +134,7 @@ export const MiniPrayerTimer: React.FC<MiniPrayerTimerProps> = ({
         </div>
 
         <span
-          className="text-[10px] font-semibold px-2 py-0.5 rounded-full border hardware-engraved-badge"
+          className="text-[10px] font-semibold px-2 py-0.5 rounded-full border hardware-engraved-badge truncate max-w-[130px]"
           style={{
             backgroundColor: 'var(--bg-card-subtle)',
             borderColor: 'var(--border-color)',
@@ -133,7 +148,7 @@ export const MiniPrayerTimer: React.FC<MiniPrayerTimerProps> = ({
       {/* Main Prayer & Countdown Section */}
       <div
         id="mini-prayer-crt-screen"
-        className={`flex ${isWide ? 'flex-row items-center justify-between gap-4 p-4' : 'flex-col items-center justify-center p-4 sm:p-5 text-center'} my-auto w-full select-none crt-screen-inset relative overflow-hidden rounded-2xl border`}
+        className={`flex-1 min-h-0 w-full flex ${isWide ? 'flex-row items-center justify-between gap-3 p-2' : 'flex-col items-center justify-center py-2 px-3 text-center'} select-none crt-screen-inset relative overflow-hidden rounded-2xl border`}
       >
         {/* UCL Stadium Glassmorphic Blurry Background Layer - Scoped exclusively to European Nights */}
         <div
@@ -153,24 +168,33 @@ export const MiniPrayerTimer: React.FC<MiniPrayerTimerProps> = ({
         </div>
 
         {nextPrayer ? (
-          <div className="flex flex-col relative z-10">
-            <div className="flex items-baseline gap-2">
+          <div className="flex flex-col items-center justify-center relative z-10 w-full min-w-0">
+            <div className="flex items-baseline justify-center gap-1.5 flex-wrap">
               <span
                 id="mini-prayer-name"
-                className={`font-black tracking-tight flex items-center gap-1.5 ${
-                  isCompact ? 'text-lg' : 'text-xl sm:text-2xl'
-                }`}
-                style={{ color: 'var(--accent-text)' }}
+                className="font-black tracking-tight whitespace-nowrap"
+                style={{
+                  color: 'var(--accent-text)',
+                  fontSize: `${nameFontSizePx}px`,
+                }}
               >
                 {nextPrayer.name}
               </span>
               <span
-                className="font-arabic-calligraphy text-lg opacity-80"
-                style={{ color: 'var(--text-secondary)' }}
+                className="font-arabic-calligraphy opacity-80 whitespace-nowrap"
+                style={{
+                  color: 'var(--text-secondary)',
+                  fontSize: `${Math.max(13, Math.round(nameFontSizePx * 0.9))}px`,
+                }}
               >
                 {nextPrayer.arabicName}
               </span>
-              <span className="text-xs font-semibold opacity-70 ml-1">
+              <span
+                className="font-semibold opacity-70 whitespace-nowrap"
+                style={{
+                  fontSize: `${Math.max(10, Math.round(nameFontSizePx * 0.55))}px`,
+                }}
+              >
                 at {nextPrayer.targetTimeFormatted}
               </span>
             </div>
@@ -178,18 +202,33 @@ export const MiniPrayerTimer: React.FC<MiniPrayerTimerProps> = ({
             {/* Countdown Clock */}
             <div
               id="mini-prayer-countdown"
-              className={`font-bold font-mono-numbers mt-1 flex items-center gap-2 select-none ${
-                isCompact ? 'text-2xl' : 'text-3xl sm:text-4xl'
-              }`}
-              style={{ color: 'var(--text-primary)' }}
+              className="font-bold font-mono-numbers mt-1 flex items-center justify-center gap-1.5 select-none whitespace-nowrap"
+              style={{
+                color: 'var(--text-primary)',
+                fontSize: `${countdownFontSizePx}px`,
+              }}
             >
-              <Clock className="w-5 h-5 opacity-70 animate-pulse" style={{ color: 'var(--accent)' }} />
+              <Clock
+                className="opacity-70 animate-pulse shrink-0"
+                style={{
+                  color: 'var(--accent)',
+                  width: `${Math.max(14, Math.round(countdownFontSizePx * 0.6))}px`,
+                  height: `${Math.max(14, Math.round(countdownFontSizePx * 0.6))}px`,
+                }}
+              />
               <span>{formatRemainingTime(nextPrayer.remainingSeconds)}</span>
             </div>
 
-            <div className="text-[11px] font-medium mt-0.5 opacity-70">
-              Remaining until {nextPrayer.name} prayer
-            </div>
+            {!isVeryShort && (
+              <div
+                className="font-medium mt-0.5 opacity-70 truncate max-w-full"
+                style={{
+                  fontSize: `${Math.max(9, Math.round(nameFontSizePx * 0.5))}px`,
+                }}
+              >
+                Remaining until {nextPrayer.name}
+              </div>
+            )}
           </div>
         ) : (
           <div className="py-2 text-center text-xs font-medium" style={{ color: 'var(--text-muted)' }}>
@@ -199,13 +238,13 @@ export const MiniPrayerTimer: React.FC<MiniPrayerTimerProps> = ({
 
         {/* If wide: Show a mini-row of other upcoming prayers */}
         {isWide && prayers.length > 0 && (
-          <div className="flex items-center gap-2 overflow-x-auto py-1 relative z-10">
+          <div className="flex items-center gap-2 overflow-x-auto py-1 relative z-10 shrink-0">
             {prayers.slice(0, 4).map((p) => {
               const isCurrent = nextPrayer?.name === p.name;
               return (
                 <div
                   key={p.name}
-                  className={`px-2.5 py-1.5 rounded-xl border text-center flex flex-col items-center shrink-0 ${
+                  className={`px-2 py-1 rounded-xl border text-center flex flex-col items-center shrink-0 ${
                     isCurrent ? 'ring-1' : 'opacity-80'
                   }`}
                   style={{
@@ -226,15 +265,16 @@ export const MiniPrayerTimer: React.FC<MiniPrayerTimerProps> = ({
         )}
       </div>
 
-      {/* Quick link to Whole Prayer Timer downwards */}
+      {/* Footer Schedule Button (Natural flow with border, no artificial mt-auto force) */}
       <button
         id="btn-view-whole-prayer-schedule"
         type="button"
         onClick={handleScroll}
-        className="pt-2 border-t flex items-center justify-between text-[11px] font-bold tracking-wide transition-opacity hover:opacity-100 opacity-80 cursor-pointer mt-auto"
+        className="shrink-0 w-full pt-1.5 border-t flex items-center justify-between font-bold tracking-wide transition-opacity hover:opacity-100 opacity-80 cursor-pointer mt-1"
         style={{
           borderColor: 'var(--border-color)',
           color: 'var(--accent-text)',
+          fontSize: isCompact ? '10px' : '11px',
         }}
       >
         <span>Full Schedule & Fasting Times</span>

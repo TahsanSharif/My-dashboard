@@ -60,7 +60,7 @@ export const StartupIntro: React.FC<StartupIntroProps> = ({
       }}
       role="dialog"
       aria-modal="true"
-      aria-label="ADMISSION 2026 Startup Screen"
+      aria-label="Life Pivot Startup Screen"
     >
       {/* Ambient Radial Gradient Aura */}
       <div
@@ -93,20 +93,20 @@ export const StartupIntro: React.FC<StartupIntroProps> = ({
           <GraduationCap className="w-8 h-8" />
         </div>
 
-        {/* 1. Main Title: ADMISSION 2026 */}
+        {/* 1. Main Title: LIFE PIVOT */}
         <h1
           id="intro-brand-title"
           className="text-3xl sm:text-4xl font-black tracking-tight flex items-center justify-center gap-2 mb-2"
           style={{ color: 'var(--text-primary)' }}
         >
-          <span>ADMISSION</span>
+          <span>LIFE</span>
           <span
             className="px-2.5 py-0.5 text-sm sm:text-base font-black rounded-lg text-white shadow-xs"
             style={{
               background: 'var(--accent-gradient)',
             }}
           >
-            2026
+            PIVOT
           </span>
         </h1>
 
@@ -119,13 +119,13 @@ export const StartupIntro: React.FC<StartupIntroProps> = ({
           FOCUS • STUDY • PRAY • REPEAT
         </h3>
 
-        {/* 3. Description: Your personal admission command center */}
+        {/* 3. Description: Your personal command center */}
         <p
           id="intro-tagline"
           className="text-sm sm:text-base font-medium max-w-sm mb-6 leading-relaxed"
           style={{ color: 'var(--text-secondary)' }}
         >
-          Your personal admission command center.
+          Your personal Life Pivot command center.
         </p>
 
         {/* 4. Subtle Loading Progress Bar */}
@@ -156,7 +156,7 @@ export const StartupIntro: React.FC<StartupIntroProps> = ({
           <span className="opacity-60 text-[10px]">({secondsRemaining}s)</span>
         </button>
 
-        {/* 6. Bottom Branding: Developed by Tahsan Sharif + AI & Socials */}
+        {/* 6. Bottom Branding: Developed by Tahsan Sharif & Socials */}
         <div
           id="intro-developer-credits"
           className="mt-6 pt-4 border-t w-full flex flex-col items-center justify-center gap-2 text-[11px] font-mono tracking-wide"
@@ -167,7 +167,7 @@ export const StartupIntro: React.FC<StartupIntroProps> = ({
         >
           <div className="flex items-center gap-1.5">
             <Sparkles className="w-3 h-3 text-amber-400 shrink-0" />
-            <span>Developed by Tahsan Sharif + AI</span>
+            <span>Developed by Tahsan Sharif</span>
           </div>
 
           <div className="flex items-center gap-3">

@@ -168,6 +168,8 @@ export interface WidgetLayoutConfig {
   y?: number;
   width?: number; // width in pixels
   height?: number; // height in pixels
+  freeformWidth?: number;
+  freeformHeight?: number;
   customWidthPx?: number;
   customHeightPx?: number;
   minWidth?: number;

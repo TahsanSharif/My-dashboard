@@ -283,7 +283,17 @@ export const MusicWidget: React.FC<MusicWidgetProps> = ({
   const isCompact = containerWidth < 380;
 
   return (
-    <div id="music-widget-container" className="flex-1 flex flex-col p-3 sm:p-4 justify-between h-full select-none">
+    <div
+      id="music-widget-container"
+      className="flex-1 flex flex-col p-3 sm:p-4 justify-between h-full select-none overflow-y-auto"
+      style={{
+        height: '100%',
+        width: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+      }}
+    >
       {/* Pre-Match Tunnel Audio: UEFA Champions League Anthem Controls */}
       {isGoat && (
         <div

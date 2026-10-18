@@ -71,14 +71,19 @@ export const TodoList: React.FC<TodoListProps> = ({
   return (
     <div
       id="todo-list-card"
-      className={`w-full h-full flex flex-col justify-between relative overflow-hidden transition-all duration-300 ${
-        isCompact ? 'p-3.5' : 'p-5 sm:p-6'
-      }`}
+      className="w-full h-full relative overflow-y-auto overflow-x-hidden min-h-0 flex flex-col justify-start gap-2 transition-all duration-300"
       style={{
         color: 'var(--text-primary)',
+        height: '100%',
+        width: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'flex-start',
+        gap: '8px',
+        padding: isCompact ? '10px 12px' : '14px 16px',
       }}
     >
-      <div>
+      <div className="shrink-0 flex flex-col gap-2">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3">
           <div className="flex items-center gap-2">
@@ -96,7 +101,7 @@ export const TodoList: React.FC<TodoListProps> = ({
                 className="text-[10px] font-bold tracking-wider uppercase"
                 style={{ color: 'var(--text-muted)' }}
               >
-                DAILY ADMISSION TO-DO
+                DAILY LIFE PIVOT TO-DO
               </h3>
               <span
                 id="todo-completion-fraction"
@@ -172,7 +177,7 @@ export const TodoList: React.FC<TodoListProps> = ({
             type="text"
             value={inputText}
             onChange={(e) => setInputText(e.target.value)}
-            placeholder={isCompact ? 'Add study goal...' : 'Add admission goal (e.g. Physics — Chapter 4)...'}
+            placeholder={isCompact ? 'Add study goal...' : 'Add Life Pivot goal (e.g. Physics — Chapter 4)...'}
             className="flex-1 px-3 py-2 text-xs sm:text-sm rounded-xl border transition-colors outline-none focus:ring-2"
             style={{
               backgroundColor: 'var(--bg-card-subtle)',
@@ -193,12 +198,9 @@ export const TodoList: React.FC<TodoListProps> = ({
         </form>
       </div>
 
-      {/* Tasks List with dynamic container height */}
+      {/* Tasks List with dynamic flex container height */}
       <div
-        className="space-y-1.5 overflow-y-auto pr-1 flex-1 min-h-0"
-        style={{
-          maxHeight: `${taskListMaxHeight}px`,
-        }}
+        className="space-y-1.5 overflow-y-auto pr-1 flex-1 min-h-0 my-1"
       >
         {filteredTodos.length === 0 ? (
           <div
@@ -369,7 +371,7 @@ export const TodoList: React.FC<TodoListProps> = ({
 
       {/* Footer Clear Completed */}
       {completedCount > 0 && (
-        <div className="mt-4 pt-3 border-t flex justify-end" style={{ borderColor: 'var(--border-color)' }}>
+        <div className="shrink-0 mt-1 pt-2 border-t flex justify-end" style={{ borderColor: 'var(--border-color)' }}>
           <button
             onClick={onClearCompleted}
             className="text-xs font-semibold opacity-70 hover:opacity-100 hover:underline cursor-pointer"

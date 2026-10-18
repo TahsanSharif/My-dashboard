@@ -1,28 +1,15 @@
-import React, { useRef, useState, useEffect, useCallback } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import {
-  GripHorizontal,
-  Maximize2,
-  Minimize2,
-  RotateCcw,
   Sparkles,
   X,
   ArrowUp,
   ArrowDown,
+  GripVertical,
+  Maximize2,
 } from 'lucide-react';
 import { DeskWidgetId, WidgetLayoutConfig } from '../types';
-import { snapToGrid, CANVAS_PADDING, SNAP_GRID_SIZE } from '../utils/freeformLayout';
 
-export type ResizeHandlePosition =
-  | 'nw' // top-left
-  | 'ne' // top-right
-  | 'se' // bottom-right
-  | 'sw' // bottom-left
-  | 'n'  // top
-  | 's'  // bottom
-  | 'e'  // right
-  | 'w'; // left
-
-interface MovableResizableWidgetProps {
+export interface WidgetCardProps {
   config: WidgetLayoutConfig;
   title: string;
   subtitle?: string;
@@ -34,9 +21,11 @@ interface MovableResizableWidgetProps {
     isCompact: boolean;
     isExpanded: boolean;
   }) => React.ReactNode;
-  onUpdatePositionAndSize: (
+  isLocked?: boolean;
+  onUpdatePositionAndSize?: (
     id: DeskWidgetId,
-    changes: { x?: number; y?: number; width?: number; height?: number; zIndex?: number }
+    changes: { x?: number; y?: number; width?: number; height?: number; zIndex?: number; colSpan?: number },
+    commitToStorage?: boolean
   ) => void;
   onBringToFront?: (id: DeskWidgetId) => void;
   onResetSize?: (id: DeskWidgetId) => void;
@@ -50,38 +39,38 @@ interface MovableResizableWidgetProps {
   isCanvasMode?: boolean;
 }
 
-export const MovableResizableWidget: React.FC<MovableResizableWidgetProps> = ({
+/**
+ * Standard Adaptive Grid Widget Card Component.
+ * Supports interactive drag-and-drop reordering, bidirectional corner resizing (colSpan & height),
+ * and layout locking to freeze positions and dimensions.
+ */
+export const WidgetCard: React.FC<WidgetCardProps> = ({
   config,
   title,
   subtitle,
   icon,
   headerAction,
   children,
+  isLocked = false,
   onUpdatePositionAndSize,
   onBringToFront,
-  onResetSize,
   onClose,
   onMoveUp,
   onMoveDown,
   isFirst = false,
   isLast = false,
-  layoutMode = 'adaptive',
-  containerWidth,
-  isCanvasMode = true,
+  containerWidth = 1200,
 }) => {
   const cardRef = useRef<HTMLDivElement>(null);
-  const [isDragging, setIsDragging] = useState(false);
   const [isExiting, setIsExiting] = useState(false);
-  const [activeResizeHandle, setActiveResizeHandle] = useState<ResizeHandlePosition | null>(null);
 
   // Live dimensions tracked via ResizeObserver
   const [currentDimensions, setCurrentDimensions] = useState<{ width: number; height: number }>({
-    width: config.width || 400,
-    height: config.height || 360,
+    width: config.width ?? 420,
+    height: config.height ?? 270,
   });
 
-  const minWidth = config.minWidth || 280;
-  const minHeight = config.minHeight || 180;
+  const minHeight = config.minHeight ?? 180;
 
   // Track title/subtitle updates to trigger 'data-glitch' signal distortion animation
   const [isTitleGlitching, setIsTitleGlitching] = useState(false);
@@ -117,206 +106,28 @@ export const MovableResizableWidget: React.FC<MovableResizableWidgetProps> = ({
     return () => observer.disconnect();
   }, []);
 
-  // 1. FREE MOVEMENT via Header Click & Drag
-  const handleHeaderPointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
-    // In adaptive layout mode, widgets flow naturally in columns; disable free dragging so page scroll is smooth
-    if (layoutMode !== 'freeform') return;
-
-    // Only drag with primary mouse button / touch
-    if (e.button !== 0) return;
-
-    // Prevent dragging when clicking interactive elements in header
-    const target = e.target as HTMLElement;
-    if (
-      target.closest('button') ||
-      target.closest('input') ||
-      target.closest('select') ||
-      target.closest('textarea') ||
-      target.closest('a') ||
-      target.hasAttribute('data-no-drag')
-    ) {
-      return;
-    }
-
-    e.preventDefault();
-    e.stopPropagation();
-
-    onBringToFront?.(config.id);
-
-    const card = cardRef.current;
-    if (!card) return;
-    const parent = card.parentElement;
-    if (!parent) return;
-
-    const startPointerX = e.clientX;
-    const startPointerY = e.clientY;
-
-    const startX = config.x ?? card.offsetLeft;
-    const startY = config.y ?? card.offsetTop;
-
-    setIsDragging(true);
-
-    let latestX = startX;
-    let latestY = startY;
-
-    const onPointerMove = (moveEvt: PointerEvent) => {
-      const deltaX = moveEvt.clientX - startPointerX;
-      const deltaY = moveEvt.clientY - startPointerY;
-
-      const parentWidth = parent.clientWidth;
-      const cardWidth = card.offsetWidth;
-      const padding = CANVAS_PADDING;
-
-      // Snap coordinates to 20px grid increment & prevent canvas overflow
-      const maxX = Math.max(padding, parentWidth - cardWidth - padding);
-      const rawX = startX + deltaX;
-      const rawY = startY + deltaY;
-
-      const snappedX = snapToGrid(rawX, SNAP_GRID_SIZE);
-      const snappedY = snapToGrid(rawY, SNAP_GRID_SIZE);
-
-      latestX = Math.max(padding, Math.min(maxX, snappedX));
-      latestY = Math.max(padding, snappedY);
-
-      // Direct DOM transformation for 60fps zero-lag motion
-      card.style.transform = `translate3d(${latestX}px, ${latestY}px, 0)`;
-    };
-
-    const onPointerUp = () => {
-      window.removeEventListener('pointermove', onPointerMove);
-      window.removeEventListener('pointerup', onPointerUp);
-      setIsDragging(false);
-
-      onUpdatePositionAndSize(config.id, {
-        x: latestX,
-        y: latestY,
-      });
-    };
-
-    window.addEventListener('pointermove', onPointerMove, { passive: true });
-    window.addEventListener('pointerup', onPointerUp);
-  };
-
-  // 2. CORNER & EDGE RESIZING (All 4 corners & 4 edges)
-  const handleResizePointerDown = (
-    e: React.PointerEvent<HTMLDivElement>,
-    handle: ResizeHandlePosition
-  ) => {
-    e.preventDefault();
-    e.stopPropagation();
-
-    onBringToFront?.(config.id);
-
-    const card = cardRef.current;
-    if (!card) return;
-    const parent = card.parentElement;
-    const parentWidth = parent ? parent.clientWidth : 1200;
-
-    const startPointerX = e.clientX;
-    const startPointerY = e.clientY;
-
-    const startX = config.x ?? card.offsetLeft;
-    const startY = config.y ?? card.offsetTop;
-    const startWidth = card.offsetWidth;
-    const startHeight = card.offsetHeight;
-
-    setActiveResizeHandle(handle);
-
-    let latestWidth = startWidth;
-    let latestHeight = startHeight;
-    let latestX = startX;
-    let latestY = startY;
-
-    const onPointerMove = (moveEvt: PointerEvent) => {
-      const deltaX = moveEvt.clientX - startPointerX;
-      const deltaY = moveEvt.clientY - startPointerY;
-
-      let newWidth = startWidth;
-      let newHeight = startHeight;
-      let newX = startX;
-      let newY = startY;
-
-      const padding = CANVAS_PADDING;
-
-      // X-axis calculations
-      if (handle === 'se' || handle === 'ne' || handle === 'e') {
-        // Dragging right edge / corners: width increases with deltaX
-        const maxW = Math.max(minWidth, parentWidth - startX - padding);
-        newWidth = snapToGrid(Math.max(minWidth, Math.min(maxW, startWidth + deltaX)), SNAP_GRID_SIZE);
-      } else if (handle === 'sw' || handle === 'nw' || handle === 'w') {
-        // Dragging left edge / corners: width changes inversely, x shifts
-        const calculatedWidth = startWidth - deltaX;
-        if (calculatedWidth >= minWidth) {
-          newWidth = snapToGrid(calculatedWidth, SNAP_GRID_SIZE);
-          newX = Math.max(padding, snapToGrid(startX + deltaX, SNAP_GRID_SIZE));
-        } else {
-          newWidth = minWidth;
-          newX = startX + (startWidth - minWidth);
-        }
-      }
-
-      // Y-axis calculations
-      if (handle === 'se' || handle === 'sw' || handle === 's') {
-        // Dragging bottom edge / corners: height increases with deltaY
-        newHeight = snapToGrid(Math.max(minHeight, Math.min(1200, startHeight + deltaY)), SNAP_GRID_SIZE);
-      } else if (handle === 'ne' || handle === 'nw' || handle === 'n') {
-        // Dragging top edge / corners: height changes inversely, y shifts
-        const calculatedHeight = startHeight - deltaY;
-        if (calculatedHeight >= minHeight) {
-          newHeight = snapToGrid(calculatedHeight, SNAP_GRID_SIZE);
-          newY = Math.max(padding, snapToGrid(startY + deltaY, SNAP_GRID_SIZE));
-        } else {
-          newHeight = minHeight;
-          newY = startY + (startHeight - minHeight);
-        }
-      }
-
-      latestWidth = Math.round(newWidth);
-      latestHeight = Math.round(newHeight);
-      latestX = Math.round(newX);
-      latestY = Math.round(newY);
-
-      // Direct live DOM application for zero flicker / lag
-      card.style.width = `${latestWidth}px`;
-      card.style.height = `${latestHeight}px`;
-      card.style.transform = `translate3d(${latestX}px, ${latestY}px, 0)`;
-    };
-
-    const onPointerUp = () => {
-      window.removeEventListener('pointermove', onPointerMove);
-      window.removeEventListener('pointerup', onPointerUp);
-      setActiveResizeHandle(null);
-
-      onUpdatePositionAndSize(config.id, {
-        x: latestX,
-        y: latestY,
-        width: latestWidth,
-        height: latestHeight,
-      });
-    };
-
-    window.addEventListener('pointermove', onPointerMove, { passive: true });
-    window.addEventListener('pointerup', onPointerUp);
-  };
-
   const isCompact = currentDimensions.width < 400;
   const isExpanded = currentDimensions.width > 680;
 
-  // Preset sizes
+  // Preset sizes (Height & Column Span adaptation for adaptive grid)
   const handleApplyPreset = (preset: 'compact' | 'medium' | 'expanded') => {
-    let w = 420;
+    if (isLocked) return;
     let h = 340;
+    let cols = 6;
     if (preset === 'compact') {
-      w = 340;
       h = 260;
+      cols = 5;
+    } else if (preset === 'medium') {
+      h = 380;
+      cols = 7;
     } else if (preset === 'expanded') {
-      w = 720;
-      h = 520;
+      h = 500;
+      cols = 12;
     }
-    onUpdatePositionAndSize(config.id, {
-      width: w,
+    onUpdatePositionAndSize?.(config.id, {
       height: h,
-    });
+      colSpan: cols,
+    }, true);
   };
 
   // Close / Hide widget with smooth animation
@@ -331,89 +142,147 @@ export const MovableResizableWidget: React.FC<MovableResizableWidgetProps> = ({
     }
   };
 
-  const isAdaptive = layoutMode === 'adaptive';
+  // ── BIDIRECTIONAL CORNER RESIZING (Width/ColSpan & Height simultaneously) ──
+  const [isResizing, setIsResizing] = useState(false);
+  const [liveResize, setLiveResize] = useState<{
+    height?: number;
+    colSpan?: number;
+    width?: number;
+  }>({});
 
-  // Compute safe bounding box for freeform canvas mode
-  const padding = CANVAS_PADDING;
-  const safeParentWidth = Math.max(960, containerWidth || 1200);
-  const boundedWidth = isAdaptive
-    ? undefined
-    : Math.max(minWidth, Math.min(config.width ?? 460, safeParentWidth - padding * 2));
-  const boundedX = isAdaptive
-    ? undefined
-    : Math.max(padding, Math.min(config.x ?? padding, safeParentWidth - (boundedWidth ?? 460) - padding));
-  const boundedY = isAdaptive ? undefined : Math.max(padding, config.y ?? padding);
+  const handleCornerResizeStart = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (isLocked) return;
+    e.preventDefault();
+    e.stopPropagation();
+
+    const startX = e.clientX;
+    const startY = e.clientY;
+
+    if (!cardRef.current) return;
+    const rect = cardRef.current.getBoundingClientRect();
+    const startWidth = rect.width;
+    const startHeight = rect.height;
+    const gridWidth = containerWidth || rect.parentElement?.parentElement?.clientWidth || window.innerWidth;
+    const initialColSpan = config.colSpan ?? 6;
+
+    setIsResizing(true);
+
+    let finalHeight = Math.round(startHeight);
+    let finalColSpan = initialColSpan;
+    let finalWidth = Math.round(startWidth);
+
+    const handlePointerMove = (moveEv: PointerEvent) => {
+      moveEv.preventDefault();
+      const deltaX = moveEv.clientX - startX;
+      const deltaY = moveEv.clientY - startY;
+
+      // Vertical resizing: clamp between minHeight and 780px
+      const newHeight = Math.max(minHeight, Math.min(780, Math.round(startHeight + deltaY)));
+
+      // Horizontal resizing: clamp between 260px and gridWidth
+      const newWidth = Math.max(260, Math.min(gridWidth, Math.round(startWidth + deltaX)));
+
+      // Snapping to 12-column grid span (4 to 12)
+      const fraction = newWidth / gridWidth;
+      let newColSpan = Math.round(fraction * 12);
+      newColSpan = Math.max(4, Math.min(12, newColSpan));
+
+      finalHeight = newHeight;
+      finalColSpan = newColSpan;
+      finalWidth = newWidth;
+
+      setLiveResize({
+        height: newHeight,
+        colSpan: newColSpan,
+        width: newWidth,
+      });
+
+      // Notify parent to reflow grid layout live without writing to storage on every tick
+      onUpdatePositionAndSize?.(
+        config.id,
+        {
+          height: newHeight,
+          colSpan: newColSpan,
+          width: newWidth,
+        },
+        false
+      );
+    };
+
+    const handlePointerUp = () => {
+      window.removeEventListener('pointermove', handlePointerMove);
+      window.removeEventListener('pointerup', handlePointerUp);
+      setIsResizing(false);
+      setLiveResize({});
+
+      // Commit final dimensions & column span to state and localStorage
+      onUpdatePositionAndSize?.(
+        config.id,
+        {
+          height: finalHeight,
+          colSpan: finalColSpan,
+          width: finalWidth,
+        },
+        true
+      );
+    };
+
+    window.addEventListener('pointermove', handlePointerMove);
+    window.addEventListener('pointerup', handlePointerUp);
+  };
+
+  const displayHeight = isResizing && liveResize.height !== undefined
+    ? liveResize.height
+    : config.height;
 
   return (
     <div
       ref={cardRef}
       id={`desk-card-${config.id}`}
       data-widget-id={config.id}
-      data-active={isDragging || activeResizeHandle ? 'true' : undefined}
-      className={`group/card card-panel panel-card flex flex-col rounded-3xl border shadow-lg overflow-hidden select-none transition-all duration-200 ${
-        isExiting
-          ? 'opacity-0 scale-95 pointer-events-none'
-          : isDragging
-          ? 'shadow-2xl ring-4 ring-blue-500/50 cursor-grabbing opacity-95 scale-[1.01] active-panel'
-          : activeResizeHandle
-          ? 'shadow-2xl ring-2 ring-sky-400 active-panel'
-          : 'hover:shadow-xl'
-      } ${isAdaptive ? 'w-full max-w-full' : ''}`}
-      style={
-        isAdaptive
-          ? {
-              position: 'relative',
-              width: '100%',
-              maxWidth: '100%',
-              minWidth: 0,
-              height: config.height ? `${Math.min(Math.max(config.height, minHeight), 680)}px` : undefined,
-              minHeight: `${minHeight}px`,
-              backgroundColor: 'var(--bg-card)',
-              borderColor: 'var(--border-color)',
-            }
-          : {
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              transform: `translate3d(${boundedX}px, ${boundedY}px, 0)`,
-              width: `${boundedWidth}px`,
-              height: `${config.height ?? 380}px`,
-              minWidth: `${minWidth}px`,
-              minHeight: `${minHeight}px`,
-              zIndex: isDragging || activeResizeHandle ? 999 : config.zIndex ?? 10,
-              backgroundColor: 'var(--bg-card)',
-              borderColor: isDragging || activeResizeHandle ? 'var(--accent)' : 'var(--border-color)',
-            }
-      }
+      className={`group/card card-panel panel-card flex flex-col rounded-3xl border shadow-lg overflow-hidden select-none transition-all duration-200 hover:shadow-xl w-full max-w-full relative ${
+        isExiting ? 'opacity-0 scale-95 pointer-events-none' : ''
+      } ${
+        !isLocked ? 'hover:border-amber-500/40' : ''
+      }`}
+      style={{
+        position: 'relative',
+        width: '100%',
+        maxWidth: '100%',
+        minWidth: 0,
+        height: displayHeight ? `${Math.min(Math.max(displayHeight, minHeight), 780)}px` : undefined,
+        minHeight: `${minHeight}px`,
+        backgroundColor: 'var(--bg-card)',
+        borderColor: 'var(--border-color)',
+      }}
       onClick={() => onBringToFront?.(config.id)}
     >
       {/* ── WINDOW HEADER ── */}
       <div
         id={`header-drag-zone-${config.id}`}
-        onPointerDown={handleHeaderPointerDown}
         className={`px-3.5 sm:px-4 py-2.5 sm:py-3 border-b flex items-center justify-between gap-2 sm:gap-3 shrink-0 transition-colors select-none ${
-          isAdaptive ? 'cursor-default' : isDragging ? 'cursor-grabbing' : 'cursor-grab'
+          !isLocked ? 'cursor-grab active:cursor-grabbing hover:bg-black/5 dark:hover:bg-white/5' : 'cursor-default'
         }`}
         style={{
           backgroundColor: 'var(--bg-card-subtle)',
           borderColor: 'var(--border-color)',
         }}
-        title={
-          isAdaptive
-            ? `${title} widget`
-            : 'Click and drag anywhere on this header to move freely'
-        }
+        title={!isLocked ? `Click & drag ${title} to reorder in grid` : `${title} widget`}
       >
-        {/* Left: Window Title, Icon & Grip / Sparkle indicator */}
+        {/* Left: Window Title, Icon, Reorder Handle & Sparkle indicator */}
         <div className="flex items-center gap-2 sm:gap-2.5 min-w-0">
-          <div
-            className="p-1 rounded-md text-slate-400 group-hover/card:text-slate-600 dark:group-hover/card:text-slate-300 transition-colors shrink-0"
-          >
-            {isAdaptive ? (
-              <Sparkles className="w-3.5 h-3.5 opacity-60" style={{ color: 'var(--accent)' }} />
-            ) : (
-              <GripHorizontal className="w-4 h-4" />
-            )}
+          {/* Subtle drag handle indicator when unlocked */}
+          {!isLocked && (
+            <div
+              className="p-0.5 rounded text-amber-500/70 hover:text-amber-400 hover:bg-amber-500/10 transition-colors shrink-0"
+              title="Drag to reorder in dashboard grid"
+            >
+              <GripVertical className="w-4 h-4" />
+            </div>
+          )}
+
+          <div className="p-1 rounded-md text-slate-400 group-hover/card:text-slate-600 dark:group-hover/card:text-slate-300 transition-colors shrink-0">
+            <Sparkles className="w-3.5 h-3.5 opacity-60" style={{ color: 'var(--accent)' }} />
           </div>
 
           {icon && (
@@ -447,7 +316,7 @@ export const MovableResizableWidget: React.FC<MovableResizableWidgetProps> = ({
           </div>
         </div>
 
-        {/* Right: Quick actions (Reorder ↑↓ in adaptive, Preset sizes S/M/L, and Close ✕) */}
+        {/* Right: Quick actions (Reorder ↑↓ in adaptive grid, Preset sizes S/M/L, and Close ✕) */}
         <div
           className="flex items-center gap-1 shrink-0 widget-window-controls"
           data-no-drag="true"
@@ -455,8 +324,8 @@ export const MovableResizableWidget: React.FC<MovableResizableWidgetProps> = ({
         >
           {headerAction}
 
-          {/* Touch-Friendly Reorder Buttons (Move Up ↑ & Move Down ↓) in Adaptive Grid Flow */}
-          {isAdaptive && (onMoveUp || onMoveDown) && (
+          {/* Touch-Friendly Reorder Buttons (Move Up ↑ & Move Down ↓) in Adaptive Grid Flow (visible when unlocked) */}
+          {!isLocked && (onMoveUp || onMoveDown) && (
             <div
               className="flex items-center p-0.5 rounded-lg border text-[10px] font-bold"
               style={{
@@ -494,42 +363,44 @@ export const MovableResizableWidget: React.FC<MovableResizableWidgetProps> = ({
             </div>
           )}
 
-          {/* Preset size buttons (S, M, L) */}
-          <div
-            className="hidden sm:flex items-center p-0.5 rounded-lg border text-[10px] font-bold"
-            style={{
-              backgroundColor: 'var(--bg-card)',
-              borderColor: 'var(--border-color)',
-            }}
-          >
-            <button
-              type="button"
-              onClick={() => handleApplyPreset('compact')}
-              title="Compact Size"
-              className="px-1.5 py-0.5 rounded hover:bg-slate-500/15 transition-colors cursor-pointer"
-              style={{ color: 'var(--text-secondary)' }}
+          {/* Preset size buttons (S, M, L) - visible when unlocked */}
+          {!isLocked && (
+            <div
+              className="hidden sm:flex items-center p-0.5 rounded-lg border text-[10px] font-bold"
+              style={{
+                backgroundColor: 'var(--bg-card)',
+                borderColor: 'var(--border-color)',
+              }}
             >
-              S
-            </button>
-            <button
-              type="button"
-              onClick={() => handleApplyPreset('medium')}
-              title="Medium Size"
-              className="px-1.5 py-0.5 rounded hover:bg-slate-500/15 transition-colors cursor-pointer"
-              style={{ color: 'var(--text-secondary)' }}
-            >
-              M
-            </button>
-            <button
-              type="button"
-              onClick={() => handleApplyPreset('expanded')}
-              title="Large Size"
-              className="px-1.5 py-0.5 rounded hover:bg-slate-500/15 transition-colors cursor-pointer"
-              style={{ color: 'var(--text-secondary)' }}
-            >
-              L
-            </button>
-          </div>
+              <button
+                type="button"
+                onClick={() => handleApplyPreset('compact')}
+                title="Compact Size (5 cols, 260px)"
+                className="px-1.5 py-0.5 rounded hover:bg-slate-500/15 transition-colors cursor-pointer"
+                style={{ color: 'var(--text-secondary)' }}
+              >
+                S
+              </button>
+              <button
+                type="button"
+                onClick={() => handleApplyPreset('medium')}
+                title="Medium Size (7 cols, 380px)"
+                className="px-1.5 py-0.5 rounded hover:bg-slate-500/15 transition-colors cursor-pointer"
+                style={{ color: 'var(--text-secondary)' }}
+              >
+                M
+              </button>
+              <button
+                type="button"
+                onClick={() => handleApplyPreset('expanded')}
+                title="Large Full-Width Size (12 cols, 500px)"
+                className="px-1.5 py-0.5 rounded hover:bg-slate-500/15 transition-colors cursor-pointer"
+                style={{ color: 'var(--text-secondary)' }}
+              >
+                L
+              </button>
+            </div>
+          )}
 
           {/* Close / Hide Widget button (does NOT delete, hides to Widget Manager) */}
           {onClose && (
@@ -557,7 +428,6 @@ export const MovableResizableWidget: React.FC<MovableResizableWidgetProps> = ({
         className="flex-1 w-full flex flex-col min-h-0 overflow-y-auto relative cursor-default z-10"
         data-no-drag="true"
         onPointerDown={(e) => {
-          // Bring to front on click without initiating window movement
           onBringToFront?.(config.id);
           e.stopPropagation();
         }}
@@ -570,96 +440,58 @@ export const MovableResizableWidget: React.FC<MovableResizableWidgetProps> = ({
         })}
       </div>
 
+      {/* ── LIVE CORNER RESIZE TOOLTIP BADGE ── */}
+      {isResizing && (
+        <div className="absolute bottom-3 right-8 px-2.5 py-1 rounded-lg bg-black/90 text-amber-300 text-[11px] font-mono font-bold shadow-2xl border border-amber-500/50 pointer-events-none z-50 flex items-center gap-1.5 backdrop-blur-md">
+          <Maximize2 className="w-3 h-3 text-amber-400" />
+          <span>{liveResize.colSpan ?? config.colSpan ?? 6} cols</span>
+          <span className="opacity-40">×</span>
+          <span>{displayHeight}px</span>
+        </div>
+      )}
+
+      {/* ── BIDIRECTIONAL CORNER RESIZE HANDLE (Bottom-Right, Hidden when isLocked) ── */}
+      {!isLocked && (
+        <div
+          id={`resize-corner-${config.id}`}
+          className="absolute bottom-0 right-0 w-7 h-7 flex items-end justify-end p-1 z-30 cursor-se-resize group/corner select-none touch-none"
+          onPointerDown={handleCornerResizeStart}
+          data-no-drag="true"
+          title="Drag corner to scale both width & height"
+        >
+          {/* Subtle OS-style corner dots grip handle */}
+          <div className="w-3.5 h-3.5 flex flex-col justify-end items-end gap-0.5 opacity-40 group-hover/corner:opacity-100 group-hover/corner:scale-110 transition-all pointer-events-none">
+            <div className="w-1 h-1 rounded-full bg-amber-500" />
+            <div className="flex gap-0.5">
+              <div className="w-1 h-1 rounded-full bg-amber-500" />
+              <div className="w-1 h-1 rounded-full bg-amber-500" />
+            </div>
+            <div className="flex gap-0.5">
+              <div className="w-1 h-1 rounded-full bg-amber-500" />
+              <div className="w-1 h-1 rounded-full bg-amber-500" />
+              <div className="w-1 h-1 rounded-full bg-amber-500" />
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Number 7 Watermark element */}
       <span
         aria-hidden="true"
-        className="widget-watermark-7 bg-number-7 watermark-overlay-7 number-7-watermark"
+        className="widget-watermark-7 bg-number-7 watermark-overlay-7 number-7-watermark pointer-events-none select-none absolute bottom-[-10px] right-3 z-0"
+        style={{
+          position: 'absolute',
+          pointerEvents: 'none',
+          userSelect: 'none',
+          zIndex: 0,
+        }}
       >
         7
       </span>
-
-      {/* ── 8-WAY EASY RESIZING HANDLES (Only active in freeform canvas mode) ── */}
-      {!isAdaptive && (
-        <>
-          {/* 1. TOP-LEFT CORNER (↖ Width + Height) */}
-          <div
-            onPointerDown={(e) => handleResizePointerDown(e, 'nw')}
-            className="absolute -top-1 -left-1 w-5 h-5 cursor-nwse-resize z-50 flex items-center justify-center group/nw"
-            title="Resize Top-Left (Width & Height)"
-          >
-            <span className="w-2.5 h-2.5 rounded-full bg-slate-400/40 group-hover/nw:bg-blue-500 transition-colors opacity-0 group-hover/card:opacity-100" />
-          </div>
-
-          {/* 2. TOP-RIGHT CORNER (↗ Width + Height) */}
-          <div
-            onPointerDown={(e) => handleResizePointerDown(e, 'ne')}
-            className="absolute -top-1 -right-1 w-5 h-5 cursor-nesw-resize z-50 flex items-center justify-center group/ne"
-            title="Resize Top-Right (Width & Height)"
-          >
-            <span className="w-2.5 h-2.5 rounded-full bg-slate-400/40 group-hover/ne:bg-blue-500 transition-colors opacity-0 group-hover/card:opacity-100" />
-          </div>
-
-          {/* 3. BOTTOM-LEFT CORNER (↙ Width + Height) */}
-          <div
-            onPointerDown={(e) => handleResizePointerDown(e, 'sw')}
-            className="absolute -bottom-1 -left-1 w-5 h-5 cursor-nesw-resize z-50 flex items-center justify-center group/sw"
-            title="Resize Bottom-Left (Width & Height)"
-          >
-            <span className="w-2.5 h-2.5 rounded-full bg-slate-400/40 group-hover/sw:bg-blue-500 transition-colors opacity-0 group-hover/card:opacity-100" />
-          </div>
-
-          {/* 4. BOTTOM-RIGHT CORNER (↘ Width + Height) */}
-          <div
-            onPointerDown={(e) => handleResizePointerDown(e, 'se')}
-            className="absolute -bottom-1 -right-1 w-6 h-6 cursor-nwse-resize z-50 flex items-center justify-center group/se"
-            title="Resize Bottom-Right (Width & Height)"
-          >
-            <div className="w-3.5 h-3.5 rounded-br-xl border-r-2 border-b-2 border-slate-400 group-hover/se:border-blue-500 group-hover/se:scale-125 transition-all" />
-          </div>
-
-          {/* 5. TOP EDGE */}
-          <div
-            onPointerDown={(e) => handleResizePointerDown(e, 'n')}
-            className="absolute -top-1 left-4 right-4 h-3 cursor-ns-resize z-40"
-            title="Resize Height (Top Edge)"
-          />
-
-          {/* 6. BOTTOM EDGE */}
-          <div
-            onPointerDown={(e) => handleResizePointerDown(e, 's')}
-            className="absolute -bottom-1 left-4 right-4 h-3 cursor-ns-resize z-40"
-            title="Resize Height (Bottom Edge)"
-          />
-
-          {/* 7. LEFT EDGE */}
-          <div
-            onPointerDown={(e) => handleResizePointerDown(e, 'w')}
-            className="absolute top-4 bottom-4 -left-1 w-3 cursor-ew-resize z-40"
-            title="Resize Width (Left Edge)"
-          />
-
-          {/* 8. RIGHT EDGE */}
-          <div
-            onPointerDown={(e) => handleResizePointerDown(e, 'e')}
-            className="absolute top-4 bottom-4 -right-1 w-3 cursor-ew-resize z-40"
-            title="Resize Width (Right Edge)"
-          />
-
-          {/* Live dimensions badge while resizing */}
-          {activeResizeHandle && (
-            <div
-              className="absolute bottom-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full text-xs font-mono font-bold shadow-xl border z-50 pointer-events-none"
-              style={{
-                background: 'var(--accent-gradient)',
-                color: '#ffffff',
-                borderColor: 'var(--border-color)',
-              }}
-            >
-              {currentDimensions.width}px × {currentDimensions.height}px
-            </div>
-          )}
-        </>
-      )}
     </div>
   );
 };
+
+// Aliased export for backwards compatibility
+export const MovableResizableWidget = WidgetCard;
+export default WidgetCard;

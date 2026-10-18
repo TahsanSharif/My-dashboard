@@ -429,19 +429,24 @@ export const StudyTimer: React.FC<StudyTimerProps> = ({
     <div
       id="study-timer-container"
       data-phase={timerState.phase}
-      className={`w-full h-full flex flex-col justify-between relative overflow-hidden transition-all duration-300 ${
-        isCompact ? 'p-4' : 'p-6 sm:p-8'
-      }`}
+      className="w-full h-full relative overflow-y-auto overflow-x-hidden min-h-0 flex flex-col justify-start gap-2 transition-all duration-200"
       style={{
         color: 'var(--text-primary)',
+        height: '100%',
+        width: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'flex-start',
+        gap: '8px',
+        padding: isCompact ? '10px 12px' : '14px 16px',
       }}
     >
       {/* Top Banner with Phase Tag */}
-      <div className="flex items-center justify-between gap-2 mb-2">
+      <div className="flex items-center justify-between gap-2 mb-1 shrink-0">
         <div className="flex items-center gap-1.5 flex-wrap">
           <span
             id="timer-phase-badge"
-            className="flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-white shrink-0"
+            className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-bold uppercase tracking-wider text-white shrink-0"
             style={{ backgroundColor: phaseMeta.color }}
           >
             {phaseMeta.icon}
@@ -475,7 +480,7 @@ export const StudyTimer: React.FC<StudyTimerProps> = ({
       {/* Main Digital Timer Display with circular HUD in JARVIS theme */}
       <div
         id="timer-crt-screen"
-        className="my-auto flex flex-col items-center justify-center p-4 sm:p-6 w-full max-w-xl mx-auto text-center select-none crt-screen-inset relative overflow-hidden rounded-2xl border"
+        className="flex-1 w-full min-h-0 flex flex-col items-center justify-center py-2 px-3 max-w-xl mx-auto text-center select-none crt-screen-inset relative overflow-hidden rounded-2xl border"
       >
         {/* UCL Stadium Glassmorphic Blurry Background Layer - Scoped exclusively to European Nights */}
         <div
@@ -508,21 +513,23 @@ export const StudyTimer: React.FC<StudyTimerProps> = ({
         </h3>
         <div
           id="timer-countdown-display"
-          className={`font-black font-mono tracking-tight font-mono-numbers my-1 select-none relative z-10 ${
-            isCompact
-              ? 'text-4xl xs:text-5xl'
-              : isMedium
-              ? 'text-5xl sm:text-6xl md:text-7xl'
-              : 'text-6xl sm:text-7xl md:text-8xl'
-          }`}
-          style={{ color: 'var(--text-primary)' }}
+          className="font-black font-mono tracking-tight font-mono-numbers my-1 select-none relative z-10 whitespace-nowrap"
+          style={{
+            color: 'var(--text-primary)',
+            fontSize: `clamp(1.75rem, ${Math.min(
+              Math.max(20, Math.round((containerWidth || 480) / 7.5)),
+              Math.max(20, Math.round(((containerHeight || 300) - 140) * 0.38)),
+              72
+            )}px, 4.5rem)`,
+            lineHeight: 1.05,
+          }}
         >
           {timeFormatted}
         </div>
 
         {/* Linear Progress Bar */}
         <div
-          className="w-full max-w-md mx-auto h-2 rounded-full overflow-hidden mt-3 border"
+          className="w-full max-w-md mx-auto h-2 rounded-full overflow-hidden mt-2 border shrink-0"
           style={{
             backgroundColor: 'var(--bg-card-subtle)',
             borderColor: 'var(--border-color)',
@@ -543,13 +550,13 @@ export const StudyTimer: React.FC<StudyTimerProps> = ({
       </div>
 
       {/* Primary Buttons: START, PAUSE, RESET, SKIP */}
-      <div className="flex items-center justify-center gap-2 sm:gap-3 flex-wrap mt-3 w-full">
+      <div className="shrink-0 flex items-center justify-center gap-2 sm:gap-3 flex-wrap mt-2 w-full">
         {!timerState.isRunning ? (
           <button
             id="timer-start-btn"
             onClick={handleStart}
             className={`flex items-center justify-center gap-1.5 rounded-2xl font-bold text-white shadow-md transition-transform hover:scale-105 active:scale-95 cursor-pointer min-h-[44px] ${
-              isCompact ? 'px-4 py-2.5 text-xs' : 'px-6 sm:px-8 py-3 text-sm sm:text-base'
+              isCompact ? 'px-4 py-2 text-xs' : 'px-6 sm:px-8 py-2.5 text-sm sm:text-base'
             }`}
             style={{ backgroundColor: 'var(--accent)' }}
           >
@@ -561,7 +568,7 @@ export const StudyTimer: React.FC<StudyTimerProps> = ({
             id="timer-pause-btn"
             onClick={handlePause}
             className={`flex items-center justify-center gap-1.5 rounded-2xl font-bold text-white shadow-md transition-transform hover:scale-105 active:scale-95 cursor-pointer bg-amber-500 hover:bg-amber-600 min-h-[44px] ${
-              isCompact ? 'px-4 py-2.5 text-xs' : 'px-6 sm:px-8 py-3 text-sm sm:text-base'
+              isCompact ? 'px-4 py-2 text-xs' : 'px-6 sm:px-8 py-2.5 text-sm sm:text-base'
             }`}
           >
             <Pause className="w-4 h-4 fill-current" />
@@ -573,7 +580,7 @@ export const StudyTimer: React.FC<StudyTimerProps> = ({
           id="timer-reset-btn"
           onClick={handleReset}
           className={`flex items-center justify-center gap-1.5 rounded-2xl font-semibold border shadow-xs transition-transform hover:scale-105 active:scale-95 cursor-pointer min-h-[44px] ${
-            isCompact ? 'px-3 py-2.5 text-xs' : 'px-4 sm:px-5 py-3 text-xs sm:text-sm'
+            isCompact ? 'px-3 py-2 text-xs' : 'px-4 sm:px-5 py-2.5 text-xs sm:text-sm'
           }`}
           style={{
             backgroundColor: 'var(--bg-card)',
@@ -590,7 +597,7 @@ export const StudyTimer: React.FC<StudyTimerProps> = ({
           id="timer-skip-btn"
           onClick={handleSkip}
           className={`flex items-center justify-center gap-1.5 rounded-2xl font-semibold border shadow-xs transition-transform hover:scale-105 active:scale-95 cursor-pointer min-h-[44px] ${
-            isCompact ? 'px-3 py-2.5 text-xs' : 'px-4 sm:px-5 py-3 text-xs sm:text-sm'
+            isCompact ? 'px-3 py-2 text-xs' : 'px-4 sm:px-5 py-2.5 text-xs sm:text-sm'
           }`}
           style={{
             backgroundColor: 'var(--bg-card)',
@@ -607,7 +614,7 @@ export const StudyTimer: React.FC<StudyTimerProps> = ({
       {/* Keyboard Shortcuts Hint */}
       {!isShort && (
         <div
-          className="mt-4 pt-3 border-t flex items-center justify-center gap-3 sm:gap-6 text-[11px] font-mono select-none"
+          className="shrink-0 mt-1 pt-1.5 border-t flex items-center justify-center gap-3 sm:gap-6 text-[11px] font-mono select-none"
           style={{
             borderColor: 'var(--border-color)',
             color: 'var(--text-muted)',
